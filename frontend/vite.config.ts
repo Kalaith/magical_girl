@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './', // Use relative paths for assets
+  base: '/magical_girl/',
   plugins: [
     react(),
     tailwindcss(),
