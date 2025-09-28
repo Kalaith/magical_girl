@@ -4,7 +4,7 @@ import type {
   MagicalElement,
   Rarity,
   Specialization,
-} from "../types";
+} from "../types/magicalGirl";
 
 export const initialMagicalGirls: MagicalGirl[] = [
   {

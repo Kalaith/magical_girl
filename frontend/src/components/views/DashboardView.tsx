@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useGameStore } from "../../stores/gameStore";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
-import { Users, Map, Dumbbell, Trophy } from "lucide-react";
+import { Users, Map, Dumbbell } from "lucide-react";
 
 export const DashboardView: React.FC = () => {
   const { magicalGirls, player, activeSessions } = useGameStore();
@@ -27,12 +27,12 @@ export const DashboardView: React.FC = () => {
       icon: <Dumbbell className="w-6 h-6" />,
       color: "green" as const,
     },
-    {
-      label: "Achievements",
-      value: player.achievements.filter((a) => a.unlockedAt).length,
-      icon: <Trophy className="w-6 h-6" />,
-      color: "orange" as const,
-    },
+    // {
+    //   label: "Achievements",
+    //   value: player.achievements.filter((a) => a.unlockedAt).length,
+    //   icon: <Trophy className="w-6 h-6" />,
+    //   color: "orange" as const,
+    // },
   ];
   return (
     <div className="space-y-4 lg:space-y-6">
@@ -66,7 +66,6 @@ export const DashboardView: React.FC = () => {
                 ${stat.color === "purple" ? "bg-purple-100 text-purple-600" : ""}
                 ${stat.color === "blue" ? "bg-blue-100 text-blue-600" : ""}
                 ${stat.color === "green" ? "bg-green-100 text-green-600" : ""}
-                ${stat.color === "orange" ? "bg-orange-100 text-orange-600" : ""}
               `}
               >
                 {React.cloneElement(stat.icon, {
@@ -173,14 +172,14 @@ export const DashboardView: React.FC = () => {
           >
             View Team
           </Button>
-          <Button
+          {/* <Button
             variant="secondary"
             onClick={() => {
-              /* TODO: Navigate to achievements */
+              // TODO: Navigate to achievements
             }}
           >
             Achievements
-          </Button>
+          </Button> */}
         </div>
       </Card>
     </div>

@@ -1,6 +1,6 @@
 // Magical Girl management slice - Single Responsibility Principle
 import type { StateCreator } from "zustand";
-import type { MagicalGirl } from "../../types";
+import type { MagicalGirl } from "../../types/magicalGirl";
 import { initialMagicalGirls } from "../../data/magicalGirls";
 
 export interface MagicalGirlSlice {
@@ -42,18 +42,18 @@ export const createMagicalGirlSlice: StateCreator<
           });
 
           // Trigger achievement event
-          const state = get();
-          if (state.checkAchievements) {
-            state.checkAchievements({
-              type: "magical_girl_unlocked",
-              data: {
-                girlId,
-                girlName: girl.name,
-                rarity: girl.rarity,
-              },
-              timestamp: Date.now(),
-            });
-          }
+          // const state = get();
+          // if (state.checkAchievements) {
+          //   state.checkAchievements({
+          //     type: "magical_girl_unlocked",
+          //     data: {
+          //       girlId,
+          //       girlName: girl.name,
+          //       rarity: girl.rarity,
+          //     },
+          //     timestamp: Date.now(),
+          //   });
+          // }
 
           return unlockedGirl;
         }
@@ -123,19 +123,19 @@ export const createMagicalGirlSlice: StateCreator<
     });
 
     // Trigger achievement event
-    const currentState = get();
-    if (currentState.checkAchievements) {
-      currentState.checkAchievements({
-        type: "level_up",
-        data: {
-          girlId,
-          girlName: girl.name,
-          oldLevel: girl.level,
-          newLevel: girl.level + 1,
-        },
-        timestamp: Date.now(),
-      });
-    }
+    // const currentState = get();
+    // if (currentState.checkAchievements) {
+    //   currentState.checkAchievements({
+    //     type: "level_up",
+    //     data: {
+    //       girlId,
+    //       girlName: girl.name,
+    //       oldLevel: girl.level,
+    //       newLevel: girl.level + 1,
+    //     },
+    //     timestamp: Date.now(),
+    //   });
+    // }
 
     return true;
   },
@@ -180,19 +180,19 @@ export const createMagicalGirlSlice: StateCreator<
             });
 
             // Trigger achievement event
-            const currentState = get();
-            if (currentState.checkAchievements) {
-              currentState.checkAchievements({
-                type: "bond_increased",
-                data: {
-                  girlId,
-                  girlName: girl.name,
-                  oldBondLevel: girl.bondLevel,
-                  newBondLevel: newBondLevel,
-                },
-                timestamp: Date.now(),
-              });
-            }
+            // const currentState = get();
+            // if (currentState.checkAchievements) {
+            //   currentState.checkAchievements({
+            //     type: "bond_increased",
+            //     data: {
+            //       girlId,
+            //       girlName: girl.name,
+            //       oldBondLevel: girl.bondLevel,
+            //       newBondLevel: newBondLevel,
+            //     },
+            //     timestamp: Date.now(),
+            //   });
+            // }
 
             return {
               ...girl,

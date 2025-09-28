@@ -50,7 +50,7 @@ const defaultSettings: GameSettings = {
   highContrast: false,
 };
 
-export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = (set, get) => ({
+export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = (set, _get) => ({
   settings: defaultSettings,
 
   updateSetting: (key, value) => {
@@ -67,7 +67,7 @@ export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = 
   },
 
   resetCategory: (category) => {
-    const { settings } = get();
+    // const { settings } = get();
     let updates: Partial<GameSettings> = {};
 
     switch (category) {

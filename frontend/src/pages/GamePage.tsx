@@ -11,15 +11,15 @@ import { ResourceDisplay } from "../components/layout/ResourceDisplay";
 // View Components
 import { DashboardView } from "../components/views/DashboardView";
 import { MagicalGirlsView } from "../components/views/MagicalGirlsView";
-import { RecruitmentView } from "../components/views/RecruitmentView";
+// import { RecruitmentView } from "../components/views/RecruitmentView";
 import { TrainingView } from "../components/views/TrainingView";
-import { MissionsView } from "../components/views/MissionsView";
-import { AchievementsView } from "../components/views/AchievementsView";
+// import { MissionsView } from "../components/views/MissionsView";
+// import { AchievementsView } from "../components/views/AchievementsView";
 import { SettingsView } from "../components/views/SettingsView";
 
 // New Advanced Game Components
-import { SkillTreePanel } from "../components/game/SkillTreePanel";
-import { SimpleCustomizationPanel as CustomizationPanel } from "../components/game/SimpleCustomizationPanel";
+// import { SkillTreePanel } from "../components/game/SkillTreePanel";
+// import { SimpleCustomizationPanel as CustomizationPanel } from "../components/game/SimpleCustomizationPanel";
 import { PrestigePanel } from "../components/game/PrestigePanel";
 import { SaveSystemPanel } from "../components/game/SaveSystemPanel";
 import { SimpleEnhancedSettingsPanel as EnhancedSettingsPanel } from "../components/game/SimpleEnhancedSettingsPanel";
@@ -47,17 +47,22 @@ export function GamePage() {
       case VIEWS.MAGICAL_GIRLS:
         return <MagicalGirlsView />;
       case VIEWS.RECRUITMENT:
-        return <RecruitmentView />;
+        // return <RecruitmentView />;
+        return <DashboardView />;
       case VIEWS.TRAINING:
         return <TrainingView />;
       case VIEWS.MISSIONS:
-        return <MissionsView />;
+        // return <MissionsView />;
+        return <DashboardView />;
       case VIEWS.ACHIEVEMENTS:
-        return <AchievementsView />;
+        // return <AchievementsView />;
+        return <DashboardView />;
       case VIEWS.SKILL_TREE:
-        return <SkillTreePanel />;
+        // return <SkillTreePanel />;
+        return <DashboardView />;
       case VIEWS.CUSTOMIZATION:
-        return <CustomizationPanel />;
+        // return <CustomizationPanel />;
+        return <DashboardView />;
       case VIEWS.PRESTIGE:
         return <PrestigePanel />;
       case VIEWS.SAVE_SYSTEM:

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Star, Zap, Heart, Shield } from "lucide-react";
-import type { MagicalGirl } from "../../types";
+import type { MagicalGirl } from "../../types/magicalGirl";
 
 interface MagicalGirlCardProps {
   girl: MagicalGirl;

@@ -1,6 +1,6 @@
 // Settings management slice - Single Responsibility Principle
 import type { StateCreator } from "zustand";
-import type { Notification } from "../../types";
+import type { Notification } from "../../types/game";
 
 export interface SettingsSlice {
   // State

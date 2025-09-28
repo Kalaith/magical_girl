@@ -2,13 +2,10 @@
 import type { MagicalElement } from "./magicalGirl";
 
 export interface StatBonus {
-  health: number;
-  mana: number;
-  attack: number;
-  defense: number;
-  speed: number;
-  accuracy: number;
-  critical: number;
+  stat?: string;
+  value?: number;
+  type?: "flat" | "percentage";
+  [key: string]: number | string | undefined;
 }
 
 export interface TransformationSystem {

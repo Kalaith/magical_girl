@@ -16,7 +16,7 @@ import {
 import { useGameStore } from "../../stores/gameStore";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
-import type { MagicalGirl } from "../../types";
+import type { MagicalGirl } from "../../types/magicalGirl";
 
 interface MagicalGirlDetailsProps {
   girl: MagicalGirl;

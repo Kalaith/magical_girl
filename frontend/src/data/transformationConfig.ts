@@ -1,13 +1,6 @@
 // Transformation system configuration data
 import type {
   TransformationSequence,
-  TransformationAnimation,
-  AnimationStage,
-  TransformationPhrase,
-  TransformationEffect,
-  TransformationSpecialEffect,
-  TransformationRequirement,
-  TransformationCost,
   CustomizationOption,
   MasteryTier,
 } from "../types/transformation";

@@ -1,6 +1,7 @@
 // Training management slice - Single Responsibility Principle
 import type { StateCreator } from "zustand";
-import type { Notification, Resources, MagicalGirl } from "../../types";
+import type { Notification, Resources } from "../../types/game";
+import type { MagicalGirl } from "../../types/magicalGirl";
 import { initialTrainingSessions } from "../../data/training";
 
 export interface ActiveTrainingSession {

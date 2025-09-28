@@ -1,6 +1,6 @@
 // Game progression slice - Single Responsibility Principle
 import type { StateCreator } from "zustand";
-import type { Player } from "../../types";
+import type { Player } from "../../types/game";
 
 export interface GameProgressionSlice {
   // State
@@ -45,6 +45,12 @@ export const createGameProgressionSlice: StateCreator<
       level: 1,
       magicalEnergy: 100,
       maxMagicalEnergy: 100,
+      premiumGems: 0,
+      eventTokens: 0,
+      summonTickets: 0,
+      rareTickets: 0,
+      legendaryTickets: 0,
+      dreamshards: 0,
     },
     unlockedFeatures: {
       training: true,

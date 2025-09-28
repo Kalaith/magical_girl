@@ -21,15 +21,15 @@ import {
   createGameProgressionSlice,
   type GameProgressionSlice,
 } from "./slices/gameProgressionSlice";
-// import { createMissionSlice, type MissionSlice } from "./slices/missionSlice";
+// // import { createMissionSlice, type MissionSlice } from "./slices/missionSlice";
 import {
   createTrainingSlice,
   type TrainingSlice,
 } from "./slices/trainingSlice";
-import {
-  createAchievementSlice,
-  type AchievementSlice,
-} from "./slices/achievementSlice";
+// import {
+//   createAchievementSlice,
+//   type AchievementSlice,
+// } from "./slices/achievementSlice";
 import {
   createSettingsSlice,
   type SettingsSlice,
@@ -38,7 +38,7 @@ import {
 //   createRecruitmentSlice,
 //   type RecruitmentSlice,
 // } from "./slices/recruitmentSlice";
-import { createCombatSlice, type CombatSlice } from "./slices/combatSlice";
+// import { createCombatSlice, type CombatSlice } from "./slices/combatSlice";
 import {
   createTransformationSlice,
   type TransformationSlice,
@@ -51,10 +51,10 @@ import {
 //   createSkillTreeSlice,
 //   type SkillTreeSlice,
 // } from "./slices/skillTreeSlice";
-import {
-  createCustomizationSlice,
-  type CustomizationSlice,
-} from "./slices/customizationSlice";
+// import {
+//   createCustomizationSlice,
+//   type CustomizationSlice,
+// } from "./slices/customizationSlice";
 import {
   createPrestigeSlice,
   type PrestigeSlice,
@@ -80,14 +80,14 @@ export interface GameStore
     GameProgressionSlice,
     // MissionSlice,
     TrainingSlice,
-    AchievementSlice,
+    // AchievementSlice,
     SettingsSlice,
     // RecruitmentSlice,
-    CombatSlice,
+    // CombatSlice,
     TransformationSlice,
     FormationSlice,
     // SkillTreeSlice,
-    CustomizationSlice,
+    // CustomizationSlice,
     PrestigeSlice,
     SaveSystemSlice,
     TutorialSlice {
@@ -116,7 +116,7 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
   ...createTrainingSlice(set as any, get as any, api as any),
 
   // Achievement slice
-  ...createAchievementSlice(set as any, get as any, api as any),
+  // ...createAchievementSlice(set as any, get as any, api as any),
 
   // Settings slice
   ...createSettingsSlice(set as any, get as any, api as any),
@@ -125,7 +125,7 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
   // ...createRecruitmentSlice(set as any, get as any, api as any),
 
   // Combat slice
-  ...createCombatSlice(set as any, get as any, api as any),
+  // ...createCombatSlice(set as any, get as any, api as any),
 
   // Transformation slice
   ...createTransformationSlice(set as any, get as any, api as any),
@@ -137,7 +137,7 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
   // ...createSkillTreeSlice(set as any, get as any, api as any),
 
   // Customization slice
-  ...createCustomizationSlice(set as any, get as any, api as any),
+  // ...createCustomizationSlice(set as any, get as any, api as any),
 
   // Prestige slice
   ...createPrestigeSlice(set as any, get as any, api as any),
@@ -184,11 +184,11 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
       get as any,
       api as any,
     );
-    const initialAchievements = createAchievementSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
+    // const initialAchievements = createAchievementSlice(
+    //   set as any,
+    //   get as any,
+    //   api as any,
+    // );
     const initialSettings = createSettingsSlice(
       set as any,
       get as any,
@@ -199,7 +199,7 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
     //   get as any,
     //   api as any,
     // );
-    const initialCombat = createCombatSlice(set as any, get as any, api as any);
+    // const initialCombat = createCombatSlice(set as any, get as any, api as any);
     const initialTransformation = createTransformationSlice(
       set as any,
       get as any,
@@ -215,11 +215,11 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
     //   get as any,
     //   api as any,
     // );
-    const initialCustomization = createCustomizationSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
+    // const initialCustomization = createCustomizationSlice(
+    //   set as any,
+    //   get as any,
+    //   api as any,
+    // );
     const initialPrestige = createPrestigeSlice(
       set as any,
       get as any,
@@ -248,14 +248,14 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
       ...initialProgression,
       // ...initialMissions,
       ...initialTraining,
-      ...initialAchievements,
+      // ...initialAchievements,
       ...initialSettings,
       // ...initialRecruitment,
-      ...initialCombat,
+      // ...initialCombat,
       ...initialTransformation,
       ...initialFormation,
       // ...initialSkillTree,
-      ...initialCustomization,
+      // ...initialCustomization,
       ...initialPrestige,
       ...initialSaveSystem,
       ...initialTutorial,

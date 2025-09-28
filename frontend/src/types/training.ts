@@ -69,7 +69,7 @@ export interface SpecialTrainingCost {
 
 export interface TrainingRequirement {
   type: TrainingRequirementType;
-  value: string | number;
+  value: string | number | Record<string, number>;
   description: string;
 }
 

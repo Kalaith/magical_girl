@@ -1,6 +1,6 @@
 // Resource management slice - Single Responsibility Principle
 import type { StateCreator } from "zustand";
-import type { Resources } from "../../types";
+import type { Resources } from "../../types/game";
 import { GAME_CONFIG } from "../../data/gameConfig";
 
 export interface ResourceSlice {
