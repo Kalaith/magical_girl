@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Star, Zap, Heart, Shield } from 'lucide-react';
-import type { MagicalGirl } from '../../types';
+import React from "react";
+import { motion } from "framer-motion";
+import { Star, Zap, Heart, Shield } from "lucide-react";
+import type { MagicalGirl } from "../../types";
 
 interface MagicalGirlCardProps {
   girl: MagicalGirl;
@@ -9,31 +9,37 @@ interface MagicalGirlCardProps {
 }
 
 const rarityColors = {
-  Common: 'border-gray-300 bg-gray-50',
-  Uncommon: 'border-green-300 bg-green-50',
-  Rare: 'border-blue-300 bg-blue-50',
-  Epic: 'border-purple-300 bg-purple-50',
-  Legendary: 'border-yellow-300 bg-yellow-50',
-  Mythical: 'border-pink-300 bg-pink-50'
+  Common: "border-gray-300 bg-gray-50",
+  Uncommon: "border-green-300 bg-green-50",
+  Rare: "border-blue-300 bg-blue-50",
+  Epic: "border-purple-300 bg-purple-50",
+  Legendary: "border-yellow-300 bg-yellow-50",
+  Mythical: "border-pink-300 bg-pink-50",
 };
 
 const elementColors = {
-  Light: 'text-yellow-600',
-  Darkness: 'text-purple-800',
-  Fire: 'text-red-600',
-  Water: 'text-blue-600',
-  Earth: 'text-green-600',
-  Air: 'text-gray-600',
-  Ice: 'text-cyan-600',
-  Lightning: 'text-yellow-500',
-  Nature: 'text-green-500',
-  Celestial: 'text-indigo-600',
-  Void: 'text-gray-800',
-  Crystal: 'text-pink-600'
+  Light: "text-yellow-600",
+  Darkness: "text-purple-800",
+  Fire: "text-red-600",
+  Water: "text-blue-600",
+  Earth: "text-green-600",
+  Air: "text-gray-600",
+  Ice: "text-cyan-600",
+  Lightning: "text-yellow-500",
+  Nature: "text-green-500",
+  Celestial: "text-indigo-600",
+  Void: "text-gray-800",
+  Crystal: "text-pink-600",
 };
 
-export const MagicalGirlCard: React.FC<MagicalGirlCardProps> = ({ girl, onClick }) => {
-  const rarityStars = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'].indexOf(girl.rarity) + 1;
+export const MagicalGirlCard: React.FC<MagicalGirlCardProps> = ({
+  girl,
+  onClick,
+}) => {
+  const rarityStars =
+    ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythical"].indexOf(
+      girl.rarity,
+    ) + 1;
 
   return (
     <motion.div
@@ -60,9 +66,7 @@ export const MagicalGirlCard: React.FC<MagicalGirlCardProps> = ({ girl, onClick 
           <Star
             key={i}
             className={`w-4 h-4 ${
-              i < rarityStars 
-                ? 'text-yellow-400 fill-current' 
-                : 'text-gray-300'
+              i < rarityStars ? "text-yellow-400 fill-current" : "text-gray-300"
             }`}
           />
         ))}
@@ -103,12 +107,16 @@ export const MagicalGirlCard: React.FC<MagicalGirlCardProps> = ({ girl, onClick 
       <div className="mt-3">
         <div className="flex justify-between text-xs text-gray-600 mb-1">
           <span>EXP</span>
-          <span>{girl.experience}/{girl.experienceToNext}</span>
+          <span>
+            {girl.experience}/{girl.experienceToNext}
+          </span>
         </div>
         <div className="stat-bar">
-          <div 
-            className="stat-bar-fill" 
-            style={{ width: `${(girl.experience / girl.experienceToNext) * 100}%` }}
+          <div
+            className="stat-bar-fill"
+            style={{
+              width: `${(girl.experience / girl.experienceToNext) * 100}%`,
+            }}
           />
         </div>
       </div>
@@ -116,7 +124,8 @@ export const MagicalGirlCard: React.FC<MagicalGirlCardProps> = ({ girl, onClick 
       {/* Abilities Count */}
       <div className="mt-3 text-center">
         <div className="text-xs text-gray-600">
-          {girl.abilities?.length || 0} Abilities • {girl.specialization || 'No Specialization'}
+          {girl.abilities?.length || 0} Abilities •{" "}
+          {girl.specialization || "No Specialization"}
         </div>
       </div>
     </motion.div>

@@ -1,37 +1,37 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useGameStore } from '../../stores/gameStore';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { Users, Map, Dumbbell, Trophy } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { useGameStore } from "../../stores/gameStore";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import { Users, Map, Dumbbell, Trophy } from "lucide-react";
 
 export const DashboardView: React.FC = () => {
   const { magicalGirls, player } = useGameStore();
 
   const quickStats = [
     {
-      label: 'Magical Girls',
+      label: "Magical Girls",
       value: magicalGirls.length,
       icon: <Users className="w-6 h-6" />,
-      color: 'purple' as const,
+      color: "purple" as const,
     },
     {
-      label: 'Missions Completed',
+      label: "Missions Completed",
       value: player.statistics.missionsCompleted,
       icon: <Map className="w-6 h-6" />,
-      color: 'blue' as const,
+      color: "blue" as const,
     },
     {
-      label: 'Training Sessions',
+      label: "Training Sessions",
       value: player.statistics.trainingSessionsCompleted,
       icon: <Dumbbell className="w-6 h-6" />,
-      color: 'green' as const,
+      color: "green" as const,
     },
     {
-      label: 'Achievements',
-      value: player.achievements.filter((a: any) => a.unlockedAt).length,
+      label: "Achievements",
+      value: player.achievements.filter((a) => a.unlockedAt).length,
       icon: <Trophy className="w-6 h-6" />,
-      color: 'orange' as const,
+      color: "orange" as const,
     },
   ];
   return (
@@ -60,14 +60,18 @@ export const DashboardView: React.FC = () => {
             transition={{ delay: index * 0.1 }}
           >
             <Card className="text-center p-4 lg:p-6 hover:shadow-lg transition-shadow">
-              <div className={`
+              <div
+                className={`
                 inline-flex items-center justify-center w-8 h-8 lg:w-12 lg:h-12 rounded-full mb-2 lg:mb-3
-                ${stat.color === 'purple' ? 'bg-purple-100 text-purple-600' : ''}
-                ${stat.color === 'blue' ? 'bg-blue-100 text-blue-600' : ''}
-                ${stat.color === 'green' ? 'bg-green-100 text-green-600' : ''}
-                ${stat.color === 'orange' ? 'bg-orange-100 text-orange-600' : ''}
-              `}>
-                {React.cloneElement(stat.icon, { className: "w-4 h-4 lg:w-6 lg:h-6" })}
+                ${stat.color === "purple" ? "bg-purple-100 text-purple-600" : ""}
+                ${stat.color === "blue" ? "bg-blue-100 text-blue-600" : ""}
+                ${stat.color === "green" ? "bg-green-100 text-green-600" : ""}
+                ${stat.color === "orange" ? "bg-orange-100 text-orange-600" : ""}
+              `}
+              >
+                {React.cloneElement(stat.icon, {
+                  className: "w-4 h-4 lg:w-6 lg:h-6",
+                })}
               </div>
               <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-1">
                 {stat.value}
@@ -89,12 +93,22 @@ export const DashboardView: React.FC = () => {
           <div className="space-y-2 lg:space-y-3">
             {player.statistics.missionsCompleted > 0 ? (
               // Show last few completed missions (simplified - we don't have completed missions list)
-              Array.from({ length: Math.min(3, player.statistics.missionsCompleted) }, (_, index) => (
-                <div key={index} className="flex items-center justify-between p-2 lg:p-3 bg-purple-50 rounded-lg">
-                  <span className="font-medium text-sm lg:text-base">Mission {index + 1}</span>
-                  <span className="text-xs lg:text-sm text-green-600">Completed</span>
-                </div>
-              ))
+              Array.from(
+                { length: Math.min(3, player.statistics.missionsCompleted) },
+                (_, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-2 lg:p-3 bg-purple-50 rounded-lg"
+                  >
+                    <span className="font-medium text-sm lg:text-base">
+                      Mission {index + 1}
+                    </span>
+                    <span className="text-xs lg:text-sm text-green-600">
+                      Completed
+                    </span>
+                  </div>
+                ),
+              )
             ) : (
               <p className="text-gray-500 text-center py-3 lg:py-4 text-sm lg:text-base">
                 No missions completed yet. Start your first mission!
@@ -106,14 +120,20 @@ export const DashboardView: React.FC = () => {
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-4 text-gradient">
             Active Training
-          </h3>          <div className="space-y-3">
-            {magicalGirls.filter((mg: any) => mg.isTraining).map((girl: any) => (
-              <div key={girl.id} className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
-                <span className="font-medium">{girl.name}</span>
-                <span className="text-sm text-orange-600">Training...</span>
-              </div>
-            ))}
-            {magicalGirls.filter((mg: any) => mg.isTraining).length === 0 && (
+          </h3>{" "}
+          <div className="space-y-3">
+            {magicalGirls
+              .filter((mg) => mg.isTraining)
+              .map((girl) => (
+                <div
+                  key={girl.id}
+                  className="flex items-center justify-between p-3 bg-orange-50 rounded-lg"
+                >
+                  <span className="font-medium">{girl.name}</span>
+                  <span className="text-sm text-orange-600">Training...</span>
+                </div>
+              ))}
+            {magicalGirls.filter((mg) => mg.isTraining).length === 0 && (
               <p className="text-gray-500 text-center py-4">
                 No active training sessions.
               </p>
@@ -128,28 +148,36 @@ export const DashboardView: React.FC = () => {
           Quick Actions
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             className="magical-button"
-            onClick={() => {/* TODO: Navigate to missions */}}
+            onClick={() => {
+              /* TODO: Navigate to missions */
+            }}
           >
             Start Mission
           </Button>
-          <Button 
+          <Button
             variant="secondary"
-            onClick={() => {/* TODO: Navigate to training */}}
+            onClick={() => {
+              /* TODO: Navigate to training */
+            }}
           >
             Begin Training
           </Button>
-          <Button 
+          <Button
             variant="secondary"
-            onClick={() => {/* TODO: Navigate to magical girls */}}
+            onClick={() => {
+              /* TODO: Navigate to magical girls */
+            }}
           >
             View Team
           </Button>
-          <Button 
+          <Button
             variant="secondary"
-            onClick={() => {/* TODO: Navigate to achievements */}}
+            onClick={() => {
+              /* TODO: Navigate to achievements */
+            }}
           >
             Achievements
           </Button>

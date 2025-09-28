@@ -1,7 +1,7 @@
-import React from 'react';
-import { Zap, Star, Clock, TrendingUp } from 'lucide-react';
-import { useGameStore } from '../../stores/gameStore';
-import { StatDisplay } from '../ui/StatDisplay';
+import React from "react";
+import { Zap, Star, Clock, TrendingUp } from "lucide-react";
+import { useGameStore } from "../../stores/gameStore";
+import { StatDisplay } from "../ui/StatDisplay";
 
 export const ResourceDisplay: React.FC = () => {
   const { player } = useGameStore();
@@ -15,7 +15,7 @@ export const ResourceDisplay: React.FC = () => {
         color="purple"
         showBar={true}
       />
-      
+
       <StatDisplay
         label="Energy"
         value={player.resources.magicalEnergy}
@@ -24,14 +24,14 @@ export const ResourceDisplay: React.FC = () => {
         color="orange"
         showBar={true}
       />
-      
+
       <StatDisplay
         label="Experience"
         value={player.resources.experience}
         icon={<TrendingUp className="w-4 h-4 lg:w-5 lg:h-5" />}
         color="green"
       />
-      
+
       <StatDisplay
         label="Sparkles"
         value={player.resources.sparkles}

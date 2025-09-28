@@ -1,10 +1,10 @@
 // Active achievements component - Single Responsibility Principle
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Star, Clock, TrendingUp } from 'lucide-react';
-import { Card } from '../ui/Card';
-import type { Achievement } from '../../types/achievements';
-import { achievementRarities } from '../../data/achievements';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Trophy, Star, Clock, TrendingUp } from "lucide-react";
+import { Card } from "../ui/Card";
+import type { Achievement } from "../../types/achievements";
+import { achievementRarities } from "../../data/achievements";
 
 interface ActiveAchievementsProps {
   recentUnlocks: Achievement[];
@@ -15,7 +15,7 @@ interface ActiveAchievementsProps {
 export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
   recentUnlocks,
   nearCompletion,
-  nextAchievement
+  nextAchievement,
 }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -25,7 +25,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
           <Trophy className="w-5 h-5 text-yellow-600" />
           <h3 className="text-lg font-semibold">Recent Unlocks</h3>
         </div>
-        
+
         <div className="space-y-3">
           <AnimatePresence>
             {recentUnlocks.length > 0 ? (
@@ -44,9 +44,8 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
                       {achievement.name}
                     </div>
                     <div className="text-xs text-gray-600">
-                      {achievement.unlockedAt && 
-                        new Date(achievement.unlockedAt).toLocaleDateString()
-                      }
+                      {achievement.unlockedAt &&
+                        new Date(achievement.unlockedAt).toLocaleDateString()}
                     </div>
                   </div>
                   <div className="flex items-center gap-1 text-yellow-600">
@@ -72,12 +71,13 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
           <TrendingUp className="w-5 h-5 text-purple-600" />
           <h3 className="text-lg font-semibold">Near Completion</h3>
         </div>
-        
+
         <div className="space-y-3">
           {nearCompletion.length > 0 ? (
             nearCompletion.slice(0, 3).map((achievement, index) => {
-              const progressPercentage = (achievement.progress / achievement.maxProgress) * 100;
-              
+              const progressPercentage =
+                (achievement.progress / achievement.maxProgress) * 100;
+
               return (
                 <motion.div
                   key={achievement.id}
@@ -97,7 +97,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
                       {Math.round(progressPercentage)}%
                     </span>
                   </div>
-                  
+
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <motion.div
                       className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
@@ -106,7 +106,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                     />
                   </div>
-                  
+
                   <div className="text-xs text-gray-600">
                     {achievement.progress}/{achievement.maxProgress}
                   </div>
@@ -127,7 +127,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
           <Clock className="w-5 h-5 text-blue-600" />
           <h3 className="text-lg font-semibold">Next Up</h3>
         </div>
-        
+
         {nextAchievement ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -140,22 +140,22 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
                 <div className="font-medium text-gray-900">
                   {nextAchievement.name}
                 </div>
-                <div 
+                <div
                   className="text-xs font-medium px-2 py-1 rounded-full inline-block mt-1"
-                  style={{ 
+                  style={{
                     backgroundColor: `${achievementRarities[nextAchievement.rarity].color}20`,
-                    color: achievementRarities[nextAchievement.rarity].color 
+                    color: achievementRarities[nextAchievement.rarity].color,
                   }}
                 >
                   {achievementRarities[nextAchievement.rarity].name}
                 </div>
               </div>
             </div>
-            
+
             <p className="text-sm text-gray-600">
               {nextAchievement.description}
             </p>
-            
+
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">Progress</span>
@@ -163,20 +163,21 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
                   {nextAchievement.progress}/{nextAchievement.maxProgress}
                 </span>
               </div>
-              
+
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <motion.div
                   className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"
                   initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(nextAchievement.progress / nextAchievement.maxProgress) * 100}%` 
+                  animate={{
+                    width: `${(nextAchievement.progress / nextAchievement.maxProgress) * 100}%`,
                   }}
                   transition={{ duration: 0.8 }}
                 />
               </div>
-              
+
               <div className="text-xs text-gray-500">
-                {nextAchievement.maxProgress - nextAchievement.progress} more to unlock
+                {nextAchievement.maxProgress - nextAchievement.progress} more to
+                unlock
               </div>
             </div>
           </motion.div>

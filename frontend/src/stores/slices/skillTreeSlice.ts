@@ -1,4 +1,4 @@
-import type { StateCreator } from 'zustand';
+import type { StateCreator } from "zustand";
 import type {
   SkillTreeState,
   SkillTreeActions,
@@ -18,8 +18,8 @@ import type {
   TreeViewMode,
   SkillTreeEvent,
   SpecializationPath,
-  PathMasteryLevel
-} from '../../types/skillTree';
+  PathMasteryLevel,
+} from "../../types/skillTree";
 
 export interface SkillTreeSlice extends SkillTreeState, SkillTreeActions {
   // Additional computed properties
@@ -30,7 +30,10 @@ export interface SkillTreeSlice extends SkillTreeState, SkillTreeActions {
   getUnlockedTrees: () => SkillTree[];
 }
 
-export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => ({
+export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (
+  set,
+  get,
+) => ({
   // Initial state
   trees: {},
   activeTreeId: null,
@@ -43,7 +46,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
   recommendedNodes: [],
   selectedNodeId: null,
   hoveredNodeId: null,
-  treeViewMode: 'full',
+  treeViewMode: "full",
   filterSettings: {
     showLockedNodes: true,
     showUnaffordableNodes: true,
@@ -51,7 +54,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
     filterByCategory: [],
     filterByTier: [],
     filterByPath: [],
-    searchQuery: ''
+    searchQuery: "",
   },
 
   // Computed properties
@@ -62,23 +65,29 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
 
   getSkillNode: (treeId: string, nodeId: string) => {
     const tree = get().getSkillTree(treeId);
-    return tree?.nodes.find(node => node.id === nodeId) || null;
+    return tree?.nodes.find((node) => node.id === nodeId) || null;
   },
 
   getActiveBuild: () => {
     const state = get();
-    return state.savedBuilds.find(build => build.id === state.activeBuildId) || null;
+    return (
+      state.savedBuilds.find((build) => build.id === state.activeBuildId) ||
+      null
+    );
   },
 
   getTotalSkillPoints: () => {
     const state = get();
-    const treePoints = Object.values(state.trees).reduce((total, tree) => total + tree.availablePoints, 0);
+    const treePoints = Object.values(state.trees).reduce(
+      (total, tree) => total + tree.availablePoints,
+      0,
+    );
     return state.globalSkillPoints + treePoints;
   },
 
   getUnlockedTrees: () => {
     const state = get();
-    return Object.values(state.trees).filter(tree => tree.isUnlocked);
+    return Object.values(state.trees).filter((tree) => tree.isUnlocked);
   },
 
   // Node management actions
@@ -87,24 +96,28 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       const tree = state.trees[treeId];
       if (!tree) return state;
 
-      const nodeIndex = tree.nodes.findIndex(node => node.id === nodeId);
+      const nodeIndex = tree.nodes.findIndex((node) => node.id === nodeId);
       if (nodeIndex === -1) return state;
 
       const node = tree.nodes[nodeIndex];
       const validation = get().validateNodeLearning(treeId, nodeId);
 
       if (!validation.isValid) {
-        console.error('Cannot learn skill node:', validation.errors);
+        console.error("Cannot learn skill node:", validation.errors);
         return state;
       }
 
       const finalRanks = Math.min(ranks, node.maxRank - node.currentRank);
-      const totalCost = get().calculateNodeCost(treeId, nodeId, node.currentRank + finalRanks);
+      const totalCost = get().calculateNodeCost(
+        treeId,
+        nodeId,
+        node.currentRank + finalRanks,
+      );
 
       // Calculate total cost
       let skillPointCost = 0;
-      totalCost.forEach(cost => {
-        if (cost.type === 'skill_points') {
+      totalCost.forEach((cost) => {
+        if (cost.type === "skill_points") {
           skillPointCost += cost.amount;
         }
       });
@@ -119,15 +132,17 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       updatedTree.nodes[nodeIndex] = {
         ...node,
         currentRank: node.currentRank + finalRanks,
-        isMaxRank: node.currentRank + finalRanks >= node.maxRank
+        isMaxRank: node.currentRank + finalRanks >= node.maxRank,
       };
 
       updatedTree.availablePoints -= skillPointCost;
       updatedTree.totalPointsSpent += skillPointCost;
-      updatedTree.totalNodesUnlocked = updatedTree.nodes.filter(n => n.currentRank > 0).length;
+      updatedTree.totalNodesUnlocked = updatedTree.nodes.filter(
+        (n) => n.currentRank > 0,
+      ).length;
 
       // Update node unlock states
-      updatedTree.nodes.forEach(n => {
+      updatedTree.nodes.forEach((n) => {
         n.isLearnable = get().checkNodeLearnable(updatedTree, n);
       });
 
@@ -141,17 +156,17 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         ...state,
         trees: {
           ...state.trees,
-          [treeId]: updatedTree
-        }
+          [treeId]: updatedTree,
+        },
       };
     });
 
     // Emit event
     get().emitSkillTreeEvent({
-      type: 'node_learned',
+      type: "node_learned",
       treeId,
       nodeId,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   },
 
@@ -160,33 +175,38 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       const tree = state.trees[treeId];
       if (!tree) return state;
 
-      const nodeIndex = tree.nodes.findIndex(node => node.id === nodeId);
+      const nodeIndex = tree.nodes.findIndex((node) => node.id === nodeId);
       if (nodeIndex === -1) return state;
 
       const node = tree.nodes[nodeIndex];
       if (node.currentRank === 0) return state;
 
       // Check if other nodes depend on this one
-      const dependentNodes = tree.nodes.filter(n =>
-        n.prerequisites.some(prereq =>
-          prereq.type === 'node_rank' &&
-          prereq.nodeId === nodeId &&
-          prereq.minimumRank &&
-          prereq.minimumRank > node.currentRank - ranks
-        )
+      const dependentNodes = tree.nodes.filter((n) =>
+        n.prerequisites.some(
+          (prereq) =>
+            prereq.type === "node_rank" &&
+            prereq.nodeId === nodeId &&
+            prereq.minimumRank &&
+            prereq.minimumRank > node.currentRank - ranks,
+        ),
       );
 
-      if (dependentNodes.some(n => n.currentRank > 0)) {
-        console.error('Cannot unlearn node with dependent skills');
+      if (dependentNodes.some((n) => n.currentRank > 0)) {
+        console.error("Cannot unlearn node with dependent skills");
         return state;
       }
 
       const finalRanks = Math.min(ranks, node.currentRank);
-      const refundCost = get().calculateNodeCost(treeId, nodeId, node.currentRank - finalRanks);
+      const refundCost = get().calculateNodeCost(
+        treeId,
+        nodeId,
+        node.currentRank - finalRanks,
+      );
 
       let skillPointRefund = 0;
-      refundCost.forEach(cost => {
-        if (cost.type === 'skill_points') {
+      refundCost.forEach((cost) => {
+        if (cost.type === "skill_points") {
           skillPointRefund += cost.amount;
         }
       });
@@ -197,15 +217,17 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       updatedTree.nodes[nodeIndex] = {
         ...node,
         currentRank: node.currentRank - finalRanks,
-        isMaxRank: false
+        isMaxRank: false,
       };
 
       updatedTree.availablePoints += skillPointRefund;
       updatedTree.totalPointsSpent -= skillPointRefund;
-      updatedTree.totalNodesUnlocked = updatedTree.nodes.filter(n => n.currentRank > 0).length;
+      updatedTree.totalNodesUnlocked = updatedTree.nodes.filter(
+        (n) => n.currentRank > 0,
+      ).length;
 
       // Update node unlock states
-      updatedTree.nodes.forEach(n => {
+      updatedTree.nodes.forEach((n) => {
         n.isLearnable = get().checkNodeLearnable(updatedTree, n);
       });
 
@@ -213,17 +235,17 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         ...state,
         trees: {
           ...state.trees,
-          [treeId]: updatedTree
-        }
+          [treeId]: updatedTree,
+        },
       };
     });
 
     // Emit event
     get().emitSkillTreeEvent({
-      type: 'node_unlearned',
+      type: "node_unlearned",
       treeId,
       nodeId,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   },
 
@@ -247,24 +269,24 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
 
       const resetTree = {
         ...tree,
-        nodes: tree.nodes.map(node => ({
+        nodes: tree.nodes.map((node) => ({
           ...node,
           currentRank: 0,
           isMaxRank: false,
-          isLearnable: node.prerequisites.length === 0
+          isLearnable: node.prerequisites.length === 0,
         })),
         totalNodesUnlocked: 0,
         totalPointsSpent: 0,
         availablePoints: tree.availablePoints + totalPointsToRefund,
-        resetCount: tree.resetCount + 1
+        resetCount: tree.resetCount + 1,
       };
 
       if (!keepMastery) {
         resetTree.masteryLevel = 0;
-        resetTree.specializations = tree.specializations.map(path => ({
+        resetTree.specializations = tree.specializations.map((path) => ({
           ...path,
           nodesUnlocked: 0,
-          masteryLevel: 'novice' as PathMasteryLevel
+          masteryLevel: "novice" as PathMasteryLevel,
         }));
       }
 
@@ -272,17 +294,17 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         ...state,
         trees: {
           ...state.trees,
-          [treeId]: resetTree
-        }
+          [treeId]: resetTree,
+        },
       };
     });
 
     // Emit event
     get().emitSkillTreeEvent({
-      type: 'tree_reset',
+      type: "tree_reset",
       treeId,
       timestamp: Date.now(),
-      data: { keepMastery }
+      data: { keepMastery },
     });
   },
 
@@ -299,31 +321,31 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         prestigeLevel: tree.prestigeLevel + 1,
         availablePoints: tree.availablePoints + prestigeBonus,
         masteryLevel: Math.min(tree.masteryLevel + 1, 10),
-        nodes: tree.nodes.map(node => ({
+        nodes: tree.nodes.map((node) => ({
           ...node,
           currentRank: 0,
           isMaxRank: false,
-          isLearnable: node.prerequisites.length === 0
+          isLearnable: node.prerequisites.length === 0,
         })),
         totalNodesUnlocked: 0,
         totalPointsSpent: 0,
-        resetCount: 0
+        resetCount: 0,
       };
 
       return {
         ...state,
         trees: {
           ...state.trees,
-          [treeId]: prestigedTree
-        }
+          [treeId]: prestigedTree,
+        },
       };
     });
 
     // Emit event
     get().emitSkillTreeEvent({
-      type: 'tree_prestiged',
+      type: "tree_prestiged",
       treeId,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   },
 
@@ -333,7 +355,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       if (!tree || tree.isUnlocked) return state;
 
       // Check unlock requirements
-      const canUnlock = tree.unlockRequirements.every(req => {
+      const canUnlock = tree.unlockRequirements.every((req) => {
         return get().checkUnlockRequirement(req);
       });
 
@@ -345,17 +367,17 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
           ...state.trees,
           [treeId]: {
             ...tree,
-            isUnlocked: true
-          }
-        }
+            isUnlocked: true,
+          },
+        },
       };
     });
 
     // Emit event
     get().emitSkillTreeEvent({
-      type: 'tree_unlocked',
+      type: "tree_unlocked",
       treeId,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   },
 
@@ -365,29 +387,36 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       const tree = state.trees[treeId];
       if (!tree) return state;
 
-      const pathIndex = tree.specializations.findIndex(p => p.id === pathId);
+      const pathIndex = tree.specializations.findIndex((p) => p.id === pathId);
       if (pathIndex === -1) return state;
 
       const path = tree.specializations[pathIndex];
 
       // Check for conflicts
-      const hasConflicts = path.conflictsWith.some(conflictId =>
-        tree.specializations.find(p => p.id === conflictId && p.nodesUnlocked > 0)
+      const hasConflicts = path.conflictsWith.some((conflictId) =>
+        tree.specializations.find(
+          (p) => p.id === conflictId && p.nodesUnlocked > 0,
+        ),
       );
 
       if (hasConflicts && path.isExclusive) {
-        console.error('Cannot select conflicting specialization path');
+        console.error("Cannot select conflicting specialization path");
         return state;
       }
 
       // Mark relevant nodes as part of this path
       const updatedTree = { ...tree };
-      updatedTree.nodes = tree.nodes.map(node => {
-        if (path.keyNodes.includes(node.id) || path.branchNodes.includes(node.id)) {
+      updatedTree.nodes = tree.nodes.map((node) => {
+        if (
+          path.keyNodes.includes(node.id) ||
+          path.branchNodes.includes(node.id)
+        ) {
           return {
             ...node,
             specializationPath: pathId as any,
-            branchType: path.keyNodes.includes(node.id) ? 'specialized' : 'branch'
+            branchType: path.keyNodes.includes(node.id)
+              ? "specialized"
+              : "branch",
           };
         }
         return node;
@@ -397,17 +426,17 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         ...state,
         trees: {
           ...state.trees,
-          [treeId]: updatedTree
-        }
+          [treeId]: updatedTree,
+        },
       };
     });
 
     // Emit event
     get().emitSkillTreeEvent({
-      type: 'path_selected',
+      type: "path_selected",
       treeId,
       pathId,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   },
 
@@ -416,28 +445,30 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       const tree = state.trees[treeId];
       if (!tree) return state;
 
-      const path = tree.specializations.find(p => p.id === pathId);
+      const path = tree.specializations.find((p) => p.id === pathId);
       if (!path) return state;
 
       // Check if any nodes in this path have been learned
-      const pathNodesLearned = tree.nodes.some(node =>
-        (path.keyNodes.includes(node.id) || path.branchNodes.includes(node.id)) &&
-        node.currentRank > 0
+      const pathNodesLearned = tree.nodes.some(
+        (node) =>
+          (path.keyNodes.includes(node.id) ||
+            path.branchNodes.includes(node.id)) &&
+          node.currentRank > 0,
       );
 
       if (pathNodesLearned) {
-        console.error('Cannot deselect path with learned nodes');
+        console.error("Cannot deselect path with learned nodes");
         return state;
       }
 
       // Remove path assignment from nodes
       const updatedTree = { ...tree };
-      updatedTree.nodes = tree.nodes.map(node => {
+      updatedTree.nodes = tree.nodes.map((node) => {
         if (node.specializationPath === pathId) {
           return {
             ...node,
             specializationPath: undefined,
-            branchType: 'core'
+            branchType: "core",
           };
         }
         return node;
@@ -447,8 +478,8 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         ...state,
         trees: {
           ...state.trees,
-          [treeId]: updatedTree
-        }
+          [treeId]: updatedTree,
+        },
       };
     });
   },
@@ -457,10 +488,10 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
     // This would be implemented for exclusive path systems
     // For now, just emit the event
     get().emitSkillTreeEvent({
-      type: 'path_committed',
+      type: "path_committed",
       treeId,
       pathId,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   },
 
@@ -469,12 +500,12 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
     set((state) => {
       const newBuild: SkillBuild = {
         id: build.id || `build_${Date.now()}`,
-        name: build.name || 'Untitled Build',
-        description: build.description || '',
-        characterId: build.characterId || '',
+        name: build.name || "Untitled Build",
+        description: build.description || "",
+        characterId: build.characterId || "",
         treeStates: build.treeStates || {},
         totalPointsAllocated: 0,
-        buildVersion: '1.0.0',
+        buildVersion: "1.0.0",
         createdAt: Date.now(),
         lastModified: Date.now(),
         tags: build.tags || [],
@@ -482,28 +513,32 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         rating: 0,
         strengths: [],
         weaknesses: [],
-        recommendedUsage: []
+        recommendedUsage: [],
       };
 
       // Calculate total points
-      newBuild.totalPointsAllocated = Object.values(newBuild.treeStates)
-        .reduce((total, treeState) => total + treeState.pointsSpent, 0);
+      newBuild.totalPointsAllocated = Object.values(newBuild.treeStates).reduce(
+        (total, treeState) => total + treeState.pointsSpent,
+        0,
+      );
 
-      const existingIndex = state.savedBuilds.findIndex(b => b.id === newBuild.id);
+      const existingIndex = state.savedBuilds.findIndex(
+        (b) => b.id === newBuild.id,
+      );
 
       if (existingIndex >= 0) {
         // Update existing build
         return {
           ...state,
           savedBuilds: state.savedBuilds.map((b, i) =>
-            i === existingIndex ? { ...newBuild, lastModified: Date.now() } : b
-          )
+            i === existingIndex ? { ...newBuild, lastModified: Date.now() } : b,
+          ),
         };
       } else {
         // Add new build
         return {
           ...state,
-          savedBuilds: [...state.savedBuilds, newBuild]
+          savedBuilds: [...state.savedBuilds, newBuild],
         };
       }
     });
@@ -511,7 +546,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
 
   loadBuild: (buildId: string) => {
     const state = get();
-    const build = state.savedBuilds.find(b => b.id === buildId);
+    const build = state.savedBuilds.find((b) => b.id === buildId);
     if (!build) return;
 
     // Apply build to all trees
@@ -530,35 +565,36 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       });
 
       // Apply selected paths
-      treeState.selectedPaths.forEach(pathId => {
+      treeState.selectedPaths.forEach((pathId) => {
         get().selectSpecializationPath(treeId, pathId);
       });
     });
 
     set((state) => ({
       ...state,
-      activeBuildId: buildId
+      activeBuildId: buildId,
     }));
   },
 
   deleteBuild: (buildId: string) => {
     set((state) => ({
       ...state,
-      savedBuilds: state.savedBuilds.filter(b => b.id !== buildId),
-      activeBuildId: state.activeBuildId === buildId ? null : state.activeBuildId
+      savedBuilds: state.savedBuilds.filter((b) => b.id !== buildId),
+      activeBuildId:
+        state.activeBuildId === buildId ? null : state.activeBuildId,
     }));
   },
 
   shareBuild: (buildId: string): string => {
-    const build = get().savedBuilds.find(b => b.id === buildId);
-    if (!build) return '';
+    const build = get().savedBuilds.find((b) => b.id === buildId);
+    if (!build) return "";
 
     // Create a shareable build code
     const buildData = {
       id: build.id,
       name: build.name,
       treeStates: build.treeStates,
-      version: build.buildVersion
+      version: build.buildVersion,
     };
 
     return btoa(JSON.stringify(buildData));
@@ -571,11 +607,11 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       get().saveBuild({
         name: `${buildData.name} (Imported)`,
         treeStates: buildData.treeStates,
-        characterId: get().getUnlockedTrees()[0]?.characterId || '',
-        tags: ['imported']
+        characterId: get().getUnlockedTrees()[0]?.characterId || "",
+        tags: ["imported"],
       });
     } catch (error) {
-      console.error('Failed to import build:', error);
+      console.error("Failed to import build:", error);
     }
   },
 
@@ -594,7 +630,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         missedSynergies: [],
         suggestedRespec: false,
         alternativeBuilds: [],
-        optimizationTips: []
+        optimizationTips: [],
       };
     }
 
@@ -617,18 +653,21 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       missedSynergies: get().findMissedSynergies(tree),
       suggestedRespec: efficiency < 0.6,
       alternativeBuilds: [],
-      optimizationTips: get().generateOptimizationTips(tree)
+      optimizationTips: get().generateOptimizationTips(tree),
     };
 
     set((state) => ({
       ...state,
-      lastAnalysis: analysis
+      lastAnalysis: analysis,
     }));
 
     return analysis;
   },
 
-  getRecommendations: (treeId: string, goal?: string): AnalysisRecommendation[] => {
+  getRecommendations: (
+    treeId: string,
+    goal?: string,
+  ): AnalysisRecommendation[] => {
     const tree = get().getSkillTree(treeId);
     if (!tree) return [];
 
@@ -636,8 +675,8 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
 
     // Find learnable nodes with high value
     tree.nodes
-      .filter(node => node.isLearnable && node.currentRank === 0)
-      .forEach(node => {
+      .filter((node) => node.isLearnable && node.currentRank === 0)
+      .forEach((node) => {
         const benefit = get().calculateNodeBenefit(tree, node);
         const cost = get().calculateNodeCost(treeId, node.id, 1);
         const efficiency = benefit / (cost[0]?.amount || 1);
@@ -646,30 +685,35 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
           recommendations.push({
             nodeId: node.id,
             reason: `High efficiency node (${efficiency.toFixed(1)}x value)`,
-            priority: efficiency > 4 ? 'critical' : 'high',
-            expectedBenefit: benefit
+            priority: efficiency > 4 ? "critical" : "high",
+            expectedBenefit: benefit,
           });
         }
       });
 
-    return recommendations.sort((a, b) => b.expectedBenefit - a.expectedBenefit);
+    return recommendations.sort(
+      (a, b) => b.expectedBenefit - a.expectedBenefit,
+    );
   },
 
-  optimizeBuild: (treeId: string, constraints?: OptimizationConstraints): BuildTreeState => {
+  optimizeBuild: (
+    treeId: string,
+    constraints?: OptimizationConstraints,
+  ): BuildTreeState => {
     const tree = get().getSkillTree(treeId);
     if (!tree) {
       return {
         treeId,
         nodeRanks: {},
         selectedPaths: [],
-        pointsSpent: 0
+        pointsSpent: 0,
       };
     }
 
     // This would implement a complex optimization algorithm
     // For now, return current state
     const nodeRanks: Record<string, number> = {};
-    tree.nodes.forEach(node => {
+    tree.nodes.forEach((node) => {
       if (node.currentRank > 0) {
         nodeRanks[node.id] = node.currentRank;
       }
@@ -679,9 +723,9 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       treeId,
       nodeRanks,
       selectedPaths: tree.specializations
-        .filter(path => path.nodesUnlocked > 0)
-        .map(path => path.id),
-      pointsSpent: tree.totalPointsSpent
+        .filter((path) => path.nodesUnlocked > 0)
+        .map((path) => path.id),
+      pointsSpent: tree.totalPointsSpent,
     };
   },
 
@@ -689,24 +733,28 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
   addToLearningQueue: (entry: SkillLearningEntry) => {
     set((state) => ({
       ...state,
-      skillLearningQueue: [...state.skillLearningQueue, entry]
-        .sort((a, b) => b.priority - a.priority)
+      skillLearningQueue: [...state.skillLearningQueue, entry].sort(
+        (a, b) => b.priority - a.priority,
+      ),
     }));
   },
 
   removeFromLearningQueue: (nodeId: string) => {
     set((state) => ({
       ...state,
-      skillLearningQueue: state.skillLearningQueue.filter(entry => entry.nodeId !== nodeId)
+      skillLearningQueue: state.skillLearningQueue.filter(
+        (entry) => entry.nodeId !== nodeId,
+      ),
     }));
   },
 
   processLearningQueue: () => {
     const state = get();
-    if (!state.autoLearnEnabled || state.skillLearningQueue.length === 0) return;
+    if (!state.autoLearnEnabled || state.skillLearningQueue.length === 0)
+      return;
 
     const entry = state.skillLearningQueue[0];
-    const tree = state.trees[state.activeTreeId || ''];
+    const tree = state.trees[state.activeTreeId || ""];
 
     if (tree && entry.autoLearn) {
       const validation = get().validateNodeLearning(tree.id, entry.nodeId);
@@ -720,8 +768,8 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
             ...state,
             skillLearningQueue: [
               updatedEntry,
-              ...state.skillLearningQueue.slice(1)
-            ]
+              ...state.skillLearningQueue.slice(1),
+            ],
           }));
         } else {
           get().removeFromLearningQueue(entry.nodeId);
@@ -734,21 +782,21 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
   selectNode: (nodeId: string) => {
     set((state) => ({
       ...state,
-      selectedNodeId: nodeId
+      selectedNodeId: nodeId,
     }));
   },
 
   hoverNode: (nodeId: string) => {
     set((state) => ({
       ...state,
-      hoveredNodeId: nodeId
+      hoveredNodeId: nodeId,
     }));
   },
 
   setTreeViewMode: (mode: TreeViewMode) => {
     set((state) => ({
       ...state,
-      treeViewMode: mode
+      treeViewMode: mode,
     }));
   },
 
@@ -757,8 +805,8 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       ...state,
       filterSettings: {
         ...state.filterSettings,
-        ...settings
-      }
+        ...settings,
+      },
     }));
   },
 
@@ -767,9 +815,11 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
     const node = get().getSkillNode(treeId, nodeId);
     if (!node) return [];
 
-    return node.costs.map(cost => ({
+    return node.costs.map((cost) => ({
       ...cost,
-      amount: Math.floor(cost.amount * Math.pow(cost.rankMultiplier, targetRank - 1))
+      amount: Math.floor(
+        cost.amount * Math.pow(cost.rankMultiplier, targetRank - 1),
+      ),
     }));
   },
 
@@ -782,44 +832,44 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
 
     if (!tree || !node) {
       errors.push({
-        type: 'invalid_state',
-        message: 'Tree or node not found'
+        type: "invalid_state",
+        message: "Tree or node not found",
       });
       return { isValid: false, errors, warnings };
     }
 
     if (!tree.isUnlocked) {
       errors.push({
-        type: 'tree_locked',
-        message: 'Skill tree is locked'
+        type: "tree_locked",
+        message: "Skill tree is locked",
       });
     }
 
     if (node.currentRank >= node.maxRank) {
       errors.push({
-        type: 'node_maxed',
-        message: 'Node is already at maximum rank'
+        type: "node_maxed",
+        message: "Node is already at maximum rank",
       });
     }
 
     // Check prerequisites
-    node.prerequisites.forEach(prereq => {
+    node.prerequisites.forEach((prereq) => {
       if (!get().checkPrerequisite(tree, prereq)) {
         errors.push({
-          type: 'prerequisites_not_met',
-          message: `Prerequisite not met: ${prereq.requirement || 'Unknown'}`,
-          relatedNodes: prereq.nodeId ? [prereq.nodeId] : undefined
+          type: "prerequisites_not_met",
+          message: `Prerequisite not met: ${prereq.requirement || "Unknown"}`,
+          relatedNodes: prereq.nodeId ? [prereq.nodeId] : undefined,
         });
       }
     });
 
     // Check costs
     const costs = get().calculateNodeCost(treeId, nodeId, node.currentRank + 1);
-    costs.forEach(cost => {
-      if (cost.type === 'skill_points' && tree.availablePoints < cost.amount) {
+    costs.forEach((cost) => {
+      if (cost.type === "skill_points" && tree.availablePoints < cost.amount) {
         errors.push({
-          type: 'insufficient_points',
-          message: `Insufficient skill points (need ${cost.amount}, have ${tree.availablePoints})`
+          type: "insufficient_points",
+          message: `Insufficient skill points (need ${cost.amount}, have ${tree.availablePoints})`,
         });
       }
     });
@@ -827,7 +877,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
     return {
       isValid: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
   },
 
@@ -836,13 +886,13 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
     if (!tree) return [];
 
     return tree.nodes
-      .filter(node => node.isLearnable && node.currentRank < node.maxRank)
-      .map(node => node.id);
+      .filter((node) => node.isLearnable && node.currentRank < node.maxRank)
+      .map((node) => node.id);
   },
 
   getPathProgress: (treeId: string, pathId: string): PathProgress => {
     const tree = get().getSkillTree(treeId);
-    const path = tree?.specializations.find(p => p.id === pathId);
+    const path = tree?.specializations.find((p) => p.id === pathId);
 
     if (!tree || !path) {
       return {
@@ -850,17 +900,18 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
         nodesUnlocked: 0,
         totalNodes: 0,
         pointsSpent: 0,
-        masteryLevel: 'novice',
+        masteryLevel: "novice",
         nextMilestone: null,
-        completionPercentage: 0
+        completionPercentage: 0,
       };
     }
 
-    const pathNodes = tree.nodes.filter(node =>
-      path.keyNodes.includes(node.id) || path.branchNodes.includes(node.id)
+    const pathNodes = tree.nodes.filter(
+      (node) =>
+        path.keyNodes.includes(node.id) || path.branchNodes.includes(node.id),
     );
 
-    const unlockedNodes = pathNodes.filter(node => node.currentRank > 0);
+    const unlockedNodes = pathNodes.filter((node) => node.currentRank > 0);
     const pointsSpent = unlockedNodes.reduce((total, node) => {
       const costs = get().calculateNodeCost(treeId, node.id, node.currentRank);
       return total + costs.reduce((sum, cost) => sum + cost.amount, 0);
@@ -872,28 +923,33 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
       totalNodes: pathNodes.length,
       pointsSpent,
       masteryLevel: path.masteryLevel,
-      nextMilestone: path.masteryRequirements.find(req =>
-        req.level !== path.masteryLevel
-      ) || null,
-      completionPercentage: (unlockedNodes.length / pathNodes.length) * 100
+      nextMilestone:
+        path.masteryRequirements.find(
+          (req) => req.level !== path.masteryLevel,
+        ) || null,
+      completionPercentage: (unlockedNodes.length / pathNodes.length) * 100,
     };
   },
 
   // Helper methods
   checkNodeLearnable: (tree: SkillTree, node: SkillNode): boolean => {
-    return node.prerequisites.every(prereq => get().checkPrerequisite(tree, prereq));
+    return node.prerequisites.every((prereq) =>
+      get().checkPrerequisite(tree, prereq),
+    );
   },
 
   checkPrerequisite: (tree: SkillTree, prereq: any): boolean => {
     switch (prereq.type) {
-      case 'node_rank':
-        const reqNode = tree.nodes.find(n => n.id === prereq.nodeId);
-        return reqNode ? reqNode.currentRank >= (prereq.minimumRank || 1) : false;
+      case "node_rank":
+        const reqNode = tree.nodes.find((n) => n.id === prereq.nodeId);
+        return reqNode
+          ? reqNode.currentRank >= (prereq.minimumRank || 1)
+          : false;
 
-      case 'total_points':
+      case "total_points":
         return tree.totalPointsSpent >= prereq.value;
 
-      case 'level':
+      case "level":
         // This would check character level
         return true; // Placeholder
 
@@ -944,8 +1000,8 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
   generateOptimizationTips: (tree: SkillTree): string[] => {
     // Generate helpful optimization suggestions
     return [
-      'Consider focusing on one specialization path for better synergies',
-      'Look for nodes that boost your most-used abilities'
+      "Consider focusing on one specialization path for better synergies",
+      "Look for nodes that boost your most-used abilities",
     ];
   },
 
@@ -956,6 +1012,6 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (set, get) => 
 
   emitSkillTreeEvent: (event: SkillTreeEvent) => {
     // Emit skill tree events for other systems to listen to
-    console.log('Skill tree event:', event);
-  }
+    console.log("Skill tree event:", event);
+  },
 });

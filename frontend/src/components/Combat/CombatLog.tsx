@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Card } from '../ui/Card';
-import type { CombatLogEntry } from '../../types/combat';
+import React, { useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card } from "../ui/Card";
+import type { CombatLogEntry } from "../../types/combat";
 
 interface CombatLogProps {
   combatLog: CombatLogEntry[];
@@ -16,39 +16,59 @@ interface LogEntryProps {
 const LogEntry: React.FC<LogEntryProps> = ({ entry, index }) => {
   const getEntryIcon = (type: string) => {
     switch (type) {
-      case 'Action': return '⚔️';
-      case 'Damage': return '💥';
-      case 'Healing': return '💚';
-      case 'Status': return '✨';
-      case 'Movement': return '🏃';
-      case 'Environment': return '🌪️';
-      case 'Victory': return '🏆';
-      case 'Defeat': return '💀';
-      case 'System': return 'ℹ️';
-      default: return '📝';
+      case "Action":
+        return "⚔️";
+      case "Damage":
+        return "💥";
+      case "Healing":
+        return "💚";
+      case "Status":
+        return "✨";
+      case "Movement":
+        return "🏃";
+      case "Environment":
+        return "🌪️";
+      case "Victory":
+        return "🏆";
+      case "Defeat":
+        return "💀";
+      case "System":
+        return "ℹ️";
+      default:
+        return "📝";
     }
   };
 
   const getEntryColor = (type: string) => {
     switch (type) {
-      case 'Action': return 'text-blue-400';
-      case 'Damage': return 'text-red-400';
-      case 'Healing': return 'text-green-400';
-      case 'Status': return 'text-purple-400';
-      case 'Movement': return 'text-yellow-400';
-      case 'Environment': return 'text-cyan-400';
-      case 'Victory': return 'text-green-500';
-      case 'Defeat': return 'text-red-500';
-      case 'System': return 'text-gray-400';
-      default: return 'text-gray-300';
+      case "Action":
+        return "text-blue-400";
+      case "Damage":
+        return "text-red-400";
+      case "Healing":
+        return "text-green-400";
+      case "Status":
+        return "text-purple-400";
+      case "Movement":
+        return "text-yellow-400";
+      case "Environment":
+        return "text-cyan-400";
+      case "Victory":
+        return "text-green-500";
+      case "Defeat":
+        return "text-red-500";
+      case "System":
+        return "text-gray-400";
+      default:
+        return "text-gray-300";
     }
   };
 
   const formatTimestamp = (timestamp: number) => {
     return new Date(timestamp).toLocaleTimeString([], {
       hour12: false,
-      minute: '2-digit',
-      second: '2-digit'
+      minute: "2-digit",
+      second: "2-digit",
     });
   };
 
@@ -79,13 +99,12 @@ const LogEntry: React.FC<LogEntryProps> = ({ entry, index }) => {
         {/* Additional Details */}
         {entry.details && (
           <div className="text-xs text-gray-500 mt-1">
-            {typeof entry.details === 'object'
+            {typeof entry.details === "object"
               ? Object.entries(entry.details)
                   .slice(0, 3)
                   .map(([key, value]) => `${key}: ${value}`)
-                  .join(', ')
-              : String(entry.details)
-            }
+                  .join(", ")
+              : String(entry.details)}
           </div>
         )}
 
@@ -104,7 +123,8 @@ const LogEntry: React.FC<LogEntryProps> = ({ entry, index }) => {
 
       {entry.value !== undefined && (
         <div className="flex-shrink-0 text-sm font-semibold text-white">
-          {entry.value > 0 ? '+' : ''}{entry.value}
+          {entry.value > 0 ? "+" : ""}
+          {entry.value}
         </div>
       )}
     </motion.div>
@@ -113,7 +133,7 @@ const LogEntry: React.FC<LogEntryProps> = ({ entry, index }) => {
 
 export const CombatLog: React.FC<CombatLogProps> = ({
   combatLog,
-  maxEntries = 20
+  maxEntries = 20,
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -153,11 +173,7 @@ export const CombatLog: React.FC<CombatLogProps> = ({
           ) : (
             <AnimatePresence>
               {displayEntries.map((entry, index) => (
-                <LogEntry
-                  key={entry.id}
-                  entry={entry}
-                  index={index}
-                />
+                <LogEntry key={entry.id} entry={entry} index={index} />
               ))}
             </AnimatePresence>
           )}
@@ -170,19 +186,19 @@ export const CombatLog: React.FC<CombatLogProps> = ({
               <div>
                 <div className="text-gray-400">Actions</div>
                 <div className="text-white font-semibold">
-                  {combatLog.filter(e => e.type === 'Action').length}
+                  {combatLog.filter((e) => e.type === "Action").length}
                 </div>
               </div>
               <div>
                 <div className="text-gray-400">Damage</div>
                 <div className="text-white font-semibold">
-                  {combatLog.filter(e => e.type === 'Damage').length}
+                  {combatLog.filter((e) => e.type === "Damage").length}
                 </div>
               </div>
               <div>
                 <div className="text-gray-400">Healing</div>
                 <div className="text-white font-semibold">
-                  {combatLog.filter(e => e.type === 'Healing').length}
+                  {combatLog.filter((e) => e.type === "Healing").length}
                 </div>
               </div>
             </div>

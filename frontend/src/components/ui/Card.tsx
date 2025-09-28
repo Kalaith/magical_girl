@@ -1,6 +1,6 @@
 // Reusable Card component with magical styling
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 interface BaseComponentProps {
   children?: React.ReactNode;
@@ -9,7 +9,7 @@ interface BaseComponentProps {
 
 export interface CardProps extends BaseComponentProps {
   title?: string;
-  variant?: 'default' | 'magical' | 'sparkle';
+  variant?: "default" | "magical" | "sparkle";
   hoverable?: boolean;
   clickable?: boolean;
   onClick?: () => void;
@@ -19,24 +19,24 @@ export interface CardProps extends BaseComponentProps {
 export const Card: React.FC<CardProps> = ({
   children,
   title,
-  variant = 'default',
+  variant = "default",
   hoverable = false,
   clickable = false,
   onClick,
-  className = '',
+  className = "",
   ...props
 }) => {
-  const baseClasses = 'magical-card';
-  
+  const baseClasses = "magical-card";
+
   const variantClasses = {
-    default: '',
-    magical: 'bg-magical-gradient border-magical-300',
-    sparkle: 'bg-sparkle-gradient border-sparkle-300'
+    default: "",
+    magical: "bg-magical-gradient border-magical-300",
+    sparkle: "bg-sparkle-gradient border-sparkle-300",
   };
-  
-  const interactiveClasses = clickable ? 'cursor-pointer' : '';
+
+  const interactiveClasses = clickable ? "cursor-pointer" : "";
   const classes = `${baseClasses} ${variantClasses[variant]} ${interactiveClasses} ${className}`;
-  
+
   const cardContent = (
     <div className="relative">
       {title && (
@@ -47,7 +47,7 @@ export const Card: React.FC<CardProps> = ({
       {children}
     </div>
   );
-  
+
   if (hoverable || clickable) {
     return (
       <motion.div
@@ -62,7 +62,7 @@ export const Card: React.FC<CardProps> = ({
       </motion.div>
     );
   }
-  
+
   return (
     <div className={classes} {...props}>
       {cardContent}

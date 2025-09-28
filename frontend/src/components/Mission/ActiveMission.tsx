@@ -1,17 +1,11 @@
 // Active mission display component - Single Responsibility Principle
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  MapPin, 
-  Target, 
-  Users,
-  CheckCircle,
-  AlertCircle
-} from 'lucide-react';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import type { Mission } from '../../types/missions';
+import React from "react";
+import { motion } from "framer-motion";
+import { MapPin, Target, Users, CheckCircle, AlertCircle } from "lucide-react";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import type { Mission } from "../../types/missions";
 
 interface ActiveMissionProps {
   mission: Mission | null;
@@ -20,26 +14,29 @@ interface ActiveMissionProps {
   onCancel?: () => void;
 }
 
-export const ActiveMission: React.FC<ActiveMissionProps> = ({ 
-  mission, 
+export const ActiveMission: React.FC<ActiveMissionProps> = ({
+  mission,
   timeRemaining,
   onComplete,
-  onCancel 
+  onCancel,
 }) => {
   if (!mission) {
     return null;
   }
 
   const formatTime = (seconds?: number): string => {
-    if (!seconds) return '--:--';
+    if (!seconds) return "--:--";
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
-  const completedObjectives = mission.objectives.filter(obj => obj.isCompleted).length;
+  const completedObjectives = mission.objectives.filter(
+    (obj) => obj.isCompleted,
+  ).length;
   const totalObjectives = mission.objectives.length;
-  const progressPercentage = totalObjectives > 0 ? (completedObjectives / totalObjectives) * 100 : 0;
+  const progressPercentage =
+    totalObjectives > 0 ? (completedObjectives / totalObjectives) * 100 : 0;
 
   return (
     <motion.div
@@ -58,21 +55,19 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
               <span>{mission.location.name}</span>
             </div>
           </div>
-          
+
           <div className="text-right">
             <div className="text-lg font-bold text-blue-900">
               {formatTime(timeRemaining)}
             </div>
             <div className="text-sm text-blue-600">
-              {timeRemaining ? 'remaining' : 'unlimited'}
+              {timeRemaining ? "remaining" : "unlimited"}
             </div>
           </div>
         </div>
 
         {/* Mission Description */}
-        <p className="text-gray-700 mb-4">
-          {mission.description}
-        </p>
+        <p className="text-gray-700 mb-4">{mission.description}</p>
 
         {/* Objectives Progress */}
         <div className="mb-4">
@@ -87,7 +82,7 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
               {Math.round(progressPercentage)}% complete
             </span>
           </div>
-          
+
           {/* Progress Bar */}
           <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
             <motion.div
@@ -101,12 +96,12 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
           {/* Objectives List */}
           <div className="space-y-2">
             {mission.objectives.map((objective) => (
-              <div 
+              <div
                 key={objective.id}
                 className={`flex items-center gap-2 text-sm p-2 rounded ${
-                  objective.isCompleted 
-                    ? 'bg-green-100 text-green-800' 
-                    : 'bg-gray-100 text-gray-700'
+                  objective.isCompleted
+                    ? "bg-green-100 text-green-800"
+                    : "bg-gray-100 text-gray-700"
                 }`}
               >
                 {objective.isCompleted ? (
@@ -114,7 +109,7 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
                 ) : (
                   <AlertCircle className="w-4 h-4 text-gray-500" />
                 )}
-                <span className={objective.isCompleted ? 'line-through' : ''}>
+                <span className={objective.isCompleted ? "line-through" : ""}>
                   {objective.name}
                 </span>
                 {!objective.isCompleted && objective.progress !== undefined && (
@@ -128,7 +123,7 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
         </div>
 
         {/* Team Assignment (if applicable) */}
-        {mission.requirements.some(req => req.type === 'team_size') && (
+        {mission.requirements.some((req) => req.type === "team_size") && (
           <div className="mb-4">
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Users className="w-4 h-4" />
@@ -140,22 +135,18 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
         {/* Action Buttons */}
         <div className="flex gap-3">
           {onComplete && progressPercentage === 100 && (
-            <Button
-              variant="primary"
-              className="flex-1"
-              onClick={onComplete}
-            >
+            <Button variant="primary" className="flex-1" onClick={onComplete}>
               Complete Mission
             </Button>
           )}
-          
+
           {onCancel && (
             <Button
               variant="secondary"
-              className={progressPercentage === 100 ? 'flex-1' : 'w-full'}
+              className={progressPercentage === 100 ? "flex-1" : "w-full"}
               onClick={onCancel}
             >
-              {progressPercentage === 100 ? 'Return Later' : 'Cancel Mission'}
+              {progressPercentage === 100 ? "Return Later" : "Cancel Mission"}
             </Button>
           )}
         </div>

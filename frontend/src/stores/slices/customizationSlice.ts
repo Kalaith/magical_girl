@@ -1,4 +1,4 @@
-import type { StateCreator } from 'zustand';
+import type { StateCreator } from "zustand";
 import type {
   CustomizationSystem,
   CustomizationActions,
@@ -16,31 +16,56 @@ import type {
   ColorHarmonyScore,
   CurrencyType,
   Color,
-  CustomizationEvent
-} from '../../types/customization';
+  CustomizationEvent,
+} from "../../types/customization";
 
-export interface CustomizationSlice extends CustomizationSystem, CustomizationActions {
+export interface CustomizationSlice
+  extends CustomizationSystem,
+    CustomizationActions {
   // Additional computed properties
-  getCharacterCustomization: (characterId: string) => CharacterCustomization | null;
+  getCharacterCustomization: (
+    characterId: string,
+  ) => CharacterCustomization | null;
   getSavedOutfit: (outfitId: string) => SavedOutfit | null;
-  getAvailableItems: (category: string) => any[];
-  getFashionProgress: () => { level: number; experience: number; nextLevel: number };
+  getAvailableItems: (category: string) => Array<{ id: string; name: string; rarity: string; }>;
+  getFashionProgress: () => {
+    level: number;
+    experience: number;
+    nextLevel: number;
+  };
 }
 
-export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, get) => ({
+export const createCustomizationSlice: StateCreator<CustomizationSlice> = (
+  set,
+  get,
+) => ({
   // Initial state
   characters: {},
-  unlockedOutfits: ['basic_dress_001', 'school_uniform_001', 'casual_top_001', 'casual_bottom_001'],
-  unlockedAccessories: ['simple_tiara_001', 'ribbon_hairclip_001'],
-  unlockedColors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff', '#000000'],
-  unlockedPatterns: ['solid', 'stripes', 'polka_dots'],
+  unlockedOutfits: [
+    "basic_dress_001",
+    "school_uniform_001",
+    "casual_top_001",
+    "casual_bottom_001",
+  ],
+  unlockedAccessories: ["simple_tiara_001", "ribbon_hairclip_001"],
+  unlockedColors: [
+    "#ff0000",
+    "#00ff00",
+    "#0000ff",
+    "#ffff00",
+    "#ff00ff",
+    "#00ffff",
+    "#ffffff",
+    "#000000",
+  ],
+  unlockedPatterns: ["solid", "stripes", "polka_dots"],
   savedOutfits: [],
   quickSlots: Array.from({ length: 8 }, (_, i) => ({
     slotNumber: i + 1,
     name: `Slot ${i + 1}`,
-    outfitId: '',
-    characterId: '',
-    keybind: `${i + 1}`
+    outfitId: "",
+    characterId: "",
+    keybind: `${i + 1}`,
   })),
   customizationPoints: 1000,
   fashionLevel: 1,
@@ -59,7 +84,7 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
   getSavedOutfit: (outfitId: string) => {
     const state = get();
-    return state.savedOutfits.find(outfit => outfit.id === outfitId) || null;
+    return state.savedOutfits.find((outfit) => outfit.id === outfitId) || null;
   },
 
   getAvailableItems: (category: string) => {
@@ -74,19 +99,23 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
     return {
       level: state.fashionLevel,
       experience: state.fashionExperience,
-      nextLevel: experienceForNextLevel
+      nextLevel: experienceForNextLevel,
     };
   },
 
   // Outfit management actions
-  equipOutfitPiece: (characterId: string, slot: OutfitSlot, pieceId: string) => {
+  equipOutfitPiece: (
+    characterId: string,
+    slot: OutfitSlot,
+    pieceId: string,
+  ) => {
     set((state) => {
       const character = state.characters[characterId];
       if (!character) return state;
 
       // Check if item is unlocked
       if (!state.unlockedOutfits.includes(pieceId)) {
-        console.error('Item not unlocked:', pieceId);
+        console.error("Item not unlocked:", pieceId);
         return state;
       }
 
@@ -94,8 +123,8 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
         ...character,
         currentOutfit: {
           ...character.currentOutfit,
-          [slot]: get().getOutfitPieceById(pieceId)
-        }
+          [slot]: get().getOutfitPieceById(pieceId),
+        },
       };
 
       // Update stats and check for set bonuses
@@ -106,8 +135,8 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
         ...state,
         characters: {
           ...state.characters,
-          [characterId]: updatedCharacter
-        }
+          [characterId]: updatedCharacter,
+        },
       };
     });
 
@@ -116,10 +145,10 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
     // Emit event
     get().emitCustomizationEvent({
-      type: 'outfit_changed',
+      type: "outfit_changed",
       characterId,
       timestamp: Date.now(),
-      data: { slot, pieceId }
+      data: { slot, pieceId },
     });
   },
 
@@ -132,16 +161,16 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
         ...character,
         currentOutfit: {
           ...character.currentOutfit,
-          [slot]: null
-        }
+          [slot]: null,
+        },
       };
 
       return {
         ...state,
         characters: {
           ...state.characters,
-          [characterId]: updatedCharacter
-        }
+          [characterId]: updatedCharacter,
+        },
       };
     });
   },
@@ -152,19 +181,21 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
       if (!character) return state;
 
       // Validate all pieces are unlocked
-      const allPieces = Object.values(outfitConfig).filter(piece => piece !== null);
-      const allUnlocked = allPieces.every(piece =>
-        piece && state.unlockedOutfits.includes(piece.id)
+      const allPieces = Object.values(outfitConfig).filter(
+        (piece) => piece !== null,
+      );
+      const allUnlocked = allPieces.every(
+        (piece) => piece && state.unlockedOutfits.includes(piece.id),
       );
 
       if (!allUnlocked) {
-        console.error('Some outfit pieces are not unlocked');
+        console.error("Some outfit pieces are not unlocked");
         return state;
       }
 
       const updatedCharacter = {
         ...character,
-        currentOutfit: outfitConfig
+        currentOutfit: outfitConfig,
       };
 
       // Update stats and check for set bonuses
@@ -175,8 +206,8 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
         ...state,
         characters: {
           ...state.characters,
-          [characterId]: updatedCharacter
-        }
+          [characterId]: updatedCharacter,
+        },
       };
     });
 
@@ -185,14 +216,18 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
   },
 
   // Accessory management actions
-  equipAccessory: (characterId: string, slot: AccessorySlot, accessoryId: string) => {
+  equipAccessory: (
+    characterId: string,
+    slot: AccessorySlot,
+    accessoryId: string,
+  ) => {
     set((state) => {
       const character = state.characters[characterId];
       if (!character) return state;
 
       // Check if accessory is unlocked
       if (!state.unlockedAccessories.includes(accessoryId)) {
-        console.error('Accessory not unlocked:', accessoryId);
+        console.error("Accessory not unlocked:", accessoryId);
         return state;
       }
 
@@ -200,16 +235,16 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
         ...character,
         currentAccessories: {
           ...character.currentAccessories,
-          [slot]: get().getAccessoryById(accessoryId)
-        }
+          [slot]: get().getAccessoryById(accessoryId),
+        },
       };
 
       return {
         ...state,
         characters: {
           ...state.characters,
-          [characterId]: updatedCharacter
-        }
+          [characterId]: updatedCharacter,
+        },
       };
     });
 
@@ -218,10 +253,10 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
     // Emit event
     get().emitCustomizationEvent({
-      type: 'accessory_equipped',
+      type: "accessory_equipped",
       characterId,
       timestamp: Date.now(),
-      data: { slot, accessoryId }
+      data: { slot, accessoryId },
     });
   },
 
@@ -234,16 +269,16 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
         ...character,
         currentAccessories: {
           ...character.currentAccessories,
-          [slot]: null
-        }
+          [slot]: null,
+        },
       };
 
       return {
         ...state,
         characters: {
           ...state.characters,
-          [characterId]: updatedCharacter
-        }
+          [characterId]: updatedCharacter,
+        },
       };
     });
   },
@@ -258,25 +293,25 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
         ...character,
         currentColors: {
           ...character.currentColors,
-          [colorType]: color
-        }
+          [colorType]: color,
+        },
       };
 
       return {
         ...state,
         characters: {
           ...state.characters,
-          [characterId]: updatedCharacter
-        }
+          [characterId]: updatedCharacter,
+        },
       };
     });
 
     // Emit event
     get().emitCustomizationEvent({
-      type: 'color_changed',
+      type: "color_changed",
       characterId,
       timestamp: Date.now(),
-      data: { colorType, color }
+      data: { colorType, color },
     });
   },
 
@@ -287,15 +322,15 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
       const updatedCharacter = {
         ...character,
-        currentColors: scheme
+        currentColors: scheme,
       };
 
       return {
         ...state,
         characters: {
           ...state.characters,
-          [characterId]: updatedCharacter
-        }
+          [characterId]: updatedCharacter,
+        },
       };
     });
 
@@ -311,7 +346,7 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
     const newOutfit: SavedOutfit = {
       id: `outfit_${Date.now()}`,
       name,
-      description: description || '',
+      description: description || "",
       characterId,
       outfit: { ...character.currentOutfit },
       accessories: { ...character.currentAccessories },
@@ -322,14 +357,14 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
       isPublic: false,
       likes: 0,
       tags: [],
-      occasion: ['daily'],
-      mood: 'happy',
-      season: 'all_season'
+      occasion: ["daily"],
+      mood: "happy",
+      season: "all_season",
     };
 
     set((state) => ({
       ...state,
-      savedOutfits: [...state.savedOutfits, newOutfit]
+      savedOutfits: [...state.savedOutfits, newOutfit],
     }));
 
     // Award experience for creativity
@@ -337,10 +372,10 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
     // Emit event
     get().emitCustomizationEvent({
-      type: 'outfit_saved',
+      type: "outfit_saved",
       characterId,
       timestamp: Date.now(),
-      data: { outfitId: newOutfit.id, name }
+      data: { outfitId: newOutfit.id, name },
     });
   },
 
@@ -364,27 +399,31 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
     // Update usage statistics
     set((state) => ({
       ...state,
-      savedOutfits: state.savedOutfits.map(o =>
+      savedOutfits: state.savedOutfits.map((o) =>
         o.id === outfitId
           ? { ...o, lastUsed: Date.now(), timesUsed: o.timesUsed + 1 }
-          : o
-      )
+          : o,
+      ),
     }));
   },
 
   deleteOutfit: (outfitId: string) => {
     set((state) => ({
       ...state,
-      savedOutfits: state.savedOutfits.filter(outfit => outfit.id !== outfitId),
-      quickSlots: state.quickSlots.map(slot =>
-        slot.outfitId === outfitId ? { ...slot, outfitId: '', characterId: '' } : slot
-      )
+      savedOutfits: state.savedOutfits.filter(
+        (outfit) => outfit.id !== outfitId,
+      ),
+      quickSlots: state.quickSlots.map((slot) =>
+        slot.outfitId === outfitId
+          ? { ...slot, outfitId: "", characterId: "" }
+          : slot,
+      ),
     }));
   },
 
   shareOutfit: (outfitId: string): string => {
     const outfit = get().getSavedOutfit(outfitId);
-    if (!outfit) return '';
+    if (!outfit) return "";
 
     // Create shareable outfit code
     const outfitData = {
@@ -392,7 +431,7 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
       outfit: outfit.outfit,
       accessories: outfit.accessories,
       colors: outfit.colors,
-      tags: outfit.tags
+      tags: outfit.tags,
     };
 
     return btoa(JSON.stringify(outfitData));
@@ -405,8 +444,8 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
       const importedOutfit: SavedOutfit = {
         id: `imported_${Date.now()}`,
         name: `${outfitData.name} (Imported)`,
-        description: 'Imported outfit',
-        characterId: '', // Will be set when applied
+        description: "Imported outfit",
+        characterId: "", // Will be set when applied
         outfit: outfitData.outfit,
         accessories: outfitData.accessories,
         colors: outfitData.colors,
@@ -415,20 +454,20 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
         timesUsed: 0,
         isPublic: false,
         likes: 0,
-        tags: [...(outfitData.tags || []), 'imported'],
-        occasion: ['daily'],
-        mood: 'happy',
-        season: 'all_season'
+        tags: [...(outfitData.tags || []), "imported"],
+        occasion: ["daily"],
+        mood: "happy",
+        season: "all_season",
       };
 
       set((state) => ({
         ...state,
-        savedOutfits: [...state.savedOutfits, importedOutfit]
+        savedOutfits: [...state.savedOutfits, importedOutfit],
       }));
 
       return importedOutfit.id;
     } catch (error) {
-      console.error('Failed to import outfit:', error);
+      console.error("Failed to import outfit:", error);
       return null;
     }
   },
@@ -440,17 +479,19 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
     set((state) => ({
       ...state,
-      quickSlots: state.quickSlots.map(slot =>
+      quickSlots: state.quickSlots.map((slot) =>
         slot.slotNumber === slotNumber
           ? { ...slot, outfitId, characterId: outfit.characterId }
-          : slot
-      )
+          : slot,
+      ),
     }));
   },
 
   useQuickSlot: (slotNumber: number) => {
     const state = get();
-    const quickSlot = state.quickSlots.find(slot => slot.slotNumber === slotNumber);
+    const quickSlot = state.quickSlots.find(
+      (slot) => slot.slotNumber === slotNumber,
+    );
 
     if (quickSlot && quickSlot.outfitId && quickSlot.characterId) {
       get().loadOutfit(quickSlot.characterId, quickSlot.outfitId);
@@ -460,26 +501,29 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
   clearQuickSlot: (slotNumber: number) => {
     set((state) => ({
       ...state,
-      quickSlots: state.quickSlots.map(slot =>
+      quickSlots: state.quickSlots.map((slot) =>
         slot.slotNumber === slotNumber
-          ? { ...slot, outfitId: '', characterId: '' }
-          : slot
-      )
+          ? { ...slot, outfitId: "", characterId: "" }
+          : slot,
+      ),
     }));
   },
 
   // Item management
-  unlockItem: (itemId: string, itemType: 'outfit' | 'accessory') => {
+  unlockItem: (itemId: string, itemType: "outfit" | "accessory") => {
     set((state) => {
-      if (itemType === 'outfit' && !state.unlockedOutfits.includes(itemId)) {
+      if (itemType === "outfit" && !state.unlockedOutfits.includes(itemId)) {
         return {
           ...state,
-          unlockedOutfits: [...state.unlockedOutfits, itemId]
+          unlockedOutfits: [...state.unlockedOutfits, itemId],
         };
-      } else if (itemType === 'accessory' && !state.unlockedAccessories.includes(itemId)) {
+      } else if (
+        itemType === "accessory" &&
+        !state.unlockedAccessories.includes(itemId)
+      ) {
         return {
           ...state,
-          unlockedAccessories: [...state.unlockedAccessories, itemId]
+          unlockedAccessories: [...state.unlockedAccessories, itemId],
         };
       }
       return state;
@@ -490,10 +534,10 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
     // Emit event
     get().emitCustomizationEvent({
-      type: 'item_unlocked',
-      characterId: '',
+      type: "item_unlocked",
+      characterId: "",
       timestamp: Date.now(),
-      data: { itemId, itemType }
+      data: { itemId, itemType },
     });
   },
 
@@ -523,14 +567,17 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
   },
 
   // Randomization
-  randomizeOutfit: (characterId: string, constraints?: RandomizationConstraints) => {
+  randomizeOutfit: (
+    characterId: string,
+    constraints?: RandomizationConstraints,
+  ) => {
     const state = get();
     const availableOutfits = state.unlockedOutfits;
     const availableAccessories = state.unlockedAccessories;
 
     // Apply constraints
-    let filteredOutfits = availableOutfits;
-    let filteredAccessories = availableAccessories;
+    const filteredOutfits = availableOutfits;
+    const filteredAccessories = availableAccessories;
 
     if (constraints?.onlyOwnedItems !== false) {
       // Already filtered to owned items
@@ -538,24 +585,36 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
     // Randomly select outfit pieces
     const randomOutfit: OutfitConfiguration = {
-      dress: get().getRandomOutfitPiece(filteredOutfits, 'dress'),
+      dress: get().getRandomOutfitPiece(filteredOutfits, "dress"),
       top: null,
       bottom: null,
-      shoes: get().getRandomOutfitPiece(filteredOutfits, 'shoes'),
-      cape: Math.random() > 0.7 ? get().getRandomOutfitPiece(filteredOutfits, 'cape') : null,
-      gloves: Math.random() > 0.5 ? get().getRandomOutfitPiece(filteredOutfits, 'gloves') : null,
-      stockings: Math.random() > 0.6 ? get().getRandomOutfitPiece(filteredOutfits, 'stockings') : null,
-      theme: constraints?.theme || 'cute',
-      formality: constraints?.formality || 'casual'
+      shoes: get().getRandomOutfitPiece(filteredOutfits, "shoes"),
+      cape:
+        Math.random() > 0.7
+          ? get().getRandomOutfitPiece(filteredOutfits, "cape")
+          : null,
+      gloves:
+        Math.random() > 0.5
+          ? get().getRandomOutfitPiece(filteredOutfits, "gloves")
+          : null,
+      stockings:
+        Math.random() > 0.6
+          ? get().getRandomOutfitPiece(filteredOutfits, "stockings")
+          : null,
+      theme: constraints?.theme || "cute",
+      formality: constraints?.formality || "casual",
     };
 
     get().equipFullOutfit(characterId, randomOutfit);
 
     // Randomize some accessories
     if (Math.random() > 0.3) {
-      const randomAccessory = get().getRandomAccessory(filteredAccessories, 'tiara');
+      const randomAccessory = get().getRandomAccessory(
+        filteredAccessories,
+        "tiara",
+      );
       if (randomAccessory) {
-        get().equipAccessory(characterId, 'tiara', randomAccessory.id);
+        get().equipAccessory(characterId, "tiara", randomAccessory.id);
       }
     }
 
@@ -565,7 +624,10 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
     }
   },
 
-  generateOutfitSuggestion: (characterId: string, occasion: OutfitOccasion): OutfitConfiguration => {
+  generateOutfitSuggestion: (
+    characterId: string,
+    occasion: OutfitOccasion,
+  ): OutfitConfiguration => {
     // This would use AI/algorithm to suggest outfits based on occasion
     // For now, return a basic suggestion
     return {
@@ -576,23 +638,23 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
       cape: null,
       gloves: null,
       stockings: null,
-      theme: 'cute',
-      formality: 'casual'
+      theme: "cute",
+      formality: "casual",
     };
   },
 
   // Analysis and stats
   calculateOutfitStats: (outfit: OutfitConfiguration): OutfitStats => {
-    let stats: OutfitStats = {
+    const stats: OutfitStats = {
       charm: 0,
       elegance: 0,
       cuteness: 0,
       coolness: 0,
-      uniqueness: 0
+      uniqueness: 0,
     };
 
     // Calculate stats based on outfit pieces
-    Object.values(outfit).forEach(piece => {
+    Object.values(outfit).forEach((piece) => {
       if (piece && piece.stats) {
         stats.charm += piece.stats.charm || 0;
         stats.elegance += piece.stats.elegance || 0;
@@ -614,24 +676,27 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
       analogous: 90,
       triadic: 60,
       suggestions: [
-        'Consider adding a complementary accent color',
-        'The current color scheme is well-balanced'
-      ]
+        "Consider adding a complementary accent color",
+        "The current color scheme is well-balanced",
+      ],
     };
   },
 
-  getStyleCompatibility: (outfit: OutfitConfiguration, accessories: AccessoryConfiguration): number => {
+  getStyleCompatibility: (
+    outfit: OutfitConfiguration,
+    accessories: AccessoryConfiguration,
+  ): number => {
     // Calculate how well the outfit and accessories work together
     let compatibility = 100;
 
     // Check theme consistency
     const outfitThemes = Object.values(outfit)
-      .filter(piece => piece !== null)
-      .map(piece => piece?.theme);
+      .filter((piece) => piece !== null)
+      .map((piece) => piece?.theme);
 
     const accessoryThemes = Object.values(accessories)
-      .filter(accessory => accessory !== null)
-      .map(accessory => accessory?.theme);
+      .filter((accessory) => accessory !== null)
+      .map((accessory) => accessory?.theme);
 
     // Simple compatibility check (would be more sophisticated in real implementation)
     const allThemes = [...outfitThemes, ...accessoryThemes];
@@ -648,22 +713,22 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
   rateOutfit: (outfitId: string, rating: number) => {
     set((state) => ({
       ...state,
-      savedOutfits: state.savedOutfits.map(outfit =>
+      savedOutfits: state.savedOutfits.map((outfit) =>
         outfit.id === outfitId
           ? { ...outfit, likes: outfit.likes + (rating > 3 ? 1 : 0) }
-          : outfit
-      )
+          : outfit,
+      ),
     }));
   },
 
   addOutfitToFavorites: (outfitId: string) => {
     set((state) => ({
       ...state,
-      savedOutfits: state.savedOutfits.map(outfit =>
+      savedOutfits: state.savedOutfits.map((outfit) =>
         outfit.id === outfitId
-          ? { ...outfit, tags: [...outfit.tags, 'favorite'] }
-          : outfit
-      )
+          ? { ...outfit, tags: [...outfit.tags, "favorite"] }
+          : outfit,
+      ),
     }));
   },
 
@@ -693,26 +758,34 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
     return true; // Placeholder
   },
 
-  getItemType: (itemId: string): 'outfit' | 'accessory' => {
+  getItemType: (itemId: string): "outfit" | "accessory" => {
     // Determine item type from ID or database
-    return itemId.includes('accessory') ? 'accessory' : 'outfit';
+    return itemId.includes("accessory") ? "accessory" : "outfit";
   },
 
   getRecipeOutput: (recipeId: string): string => {
     // Get the item ID that this recipe produces
-    return 'crafted_item_001'; // Placeholder
+    return "crafted_item_001"; // Placeholder
   },
 
   getRandomOutfitPiece: (availableItems: string[], category: string) => {
     // Filter items by category and randomly select
-    const filteredItems = availableItems.filter(item => item.includes(category));
-    return filteredItems.length > 0 ? { id: filteredItems[Math.floor(Math.random() * filteredItems.length)] } : null;
+    const filteredItems = availableItems.filter((item) =>
+      item.includes(category),
+    );
+    return filteredItems.length > 0
+      ? { id: filteredItems[Math.floor(Math.random() * filteredItems.length)] }
+      : null;
   },
 
   getRandomAccessory: (availableItems: string[], category: string) => {
     // Similar to getRandomOutfitPiece but for accessories
-    const filteredItems = availableItems.filter(item => item.includes(category));
-    return filteredItems.length > 0 ? { id: filteredItems[Math.floor(Math.random() * filteredItems.length)] } : null;
+    const filteredItems = availableItems.filter((item) =>
+      item.includes(category),
+    );
+    return filteredItems.length > 0
+      ? { id: filteredItems[Math.floor(Math.random() * filteredItems.length)] }
+      : null;
   },
 
   randomizeColors: (characterId: string) => {
@@ -720,7 +793,8 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
     const availableColors = state.unlockedColors;
 
     const randomColor = (): Color => {
-      const colorString = availableColors[Math.floor(Math.random() * availableColors.length)];
+      const colorString =
+        availableColors[Math.floor(Math.random() * availableColors.length)];
       // Convert hex string to Color object
       return { r: 255, g: 0, b: 0, a: 1 }; // Placeholder conversion
     };
@@ -732,7 +806,7 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
       primaryOutfitColor: randomColor(),
       secondaryOutfitColor: randomColor(),
       accentColor: randomColor(),
-      metalTone: 'gold'
+      metalTone: "gold",
     };
 
     get().applyColorScheme(characterId, randomColors);
@@ -750,23 +824,23 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
         // Emit level up event
         get().emitCustomizationEvent({
-          type: 'fashion_level_up',
-          characterId: '',
+          type: "fashion_level_up",
+          characterId: "",
           timestamp: Date.now(),
-          data: { newLevel, previousLevel: state.fashionLevel }
+          data: { newLevel, previousLevel: state.fashionLevel },
         });
 
         return {
           ...state,
           fashionLevel: newLevel,
           fashionExperience: remainingExperience,
-          customizationPoints: state.customizationPoints + (newLevel * 10) // Bonus points
+          customizationPoints: state.customizationPoints + newLevel * 10, // Bonus points
         };
       }
 
       return {
         ...state,
-        fashionExperience: newExperience
+        fashionExperience: newExperience,
       };
     });
   },
@@ -782,14 +856,17 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
     if (currentSetId) {
       // Check if all pieces of the set are equipped
-      const setComplete = get().isSetComplete(character.currentOutfit, currentSetId);
+      const setComplete = get().isSetComplete(
+        character.currentOutfit,
+        currentSetId,
+      );
 
       if (setComplete) {
         set((state) => {
           if (!state.completedSets.includes(currentSetId)) {
             return {
               ...state,
-              completedSets: [...state.completedSets, currentSetId]
+              completedSets: [...state.completedSets, currentSetId],
             };
           }
           return state;
@@ -797,10 +874,10 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
         // Emit set completion event
         get().emitCustomizationEvent({
-          type: 'set_completed',
+          type: "set_completed",
           characterId: character.characterId,
           timestamp: Date.now(),
-          data: { setId: currentSetId }
+          data: { setId: currentSetId },
         });
       }
     }
@@ -814,6 +891,6 @@ export const createCustomizationSlice: StateCreator<CustomizationSlice> = (set, 
 
   emitCustomizationEvent: (event: CustomizationEvent) => {
     // Emit customization events for other systems to listen to
-    console.log('Customization event:', event);
-  }
+    console.log("Customization event:", event);
+  },
 });

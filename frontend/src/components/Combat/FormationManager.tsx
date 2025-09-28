@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import type { CombatFormation } from '../../types/combat';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Card } from "../ui/Card";
+import type { CombatFormation } from "../../types/combat";
 
 interface FormationManagerProps {
   formations: CombatFormation[];
@@ -19,29 +18,43 @@ interface FormationCardProps {
 const FormationCard: React.FC<FormationCardProps> = ({
   formation,
   isActive,
-  onSelect
+  onSelect,
 }) => {
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'Offensive': return 'from-red-600 to-red-700';
-      case 'Defensive': return 'from-blue-600 to-blue-700';
-      case 'Balanced': return 'from-green-600 to-green-700';
-      case 'Support': return 'from-purple-600 to-purple-700';
-      case 'Elemental': return 'from-yellow-600 to-yellow-700';
-      case 'Specialist': return 'from-cyan-600 to-cyan-700';
-      default: return 'from-gray-600 to-gray-700';
+      case "Offensive":
+        return "from-red-600 to-red-700";
+      case "Defensive":
+        return "from-blue-600 to-blue-700";
+      case "Balanced":
+        return "from-green-600 to-green-700";
+      case "Support":
+        return "from-purple-600 to-purple-700";
+      case "Elemental":
+        return "from-yellow-600 to-yellow-700";
+      case "Specialist":
+        return "from-cyan-600 to-cyan-700";
+      default:
+        return "from-gray-600 to-gray-700";
     }
   };
 
   const getRoleIcon = (role: string) => {
     switch (role) {
-      case 'Tank': return '🛡️';
-      case 'Damage': return '⚔️';
-      case 'Support': return '✨';
-      case 'Healer': return '💚';
-      case 'Buffer': return '📈';
-      case 'Debuffer': return '📉';
-      default: return '🔄';
+      case "Tank":
+        return "🛡️";
+      case "Damage":
+        return "⚔️";
+      case "Support":
+        return "✨";
+      case "Healer":
+        return "💚";
+      case "Buffer":
+        return "📈";
+      case "Debuffer":
+        return "📉";
+      default:
+        return "🔄";
     }
   };
 
@@ -51,19 +64,21 @@ const FormationCard: React.FC<FormationCardProps> = ({
       whileTap={{ scale: 0.98 }}
       className={`
         relative cursor-pointer transition-all duration-200
-        ${isActive ? 'transform scale-105' : ''}
+        ${isActive ? "transform scale-105" : ""}
       `}
       onClick={onSelect}
     >
       <Card
         className={`p-4 ${
           isActive
-            ? 'border-yellow-400 bg-yellow-400 bg-opacity-20 shadow-lg'
-            : 'border-gray-600 hover:border-gray-500'
+            ? "border-yellow-400 bg-yellow-400 bg-opacity-20 shadow-lg"
+            : "border-gray-600 hover:border-gray-500"
         }`}
       >
         {/* Category Background */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${getCategoryColor(formation.category)} opacity-10 rounded-lg`} />
+        <div
+          className={`absolute inset-0 bg-gradient-to-br ${getCategoryColor(formation.category)} opacity-10 rounded-lg`}
+        />
 
         <div className="relative z-10 space-y-4">
           {/* Header */}
@@ -72,7 +87,9 @@ const FormationCard: React.FC<FormationCardProps> = ({
               <h3 className="font-bold text-white">{formation.name}</h3>
               <div className="text-sm text-gray-400">{formation.category}</div>
             </div>
-            <div className={`px-2 py-1 rounded text-xs font-bold bg-gradient-to-r ${getCategoryColor(formation.category)}`}>
+            <div
+              className={`px-2 py-1 rounded text-xs font-bold bg-gradient-to-r ${getCategoryColor(formation.category)}`}
+            >
               {formation.category}
             </div>
           </div>
@@ -86,41 +103,46 @@ const FormationCard: React.FC<FormationCardProps> = ({
           <div className="bg-gray-800 bg-opacity-50 p-3 rounded-lg">
             <div className="text-xs text-gray-400 mb-2">Formation Layout</div>
             <div className="grid grid-cols-3 gap-1">
-              {[1, 2, 3].map(row => (
-                [1, 2, 3].map(column => {
+              {[1, 2, 3].map((row) =>
+                [1, 2, 3].map((column) => {
                   const position = formation.positions.find(
-                    p => p.row === row && p.column === column
+                    (p) => p.row === row && p.column === column,
                   );
                   return (
                     <div
                       key={`${row}-${column}`}
                       className={`
                         aspect-square rounded border flex items-center justify-center text-xs
-                        ${position
-                          ? 'border-purple-400 bg-purple-900 bg-opacity-30 text-white'
-                          : 'border-gray-600 bg-gray-700 bg-opacity-30 text-gray-500'
+                        ${
+                          position
+                            ? "border-purple-400 bg-purple-900 bg-opacity-30 text-white"
+                            : "border-gray-600 bg-gray-700 bg-opacity-30 text-gray-500"
                         }
                       `}
                     >
                       {position ? (
                         <div className="text-center">
                           <div>{getRoleIcon(position.role)}</div>
-                          <div className="text-xs">{position.role.slice(0, 3)}</div>
+                          <div className="text-xs">
+                            {position.role.slice(0, 3)}
+                          </div>
                         </div>
                       ) : (
-                        '○'
+                        "○"
                       )}
                     </div>
                   );
-                })
-              ))}
+                }),
+              )}
             </div>
           </div>
 
           {/* Formation Bonuses */}
           {formation.bonuses.length > 0 && (
             <div>
-              <div className="text-sm text-yellow-400 font-semibold mb-2">Bonuses</div>
+              <div className="text-sm text-yellow-400 font-semibold mb-2">
+                Bonuses
+              </div>
               <div className="space-y-1">
                 {formation.bonuses.slice(0, 2).map((bonus, index) => (
                   <div key={index} className="text-xs text-gray-300">
@@ -140,7 +162,9 @@ const FormationCard: React.FC<FormationCardProps> = ({
           {/* Requirements */}
           {formation.requirements.length > 0 && (
             <div>
-              <div className="text-sm text-orange-400 font-semibold mb-1">Requirements</div>
+              <div className="text-sm text-orange-400 font-semibold mb-1">
+                Requirements
+              </div>
               <div className="space-y-1">
                 {formation.requirements.slice(0, 2).map((req, index) => (
                   <div key={index} className="text-xs text-gray-400">
@@ -189,18 +213,21 @@ const FormationCard: React.FC<FormationCardProps> = ({
 export const FormationManager: React.FC<FormationManagerProps> = ({
   formations,
   activeFormation,
-  onSetFormation
+  onSetFormation,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  const categories = ['All', ...Array.from(new Set(formations.map(f => f.category)))];
-  const filteredFormations = formations.filter(formation => {
-    if (selectedCategory === 'All') return true;
+  const categories = [
+    "All",
+    ...Array.from(new Set(formations.map((f) => f.category))),
+  ];
+  const filteredFormations = formations.filter((formation) => {
+    if (selectedCategory === "All") return true;
     return formation.category === selectedCategory;
   });
 
-  const unlockedFormations = filteredFormations.filter(f => f.isUnlocked);
-  const lockedFormations = filteredFormations.filter(f => !f.isUnlocked);
+  const unlockedFormations = filteredFormations.filter((f) => f.isUnlocked);
+  const lockedFormations = filteredFormations.filter((f) => !f.isUnlocked);
 
   return (
     <div className="space-y-6">
@@ -219,7 +246,8 @@ export const FormationManager: React.FC<FormationManagerProps> = ({
             <div className="text-right">
               <div className="text-sm text-gray-400">Active Formation</div>
               <div className="text-lg font-semibold text-yellow-400">
-                {formations.find(f => f.id === activeFormation)?.name || 'Unknown'}
+                {formations.find((f) => f.id === activeFormation)?.name ||
+                  "Unknown"}
               </div>
             </div>
           )}
@@ -233,9 +261,10 @@ export const FormationManager: React.FC<FormationManagerProps> = ({
               onClick={() => setSelectedCategory(category)}
               className={`
                 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                ${selectedCategory === category
-                  ? 'bg-purple-600 text-white shadow-lg'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                ${
+                  selectedCategory === category
+                    ? "bg-purple-600 text-white shadow-lg"
+                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                 }
               `}
             >
@@ -248,7 +277,9 @@ export const FormationManager: React.FC<FormationManagerProps> = ({
       {/* Available Formations */}
       {unlockedFormations.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Available Formations</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">
+            Available Formations
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {unlockedFormations.map((formation) => (
               <FormationCard
@@ -265,7 +296,9 @@ export const FormationManager: React.FC<FormationManagerProps> = ({
       {/* Locked Formations */}
       {lockedFormations.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-gray-400 mb-4">Locked Formations</h3>
+          <h3 className="text-lg font-semibold text-gray-400 mb-4">
+            Locked Formations
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {lockedFormations.map((formation) => (
               <div key={formation.id} className="relative">
@@ -299,10 +332,9 @@ export const FormationManager: React.FC<FormationManagerProps> = ({
             No Formations Found
           </h3>
           <p className="text-gray-500">
-            {selectedCategory === 'All'
-              ? 'No formations are available.'
-              : `No formations found in the ${selectedCategory} category.`
-            }
+            {selectedCategory === "All"
+              ? "No formations are available."
+              : `No formations found in the ${selectedCategory} category.`}
           </p>
         </Card>
       )}
@@ -313,34 +345,46 @@ export const FormationManager: React.FC<FormationManagerProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Position Roles */}
           <div>
-            <h4 className="text-md font-semibold text-purple-400 mb-3">Position Roles</h4>
+            <h4 className="text-md font-semibold text-purple-400 mb-3">
+              Position Roles
+            </h4>
             <div className="space-y-2 text-sm">
               <div className="flex items-center space-x-2">
                 <span>🛡️</span>
                 <span className="text-white">Tank:</span>
-                <span className="text-gray-400">High defense, protects allies</span>
+                <span className="text-gray-400">
+                  High defense, protects allies
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <span>⚔️</span>
                 <span className="text-white">Damage:</span>
-                <span className="text-gray-400">High attack, focuses on eliminating enemies</span>
+                <span className="text-gray-400">
+                  High attack, focuses on eliminating enemies
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <span>✨</span>
                 <span className="text-white">Support:</span>
-                <span className="text-gray-400">Provides utility and assistance</span>
+                <span className="text-gray-400">
+                  Provides utility and assistance
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <span>💚</span>
                 <span className="text-white">Healer:</span>
-                <span className="text-gray-400">Restores health and removes debuffs</span>
+                <span className="text-gray-400">
+                  Restores health and removes debuffs
+                </span>
               </div>
             </div>
           </div>
 
           {/* Formation Tips */}
           <div>
-            <h4 className="text-md font-semibold text-purple-400 mb-3">Formation Tips</h4>
+            <h4 className="text-md font-semibold text-purple-400 mb-3">
+              Formation Tips
+            </h4>
             <div className="space-y-2 text-sm text-gray-400">
               <div>• Front row characters receive more attacks</div>
               <div>• Back row characters are safer but have limited range</div>

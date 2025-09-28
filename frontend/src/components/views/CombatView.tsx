@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useGameStore } from '../../stores/gameStore';
-import { BattleArena } from '../Combat/BattleArena';
-import { TeamSetup } from '../Combat/TeamSetup';
-import { CombatHistory } from '../Combat/CombatHistory';
-import { FormationManager } from '../Combat/FormationManager';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import type { BattleType } from '../../types/combat';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useGameStore } from "../../stores/gameStore";
+import { BattleArena } from "../Combat/BattleArena";
+import { TeamSetup } from "../Combat/TeamSetup";
+import { CombatHistory } from "../Combat/CombatHistory";
+import { FormationManager } from "../Combat/FormationManager";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import type { BattleType, CombatParticipant } from "../../types/combat";
 
 export const CombatView: React.FC = () => {
   const {
@@ -15,51 +15,53 @@ export const CombatView: React.FC = () => {
     magicalGirls,
     startBattle,
     setFormation,
-    addNotification
+    addNotification,
   } = useGameStore();
 
-  const [selectedTab, setSelectedTab] = useState<'arena' | 'setup' | 'formations' | 'history'>('arena');
+  const [selectedTab, setSelectedTab] = useState<
+    "arena" | "setup" | "formations" | "history"
+  >("arena");
   const [selectedTeam, setSelectedTeam] = useState<string[]>([]);
-  const [battleType, setBattleType] = useState<BattleType>('Training');
+  const [battleType, setBattleType] = useState<BattleType>("Training");
 
-  const availableGirls = magicalGirls.filter(girl => girl.isUnlocked);
+  const availableGirls = magicalGirls.filter((girl) => girl.isUnlocked);
 
   const handleStartBattle = async () => {
     if (selectedTeam.length === 0) {
       addNotification({
-        type: 'warning',
-        title: 'No Team Selected',
-        message: 'Please select at least one magical girl for your team'
+        type: "warning",
+        title: "No Team Selected",
+        message: "Please select at least one magical girl for your team",
       });
       return;
     }
 
     const playerTeam = selectedTeam
-      .map(id => magicalGirls.find(girl => girl.id === id))
-      .filter(girl => girl !== undefined);
+      .map((id) => magicalGirls.find((girl) => girl.id === id))
+      .filter((girl) => girl !== undefined);
 
     // Generate enemy team based on battle type
     const enemyTeam = generateEnemyTeam(battleType, playerTeam);
 
     try {
       const battleId = await startBattle(battleType, enemyTeam, playerTeam);
-      setSelectedTab('arena');
+      setSelectedTab("arena");
 
       addNotification({
-        type: 'success',
-        title: 'Battle Started!',
-        message: `${battleType} battle has begun!`
+        type: "success",
+        title: "Battle Started!",
+        message: `${battleType} battle has begun!`,
       });
     } catch (error) {
       addNotification({
-        type: 'error',
-        title: 'Battle Failed',
-        message: 'Unable to start battle. Please try again.'
+        type: "error",
+        title: "Battle Failed",
+        message: "Unable to start battle. Please try again.",
       });
     }
   };
 
-  const generateEnemyTeam = (type: BattleType, playerTeam: any[]) => {
+  const generateEnemyTeam = (type: BattleType, playerTeam: CombatParticipant[]) => {
     // Generate enemy team based on player team strength and battle type
     const enemyCount = Math.min(playerTeam.length, 3);
     const enemies = [];
@@ -75,8 +77,8 @@ export const CombatView: React.FC = () => {
           power: Math.floor(playerGirl.stats.power * 0.9),
           defense: Math.floor(playerGirl.stats.defense * 0.9),
           speed: Math.floor(playerGirl.stats.speed * 0.9),
-          magic: Math.floor(playerGirl.stats.magic * 0.9)
-        }
+          magic: Math.floor(playerGirl.stats.magic * 0.9),
+        },
       };
       enemies.push(enemy);
     }
@@ -85,10 +87,10 @@ export const CombatView: React.FC = () => {
   };
 
   const tabs = [
-    { id: 'arena' as const, name: 'Battle Arena', icon: '⚔️' },
-    { id: 'setup' as const, name: 'Team Setup', icon: '👥' },
-    { id: 'formations' as const, name: 'Formations', icon: '🔷' },
-    { id: 'history' as const, name: 'History', icon: '📊' }
+    { id: "arena" as const, name: "Battle Arena", icon: "⚔️" },
+    { id: "setup" as const, name: "Team Setup", icon: "👥" },
+    { id: "formations" as const, name: "Formations", icon: "🔷" },
+    { id: "history" as const, name: "History", icon: "📊" },
   ];
 
   return (
@@ -98,9 +100,7 @@ export const CombatView: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white">
-                ⚔️ Combat Arena
-              </h1>
+              <h1 className="text-3xl font-bold text-white">⚔️ Combat Arena</h1>
               <p className="text-red-200 text-sm">
                 Engage in strategic turn-based battles!
               </p>
@@ -139,8 +139,8 @@ export const CombatView: React.FC = () => {
                 onClick={() => setSelectedTab(tab.id)}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
                   selectedTab === tab.id
-                    ? 'bg-red-600 text-white shadow-lg'
-                    : 'bg-red-800 bg-opacity-50 text-red-200 hover:bg-red-700 hover:bg-opacity-70'
+                    ? "bg-red-600 text-white shadow-lg"
+                    : "bg-red-800 bg-opacity-50 text-red-200 hover:bg-red-700 hover:bg-opacity-70"
                 }`}
               >
                 <span>{tab.icon}</span>
@@ -154,7 +154,7 @@ export const CombatView: React.FC = () => {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <AnimatePresence mode="wait">
-          {selectedTab === 'arena' && (
+          {selectedTab === "arena" && (
             <motion.div
               key="arena"
               initial={{ opacity: 0, y: 20 }}
@@ -174,7 +174,7 @@ export const CombatView: React.FC = () => {
                   </p>
                   <Button
                     variant="primary"
-                    onClick={() => setSelectedTab('setup')}
+                    onClick={() => setSelectedTab("setup")}
                     className="px-6 py-3"
                   >
                     Setup Team
@@ -184,7 +184,7 @@ export const CombatView: React.FC = () => {
             </motion.div>
           )}
 
-          {selectedTab === 'setup' && (
+          {selectedTab === "setup" && (
             <motion.div
               key="setup"
               initial={{ opacity: 0, y: 20 }}
@@ -202,7 +202,7 @@ export const CombatView: React.FC = () => {
             </motion.div>
           )}
 
-          {selectedTab === 'formations' && (
+          {selectedTab === "formations" && (
             <motion.div
               key="formations"
               initial={{ opacity: 0, y: 20 }}
@@ -217,7 +217,7 @@ export const CombatView: React.FC = () => {
             </motion.div>
           )}
 
-          {selectedTab === 'history' && (
+          {selectedTab === "history" && (
             <motion.div
               key="history"
               initial={{ opacity: 0, y: 20 }}
@@ -236,13 +236,16 @@ export const CombatView: React.FC = () => {
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="text-white">
-                <span className="text-red-400 font-semibold">Turn:</span> {combatSystem.activeBattle.currentTurn}
+                <span className="text-red-400 font-semibold">Turn:</span>{" "}
+                {combatSystem.activeBattle.currentTurn}
               </div>
               <div className="text-white">
-                <span className="text-purple-400 font-semibold">Phase:</span> {combatSystem.activeBattle.turnOrder.phase}
+                <span className="text-purple-400 font-semibold">Phase:</span>{" "}
+                {combatSystem.activeBattle.turnOrder.phase}
               </div>
               <div className="text-white">
-                <span className="text-yellow-400 font-semibold">Status:</span> {combatSystem.activeBattle.status}
+                <span className="text-yellow-400 font-semibold">Status:</span>{" "}
+                {combatSystem.activeBattle.status}
               </div>
             </div>
 

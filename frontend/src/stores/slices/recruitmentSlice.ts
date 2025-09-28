@@ -1,5 +1,5 @@
 // Recruitment system slice - Gacha and summoning functionality
-import type { StateCreator } from 'zustand';
+import type { StateCreator } from "zustand";
 import type {
   RecruitmentSystem,
   RecruitmentBanner,
@@ -10,10 +10,10 @@ import type {
   BannerType,
   RecruitmentCurrencies,
   GachaRates,
-  Rarity
-} from '../../types/recruitment';
-import type { MagicalGirl } from '../../types/magicalGirl';
-import { RECRUITMENT_CONFIG } from '../../data/recruitmentConfig';
+  Rarity,
+} from "../../types/recruitment";
+import type { MagicalGirl } from "../../types/magicalGirl";
+import { RECRUITMENT_CONFIG } from "../../data/recruitmentConfig";
 
 export interface RecruitmentSlice {
   // State
@@ -37,7 +37,10 @@ export interface RecruitmentSlice {
   // Gacha mechanics
   rollRarity: (bannerId: string, pityCounter: number) => Rarity;
   selectCharacter: (bannerId: string, rarity: Rarity) => MagicalGirl;
-  applyGuarantees: (bannerId: string, results: SummonResult[]) => SummonResult[];
+  applyGuarantees: (
+    bannerId: string,
+    results: SummonResult[],
+  ) => SummonResult[];
 
   // Banner management
   activateBanner: (bannerId: string) => void;
@@ -87,54 +90,57 @@ export const createRecruitmentSlice: StateCreator<
       summonTickets: 10,
       rareTickets: 1,
       legendaryTickets: 0,
-      dreamshards: 500
+      dreamshards: 500,
     },
     banners: [],
     activeBanners: [],
     pityCounters: {},
     summonHistory: [],
-    guaranteedCounter: {}
+    guaranteedCounter: {},
   },
 
   currentSession: null,
   isAnimating: false,
   animationQueue: [],
 
-  initializeRecruitment: () => set((state) => {
-    const banners = RECRUITMENT_CONFIG.banners.map(banner => ({
-      ...banner,
-      isActive: banner.startDate <= Date.now() && (!banner.endDate || banner.endDate > Date.now())
-    }));
+  initializeRecruitment: () =>
+    set((state) => {
+      const banners = RECRUITMENT_CONFIG.banners.map((banner) => ({
+        ...banner,
+        isActive:
+          banner.startDate <= Date.now() &&
+          (!banner.endDate || banner.endDate > Date.now()),
+      }));
 
-    const activeBanners = banners.filter(b => b.isActive).map(b => b.id);
+      const activeBanners = banners.filter((b) => b.isActive).map((b) => b.id);
 
-    const pityCounters: { [bannerId: string]: PityCounter } = {};
-    banners.forEach(banner => {
-      if (banner.pitySystem.enabled) {
-        pityCounters[banner.id] = {
-          current: 0,
-          max: banner.pitySystem.maxCounter,
-          lastReset: Date.now()
-        };
-      }
-    });
+      const pityCounters: { [bannerId: string]: PityCounter } = {};
+      banners.forEach((banner) => {
+        if (banner.pitySystem.enabled) {
+          pityCounters[banner.id] = {
+            current: 0,
+            max: banner.pitySystem.maxCounter,
+            lastReset: Date.now(),
+          };
+        }
+      });
 
-    return {
-      recruitmentSystem: {
-        ...state.recruitmentSystem,
-        banners,
-        activeBanners,
-        pityCounters
-      }
-    };
-  }),
+      return {
+        recruitmentSystem: {
+          ...state.recruitmentSystem,
+          banners,
+          activeBanners,
+          pityCounters,
+        },
+      };
+    }),
 
   performSummon: async (bannerId: string, count: number) => {
     const state = get();
     const banner = state.getBanner(bannerId);
 
     if (!banner || !state.canAffordSummon(bannerId, count)) {
-      throw new Error('Cannot perform summon');
+      throw new Error("Cannot perform summon");
     }
 
     // Start session if not already started
@@ -165,13 +171,13 @@ export const createRecruitmentSlice: StateCreator<
       results: finalResults,
       cost: banner.costs.single, // TODO: Calculate actual cost
       pityCounter: state.recruitmentSystem.pityCounters[bannerId]?.current || 0,
-      wasGuaranteed: finalResults.some(r => r.wasGuaranteed)
+      wasGuaranteed: finalResults.some((r) => r.wasGuaranteed),
     };
 
     state.addSummonRecord(record);
 
     // Add new characters to collection
-    finalResults.forEach(result => {
+    finalResults.forEach((result) => {
       if (result.isNew) {
         get().addMagicalGirl(result.character);
       }
@@ -188,15 +194,18 @@ export const createRecruitmentSlice: StateCreator<
     const banner = state.getBanner(bannerId);
 
     if (!banner) {
-      throw new Error('Banner not found');
+      throw new Error("Banner not found");
     }
 
     // Check pity activation
     const pityActive = state.checkPityActivation(bannerId);
 
     // Roll rarity
-    const pityCounter = state.recruitmentSystem.pityCounters[bannerId]?.current || 0;
-    const rarity = pityActive ? banner.pitySystem.targetRarity : state.rollRarity(bannerId, pityCounter);
+    const pityCounter =
+      state.recruitmentSystem.pityCounters[bannerId]?.current || 0;
+    const rarity = pityActive
+      ? banner.pitySystem.targetRarity
+      : state.rollRarity(bannerId, pityCounter);
 
     // Select character
     const character = state.selectCharacter(bannerId, rarity);
@@ -211,7 +220,10 @@ export const createRecruitmentSlice: StateCreator<
 
     // Increment pity counter
     if (banner.pitySystem.enabled) {
-      if (rarity === banner.pitySystem.targetRarity && banner.pitySystem.resetOnPull) {
+      if (
+        rarity === banner.pitySystem.targetRarity &&
+        banner.pitySystem.resetOnPull
+      ) {
         state.resetPity(bannerId);
       } else {
         state.incrementPity(bannerId);
@@ -226,8 +238,8 @@ export const createRecruitmentSlice: StateCreator<
       isDuplicate,
       wasFeatured,
       wasGuaranteed: pityActive,
-      rarityAnimation: rarity === 'Legendary' || rarity === 'Mythical',
-      position: 0
+      rarityAnimation: rarity === "Legendary" || rarity === "Mythical",
+      position: 0,
     };
 
     return result;
@@ -249,8 +261,8 @@ export const createRecruitmentSlice: StateCreator<
         duplicates: 0,
         pityActivated: false,
         guaranteesActivated: [],
-        satisfaction: 0
-      }
+        satisfaction: 0,
+      },
     });
 
     return sessionId;
@@ -263,8 +275,8 @@ export const createRecruitmentSlice: StateCreator<
           currentSession: {
             ...state.currentSession,
             endTime: Date.now(),
-            satisfaction
-          }
+            satisfaction,
+          },
         };
       }
       return state;
@@ -276,40 +288,42 @@ export const createRecruitmentSlice: StateCreator<
     }, 1000);
   },
 
-  incrementPity: (bannerId: string) => set((state) => {
-    const pityCounters = { ...state.recruitmentSystem.pityCounters };
-    if (pityCounters[bannerId]) {
-      pityCounters[bannerId] = {
-        ...pityCounters[bannerId],
-        current: pityCounters[bannerId].current + 1
-      };
-    }
-
-    return {
-      recruitmentSystem: {
-        ...state.recruitmentSystem,
-        pityCounters
+  incrementPity: (bannerId: string) =>
+    set((state) => {
+      const pityCounters = { ...state.recruitmentSystem.pityCounters };
+      if (pityCounters[bannerId]) {
+        pityCounters[bannerId] = {
+          ...pityCounters[bannerId],
+          current: pityCounters[bannerId].current + 1,
+        };
       }
-    };
-  }),
 
-  resetPity: (bannerId: string) => set((state) => {
-    const pityCounters = { ...state.recruitmentSystem.pityCounters };
-    if (pityCounters[bannerId]) {
-      pityCounters[bannerId] = {
-        ...pityCounters[bannerId],
-        current: 0,
-        lastReset: Date.now()
+      return {
+        recruitmentSystem: {
+          ...state.recruitmentSystem,
+          pityCounters,
+        },
       };
-    }
+    }),
 
-    return {
-      recruitmentSystem: {
-        ...state.recruitmentSystem,
-        pityCounters
+  resetPity: (bannerId: string) =>
+    set((state) => {
+      const pityCounters = { ...state.recruitmentSystem.pityCounters };
+      if (pityCounters[bannerId]) {
+        pityCounters[bannerId] = {
+          ...pityCounters[bannerId],
+          current: 0,
+          lastReset: Date.now(),
+        };
       }
-    };
-  }),
+
+      return {
+        recruitmentSystem: {
+          ...state.recruitmentSystem,
+          pityCounters,
+        },
+      };
+    }),
 
   checkPityActivation: (bannerId: string) => {
     const state = get();
@@ -328,16 +342,20 @@ export const createRecruitmentSlice: StateCreator<
     const banner = state.getBanner(bannerId);
 
     if (!banner) {
-      return 'Common' as Rarity;
+      return "Common" as Rarity;
     }
 
     const rates = { ...banner.rates };
 
     // Apply soft pity if configured
-    if (banner.pitySystem.softPity && pityCounter >= banner.pitySystem.softPity.startAt) {
+    if (
+      banner.pitySystem.softPity &&
+      pityCounter >= banner.pitySystem.softPity.startAt
+    ) {
       const softPityBonus = Math.min(
-        (pityCounter - banner.pitySystem.softPity.startAt) * banner.pitySystem.softPity.rateIncrease,
-        banner.pitySystem.softPity.maxIncrease
+        (pityCounter - banner.pitySystem.softPity.startAt) *
+          banner.pitySystem.softPity.rateIncrease,
+        banner.pitySystem.softPity.maxIncrease,
       );
       rates[banner.pitySystem.targetRarity] += softPityBonus;
     }
@@ -345,13 +363,23 @@ export const createRecruitmentSlice: StateCreator<
     // Normalize rates
     const totalRate = Object.values(rates).reduce((sum, rate) => sum + rate, 0);
     const normalizedRates = Object.fromEntries(
-      Object.entries(rates).map(([rarity, rate]) => [rarity, (rate / totalRate) * 100])
+      Object.entries(rates).map(([rarity, rate]) => [
+        rarity,
+        (rate / totalRate) * 100,
+      ]),
     ) as GachaRates;
 
     const roll = Math.random() * 100;
     let currentRate = 0;
 
-    const rarities: Rarity[] = ['Mythical', 'Legendary', 'Epic', 'Rare', 'Uncommon', 'Common'];
+    const rarities: Rarity[] = [
+      "Mythical",
+      "Legendary",
+      "Epic",
+      "Rare",
+      "Uncommon",
+      "Common",
+    ];
 
     for (const rarity of rarities) {
       currentRate += normalizedRates[rarity];
@@ -360,7 +388,7 @@ export const createRecruitmentSlice: StateCreator<
       }
     }
 
-    return 'Common';
+    return "Common";
   },
 
   selectCharacter: (bannerId: string, rarity: Rarity) => {
@@ -368,32 +396,35 @@ export const createRecruitmentSlice: StateCreator<
     const banner = state.getBanner(bannerId);
 
     if (!banner) {
-      throw new Error('Banner not found');
+      throw new Error("Banner not found");
     }
 
     // Get available characters for this rarity
-    const availableCharacters = RECRUITMENT_CONFIG.characterPool
-      .filter(char => char.rarity === rarity);
+    const availableCharacters = RECRUITMENT_CONFIG.characterPool.filter(
+      (char) => char.rarity === rarity,
+    );
 
     if (availableCharacters.length === 0) {
       throw new Error(`No characters available for rarity: ${rarity}`);
     }
 
     // Prefer featured characters if available
-    const featuredChars = availableCharacters.filter(char =>
-      banner.featuredGirls.includes(char.id)
+    const featuredChars = availableCharacters.filter((char) =>
+      banner.featuredGirls.includes(char.id),
     );
 
-    const candidates = featuredChars.length > 0 && Math.random() < 0.7
-      ? featuredChars
-      : availableCharacters;
+    const candidates =
+      featuredChars.length > 0 && Math.random() < 0.7
+        ? featuredChars
+        : availableCharacters;
 
-    const selectedTemplate = candidates[Math.floor(Math.random() * candidates.length)];
+    const selectedTemplate =
+      candidates[Math.floor(Math.random() * candidates.length)];
 
     // Create magical girl instance from template
     const character: MagicalGirl = {
       ...selectedTemplate,
-      id: selectedTemplate.id + '_' + Date.now(),
+      id: selectedTemplate.id + "_" + Date.now(),
       level: 1,
       experience: 0,
       experienceToNext: 100,
@@ -402,7 +433,7 @@ export const createRecruitmentSlice: StateCreator<
       favoriteLevel: 0,
       totalMissionsCompleted: 0,
       bondLevel: 1,
-      bondExperience: 0
+      bondExperience: 0,
     };
 
     return character;
@@ -416,15 +447,18 @@ export const createRecruitmentSlice: StateCreator<
       return results;
     }
 
-    let modifiedResults = [...results];
+    const modifiedResults = [...results];
 
     // Apply banner guarantees
-    banner.guarantees.forEach(guarantee => {
+    banner.guarantees.forEach((guarantee) => {
       // Implementation would depend on specific guarantee type
       // This is a simplified version
-      if (guarantee.type === 'minimum_rarity' && guarantee.currentTriggers < (guarantee.maxTriggers || Infinity)) {
-        const hasMinimumRarity = results.some(r =>
-          ['Epic', 'Legendary', 'Mythical'].includes(r.rarity)
+      if (
+        guarantee.type === "minimum_rarity" &&
+        guarantee.currentTriggers < (guarantee.maxTriggers || Infinity)
+      ) {
+        const hasMinimumRarity = results.some((r) =>
+          ["Epic", "Legendary", "Mythical"].includes(r.rarity),
         );
 
         if (!hasMinimumRarity && results.length >= 10) {
@@ -432,9 +466,9 @@ export const createRecruitmentSlice: StateCreator<
           const lastIndex = results.length - 1;
           modifiedResults[lastIndex] = {
             ...modifiedResults[lastIndex],
-            rarity: 'Epic',
+            rarity: "Epic",
             wasGuaranteed: true,
-            rarityAnimation: true
+            rarityAnimation: true,
           };
         }
       }
@@ -443,29 +477,35 @@ export const createRecruitmentSlice: StateCreator<
     return modifiedResults;
   },
 
-  activateBanner: (bannerId: string) => set((state) => ({
-    recruitmentSystem: {
-      ...state.recruitmentSystem,
-      activeBanners: [...state.recruitmentSystem.activeBanners, bannerId]
-    }
-  })),
+  activateBanner: (bannerId: string) =>
+    set((state) => ({
+      recruitmentSystem: {
+        ...state.recruitmentSystem,
+        activeBanners: [...state.recruitmentSystem.activeBanners, bannerId],
+      },
+    })),
 
-  deactivateBanner: (bannerId: string) => set((state) => ({
-    recruitmentSystem: {
-      ...state.recruitmentSystem,
-      activeBanners: state.recruitmentSystem.activeBanners.filter(id => id !== bannerId)
-    }
-  })),
+  deactivateBanner: (bannerId: string) =>
+    set((state) => ({
+      recruitmentSystem: {
+        ...state.recruitmentSystem,
+        activeBanners: state.recruitmentSystem.activeBanners.filter(
+          (id) => id !== bannerId,
+        ),
+      },
+    })),
 
   getBanner: (bannerId: string) => {
     const state = get();
-    return state.recruitmentSystem.banners.find(banner => banner.id === bannerId);
+    return state.recruitmentSystem.banners.find(
+      (banner) => banner.id === bannerId,
+    );
   },
 
   getActiveBanners: () => {
     const state = get();
-    return state.recruitmentSystem.banners.filter(banner =>
-      state.recruitmentSystem.activeBanners.includes(banner.id)
+    return state.recruitmentSystem.banners.filter((banner) =>
+      state.recruitmentSystem.activeBanners.includes(banner.id),
     );
   },
 
@@ -480,7 +520,8 @@ export const createRecruitmentSlice: StateCreator<
     const cost = count === 1 ? banner.costs.single : banner.costs.ten;
     const primaryCost = cost.primary;
 
-    const availableAmount = state.recruitmentSystem.currencies[primaryCost.currency];
+    const availableAmount =
+      state.recruitmentSystem.currencies[primaryCost.currency];
     const totalCost = primaryCost.amount * (count === 10 ? 1 : count);
 
     return availableAmount >= totalCost;
@@ -503,36 +544,40 @@ export const createRecruitmentSlice: StateCreator<
         ...currentState.recruitmentSystem,
         currencies: {
           ...currentState.recruitmentSystem.currencies,
-          [primaryCost.currency]: currentState.recruitmentSystem.currencies[primaryCost.currency] - totalCost
-        }
-      }
+          [primaryCost.currency]:
+            currentState.recruitmentSystem.currencies[primaryCost.currency] -
+            totalCost,
+        },
+      },
     }));
 
     return true;
   },
 
-  addRecruitmentCurrency: (currency: Partial<RecruitmentCurrencies>) => set((state) => {
-    const newCurrencies = { ...state.recruitmentSystem.currencies };
+  addRecruitmentCurrency: (currency: Partial<RecruitmentCurrencies>) =>
+    set((state) => {
+      const newCurrencies = { ...state.recruitmentSystem.currencies };
 
-    Object.entries(currency).forEach(([key, value]) => {
-      if (value && key in newCurrencies) {
-        const currencyKey = key as keyof RecruitmentCurrencies;
-        newCurrencies[currencyKey] += value;
-      }
-    });
+      Object.entries(currency).forEach(([key, value]) => {
+        if (value && key in newCurrencies) {
+          const currencyKey = key as keyof RecruitmentCurrencies;
+          newCurrencies[currencyKey] += value;
+        }
+      });
 
-    return {
-      recruitmentSystem: {
-        ...state.recruitmentSystem,
-        currencies: newCurrencies
-      }
-    };
-  }),
+      return {
+        recruitmentSystem: {
+          ...state.recruitmentSystem,
+          currencies: newCurrencies,
+        },
+      };
+    }),
 
-  startAnimation: (results: SummonResult[]) => set({
-    isAnimating: true,
-    animationQueue: [...results]
-  }),
+  startAnimation: (results: SummonResult[]) =>
+    set({
+      isAnimating: true,
+      animationQueue: [...results],
+    }),
 
   nextAnimation: () => {
     const state = get();
@@ -551,28 +596,33 @@ export const createRecruitmentSlice: StateCreator<
     return next;
   },
 
-  skipAnimation: () => set({
-    isAnimating: false,
-    animationQueue: []
-  }),
+  skipAnimation: () =>
+    set({
+      isAnimating: false,
+      animationQueue: [],
+    }),
 
-  clearAnimationQueue: () => set({
-    animationQueue: []
-  }),
+  clearAnimationQueue: () =>
+    set({
+      animationQueue: [],
+    }),
 
-  addSummonRecord: (record: SummonRecord) => set((state) => ({
-    recruitmentSystem: {
-      ...state.recruitmentSystem,
-      summonHistory: [...state.recruitmentSystem.summonHistory, record].slice(-1000) // Keep last 1000 records
-    }
-  })),
+  addSummonRecord: (record: SummonRecord) =>
+    set((state) => ({
+      recruitmentSystem: {
+        ...state.recruitmentSystem,
+        summonHistory: [...state.recruitmentSystem.summonHistory, record].slice(
+          -1000,
+        ), // Keep last 1000 records
+      },
+    })),
 
   getSummonHistory: (bannerId?: string) => {
     const state = get();
     const history = state.recruitmentSystem.summonHistory;
 
     if (bannerId) {
-      return history.filter(record => record.bannerId === bannerId);
+      return history.filter((record) => record.bannerId === bannerId);
     }
 
     return history;
@@ -583,19 +633,25 @@ export const createRecruitmentSlice: StateCreator<
     const history = state.recruitmentSystem.summonHistory;
 
     // Calculate statistics from summon history
-    const totalPulls = history.reduce((sum, record) => sum + record.results.length, 0);
-    const rarityStats = history.reduce((stats, record) => {
-      record.results.forEach(result => {
-        stats[result.rarity] = (stats[result.rarity] || 0) + 1;
-      });
-      return stats;
-    }, {} as Record<Rarity, number>);
+    const totalPulls = history.reduce(
+      (sum, record) => sum + record.results.length,
+      0,
+    );
+    const rarityStats = history.reduce(
+      (stats, record) => {
+        record.results.forEach((result) => {
+          stats[result.rarity] = (stats[result.rarity] || 0) + 1;
+        });
+        return stats;
+      },
+      {} as Record<Rarity, number>,
+    );
 
     return {
       totalPulls,
       rarityStats,
       totalSessions: history.length,
-      averagePulls: history.length > 0 ? totalPulls / history.length : 0
+      averagePulls: history.length > 0 ? totalPulls / history.length : 0,
     };
   },
 
@@ -612,5 +668,5 @@ export const createRecruitmentSlice: StateCreator<
   getWishlistBonus: (characterId: string) => {
     // TODO: Implement wishlist system
     return 0;
-  }
+  },
 });

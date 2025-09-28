@@ -6,14 +6,14 @@ export const GAME_CONFIG = {
     ENERGY_REGENERATION: 2,
     EXPERIENCE_MULTIPLIER: 1,
   },
-  
+
   // Level progression
   LEVEL_PROGRESSION: {
     BASE_EXP: 100,
     EXP_MULTIPLIER: 1.5,
     MAX_LEVEL: 100,
   },
-  
+
   // Mission timers (in minutes)
   MISSION_DURATION: {
     TUTORIAL: 5,
@@ -22,28 +22,28 @@ export const GAME_CONFIG = {
     HARD: 60,
     BOSS: 90,
   },
-  
+
   // Training costs and durations
   TRAINING: {
     BASE_COST: 10,
     COST_MULTIPLIER: 1.2,
     BASE_DURATION: 10, // minutes
   },
-  
+
   // Achievement thresholds
   ACHIEVEMENTS: {
     MISSIONS_COMPLETED: [1, 5, 10, 25, 50, 100],
     LEVEL_REACHED: [5, 10, 20, 30, 50, 75, 100],
     TOTAL_MANA_SPENT: [100, 500, 1000, 5000, 10000],
   },
-  
+
   // UI Settings
   UI: {
     NOTIFICATION_DURATION: 3000, // ms
     AUTO_SAVE_INTERVAL: 30000, // ms
     ANIMATION_DURATION: 300, // ms
   },
-  
+
   // Game balance
   BALANCE: {
     STARTING_MANA: 100,
@@ -55,19 +55,19 @@ export const GAME_CONFIG = {
 } as const;
 
 export const VIEWS = {
-  DASHBOARD: 'dashboard',
-  MAGICAL_GIRLS: 'collection',
-  RECRUITMENT: 'recruitment',
-  COMBAT: 'combat',
-  TRAINING: 'training',
-  MISSIONS: 'missions',
-  ACHIEVEMENTS: 'achievements',
-  SKILL_TREE: 'skill-tree',
-  CUSTOMIZATION: 'customization',
-  PRESTIGE: 'prestige',
-  SAVE_SYSTEM: 'save-system',
-  ENHANCED_SETTINGS: 'enhanced-settings',
-  SETTINGS: 'settings',
+  DASHBOARD: "dashboard",
+  MAGICAL_GIRLS: "collection",
+  RECRUITMENT: "recruitment",
+  COMBAT: "combat",
+  TRAINING: "training",
+  MISSIONS: "missions",
+  ACHIEVEMENTS: "achievements",
+  SKILL_TREE: "skill-tree",
+  CUSTOMIZATION: "customization",
+  PRESTIGE: "prestige",
+  SAVE_SYSTEM: "save-system",
+  ENHANCED_SETTINGS: "enhanced-settings",
+  SETTINGS: "settings",
 } as const;
 
-export type ViewType = typeof VIEWS[keyof typeof VIEWS];
+export type ViewType = (typeof VIEWS)[keyof typeof VIEWS];

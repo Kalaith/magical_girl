@@ -1,8 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import type { CombatParticipant, CombatAction } from '../../types/combat';
+import React from "react";
+import { motion } from "framer-motion";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import type { CombatParticipant, CombatAction } from "../../types/combat";
 
 interface ActionPanelProps {
   participant: CombatParticipant;
@@ -18,32 +18,40 @@ interface ActionButtonProps {
   isSelected: boolean;
   isDisabled: boolean;
   onClick: () => void;
+  participant: CombatParticipant;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   action,
   isSelected,
   isDisabled,
-  onClick
+  onClick,
+  participant,
 }) => {
   const getActionColor = (type: string) => {
     switch (type) {
-      case 'Attack': return 'from-red-600 to-red-700';
-      case 'Spell': return 'from-purple-600 to-purple-700';
-      case 'Ability': return 'from-blue-600 to-blue-700';
-      case 'Item': return 'from-green-600 to-green-700';
-      case 'Special': return 'from-yellow-600 to-yellow-700';
-      default: return 'from-gray-600 to-gray-700';
+      case "Attack":
+        return "from-red-600 to-red-700";
+      case "Spell":
+        return "from-purple-600 to-purple-700";
+      case "Ability":
+        return "from-blue-600 to-blue-700";
+      case "Item":
+        return "from-green-600 to-green-700";
+      case "Special":
+        return "from-yellow-600 to-yellow-700";
+      default:
+        return "from-gray-600 to-gray-700";
     }
   };
 
   const canAfford = () => {
     // Check if participant can afford the action costs
-    return action.costs.every(cost => {
+    return action.costs.every((cost) => {
       switch (cost.resource) {
-        case 'mana':
+        case "mana":
           return participant.currentStats.mana >= cost.amount;
-        case 'health':
+        case "health":
           return participant.currentStats.health >= cost.amount;
         default:
           return true;
@@ -59,11 +67,12 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     <motion.button
       className={`
         relative p-3 rounded-lg border-2 text-left transition-all duration-200
-        ${isSelected
-          ? 'border-yellow-400 bg-yellow-400 bg-opacity-20'
-          : 'border-gray-600 hover:border-gray-500'
+        ${
+          isSelected
+            ? "border-yellow-400 bg-yellow-400 bg-opacity-20"
+            : "border-gray-600 hover:border-gray-500"
         }
-        ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+        ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
       `}
       onClick={disabled ? undefined : onClick}
       whileHover={disabled ? {} : { scale: 1.02 }}
@@ -71,7 +80,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       disabled={disabled}
     >
       {/* Action Icon and Background */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${getActionColor(action.type)} opacity-20 rounded-lg`} />
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${getActionColor(action.type)} opacity-20 rounded-lg`}
+      />
 
       <div className="relative z-10">
         {/* Header */}
@@ -82,7 +93,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
           </div>
 
           {/* Action Type Badge */}
-          <div className={`px-2 py-1 rounded text-xs font-bold bg-gradient-to-r ${getActionColor(action.type)}`}>
+          <div
+            className={`px-2 py-1 rounded text-xs font-bold bg-gradient-to-r ${getActionColor(action.type)}`}
+          >
             {action.type}
           </div>
         </div>
@@ -98,13 +111,17 @@ const ActionButton: React.FC<ActionButtonProps> = ({
             {action.costs.map((cost, index) => (
               <div key={index} className="flex items-center space-x-1 text-xs">
                 <span className="text-gray-400">{cost.resource}:</span>
-                <span className={`font-semibold ${
-                  cost.resource === 'mana' && participant.currentStats.mana < cost.amount
-                    ? 'text-red-400'
-                    : cost.resource === 'health' && participant.currentStats.health < cost.amount
-                    ? 'text-red-400'
-                    : 'text-white'
-                }`}>
+                <span
+                  className={`font-semibold ${
+                    cost.resource === "mana" &&
+                    participant.currentStats.mana < cost.amount
+                      ? "text-red-400"
+                      : cost.resource === "health" &&
+                          participant.currentStats.health < cost.amount
+                        ? "text-red-400"
+                        : "text-white"
+                  }`}
+                >
                   {cost.amount}
                 </span>
               </div>
@@ -115,12 +132,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         {/* Additional Info */}
         <div className="flex items-center justify-between text-xs text-gray-400">
           <div className="flex items-center space-x-3">
-            {action.range > 0 && (
-              <span>Range: {action.range}</span>
-            )}
-            {action.cooldown > 0 && (
-              <span>Cooldown: {action.cooldown}</span>
-            )}
+            {action.range > 0 && <span>Range: {action.range}</span>}
+            {action.cooldown > 0 && <span>Cooldown: {action.cooldown}</span>}
           </div>
 
           {/* Current Cooldown */}
@@ -164,10 +177,12 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
   selectedAction,
   onActionSelect,
   targetMode,
-  onCancelTarget
+  onCancelTarget,
 }) => {
   const getHealthPercentage = () => {
-    return (participant.currentStats.health / participant.maxStats.health) * 100;
+    return (
+      (participant.currentStats.health / participant.maxStats.health) * 100
+    );
   };
 
   const getManaPercentage = () => {
@@ -199,7 +214,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
             <div className="w-full bg-gray-700 rounded-full h-2">
               <motion.div
                 className="bg-red-500 h-2 rounded-full"
-                initial={{ width: '100%' }}
+                initial={{ width: "100%" }}
                 animate={{ width: `${getHealthPercentage()}%` }}
                 transition={{ duration: 0.3 }}
               />
@@ -217,7 +232,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
             <div className="w-full bg-gray-700 rounded-full h-2">
               <motion.div
                 className="bg-blue-500 h-2 rounded-full"
-                initial={{ width: '100%' }}
+                initial={{ width: "100%" }}
                 animate={{ width: `${getManaPercentage()}%` }}
                 transition={{ duration: 0.3 }}
               />
@@ -241,11 +256,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
                   {selectedAction.targeting.type} targeting
                 </div>
               </div>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={onCancelTarget}
-              >
+              <Button variant="secondary" size="sm" onClick={onCancelTarget}>
                 Cancel
               </Button>
             </div>
@@ -254,7 +265,9 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
 
         {/* Actions */}
         <div>
-          <h4 className="text-md font-semibold text-white mb-3">Available Actions</h4>
+          <h4 className="text-md font-semibold text-white mb-3">
+            Available Actions
+          </h4>
 
           {availableActions.length === 0 ? (
             <div className="text-center py-8">
@@ -270,6 +283,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
                   isSelected={selectedAction?.id === action.id}
                   isDisabled={targetMode && selectedAction?.id !== action.id}
                   onClick={() => onActionSelect(action)}
+                  participant={participant}
                 />
               ))}
             </div>
@@ -284,7 +298,8 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
               <span className="text-purple-400 font-semibold">Transformed</span>
               <div className="flex-1" />
               <span className="text-sm text-gray-400">
-                {participant.transformationCharges}/{participant.maxTransformationCharges} charges
+                {participant.transformationCharges}/
+                {participant.maxTransformationCharges} charges
               </span>
             </div>
           </div>
@@ -294,19 +309,27 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div>
             <div className="text-gray-400">Attack</div>
-            <div className="text-white font-semibold">{participant.currentStats.attack}</div>
+            <div className="text-white font-semibold">
+              {participant.currentStats.attack}
+            </div>
           </div>
           <div>
             <div className="text-gray-400">Defense</div>
-            <div className="text-white font-semibold">{participant.currentStats.defense}</div>
+            <div className="text-white font-semibold">
+              {participant.currentStats.defense}
+            </div>
           </div>
           <div>
             <div className="text-gray-400">Speed</div>
-            <div className="text-white font-semibold">{participant.currentStats.speed}</div>
+            <div className="text-white font-semibold">
+              {participant.currentStats.speed}
+            </div>
           </div>
           <div>
             <div className="text-gray-400">Accuracy</div>
-            <div className="text-white font-semibold">{participant.currentStats.accuracy}%</div>
+            <div className="text-white font-semibold">
+              {participant.currentStats.accuracy}%
+            </div>
           </div>
         </div>
       </div>

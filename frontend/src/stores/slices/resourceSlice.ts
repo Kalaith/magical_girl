@@ -1,12 +1,12 @@
 // Resource management slice - Single Responsibility Principle
-import type { StateCreator } from 'zustand';
-import type { Resources } from '../../types';
-import { GAME_CONFIG } from '../../data/gameConfig';
+import type { StateCreator } from "zustand";
+import type { Resources } from "../../types";
+import { GAME_CONFIG } from "../../data/gameConfig";
 
 export interface ResourceSlice {
   // State
   resources: Resources;
-  
+
   // Actions
   addResources: (resources: Partial<Resources>) => void;
   spendResources: (resources: Partial<Resources>) => boolean;
@@ -36,50 +36,55 @@ export const createResourceSlice: StateCreator<
     summonTickets: 10,
     rareTickets: 1,
     legendaryTickets: 0,
-    dreamshards: 200
+    dreamshards: 200,
   },
-  
-  addResources: (resourceUpdates) => set((state) => {
-    const newResources = { ...state.resources };
-    
-    Object.entries(resourceUpdates).forEach(([key, value]) => {
-      if (value && key in newResources) {
-        const resourceKey = key as keyof Resources;
-        const current = newResources[resourceKey] as number;
-        const valueToAdd = value as number;
-        
-        if (resourceKey === 'experience') {
-          newResources.experience = current + valueToAdd;
-          // Check for level up
-          const requiredExp = 100 * Math.pow(1.5, newResources.level - 1);
-          if (newResources.experience >= requiredExp) {
-            get().levelUp();
-          }
-        } else {
-          const maxKey = `max${resourceKey.charAt(0).toUpperCase() + resourceKey.slice(1)}` as keyof typeof GAME_CONFIG.resourceLimits;
-          const max = GAME_CONFIG.resourceLimits[maxKey];
-          
-          if (max !== undefined) {
-            newResources[resourceKey] = Math.min(current + valueToAdd, max) as any;
+
+  addResources: (resourceUpdates) =>
+    set((state) => {
+      const newResources = { ...state.resources };
+
+      Object.entries(resourceUpdates).forEach(([key, value]) => {
+        if (value && key in newResources) {
+          const resourceKey = key as keyof Resources;
+          const current = newResources[resourceKey] as number;
+          const valueToAdd = value as number;
+
+          if (resourceKey === "experience") {
+            newResources.experience = current + valueToAdd;
+            // Check for level up
+            const requiredExp = 100 * Math.pow(1.5, newResources.level - 1);
+            if (newResources.experience >= requiredExp) {
+              get().levelUp();
+            }
           } else {
-            newResources[resourceKey] = current + valueToAdd as any;
+            const maxKey =
+              `max${resourceKey.charAt(0).toUpperCase() + resourceKey.slice(1)}` as keyof typeof GAME_CONFIG.resourceLimits;
+            const max = GAME_CONFIG.resourceLimits[maxKey];
+
+            if (max !== undefined) {
+              newResources[resourceKey] = Math.min(
+                current + valueToAdd,
+                max,
+              ) as any;
+            } else {
+              newResources[resourceKey] = (current + valueToAdd) as any;
+            }
           }
         }
-      }
-    });
-    
-    return { resources: newResources };
-  }),
-  
+      });
+
+      return { resources: newResources };
+    }),
+
   spendResources: (resourceCosts) => {
     const state = get();
     if (!state.canAfford(resourceCosts)) {
       return false;
     }
-    
+
     set((currentState) => {
       const newResources = { ...currentState.resources };
-      
+
       Object.entries(resourceCosts).forEach(([key, value]) => {
         if (value && key in newResources) {
           const resourceKey = key as keyof Resources;
@@ -88,13 +93,13 @@ export const createResourceSlice: StateCreator<
           newResources[resourceKey] = Math.max(0, current - cost) as any;
         }
       });
-      
+
       return { resources: newResources };
     });
-    
+
     return true;
   },
-  
+
   canAfford: (resourceCosts) => {
     const state = get();
     return Object.entries(resourceCosts).every(([key, value]) => {
@@ -104,5 +109,5 @@ export const createResourceSlice: StateCreator<
       const cost = value as number;
       return current >= cost;
     });
-  }
+  },
 });

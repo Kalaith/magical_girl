@@ -1,9 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import type { RecruitmentBanner, BannerType } from '../../types/recruitment';
-import { useGameStore } from '../../stores/gameStore';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
+import React from "react";
+import { motion } from "framer-motion";
+import type { RecruitmentBanner, BannerType } from "../../types/recruitment";
+import { useGameStore } from "../../stores/gameStore";
+import { Button } from "../ui/Button";
+import { Card } from "../ui/Card";
 
 interface RecruitmentBannerProps {
   banner: RecruitmentBanner;
@@ -13,41 +13,43 @@ interface RecruitmentBannerProps {
 
 const getBannerTypeColor = (type: BannerType): string => {
   switch (type) {
-    case 'Standard':
-      return 'from-blue-500 to-blue-700';
-    case 'Limited':
-      return 'from-purple-500 to-pink-600';
-    case 'Event':
-      return 'from-green-500 to-emerald-600';
-    case 'Newcomer':
-      return 'from-cyan-500 to-blue-500';
-    case 'Seasonal':
-      return 'from-orange-500 to-red-500';
-    case 'Collaboration':
-      return 'from-indigo-500 to-purple-600';
-    case 'Rerun':
-      return 'from-gray-500 to-gray-700';
+    case "Standard":
+      return "from-blue-500 to-blue-700";
+    case "Limited":
+      return "from-purple-500 to-pink-600";
+    case "Event":
+      return "from-green-500 to-emerald-600";
+    case "Newcomer":
+      return "from-cyan-500 to-blue-500";
+    case "Seasonal":
+      return "from-orange-500 to-red-500";
+    case "Collaboration":
+      return "from-indigo-500 to-purple-600";
+    case "Rerun":
+      return "from-gray-500 to-gray-700";
     default:
-      return 'from-blue-500 to-blue-700';
+      return "from-blue-500 to-blue-700";
   }
 };
 
-const getBannerTypeBadge = (type: BannerType): { text: string; color: string } => {
+const getBannerTypeBadge = (
+  type: BannerType,
+): { text: string; color: string } => {
   switch (type) {
-    case 'Limited':
-      return { text: 'LIMITED', color: 'bg-purple-600' };
-    case 'Event':
-      return { text: 'EVENT', color: 'bg-green-600' };
-    case 'Newcomer':
-      return { text: 'NEW PLAYER', color: 'bg-cyan-600' };
-    case 'Seasonal':
-      return { text: 'SEASONAL', color: 'bg-orange-600' };
-    case 'Collaboration':
-      return { text: 'COLLAB', color: 'bg-indigo-600' };
-    case 'Rerun':
-      return { text: 'RERUN', color: 'bg-gray-600' };
+    case "Limited":
+      return { text: "LIMITED", color: "bg-purple-600" };
+    case "Event":
+      return { text: "EVENT", color: "bg-green-600" };
+    case "Newcomer":
+      return { text: "NEW PLAYER", color: "bg-cyan-600" };
+    case "Seasonal":
+      return { text: "SEASONAL", color: "bg-orange-600" };
+    case "Collaboration":
+      return { text: "COLLAB", color: "bg-indigo-600" };
+    case "Rerun":
+      return { text: "RERUN", color: "bg-gray-600" };
     default:
-      return { text: 'STANDARD', color: 'bg-blue-600' };
+      return { text: "STANDARD", color: "bg-blue-600" };
   }
 };
 
@@ -55,10 +57,12 @@ const formatTimeRemaining = (endDate: number): string => {
   const now = Date.now();
   const remaining = endDate - now;
 
-  if (remaining <= 0) return 'Expired';
+  if (remaining <= 0) return "Expired";
 
   const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const hours = Math.floor(
+    (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+  );
   const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
 
   if (days > 0) return `${days}d ${hours}h`;
@@ -69,7 +73,7 @@ const formatTimeRemaining = (endDate: number): string => {
 export const RecruitmentBanner: React.FC<RecruitmentBannerProps> = ({
   banner,
   onSummon,
-  className
+  className,
 }) => {
   const { canAffordSummon, recruitmentSystem } = useGameStore();
 
@@ -89,14 +93,14 @@ export const RecruitmentBanner: React.FC<RecruitmentBannerProps> = ({
     >
       <Card
         className={`relative overflow-hidden ${
-          isExpired ? 'opacity-50 grayscale' : ''
+          isExpired ? "opacity-50 grayscale" : ""
         }`}
         hoverable={!isExpired}
       >
         {/* Background gradient */}
         <div
           className={`absolute inset-0 bg-gradient-to-br ${getBannerTypeColor(
-            banner.type
+            banner.type,
           )} opacity-20`}
         />
 
@@ -142,7 +146,9 @@ export const RecruitmentBanner: React.FC<RecruitmentBannerProps> = ({
                     key={girlId}
                     className="px-2 py-1 bg-yellow-400 bg-opacity-20 text-yellow-200 text-xs rounded border border-yellow-400 border-opacity-30"
                   >
-                    {girlId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    {girlId
+                      .replace(/_/g, " ")
+                      .replace(/\b\w/g, (l) => l.toUpperCase())}
                   </div>
                 ))}
                 {banner.featuredGirls.length > 4 && (
@@ -163,7 +169,9 @@ export const RecruitmentBanner: React.FC<RecruitmentBannerProps> = ({
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
                   <span className="text-yellow-400">★★★★★</span>
-                  <span className="text-gray-300">{banner.rates.Legendary}%</span>
+                  <span className="text-gray-300">
+                    {banner.rates.Legendary}%
+                  </span>
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="text-purple-400">★★★★</span>
@@ -192,11 +200,13 @@ export const RecruitmentBanner: React.FC<RecruitmentBannerProps> = ({
                     <div
                       className="bg-orange-400 h-2 rounded-full transition-all duration-300"
                       style={{
-                        width: `${(pityCounter.current / pityCounter.max) * 100}%`
+                        width: `${(pityCounter.current / pityCounter.max) * 100}%`,
                       }}
                     />
                   </div>
-                  {pityCounter.current >= (banner.pitySystem.softPity?.startAt || pityCounter.max) && (
+                  {pityCounter.current >=
+                    (banner.pitySystem.softPity?.startAt ||
+                      pityCounter.max) && (
                     <div className="text-orange-400 text-xs mt-1 animate-pulse">
                       Soft pity active!
                     </div>
@@ -214,7 +224,8 @@ export const RecruitmentBanner: React.FC<RecruitmentBannerProps> = ({
                 <div>
                   <div className="text-white font-semibold">Single Summon</div>
                   <div className="text-xs text-gray-300">
-                    {banner.costs.single.primary.amount} {banner.costs.single.primary.displayName}
+                    {banner.costs.single.primary.amount}{" "}
+                    {banner.costs.single.primary.displayName}
                   </div>
                 </div>
                 <Button
@@ -233,11 +244,20 @@ export const RecruitmentBanner: React.FC<RecruitmentBannerProps> = ({
                 <div>
                   <div className="text-white font-semibold">Ten Summon</div>
                   <div className="text-xs text-gray-300">
-                    {banner.costs.ten.primary.amount} {banner.costs.ten.primary.displayName}
+                    {banner.costs.ten.primary.amount}{" "}
+                    {banner.costs.ten.primary.displayName}
                   </div>
-                  {banner.guarantees.some(g => g.type === 'minimum_rarity') && (
+                  {banner.guarantees.some(
+                    (g) => g.type === "minimum_rarity",
+                  ) && (
                     <div className="text-xs text-yellow-400">
-                      ⭐ Guaranteed {banner.guarantees.find(g => g.type === 'minimum_rarity')?.reward.value}+
+                      ⭐ Guaranteed{" "}
+                      {
+                        banner.guarantees.find(
+                          (g) => g.type === "minimum_rarity",
+                        )?.reward.value
+                      }
+                      +
                     </div>
                   )}
                 </div>
@@ -257,9 +277,7 @@ export const RecruitmentBanner: React.FC<RecruitmentBannerProps> = ({
           {/* Expired overlay */}
           {isExpired && (
             <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
-              <div className="text-white text-xl font-bold">
-                BANNER EXPIRED
-              </div>
+              <div className="text-white text-xl font-bold">BANNER EXPIRED</div>
             </div>
           )}
         </div>

@@ -1,20 +1,24 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useGameStore } from '../../stores/gameStore';
+import React, { useState, useCallback, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useGameStore } from "../../stores/gameStore";
 import type {
   CharacterPrestige,
   PrestigePerk,
   PrestigeMilestone,
   PrestigeGoal,
-  PrestigeSimulation
-} from '../../types';
+  PrestigeSimulation,
+} from "../../types";
 
 interface PrestigeTierCardProps {
-  tier: 'prestige' | 'rebirth' | 'transcendence';
+  tier: "prestige" | "rebirth" | "transcendence";
   character: CharacterPrestige;
   onPrestige: () => void;
   canPrestige: boolean;
-  costs: any;
+  costs: {
+    currency: string;
+    amount: number;
+    type: string;
+  }[];
 }
 
 const PrestigeTierCard: React.FC<PrestigeTierCardProps> = ({
@@ -22,27 +26,27 @@ const PrestigeTierCard: React.FC<PrestigeTierCardProps> = ({
   character,
   onPrestige,
   canPrestige,
-  costs
+  costs,
 }) => {
   const tierData = {
     prestige: {
-      title: 'Prestige',
-      color: 'from-blue-500 to-purple-600',
-      icon: '⭐',
-      description: 'Reset progress to gain permanent bonuses'
+      title: "Prestige",
+      color: "from-blue-500 to-purple-600",
+      icon: "⭐",
+      description: "Reset progress to gain permanent bonuses",
     },
     rebirth: {
-      title: 'Rebirth',
-      color: 'from-purple-500 to-pink-600',
-      icon: '🔮',
-      description: 'Advanced reset with enhanced rewards'
+      title: "Rebirth",
+      color: "from-purple-500 to-pink-600",
+      icon: "🔮",
+      description: "Advanced reset with enhanced rewards",
     },
     transcendence: {
-      title: 'Transcendence',
-      color: 'from-pink-500 to-red-600',
-      icon: '✨',
-      description: 'Ultimate evolution beyond mortal limits'
-    }
+      title: "Transcendence",
+      color: "from-pink-500 to-red-600",
+      icon: "✨",
+      description: "Ultimate evolution beyond mortal limits",
+    },
   };
 
   const data = tierData[tier];
@@ -62,10 +66,15 @@ const PrestigeTierCard: React.FC<PrestigeTierCardProps> = ({
 
       <div className="space-y-3">
         <div className="text-center">
-          <div className="text-2xl font-bold text-white">Level {currentLevel}</div>
+          <div className="text-2xl font-bold text-white">
+            Level {currentLevel}
+          </div>
           {currentLevel > 0 && (
             <div className="text-sm text-gray-300">
-              Total {data.title}s: {character[`total${data.title.charAt(0).toUpperCase() + data.title.slice(1)}s`] || 0}
+              Total {data.title}s:{" "}
+              {character[
+                `total${data.title.charAt(0).toUpperCase() + data.title.slice(1)}s`
+              ] || 0}
             </div>
           )}
         </div>
@@ -90,7 +99,7 @@ const PrestigeTierCard: React.FC<PrestigeTierCardProps> = ({
           className={`w-full py-3 px-4 rounded-lg font-semibold transition-all ${
             canPrestige
               ? `bg-gradient-to-r ${data.color} hover:scale-105 text-white`
-              : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+              : "bg-gray-600 text-gray-400 cursor-not-allowed"
           }`}
         >
           {canPrestige ? `${data.title} Now!` : `Cannot ${data.title} Yet`}
@@ -111,32 +120,38 @@ const PrestigePerkCard: React.FC<PrestigePerkCardProps> = ({
   perk,
   isUnlocked,
   canUnlock,
-  onUnlock
+  onUnlock,
 }) => {
   const rarityColors = {
-    common: 'border-gray-500 bg-gray-800',
-    uncommon: 'border-green-500 bg-green-900 bg-opacity-20',
-    rare: 'border-blue-500 bg-blue-900 bg-opacity-20',
-    epic: 'border-purple-500 bg-purple-900 bg-opacity-20',
-    legendary: 'border-yellow-500 bg-yellow-900 bg-opacity-20'
+    common: "border-gray-500 bg-gray-800",
+    uncommon: "border-green-500 bg-green-900 bg-opacity-20",
+    rare: "border-blue-500 bg-blue-900 bg-opacity-20",
+    epic: "border-purple-500 bg-purple-900 bg-opacity-20",
+    legendary: "border-yellow-500 bg-yellow-900 bg-opacity-20",
   };
 
   return (
     <motion.div
       className={`p-4 rounded-lg border-2 ${rarityColors[perk.rarity]} ${
-        isUnlocked ? 'ring-2 ring-green-400' : ''
+        isUnlocked ? "ring-2 ring-green-400" : ""
       }`}
       whileHover={{ scale: 1.02 }}
     >
       <div className="flex items-center justify-between mb-3">
         <h4 className="font-bold text-white">{perk.name}</h4>
-        <span className={`px-2 py-1 rounded text-xs font-semibold ${
-          perk.rarity === 'common' ? 'bg-gray-600 text-white' :
-          perk.rarity === 'uncommon' ? 'bg-green-600 text-white' :
-          perk.rarity === 'rare' ? 'bg-blue-600 text-white' :
-          perk.rarity === 'epic' ? 'bg-purple-600 text-white' :
-          'bg-yellow-600 text-black'
-        }`}>
+        <span
+          className={`px-2 py-1 rounded text-xs font-semibold ${
+            perk.rarity === "common"
+              ? "bg-gray-600 text-white"
+              : perk.rarity === "uncommon"
+                ? "bg-green-600 text-white"
+                : perk.rarity === "rare"
+                  ? "bg-blue-600 text-white"
+                  : perk.rarity === "epic"
+                    ? "bg-purple-600 text-white"
+                    : "bg-yellow-600 text-black"
+          }`}
+        >
           {perk.rarity.toUpperCase()}
         </span>
       </div>
@@ -168,8 +183,8 @@ const PrestigePerkCard: React.FC<PrestigePerkCardProps> = ({
             disabled={!canUnlock}
             className={`px-3 py-1 rounded text-sm font-semibold ${
               canUnlock
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-gray-600 text-gray-400 cursor-not-allowed"
             }`}
           >
             Unlock
@@ -177,7 +192,9 @@ const PrestigePerkCard: React.FC<PrestigePerkCardProps> = ({
         )}
 
         {isUnlocked && (
-          <span className="text-green-400 text-sm font-semibold">✓ Unlocked</span>
+          <span className="text-green-400 text-sm font-semibold">
+            ✓ Unlocked
+          </span>
         )}
       </div>
     </motion.div>
@@ -189,14 +206,19 @@ interface MilestoneProgressProps {
   currentProgress: number;
 }
 
-const MilestoneProgress: React.FC<MilestoneProgressProps> = ({ milestone, currentProgress }) => {
+const MilestoneProgress: React.FC<MilestoneProgressProps> = ({
+  milestone,
+  currentProgress,
+}) => {
   const progress = Math.min(currentProgress / milestone.requirement, 1);
   const isCompleted = progress >= 1;
 
   return (
     <motion.div
       className={`p-4 rounded-lg border ${
-        isCompleted ? 'border-green-500 bg-green-900 bg-opacity-20' : 'border-gray-600 bg-gray-800'
+        isCompleted
+          ? "border-green-500 bg-green-900 bg-opacity-20"
+          : "border-gray-600 bg-gray-800"
       }`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -212,12 +234,13 @@ const MilestoneProgress: React.FC<MilestoneProgressProps> = ({ milestone, curren
         <div className="flex justify-between text-sm mb-1">
           <span className="text-gray-400">Progress</span>
           <span className="text-white">
-            {currentProgress.toLocaleString()} / {milestone.requirement.toLocaleString()}
+            {currentProgress.toLocaleString()} /{" "}
+            {milestone.requirement.toLocaleString()}
           </span>
         </div>
         <div className="w-full bg-gray-700 rounded-full h-2">
           <motion.div
-            className={`h-2 rounded-full ${isCompleted ? 'bg-green-500' : 'bg-blue-500'}`}
+            className={`h-2 rounded-full ${isCompleted ? "bg-green-500" : "bg-blue-500"}`}
             initial={{ width: 0 }}
             animate={{ width: `${progress * 100}%` }}
             transition={{ duration: 0.5 }}
@@ -242,25 +265,56 @@ const MilestoneProgress: React.FC<MilestoneProgressProps> = ({ milestone, curren
 };
 
 export const PrestigePanel: React.FC = () => {
-  const {
-    prestigeState,
-    canPrestige,
-    canRebirth,
-    canTranscend,
-    prestigeCharacter,
-    rebirthCharacter,
-    transcendCharacter,
-    unlockPrestigePerk,
-    simulatePrestige,
-    generatePrestigeStrategy
-  } = useGameStore();
+  // Temporary mock data until store methods are implemented
+  const prestigeState = {
+    characters: [
+      {
+        characterId: "1",
+        prestigeLevel: 0,
+        rebirthLevel: 0,
+        transcendenceLevel: 0,
+        prestigePoints: 100,
+        eternityShards: 0,
+        transcendentEssence: 0,
+        permanentBonuses: [],
+        unlockedPerks: [],
+        totalPrestiges: 0,
+        totalRebirths: 0,
+        totalTranscendences: 0,
+      },
+    ],
+    availablePerks: [],
+    activeMilestones: [],
+  };
+  const availablePerks: PrestigePerk[] = [];
+  const activeMilestones: PrestigeMilestone[] = [];
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'perks' | 'milestones' | 'strategy'>('overview');
-  const [selectedCharacterId, setSelectedCharacterId] = useState<string>('');
+  const canPrestige = (id: string) => false;
+  const canRebirth = (id: string) => false;
+  const canTranscend = (id: string) => false;
+  const prestigeCharacter = (id: string) => console.log("prestige", id);
+  const rebirthCharacter = (id: string) => console.log("rebirth", id);
+  const transcendCharacter = (id: string) => console.log("transcend", id);
+  const unlockPrestigePerk = (id: string) => console.log("unlock perk", id);
+  const simulatePrestige = (id: string, type: string) => ({
+    prestigePointsGained: 100,
+    timeToBreakeven: 60,
+    bonusesAfterPrestige: [],
+    recommendation: "wait" as const,
+  });
+  const generatePrestigeStrategy = () => console.log("generate strategy");
+
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "perks" | "milestones" | "strategy"
+  >("overview");
+  const [selectedCharacterId, setSelectedCharacterId] = useState<string>("");
   const [simulation, setSimulation] = useState<PrestigeSimulation | null>(null);
   const [showSimulation, setShowSimulation] = useState(false);
 
-  const selectedCharacter = prestigeState.characters.find(c => c.characterId === selectedCharacterId) || prestigeState.characters[0];
+  const selectedCharacter =
+    prestigeState.characters.find(
+      (c) => c.characterId === selectedCharacterId,
+    ) || prestigeState.characters[0];
 
   const handlePrestige = useCallback(() => {
     if (selectedCharacter && canPrestige(selectedCharacter.characterId)) {
@@ -282,7 +336,10 @@ export const PrestigePanel: React.FC = () => {
 
   const handleSimulate = useCallback(() => {
     if (selectedCharacter) {
-      const result = simulatePrestige(selectedCharacter.characterId, 'prestige');
+      const result = simulatePrestige(
+        selectedCharacter.characterId,
+        "prestige",
+      );
       setSimulation(result);
       setShowSimulation(true);
     }
@@ -295,23 +352,25 @@ export const PrestigePanel: React.FC = () => {
     <div className="p-6 bg-gray-900 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-white mb-4">Prestige System</h1>
+          <h1 className="text-3xl font-bold text-white mb-4">
+            Prestige System
+          </h1>
 
           <div className="flex items-center justify-between mb-6">
             <div className="flex space-x-1 bg-gray-800 rounded-lg p-1">
               {[
-                { id: 'overview', label: 'Overview' },
-                { id: 'perks', label: 'Perks' },
-                { id: 'milestones', label: 'Milestones' },
-                { id: 'strategy', label: 'Strategy' }
-              ].map(tab => (
+                { id: "overview", label: "Overview" },
+                { id: "perks", label: "Perks" },
+                { id: "milestones", label: "Milestones" },
+                { id: "strategy", label: "Strategy" },
+              ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`px-4 py-2 rounded-md font-medium transition-colors ${
                     activeTab === tab.id
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-400 hover:text-white'
+                      ? "bg-blue-600 text-white"
+                      : "text-gray-400 hover:text-white"
                   }`}
                 >
                   {tab.label}
@@ -325,8 +384,11 @@ export const PrestigePanel: React.FC = () => {
                 onChange={(e) => setSelectedCharacterId(e.target.value)}
                 className="bg-gray-800 text-white px-4 py-2 rounded border border-gray-600"
               >
-                {prestigeState.characters.map(character => (
-                  <option key={character.characterId} value={character.characterId}>
+                {prestigeState.characters.map((character) => (
+                  <option
+                    key={character.characterId}
+                    value={character.characterId}
+                  >
                     Character {character.characterId}
                   </option>
                 ))}
@@ -344,7 +406,7 @@ export const PrestigePanel: React.FC = () => {
 
         {selectedCharacter && (
           <>
-            {activeTab === 'overview' && (
+            {activeTab === "overview" && (
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                   <PrestigeTierCard
@@ -372,31 +434,47 @@ export const PrestigePanel: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-gray-800 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-white mb-4">Current Bonuses</h3>
+                    <h3 className="text-xl font-bold text-white mb-4">
+                      Current Bonuses
+                    </h3>
                     <div className="space-y-3">
-                      {selectedCharacter.permanentBonuses.map((bonus, index) => (
-                        <div key={index} className="flex justify-between">
-                          <span className="text-gray-400">{bonus.type}:</span>
-                          <span className="text-green-400">+{(bonus.value * 100).toFixed(1)}%</span>
-                        </div>
-                      ))}
+                      {selectedCharacter.permanentBonuses.map(
+                        (bonus, index) => (
+                          <div key={index} className="flex justify-between">
+                            <span className="text-gray-400">{bonus.type}:</span>
+                            <span className="text-green-400">
+                              +{(bonus.value * 100).toFixed(1)}%
+                            </span>
+                          </div>
+                        ),
+                      )}
                     </div>
                   </div>
 
                   <div className="bg-gray-800 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-white mb-4">Currencies</h3>
+                    <h3 className="text-xl font-bold text-white mb-4">
+                      Currencies
+                    </h3>
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-400">Prestige Points:</span>
-                        <span className="text-blue-400">{selectedCharacter.prestigePoints.toLocaleString()}</span>
+                        <span className="text-blue-400">
+                          {selectedCharacter.prestigePoints.toLocaleString()}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Eternity Shards:</span>
-                        <span className="text-purple-400">{selectedCharacter.eternityShards.toLocaleString()}</span>
+                        <span className="text-purple-400">
+                          {selectedCharacter.eternityShards.toLocaleString()}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Transcendent Essence:</span>
-                        <span className="text-yellow-400">{selectedCharacter.transcendentEssence.toLocaleString()}</span>
+                        <span className="text-gray-400">
+                          Transcendent Essence:
+                        </span>
+                        <span className="text-yellow-400">
+                          {selectedCharacter.transcendentEssence.toLocaleString()}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -404,19 +482,25 @@ export const PrestigePanel: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'perks' && (
+            {activeTab === "perks" && (
               <div>
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-white mb-2">Prestige Perks</h2>
-                  <p className="text-gray-400">Unlock permanent upgrades using Prestige Points</p>
+                  <h2 className="text-2xl font-bold text-white mb-2">
+                    Prestige Perks
+                  </h2>
+                  <p className="text-gray-400">
+                    Unlock permanent upgrades using Prestige Points
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {availablePerks.map(perk => (
+                  {availablePerks.map((perk) => (
                     <PrestigePerkCard
                       key={perk.id}
                       perk={perk}
-                      isUnlocked={selectedCharacter.unlockedPerks.includes(perk.id)}
+                      isUnlocked={selectedCharacter.unlockedPerks.includes(
+                        perk.id,
+                      )}
                       canUnlock={selectedCharacter.prestigePoints >= perk.cost}
                       onUnlock={unlockPrestigePerk}
                     />
@@ -425,15 +509,19 @@ export const PrestigePanel: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'milestones' && (
+            {activeTab === "milestones" && (
               <div>
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-white mb-2">Prestige Milestones</h2>
-                  <p className="text-gray-400">Long-term goals with valuable rewards</p>
+                  <h2 className="text-2xl font-bold text-white mb-2">
+                    Prestige Milestones
+                  </h2>
+                  <p className="text-gray-400">
+                    Long-term goals with valuable rewards
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {activeMilestones.map(milestone => (
+                  {activeMilestones.map((milestone) => (
                     <MilestoneProgress
                       key={milestone.id}
                       milestone={milestone}
@@ -444,49 +532,79 @@ export const PrestigePanel: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'strategy' && (
+            {activeTab === "strategy" && (
               <div>
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-white mb-2">Prestige Strategy</h2>
-                  <p className="text-gray-400">Optimize your prestige timing and perk selection</p>
+                  <h2 className="text-2xl font-bold text-white mb-2">
+                    Prestige Strategy
+                  </h2>
+                  <p className="text-gray-400">
+                    Optimize your prestige timing and perk selection
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="bg-gray-800 p-6 rounded-lg">
-                    <h3 className="text-lg font-bold text-white mb-4">Recommended Strategy</h3>
+                    <h3 className="text-lg font-bold text-white mb-4">
+                      Recommended Strategy
+                    </h3>
                     <div className="space-y-4">
                       <div className="p-4 bg-blue-900 bg-opacity-30 rounded">
-                        <h4 className="font-semibold text-blue-400">Next Action</h4>
-                        <p className="text-gray-300">Focus on reaching level 100 for your first prestige</p>
+                        <h4 className="font-semibold text-blue-400">
+                          Next Action
+                        </h4>
+                        <p className="text-gray-300">
+                          Focus on reaching level 100 for your first prestige
+                        </p>
                       </div>
                       <div className="p-4 bg-green-900 bg-opacity-30 rounded">
-                        <h4 className="font-semibold text-green-400">Optimal Timing</h4>
-                        <p className="text-gray-300">Prestige when progress slows significantly</p>
+                        <h4 className="font-semibold text-green-400">
+                          Optimal Timing
+                        </h4>
+                        <p className="text-gray-300">
+                          Prestige when progress slows significantly
+                        </p>
                       </div>
                       <div className="p-4 bg-purple-900 bg-opacity-30 rounded">
-                        <h4 className="font-semibold text-purple-400">Priority Perks</h4>
-                        <p className="text-gray-300">Unlock experience multipliers first</p>
+                        <h4 className="font-semibold text-purple-400">
+                          Priority Perks
+                        </h4>
+                        <p className="text-gray-300">
+                          Unlock experience multipliers first
+                        </p>
                       </div>
                     </div>
                   </div>
 
                   <div className="bg-gray-800 p-6 rounded-lg">
-                    <h3 className="text-lg font-bold text-white mb-4">Statistics</h3>
+                    <h3 className="text-lg font-bold text-white mb-4">
+                      Statistics
+                    </h3>
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-400">Total Prestiges:</span>
-                        <span className="text-white">{selectedCharacter.totalPrestiges}</span>
+                        <span className="text-white">
+                          {selectedCharacter.totalPrestiges}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Total Rebirths:</span>
-                        <span className="text-white">{selectedCharacter.totalRebirths}</span>
+                        <span className="text-white">
+                          {selectedCharacter.totalRebirths}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Total Transcendences:</span>
-                        <span className="text-white">{selectedCharacter.totalTranscendences}</span>
+                        <span className="text-gray-400">
+                          Total Transcendences:
+                        </span>
+                        <span className="text-white">
+                          {selectedCharacter.totalTranscendences}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Efficiency Rating:</span>
+                        <span className="text-gray-400">
+                          Efficiency Rating:
+                        </span>
                         <span className="text-green-400">85%</span>
                       </div>
                     </div>
@@ -514,18 +632,24 @@ export const PrestigePanel: React.FC = () => {
                 exit={{ scale: 0.9, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <h3 className="text-xl font-bold text-white mb-4">Prestige Simulation</h3>
+                <h3 className="text-xl font-bold text-white mb-4">
+                  Prestige Simulation
+                </h3>
 
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <h4 className="font-semibold text-gray-400">Prestige Points Gained</h4>
+                      <h4 className="font-semibold text-gray-400">
+                        Prestige Points Gained
+                      </h4>
                       <div className="text-2xl font-bold text-blue-400">
                         +{simulation.prestigePointsGained.toLocaleString()}
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-400">Time to Breakeven</h4>
+                      <h4 className="font-semibold text-gray-400">
+                        Time to Breakeven
+                      </h4>
                       <div className="text-2xl font-bold text-green-400">
                         {simulation.timeToBreakeven}h
                       </div>
@@ -533,7 +657,9 @@ export const PrestigePanel: React.FC = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-gray-400 mb-2">Bonuses After Prestige</h4>
+                    <h4 className="font-semibold text-gray-400 mb-2">
+                      Bonuses After Prestige
+                    </h4>
                     <ul className="space-y-1">
                       {simulation.bonusesAfterPrestige.map((bonus, index) => (
                         <li key={index} className="text-sm text-gray-300">
@@ -544,15 +670,23 @@ export const PrestigePanel: React.FC = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-gray-400">Recommendation</h4>
-                    <p className={`text-lg font-semibold ${
-                      simulation.recommendation === 'prestige_now' ? 'text-green-400' :
-                      simulation.recommendation === 'wait' ? 'text-yellow-400' :
-                      'text-red-400'
-                    }`}>
-                      {simulation.recommendation === 'prestige_now' ? 'Prestige Now!' :
-                       simulation.recommendation === 'wait' ? 'Wait Longer' :
-                       'Not Recommended'}
+                    <h4 className="font-semibold text-gray-400">
+                      Recommendation
+                    </h4>
+                    <p
+                      className={`text-lg font-semibold ${
+                        simulation.recommendation === "prestige_now"
+                          ? "text-green-400"
+                          : simulation.recommendation === "wait"
+                            ? "text-yellow-400"
+                            : "text-red-400"
+                      }`}
+                    >
+                      {simulation.recommendation === "prestige_now"
+                        ? "Prestige Now!"
+                        : simulation.recommendation === "wait"
+                          ? "Wait Longer"
+                          : "Not Recommended"}
                     </p>
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 // Core game types and interfaces
-import type { MagicalGirl, MagicalGirlStats } from './magicalGirl';
-import type { Mission } from './missions';
+import type { MagicalGirl, MagicalGirlStats } from "./magicalGirl";
+import type { Mission } from "./missions";
 
 export interface GameState {
   player: Player;
@@ -71,7 +71,7 @@ export interface PlayerPreferences {
   soundEnabled: boolean;
   animationsEnabled: boolean;
   notificationsEnabled: boolean;
-  theme: 'light' | 'dark' | 'auto';
+  theme: "light" | "dark" | "auto";
   language: string;
 }
 
@@ -88,23 +88,23 @@ export interface Achievement {
   maxProgress: number;
 }
 
-export type AchievementCategory = 
-  | 'training' 
-  | 'missions' 
-  | 'collection' 
-  | 'progression' 
-  | 'special' 
-  | 'exploration';
+export type AchievementCategory =
+  | "training"
+  | "missions"
+  | "collection"
+  | "progression"
+  | "special"
+  | "exploration";
 
 export interface AchievementRequirement {
-  type: 'count' | 'threshold' | 'condition' | 'special';
+  type: "count" | "threshold" | "condition" | "special";
   target: number;
   condition?: string;
 }
 
 export interface AchievementReward {
-  type: 'resources' | 'feature' | 'cosmetic' | 'special';
-  value: any;
+  type: "resources" | "feature" | "cosmetic" | "special";
+  value: unknown;
 }
 
 export interface Notification {
@@ -118,12 +118,17 @@ export interface Notification {
   read: boolean;
 }
 
-export type NotificationType = 'success' | 'error' | 'warning' | 'info' | 'achievement';
+export type NotificationType =
+  | "success"
+  | "error"
+  | "warning"
+  | "info"
+  | "achievement";
 
 export interface NotificationAction {
   label: string;
   action: () => void;
-  style?: 'primary' | 'secondary' | 'danger';
+  style?: "primary" | "secondary" | "danger";
 }
 
 // Game mechanics types
@@ -131,18 +136,18 @@ export interface GameEvent {
   id: string;
   type: GameEventType;
   timestamp: number;
-  data: any;
+  data: Record<string, unknown>;
   processed: boolean;
 }
 
-export type GameEventType = 
-  | 'mission_complete' 
-  | 'training_complete' 
-  | 'level_up' 
-  | 'achievement_unlock' 
-  | 'transformation' 
-  | 'resource_gained' 
-  | 'feature_unlock';
+export type GameEventType =
+  | "mission_complete"
+  | "training_complete"
+  | "level_up"
+  | "achievement_unlock"
+  | "transformation"
+  | "resource_gained"
+  | "feature_unlock";
 
 export interface GameConfig {
   version: string;
@@ -236,8 +241,8 @@ export interface BalanceSettings {
 // Utility types
 export type ResourceType = keyof Resources;
 export type StatType = keyof MagicalGirlStats;
-export type GameMode = 'normal' | 'tutorial' | 'sandbox';
-export type SaveFormat = 'json' | 'compressed';
+export type GameMode = "normal" | "tutorial" | "sandbox";
+export type SaveFormat = "json" | "compressed";
 
 export interface SaveData {
   version: string;
@@ -248,6 +253,6 @@ export interface SaveData {
 
 export interface GameAction {
   type: string;
-  payload?: any;
+  payload?: Record<string, unknown>;
   timestamp?: number;
 }

@@ -1,8 +1,8 @@
 // Re-export all types for easy importing
 
 // Game types (re-export all)
-export * from './game';
-export type { GameConfig, GameState } from './game';
+export * from "./game";
+export type { GameConfig, GameState } from "./game";
 
 // Magical Girl types (specific exports to avoid conflicts)
 export type {
@@ -16,9 +16,6 @@ export type {
   AbilityCost,
   SpecialCost,
   AbilityEffect,
-  EffectType,
-  EffectTarget,
-  EffectScaling,
   AbilityRequirement,
   AbilityTag,
   Equipment,
@@ -28,9 +25,7 @@ export type {
   SetBonus,
   EquipmentSpecial,
   Transformation,
-  TransformationRequirement,
   TransformationForm,
-  TransformationMastery,
   MasteryBonus,
   Personality,
   PersonalityTrait,
@@ -40,8 +35,17 @@ export type {
   MissionType as MagicalGirlMissionType,
   TimeOfDay,
   Location,
-  TeamRole
-} from './magicalGirl';
+  TeamRole,
+} from "./magicalGirl";
+
+// Combat types (specific exports to avoid conflicts)
+export type {
+  CombatSystem,
+  BattleType,
+  CombatParticipant,
+  CombatAction,
+  CombatPosition,
+} from "./combat";
 
 // Mission types (specific exports to avoid conflicts)
 export type {
@@ -50,21 +54,18 @@ export type {
   MissionCategory,
   Difficulty,
   MissionRequirement,
-  RequirementType,
   Objective,
   ObjectiveType,
   ObjectiveTarget,
   ObjectiveCondition,
   ConditionRule,
   MissionReward,
-  RewardType,
-  RewardScaling,
   MissionPenalty,
   PenaltyType,
   PenaltySeverity,
   PenaltyEffect,
-  MissionLocation
-} from './missions';
+  MissionLocation,
+} from "./missions";
 
 // Training types (specific exports to avoid conflicts)
 export type {
@@ -81,11 +82,11 @@ export type {
   TrainingTarget,
   TrainingReward,
   TrainingRewardType,
-  UnlockCondition,
   TrainingTag,
   TrainingInstructor,
-  InstructorBonus,  InstructorAvailability
-} from './training';
+  InstructorBonus,
+  InstructorAvailability,
+} from "./training";
 
 // Achievement types (specific exports)
 export type {
@@ -99,8 +100,8 @@ export type {
   AchievementStats,
   AchievementFilters,
   AchievementEvent,
-  AchievementNotification
-} from './achievements';
+  AchievementNotification,
+} from "./achievements";
 
 // Recruitment types (specific exports)
 export type {
@@ -125,8 +126,8 @@ export type {
   WishlistSystem,
   RecruitmentShop,
   ShopCategory,
-  ShopItem
-} from './recruitment';
+  ShopItem,
+} from "./recruitment";
 
 // Transformation types (specific exports)
 export type {
@@ -141,12 +142,10 @@ export type {
   FacialExpression,
   HandGesture,
   OutfitTransition,
-  OutfitPiece,
   AccessoryTransition,
   TransformationAccessory,
   AuraEffect,
   StageEffect,
-  EffectType,
   CameraMovement,
   LightingEffect,
   ParticleEffect,
@@ -154,16 +153,10 @@ export type {
   BackgroundTransition,
   TransformationPhrase,
   TransformationEffect,
-  EffectCondition,
-  EffectTrigger,
-  TransformationRequirement,
   TransformationCost,
   TransformationSpecialEffect,
   AbilityModifier,
-  CombatEffect,
   TransformationVulnerability,
-  TransformationMastery,
-  MasteryTier,
   TransformationSource,
   ActiveTransformation,
   TransformationStage,
@@ -178,8 +171,8 @@ export type {
   CustomColorScheme,
   CustomPose,
   PoseKeyframe,
-  CustomizationOption
-} from './transformation';
+  CustomizationOption,
+} from "./transformation";
 
 // Skill Tree types (specific exports)
 export type {
@@ -194,7 +187,6 @@ export type {
   TreeAnalysis,
   AnalysisRecommendation,
   PathProgress,
-  ValidationResult,
   OptimizationConstraints,
   TreeFilterSettings,
   TreeViewMode,
@@ -208,20 +200,8 @@ export type {
   PrerequisiteType,
   CostType,
   CostScaling,
-  RequirementType,
-  EffectType,
-  EffectTarget,
-  EffectScaling,
   ScalingType,
-  BonusType,
   SynergyRarity,
-  UnlockRequirementType,
-  PathRequirementType,
-  PathMasteryLevel,
-  RewardType,
-  ConditionType,
-  ComparisonOperator,
-  TriggerEvent,
   SkillPosition,
   SkillPrerequisite,
   SkillCost,
@@ -235,18 +215,11 @@ export type {
   PathRequirement,
   PathMasteryRequirement,
   MasteryReward,
-  UnlockCondition,
-  EffectCondition,
-  EffectTrigger,
   SkillConnection,
   RecommendationPriority,
   OptimizationGoal,
-  ValidationError,
-  ValidationWarning,
-  ErrorType,
-  WarningType,
-  SkillTreeEventType
-} from './skillTree';
+  SkillTreeEventType,
+} from "./skillTree";
 
 // Customization types (specific exports)
 export type {
@@ -278,8 +251,8 @@ export type {
   EleganceLevel,
   RandomizationConstraints,
   ColorHarmonyScore,
-  CustomizationEvent
-} from './customization';
+  CustomizationEvent,
+} from "./customization";
 
 // Prestige types (specific exports)
 export type {
@@ -309,17 +282,10 @@ export type {
   MilestoneCategory,
   MilestoneDifficulty,
   BonusSource,
-  BonusType,
-  BonusTarget,
   MultiplierTarget,
   PrestigeEventType,
-  RequirementType,
-  EffectType,
-  EffectTarget,
-  EffectScaling,
   ApplicationMode,
-  TriggerEvent
-} from './prestige';
+} from "./prestige";
 
 // Save System types (specific exports)
 export type {
@@ -337,7 +303,6 @@ export type {
   ExportOptions,
   ImportOptions,
   ImportResult,
-  ValidationResult,
   RepairResult,
   IntegrityResult,
   BackupInfo,
@@ -354,10 +319,8 @@ export type {
   ValidationType,
   ValidationSeverity,
   CompatibilityType,
-  ErrorType,
-  WarningType,
-  SaveEventType
-} from './saveSystem';
+  SaveEventType,
+} from "./saveSystem";
 
 // Tutorial types (specific exports)
 export type {
@@ -384,7 +347,6 @@ export type {
   HighlightType,
   OverlayType,
   TooltipPosition,
-  ValidationType as TutorialValidationType,
   LearningStyle,
   AutoAdvanceSpeed,
   DifficultyPreference,
@@ -402,8 +364,8 @@ export type {
   ResolutionMethod,
   InteractionType,
   MistakeImpact,
-  AdaptationReason
-} from './tutorial';
+  AdaptationReason,
+} from "./tutorial";
 
 // Enhanced Settings types (specific exports)
 export type {
@@ -415,35 +377,27 @@ export type {
   SettingsProfile,
   SettingsChange,
   SettingsValidation,
-  ConflictResolution as SettingsConflictResolution,
   SettingsLayout,
   SettingsCustomization,
   ExpertSettings,
   OptimizationSuggestion,
   AccessibilityAssessment,
   SettingsHelp,
-  DisplaySettings,
-  GraphicsSettings,
-  AudioSettings,
-  GameplaySettings,
-  InterfaceSettings,
   SettingType,
   AccessLevel,
   SettingVisibility,
   ProfileType,
   ChangeSource,
   ValidationLevel,
-  ConflictType as SettingsConflictType,
   LayoutStyle,
   GroupingMethod,
   SortingMethod,
   SettingsTheme,
   SuggestionType,
   ImpactLevel,
-  DifficultyLevel as SettingsDifficultyLevel,
   WCAGLevel,
-  HelpPosition
-} from './enhancedSettings';
+  HelpPosition,
+} from "./enhancedSettings";
 
 // Common utility types used across the application
 export interface Vector2D {
@@ -490,7 +444,7 @@ export interface Sound {
   category: SoundCategory;
 }
 
-export type SoundCategory = 'sfx' | 'music' | 'voice' | 'ambient';
+export type SoundCategory = "sfx" | "music" | "voice" | "ambient";
 
 export interface Image {
   id: string;
@@ -511,13 +465,13 @@ export interface ApiResponse<T = any> {
 export interface ApiError {
   code: string;
   message: string;
-  details?: any;
+  details?: Record<string, string | number | boolean>;
 }
 
 // Event system types
 export interface GameEventData {
   type: string;
-  payload: any;
+  payload: Record<string, string | number | boolean>;
   timestamp: number;
   source: string;
 }
@@ -541,21 +495,21 @@ export interface ModalProps extends BaseComponentProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
 }
 
 export interface ButtonProps extends BaseComponentProps {
-  variant?: 'primary' | 'secondary' | 'magical' | 'sparkle' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "primary" | "secondary" | "magical" | "sparkle" | "danger";
+  size?: "sm" | "md" | "lg";
   disabled?: boolean;
   loading?: boolean;
   onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
 }
 
 export interface CardProps extends BaseComponentProps {
   title?: string;
-  variant?: 'default' | 'magical' | 'sparkle';
+  variant?: "default" | "magical" | "sparkle";
   hoverable?: boolean;
   clickable?: boolean;
   onClick?: () => void;
@@ -565,25 +519,25 @@ export interface CardProps extends BaseComponentProps {
 export interface FormField {
   name: string;
   label: string;
-  type: 'text' | 'number' | 'select' | 'checkbox' | 'radio' | 'textarea';
+  type: "text" | "number" | "select" | "checkbox" | "radio" | "textarea";
   required?: boolean;
   validation?: ValidationRule[];
   options?: SelectOption[];
   placeholder?: string;
-  defaultValue?: any;
+  defaultValue?: string | number | boolean;
 }
 
 export interface SelectOption {
-  value: any;
+  value: string | number | boolean;
   label: string;
   disabled?: boolean;
 }
 
 export interface ValidationRule {
-  type: 'required' | 'min' | 'max' | 'pattern' | 'custom';
-  value?: any;
+  type: "required" | "min" | "max" | "pattern" | "custom";
+  value?: string | number | boolean;
   message: string;
-  validator?: (value: any) => boolean;
+  validator?: (value: string | number | boolean) => boolean;
 }
 
 // Settings and preferences types
@@ -596,7 +550,7 @@ export interface UserSettings {
 }
 
 export interface DisplaySettings {
-  theme: 'light' | 'dark' | 'auto';
+  theme: "light" | "dark" | "auto";
   language: string;
   fontSize: number;
   animations: boolean;
@@ -661,7 +615,7 @@ export interface CacheConfig {
   maxSize: number;
   maxAge: number;
   cleanupInterval: number;
-  strategy: 'LRU' | 'LFU' | 'FIFO';
+  strategy: "LRU" | "LFU" | "FIFO";
 }
 
 // Localization types
@@ -669,7 +623,7 @@ export interface LocaleData {
   code: string;
   name: string;
   nativeName: string;
-  direction: 'ltr' | 'rtl';
+  direction: "ltr" | "rtl";
   translations: { [key: string]: string };
   dateFormat: string;
   numberFormat: Intl.NumberFormatOptions;
@@ -679,7 +633,7 @@ export interface TranslationKey {
   key: string;
   defaultValue: string;
   namespace?: string;
-  interpolation?: { [key: string]: any };
+  interpolation?: Record<string, string | number>;
 }
 
 // Network and sync types
@@ -692,8 +646,8 @@ export interface SyncState {
 
 export interface SyncConflict {
   key: string;
-  local: any;
-  remote: any;
+  local: Record<string, string | number | boolean>;
+  remote: Record<string, string | number | boolean>;
   timestamp: number;
   resolved: boolean;
 }
@@ -702,7 +656,7 @@ export interface SyncConflict {
 export interface AnalyticsEvent {
   name: string;
   category: string;
-  properties: { [key: string]: any };
+  properties: Record<string, string | number | boolean>;
   timestamp: number;
   sessionId: string;
   userId?: string;
@@ -716,12 +670,12 @@ export interface TelemetryData {
 }
 
 export interface ErrorReport {
-  type: 'javascript' | 'network' | 'game' | 'ui';
+  type: "javascript" | "network" | "game" | "ui";
   message: string;
   stack?: string;
   timestamp: number;
-  context: any;
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  context: Record<string, string | number | boolean>;
+  severity: "low" | "medium" | "high" | "critical";
 }
 
 export interface SessionMetadata {

@@ -24,63 +24,63 @@ export interface Mission {
   event?: string;
 }
 
-export type MissionType = 
-  | 'Story' 
-  | 'Daily' 
-  | 'Weekly' 
-  | 'Event' 
-  | 'Challenge' 
-  | 'Training' 
-  | 'Collection' 
-  | 'Boss' 
-  | 'Raid' 
-  | 'Exploration'
-  | 'Tutorial';
+export type MissionType =
+  | "Story"
+  | "Daily"
+  | "Weekly"
+  | "Event"
+  | "Challenge"
+  | "Training"
+  | "Collection"
+  | "Boss"
+  | "Raid"
+  | "Exploration"
+  | "Tutorial";
 
-export type MissionCategory = 
-  | 'Combat' 
-  | 'Rescue' 
-  | 'Investigation' 
-  | 'Protection' 
-  | 'Collection' 
-  | 'Social' 
-  | 'Stealth' 
-  | 'Puzzle' 
-  | 'Escort' 
-  | 'Survival'
-  | 'Training';
+export type MissionCategory =
+  | "Combat"
+  | "Rescue"
+  | "Investigation"
+  | "Protection"
+  | "Collection"
+  | "Social"
+  | "Stealth"
+  | "Puzzle"
+  | "Escort"
+  | "Survival"
+  | "Training";
 
-export type Difficulty = 
-  | 'Tutorial' 
-  | 'Easy' 
-  | 'Normal' 
-  | 'Hard' 
-  | 'Expert' 
-  | 'Master' 
-  | 'Nightmare' 
-  | 'Impossible';
+export type Difficulty =
+  | "Tutorial"
+  | "Easy"
+  | "Normal"
+  | "Hard"
+  | "Expert"
+  | "Master"
+  | "Nightmare"
+  | "Impossible";
 
 export interface MissionRequirement {
   type: RequirementType;
-  value: any;
+  value: unknown;
   description: string;
   optional?: boolean;
 }
 
-export type RequirementType = 
-  | 'level' 
-  | 'magical_girl' 
-  | 'team_size' 
-  | 'element' 
-  | 'stat' 
-  | 'ability' 
-  | 'equipment' 
-  | 'previous_mission' 
-  | 'achievement' 
-  | 'resource' 
-  | 'time_of_day' 
-  | 'special'
-  | 'mission_completed';
+export type RequirementType =
+  | "level"
+  | "magical_girl"
+  | "team_size"
+  | "element"
+  | "stat"
+  | "ability"
+  | "equipment"
+  | "previous_mission"
+  | "achievement"
+  | "resource"
+  | "time_of_day"
+  | "special"
+  | "mission_completed";
 
 export interface Objective {
   id: string;
@@ -98,36 +98,36 @@ export interface Objective {
   hints?: string[];
 }
 
-export type ObjectiveType = 
-  | 'defeat' 
-  | 'survive' 
-  | 'collect' 
-  | 'protect' 
-  | 'reach' 
-  | 'interact' 
-  | 'solve' 
-  | 'time' 
-  | 'score' 
-  | 'special';
+export type ObjectiveType =
+  | "defeat"
+  | "survive"
+  | "collect"
+  | "protect"
+  | "reach"
+  | "interact"
+  | "solve"
+  | "time"
+  | "score"
+  | "special";
 
 export interface ObjectiveTarget {
-  type: 'enemy' | 'item' | 'location' | 'character' | 'condition';
+  type: "enemy" | "item" | "location" | "character" | "condition";
   id?: string;
   name: string;
   quantity?: number;
-  properties?: { [key: string]: any };
+  properties?: Record<string, unknown>;
 }
 
 export interface ObjectiveCondition {
-  type: 'simple' | 'complex' | 'timed' | 'conditional';
+  type: "simple" | "complex" | "timed" | "conditional";
   rules: ConditionRule[];
-  logic?: 'AND' | 'OR' | 'NOT';
+  logic?: "AND" | "OR" | "NOT";
 }
 
 export interface ConditionRule {
   field: string;
-  operator: 'equals' | 'greater' | 'less' | 'contains' | 'exists';
-  value: any;
+  operator: "equals" | "greater" | "less" | "contains" | "exists";
+  value: unknown;
   negated?: boolean;
 }
 
@@ -142,22 +142,28 @@ export interface MissionReward {
   scaling?: RewardScaling;
 }
 
-export type RewardType = 
-  | 'experience' 
-  | 'sparkles' 
-  | 'stardust' 
-  | 'moonbeams' 
-  | 'crystals' 
-  | 'magical_energy' 
-  | 'magical_girl' 
-  | 'equipment' 
-  | 'ability' 
-  | 'transformation' 
-  | 'achievement' 
-  | 'unlock' 
-  | 'special';
+export type RewardType =
+  | "experience"
+  | "sparkles"
+  | "stardust"
+  | "moonbeams"
+  | "crystals"
+  | "magical_energy"
+  | "magical_girl"
+  | "equipment"
+  | "ability"
+  | "transformation"
+  | "achievement"
+  | "unlock"
+  | "special";
 
-export type Rarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Mythical';
+export type Rarity =
+  | "Common"
+  | "Uncommon"
+  | "Rare"
+  | "Epic"
+  | "Legendary"
+  | "Mythical";
 
 export interface RewardScaling {
   base: number;
@@ -173,12 +179,17 @@ export interface MissionPenalty {
   effect: PenaltyEffect;
 }
 
-export type PenaltyType = 'failure' | 'timeout' | 'death' | 'abandon' | 'special';
-export type PenaltySeverity = 'minor' | 'moderate' | 'severe' | 'critical';
+export type PenaltyType =
+  | "failure"
+  | "timeout"
+  | "death"
+  | "abandon"
+  | "special";
+export type PenaltySeverity = "minor" | "moderate" | "severe" | "critical";
 
 export interface PenaltyEffect {
-  type: 'resource_loss' | 'stat_reduction' | 'cooldown' | 'lock' | 'special';
-  value: any;
+  type: "resource_loss" | "stat_reduction" | "cooldown" | "lock" | "special";
+  value: unknown;
   duration?: number;
 }
 
@@ -195,20 +206,20 @@ export interface MissionLocation {
   ambientSounds?: string[];
 }
 
-export type LocationType = 
-  | 'City' 
-  | 'Forest' 
-  | 'Beach' 
-  | 'Mountains' 
-  | 'Desert' 
-  | 'Underground' 
-  | 'Sky' 
-  | 'Magical_Realm' 
-  | 'School' 
-  | 'Home' 
-  | 'Laboratory' 
-  | 'Castle' 
-  | 'Dungeon';
+export type LocationType =
+  | "City"
+  | "Forest"
+  | "Beach"
+  | "Mountains"
+  | "Desert"
+  | "Underground"
+  | "Sky"
+  | "Magical_Realm"
+  | "School"
+  | "Home"
+  | "Laboratory"
+  | "Castle"
+  | "Dungeon";
 
 export interface Environment {
   weather: Weather;
@@ -219,11 +230,39 @@ export interface Environment {
   magicalIntensity: number;
 }
 
-export type Weather = 'Clear' | 'Cloudy' | 'Rainy' | 'Stormy' | 'Snowy' | 'Foggy' | 'Magical';
-export type TimeOfDay = 'Dawn' | 'Morning' | 'Noon' | 'Afternoon' | 'Evening' | 'Dusk' | 'Night' | 'Midnight';
-export type Lighting = 'Bright' | 'Normal' | 'Dim' | 'Dark' | 'Magical' | 'Flickering';
-export type Temperature = 'Freezing' | 'Cold' | 'Cool' | 'Mild' | 'Warm' | 'Hot' | 'Scorching';
-export type Visibility = 'Clear' | 'Good' | 'Limited' | 'Poor' | 'Zero';
+export type Weather =
+  | "Clear"
+  | "Cloudy"
+  | "Rainy"
+  | "Stormy"
+  | "Snowy"
+  | "Foggy"
+  | "Magical";
+export type TimeOfDay =
+  | "Dawn"
+  | "Morning"
+  | "Noon"
+  | "Afternoon"
+  | "Evening"
+  | "Dusk"
+  | "Night"
+  | "Midnight";
+export type Lighting =
+  | "Bright"
+  | "Normal"
+  | "Dim"
+  | "Dark"
+  | "Magical"
+  | "Flickering";
+export type Temperature =
+  | "Freezing"
+  | "Cold"
+  | "Cool"
+  | "Mild"
+  | "Warm"
+  | "Hot"
+  | "Scorching";
+export type Visibility = "Clear" | "Good" | "Limited" | "Poor" | "Zero";
 
 export interface Hazard {
   type: HazardType;
@@ -235,13 +274,29 @@ export interface Hazard {
   countermeasures: string[];
 }
 
-export type HazardType = 'environmental' | 'magical' | 'creature' | 'trap' | 'curse' | 'special';
-export type HazardSeverity = 'minor' | 'moderate' | 'major' | 'extreme' | 'lethal';
-export type HazardFrequency = 'rare' | 'uncommon' | 'common' | 'frequent' | 'constant';
+export type HazardType =
+  | "environmental"
+  | "magical"
+  | "creature"
+  | "trap"
+  | "curse"
+  | "special";
+export type HazardSeverity =
+  | "minor"
+  | "moderate"
+  | "major"
+  | "extreme"
+  | "lethal";
+export type HazardFrequency =
+  | "rare"
+  | "uncommon"
+  | "common"
+  | "frequent"
+  | "constant";
 
 export interface HazardEffect {
-  type: 'damage' | 'status' | 'debuff' | 'drain' | 'disable' | 'special';
-  value: any;
+  type: "damage" | "status" | "debuff" | "drain" | "disable" | "special";
+  value: unknown;
   duration?: number;
   condition?: string;
 }
@@ -255,11 +310,18 @@ export interface LocationFeature {
   effects?: FeatureEffect[];
 }
 
-export type FeatureType = 'landmark' | 'resource' | 'portal' | 'shop' | 'shrine' | 'puzzle' | 'secret';
+export type FeatureType =
+  | "landmark"
+  | "resource"
+  | "portal"
+  | "shop"
+  | "shrine"
+  | "puzzle"
+  | "secret";
 
 export interface FeatureEffect {
-  type: 'buff' | 'heal' | 'resource' | 'unlock' | 'teleport' | 'special';
-  value: any;
+  type: "buff" | "heal" | "resource" | "unlock" | "teleport" | "special";
+  value: unknown;
   duration?: number;
 }
 
@@ -299,22 +361,22 @@ export interface StoryChoice {
 }
 
 export interface StoryConsequence {
-  type: 'story' | 'mission' | 'character' | 'world' | 'special';
+  type: "story" | "mission" | "character" | "world" | "special";
   target: string;
-  effect: any;
+  effect: Record<string, unknown>;
   permanent?: boolean;
 }
 
 export interface StoryCondition {
-  type: 'progress' | 'choice' | 'character' | 'world' | 'random';
+  type: "progress" | "choice" | "character" | "world" | "random";
   condition: string;
-  value: any;
+  value: unknown;
 }
 
 export interface StoryEffect {
-  type: 'unlock' | 'change' | 'add' | 'remove' | 'special';
+  type: "unlock" | "change" | "add" | "remove" | "special";
   target: string;
-  value: any;
+  value: unknown;
 }
 
 export interface StoryMedia {
@@ -342,7 +404,14 @@ export interface StoryCharacter {
   dialogue: { [emotion: string]: string[] };
 }
 
-export type CharacterRole = 'protagonist' | 'ally' | 'enemy' | 'neutral' | 'mentor' | 'victim' | 'informant';
+export type CharacterRole =
+  | "protagonist"
+  | "ally"
+  | "enemy"
+  | "neutral"
+  | "mentor"
+  | "victim"
+  | "informant";
 
 // Mission execution and progress
 export interface MissionProgress {
@@ -354,10 +423,16 @@ export interface MissionProgress {
   team: MissionTeam;
   events: MissionEvent[];
   score: MissionScore;
-  variables: { [key: string]: any };
+  variables: Record<string, unknown>;
 }
 
-export type MissionStatus = 'not_started' | 'in_progress' | 'paused' | 'completed' | 'failed' | 'abandoned';
+export type MissionStatus =
+  | "not_started"
+  | "in_progress"
+  | "paused"
+  | "completed"
+  | "failed"
+  | "abandoned";
 
 export interface ObjectiveProgress {
   objectiveId: string;
@@ -368,12 +443,18 @@ export interface ObjectiveProgress {
   events: ObjectiveEvent[];
 }
 
-export type ObjectiveStatus = 'locked' | 'available' | 'active' | 'completed' | 'failed' | 'skipped';
+export type ObjectiveStatus =
+  | "locked"
+  | "available"
+  | "active"
+  | "completed"
+  | "failed"
+  | "skipped";
 
 export interface ObjectiveEvent {
-  type: 'start' | 'progress' | 'complete' | 'fail' | 'reset';
+  type: "start" | "progress" | "complete" | "fail" | "reset";
   timestamp: number;
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 export interface MissionTeam {
@@ -388,12 +469,18 @@ export interface MissionMember {
   role: string;
   position: number;
   status: MemberStatus;
-  currentStats: any;
+  currentStats: Record<string, number>;
   statusEffects: StatusEffect[];
 }
 
-export type TeamStatus = 'ready' | 'active' | 'exhausted' | 'defeated';
-export type MemberStatus = 'ready' | 'active' | 'injured' | 'exhausted' | 'defeated' | 'transformed';
+export type TeamStatus = "ready" | "active" | "exhausted" | "defeated";
+export type MemberStatus =
+  | "ready"
+  | "active"
+  | "injured"
+  | "exhausted"
+  | "defeated"
+  | "transformed";
 
 export interface StatusEffect {
   type: string;
@@ -401,7 +488,7 @@ export interface StatusEffect {
   description: string;
   duration: number;
   remaining: number;
-  effects: any[];
+  effects: Array<{ type: string; value: unknown; }>;
   source: string;
   removable: boolean;
 }
@@ -411,25 +498,25 @@ export interface MissionEvent {
   type: MissionEventType;
   timestamp: number;
   description: string;
-  data: any;
+  data: Record<string, unknown>;
   important: boolean;
 }
 
-export type MissionEventType = 
-  | 'start' 
-  | 'objective_start' 
-  | 'objective_progress' 
-  | 'objective_complete' 
-  | 'combat_start' 
-  | 'combat_end' 
-  | 'item_found' 
-  | 'character_met' 
-  | 'choice_made' 
-  | 'ability_used' 
-  | 'transformation' 
-  | 'death' 
-  | 'revival' 
-  | 'special';
+export type MissionEventType =
+  | "start"
+  | "objective_start"
+  | "objective_progress"
+  | "objective_complete"
+  | "combat_start"
+  | "combat_end"
+  | "item_found"
+  | "character_met"
+  | "choice_made"
+  | "ability_used"
+  | "transformation"
+  | "death"
+  | "revival"
+  | "special";
 
 export interface MissionScore {
   total: number;
@@ -450,7 +537,7 @@ export interface ScoreBreakdown {
   special: number;
 }
 
-export type MissionGrade = 'F' | 'D' | 'C' | 'B' | 'A' | 'S' | 'SS' | 'SSS';
+export type MissionGrade = "F" | "D" | "C" | "B" | "A" | "S" | "SS" | "SSS";
 
 export interface ScoreBonus {
   type: string;
@@ -500,46 +587,46 @@ export interface ObjectiveVariation {
 
 export interface MissionVariable {
   name: string;
-  type: 'number' | 'string' | 'boolean' | 'array' | 'object';
-  defaultValue: any;
+  type: "number" | "string" | "boolean" | "array" | "object";
+  defaultValue: unknown;
   range?: [number, number];
-  options?: any[];
+  options?: Array<{ value: unknown; label: string; }>;
   formula?: string;
 }
 
-export type MissionTag = 
-  | 'combat' 
-  | 'stealth' 
-  | 'puzzle' 
-  | 'social' 
-  | 'exploration' 
-  | 'timed' 
-  | 'escort' 
-  | 'survival' 
-  | 'boss' 
-  | 'group' 
-  | 'solo' 
-  | 'repeatable' 
-  | 'seasonal' 
-  | 'event' 
-  | 'story' 
-  | 'challenge'
-  | 'tutorial'
-  | 'training'
-  | 'beginner'
-  | 'rescue'
-  | 'easy'
-  | 'animals'
-  | 'investigation'
-  | 'supernatural'
-  | 'school'
-  | 'daily'
-  | 'weekly';
+export type MissionTag =
+  | "combat"
+  | "stealth"
+  | "puzzle"
+  | "social"
+  | "exploration"
+  | "timed"
+  | "escort"
+  | "survival"
+  | "boss"
+  | "group"
+  | "solo"
+  | "repeatable"
+  | "seasonal"
+  | "event"
+  | "story"
+  | "challenge"
+  | "tutorial"
+  | "training"
+  | "beginner"
+  | "rescue"
+  | "easy"
+  | "animals"
+  | "investigation"
+  | "supernatural"
+  | "school"
+  | "daily"
+  | "weekly";
 
 // Daily/Weekly mission system
 export interface RecurringMission {
   templateId: string;
-  type: 'daily' | 'weekly' | 'monthly';
+  type: "daily" | "weekly" | "monthly";
   resetTime: number;
   nextReset: number;
   completions: number;

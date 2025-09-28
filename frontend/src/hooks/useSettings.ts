@@ -1,5 +1,5 @@
-import { useGameStore } from '../stores/gameStore';
-import { useCallback } from 'react';
+import { useGameStore } from "../stores/gameStore";
+import { useCallback } from "react";
 
 export const useSettings = () => {
   const settings = useGameStore((state) => state.settings);
@@ -7,13 +7,19 @@ export const useSettings = () => {
   const setMasterVolume = useGameStore((state) => state.setMasterVolume);
   const resetSettings = useGameStore((state) => state.resetSettings);
 
-  const handleVolumeChange = useCallback((volume: number) => {
-    setMasterVolume(volume);
-  }, [setMasterVolume]);
+  const handleVolumeChange = useCallback(
+    (volume: number) => {
+      setMasterVolume(volume);
+    },
+    [setMasterVolume],
+  );
 
-  const handleSettingsChange = useCallback((newSettings: Partial<typeof settings>) => {
-    updateSettings(newSettings);
-  }, [updateSettings]);
+  const handleSettingsChange = useCallback(
+    (newSettings: Partial<typeof settings>) => {
+      updateSettings(newSettings);
+    },
+    [updateSettings],
+  );
 
   const handleReset = useCallback(() => {
     resetSettings();
@@ -24,9 +30,9 @@ export const useSettings = () => {
     updateSettings: handleSettingsChange,
     setMasterVolume: handleVolumeChange,
     resetSettings: handleReset,
-    
+
     // Derived values
     isMuted: settings.masterVolume === 0,
-    volumePercentage: Math.round(settings.masterVolume * 100)
+    volumePercentage: Math.round(settings.masterVolume * 100),
   };
 };

@@ -1,5 +1,5 @@
 // Recruitment and Gacha system types
-import type { MagicalGirl, Rarity, MagicalElement } from './magicalGirl';
+import type { MagicalGirl, Rarity } from "./magicalGirl";
 
 export interface RecruitmentSystem {
   currencies: RecruitmentCurrencies;
@@ -42,19 +42,19 @@ export interface RecruitmentBanner {
 }
 
 export type BannerType =
-  | 'Standard'
-  | 'Limited'
-  | 'Event'
-  | 'Newcomer'
-  | 'Seasonal'
-  | 'Collaboration'
-  | 'Rerun';
+  | "Standard"
+  | "Limited"
+  | "Event"
+  | "Newcomer"
+  | "Seasonal"
+  | "Collaboration"
+  | "Rerun";
 
-export type BannerRarity = 'Common' | 'Special' | 'Premium' | 'Legendary';
+export type BannerRarity = "Common" | "Special" | "Premium" | "Legendary";
 
-export interface GachaRates {
+export type GachaRates = {
   [K in Rarity]: number; // Percentage (0-100)
-}
+};
 
 export interface BannerCosts {
   single: RecruitmentCost;
@@ -75,7 +75,7 @@ export interface CurrencyCost {
 }
 
 export interface CostDiscount {
-  type: 'percentage' | 'flat' | 'first_time' | 'daily';
+  type: "percentage" | "flat" | "first_time" | "daily";
   value: number;
   condition?: string;
   remainingUses?: number;
@@ -112,40 +112,44 @@ export interface GuaranteeConfig {
 }
 
 export type GuaranteeType =
-  | 'featured_character'
-  | 'minimum_rarity'
-  | 'new_character'
-  | 'element_type'
-  | 'first_pull'
-  | 'daily_bonus';
+  | "featured_character"
+  | "minimum_rarity"
+  | "new_character"
+  | "element_type"
+  | "first_pull"
+  | "daily_bonus";
 
 export interface GuaranteeCondition {
-  type: 'pulls_count' | 'consecutive_misses' | 'daily_first' | 'special_event';
+  type: "pulls_count" | "consecutive_misses" | "daily_first" | "special_event";
   value: number;
-  resetType: 'daily' | 'weekly' | 'banner' | 'never';
+  resetType: "daily" | "weekly" | "banner" | "never";
 }
 
 export interface GuaranteeReward {
-  type: 'specific_character' | 'rarity_minimum' | 'bonus_currency' | 'extra_pull';
-  value: any;
+  type:
+    | "specific_character"
+    | "rarity_minimum"
+    | "bonus_currency"
+    | "extra_pull";
+  value: number;
   description: string;
 }
 
 export interface BannerRequirement {
-  type: 'level' | 'mission_completion' | 'achievement' | 'time_played';
-  value: any;
+  type: "level" | "mission_completion" | "achievement" | "time_played";
+  value: number;
   description: string;
 }
 
 export interface BannerReward {
-  type: 'milestone' | 'completion' | 'special';
+  type: "milestone" | "completion" | "special";
   requirement: number; // Number of pulls
   reward: BannerRewardItem;
   claimed: boolean;
 }
 
 export interface BannerRewardItem {
-  type: 'currency' | 'character' | 'item' | 'cosmetic';
+  type: "currency" | "character" | "item" | "cosmetic";
   id: string;
   amount?: number;
   description: string;
@@ -170,7 +174,7 @@ export interface BannerAnimation {
 }
 
 export interface SummonAnimation {
-  type: 'standard' | 'special' | 'ultimate';
+  type: "standard" | "special" | "ultimate";
   duration: number;
   effects: AnimationEffect[];
   music?: string;
@@ -194,7 +198,7 @@ export interface RareRevealAnimation extends RevealAnimation {
 }
 
 export interface AnimationEffect {
-  type: 'particle' | 'light' | 'motion' | 'screen';
+  type: "particle" | "light" | "motion" | "screen";
   name: string;
   intensity: number;
   duration: number;
@@ -264,7 +268,12 @@ export interface RecruitmentEvent {
   id: string;
   name: string;
   description: string;
-  type: 'rate_up' | 'discount' | 'bonus_currency' | 'special_banner' | 'guaranteed_pull';
+  type:
+    | "rate_up"
+    | "discount"
+    | "bonus_currency"
+    | "special_banner"
+    | "guaranteed_pull";
   startDate: number;
   endDate: number;
   isActive: boolean;
@@ -275,20 +284,24 @@ export interface RecruitmentEvent {
 }
 
 export interface EventEffect {
-  type: 'rate_increase' | 'cost_decrease' | 'bonus_currency' | 'extra_guarantee';
-  target: 'all' | 'specific_banner' | 'specific_rarity';
+  type:
+    | "rate_increase"
+    | "cost_decrease"
+    | "bonus_currency"
+    | "extra_guarantee";
+  target: "all" | "specific_banner" | "specific_rarity";
   value: number;
   description: string;
 }
 
 export interface EventRequirement {
-  type: 'participation' | 'pulls_count' | 'specific_character' | 'daily_login';
-  value: any;
+  type: "participation" | "pulls_count" | "specific_character" | "daily_login";
+  value: number;
   description: string;
 }
 
 export interface EventReward {
-  type: 'milestone' | 'participation' | 'completion';
+  type: "milestone" | "participation" | "completion";
   requirement: EventRequirement;
   reward: BannerRewardItem;
   claimed: boolean;
@@ -377,7 +390,7 @@ export interface ShopCategory {
 
 export interface ShopItem {
   id: string;
-  type: 'character' | 'currency' | 'item' | 'cosmetic';
+  type: "character" | "currency" | "item" | "cosmetic";
   name: string;
   description: string;
   cost: { [K in keyof RecruitmentCurrencies]: number };
@@ -390,13 +403,13 @@ export interface ShopItem {
 }
 
 export interface ShopRequirement {
-  type: 'level' | 'achievement' | 'banner_completion' | 'character_owned';
-  value: any;
+  type: "level" | "achievement" | "banner_completion" | "character_owned";
+  value: number;
   description: string;
 }
 
 export interface RefreshSchedule {
-  type: 'daily' | 'weekly' | 'monthly' | 'fixed';
+  type: "daily" | "weekly" | "monthly" | "fixed";
   interval?: number;
   nextRefresh: number;
 }
@@ -418,7 +431,7 @@ export interface SpecialOffer {
   id: string;
   name: string;
   description: string;
-  type: 'limited_time' | 'first_purchase' | 'milestone' | 'comeback';
+  type: "limited_time" | "first_purchase" | "milestone" | "comeback";
   originalCost: { [K in keyof RecruitmentCurrencies]: number };
   discountedCost: { [K in keyof RecruitmentCurrencies]: number };
   items: ShopItem[];

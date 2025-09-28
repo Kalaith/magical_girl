@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useGameStore } from '../../stores/gameStore';
-import { RecruitmentBanner } from '../Recruitment/RecruitmentBanner';
-import { SummonAnimation } from '../Recruitment/SummonAnimation';
-import { SummonResults } from '../Recruitment/SummonResults';
-import { RecruitmentStats } from '../Recruitment/RecruitmentStats';
-import { CurrencyDisplay } from '../Recruitment/CurrencyDisplay';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
-import type { SummonResult } from '../../types/recruitment';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useGameStore } from "../../stores/gameStore";
+import { RecruitmentBanner } from "../Recruitment/RecruitmentBanner";
+import { SummonAnimation } from "../Recruitment/SummonAnimation";
+import { SummonResults } from "../Recruitment/SummonResults";
+import { RecruitmentStats } from "../Recruitment/RecruitmentStats";
+import { CurrencyDisplay } from "../Recruitment/CurrencyDisplay";
+import { Button } from "../ui/Button";
+import { Card } from "../ui/Card";
+import type { SummonResult } from "../../types/recruitment";
 
 export const RecruitmentView: React.FC = () => {
   const {
@@ -22,10 +22,12 @@ export const RecruitmentView: React.FC = () => {
     skipAnimation,
     currentSession,
     endSummonSession,
-    addNotification
+    addNotification,
   } = useGameStore();
 
-  const [selectedTab, setSelectedTab] = useState<'banners' | 'history' | 'stats'>('banners');
+  const [selectedTab, setSelectedTab] = useState<
+    "banners" | "history" | "stats"
+  >("banners");
   const [summonResults, setSummonResults] = useState<SummonResult[]>([]);
   const [showResults, setShowResults] = useState(false);
 
@@ -43,16 +45,17 @@ export const RecruitmentView: React.FC = () => {
 
       // Show success notification
       addNotification({
-        type: 'success',
-        title: 'Summon Complete!',
-        message: `Summoned ${count} magical girl${count > 1 ? 's' : ''}!`
+        type: "success",
+        title: "Summon Complete!",
+        message: `Summoned ${count} magical girl${count > 1 ? "s" : ""}!`,
       });
     } catch (error) {
-      console.error('Summon failed:', error);
+      console.error("Summon failed:", error);
       addNotification({
-        type: 'error',
-        title: 'Summon Failed',
-        message: error instanceof Error ? error.message : 'Unable to perform summon'
+        type: "error",
+        title: "Summon Failed",
+        message:
+          error instanceof Error ? error.message : "Unable to perform summon",
       });
     }
   };
@@ -71,9 +74,9 @@ export const RecruitmentView: React.FC = () => {
   };
 
   const tabs = [
-    { id: 'banners' as const, name: 'Summon', icon: '🎭' },
-    { id: 'history' as const, name: 'History', icon: '📜' },
-    { id: 'stats' as const, name: 'Statistics', icon: '📊' }
+    { id: "banners" as const, name: "Summon", icon: "🎭" },
+    { id: "history" as const, name: "History", icon: "📜" },
+    { id: "stats" as const, name: "Statistics", icon: "📊" },
   ];
 
   return (
@@ -101,8 +104,8 @@ export const RecruitmentView: React.FC = () => {
                 onClick={() => setSelectedTab(tab.id)}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
                   selectedTab === tab.id
-                    ? 'bg-purple-600 text-white shadow-lg'
-                    : 'bg-purple-800 bg-opacity-50 text-purple-200 hover:bg-purple-700 hover:bg-opacity-70'
+                    ? "bg-purple-600 text-white shadow-lg"
+                    : "bg-purple-800 bg-opacity-50 text-purple-200 hover:bg-purple-700 hover:bg-opacity-70"
                 }`}
               >
                 <span>{tab.icon}</span>
@@ -116,7 +119,7 @@ export const RecruitmentView: React.FC = () => {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <AnimatePresence mode="wait">
-          {selectedTab === 'banners' && (
+          {selectedTab === "banners" && (
             <motion.div
               key="banners"
               initial={{ opacity: 0, y: 20 }}
@@ -162,16 +165,21 @@ export const RecruitmentView: React.FC = () => {
                     <div className="text-2xl font-bold text-pink-400">
                       {recruitmentSystem.summonHistory.reduce(
                         (sum, record) => sum + record.results.length,
-                        0
+                        0,
                       )}
                     </div>
-                    <div className="text-sm text-gray-400">Characters Summoned</div>
+                    <div className="text-sm text-gray-400">
+                      Characters Summoned
+                    </div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-yellow-400">
                       {recruitmentSystem.summonHistory.reduce(
-                        (sum, record) => sum + record.results.filter(r => r.rarity === 'Legendary').length,
-                        0
+                        (sum, record) =>
+                          sum +
+                          record.results.filter((r) => r.rarity === "Legendary")
+                            .length,
+                        0,
                       )}
                     </div>
                     <div className="text-sm text-gray-400">Legendary Pulls</div>
@@ -179,8 +187,11 @@ export const RecruitmentView: React.FC = () => {
                   <div className="text-center">
                     <div className="text-2xl font-bold text-red-400">
                       {recruitmentSystem.summonHistory.reduce(
-                        (sum, record) => sum + record.results.filter(r => r.rarity === 'Mythical').length,
-                        0
+                        (sum, record) =>
+                          sum +
+                          record.results.filter((r) => r.rarity === "Mythical")
+                            .length,
+                        0,
                       )}
                     </div>
                     <div className="text-sm text-gray-400">Mythical Pulls</div>
@@ -190,7 +201,7 @@ export const RecruitmentView: React.FC = () => {
             </motion.div>
           )}
 
-          {selectedTab === 'history' && (
+          {selectedTab === "history" && (
             <motion.div
               key="history"
               initial={{ opacity: 0, y: 20 }}
@@ -231,7 +242,7 @@ export const RecruitmentView: React.FC = () => {
                             </div>
                             <div className="text-right">
                               <div className="text-sm text-gray-400">
-                                Banner: {record.bannerId.replace(/_/g, ' ')}
+                                Banner: {record.bannerId.replace(/_/g, " ")}
                               </div>
                               {record.wasGuaranteed && (
                                 <div className="text-xs text-yellow-400">
@@ -245,21 +256,21 @@ export const RecruitmentView: React.FC = () => {
                               <div
                                 key={index}
                                 className={`px-2 py-1 rounded text-xs font-medium ${
-                                  result.rarity === 'Mythical'
-                                    ? 'bg-red-600 text-white'
-                                    : result.rarity === 'Legendary'
-                                    ? 'bg-yellow-600 text-white'
-                                    : result.rarity === 'Epic'
-                                    ? 'bg-purple-600 text-white'
-                                    : result.rarity === 'Rare'
-                                    ? 'bg-blue-600 text-white'
-                                    : result.rarity === 'Uncommon'
-                                    ? 'bg-green-600 text-white'
-                                    : 'bg-gray-600 text-white'
+                                  result.rarity === "Mythical"
+                                    ? "bg-red-600 text-white"
+                                    : result.rarity === "Legendary"
+                                      ? "bg-yellow-600 text-white"
+                                      : result.rarity === "Epic"
+                                        ? "bg-purple-600 text-white"
+                                        : result.rarity === "Rare"
+                                          ? "bg-blue-600 text-white"
+                                          : result.rarity === "Uncommon"
+                                            ? "bg-green-600 text-white"
+                                            : "bg-gray-600 text-white"
                                 }`}
                               >
                                 {result.character.name}
-                                {result.isNew && ' ✨'}
+                                {result.isNew && " ✨"}
                               </div>
                             ))}
                           </div>
@@ -271,7 +282,7 @@ export const RecruitmentView: React.FC = () => {
             </motion.div>
           )}
 
-          {selectedTab === 'stats' && (
+          {selectedTab === "stats" && (
             <motion.div
               key="stats"
               initial={{ opacity: 0, y: 20 }}

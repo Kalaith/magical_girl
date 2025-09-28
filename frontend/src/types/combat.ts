@@ -1,5 +1,5 @@
 // Turn-based combat system types
-import type { MagicalGirl, MagicalElement, Ability } from './magicalGirl';
+import type { MagicalGirl, MagicalElement, Ability } from "./magicalGirl";
 
 export interface CombatSystem {
   battles: CombatBattle[];
@@ -28,41 +28,41 @@ export interface CombatBattle {
   penalties: CombatPenalty[];
   startTime: number;
   endTime?: number;
-  winner?: 'player' | 'enemy' | 'draw';
+  winner?: "player" | "enemy" | "draw";
   reason?: BattleEndReason;
   combatLog: CombatLogEntry[];
 }
 
 export type BattleType =
-  | 'Training'
-  | 'Mission'
-  | 'Arena'
-  | 'Boss'
-  | 'Event'
-  | 'Tournament'
-  | 'Raid'
-  | 'Challenge';
+  | "Training"
+  | "Mission"
+  | "Arena"
+  | "Boss"
+  | "Event"
+  | "Tournament"
+  | "Raid"
+  | "Challenge";
 
 export type BattleStatus =
-  | 'Preparing'
-  | 'Active'
-  | 'Paused'
-  | 'Completed'
-  | 'Abandoned'
-  | 'Error';
+  | "Preparing"
+  | "Active"
+  | "Paused"
+  | "Completed"
+  | "Abandoned"
+  | "Error";
 
 export type BattleEndReason =
-  | 'Victory'
-  | 'Defeat'
-  | 'Timeout'
-  | 'Surrender'
-  | 'Draw'
-  | 'Error'
-  | 'Disconnect';
+  | "Victory"
+  | "Defeat"
+  | "Timeout"
+  | "Surrender"
+  | "Draw"
+  | "Error"
+  | "Disconnect";
 
 export interface CombatParticipant {
   id: string;
-  source: 'player' | 'ai';
+  source: "player" | "ai";
   character: MagicalGirl;
   position: CombatPosition;
   currentStats: CombatStats;
@@ -82,12 +82,12 @@ export interface CombatParticipant {
 export interface CombatPosition {
   row: number; // 1-3 (front, middle, back)
   column: number; // 1-3 (left, center, right)
-  team: 'player' | 'enemy';
+  team: "player" | "enemy";
   modifiers: PositionModifier[];
 }
 
 export interface PositionModifier {
-  type: 'damage' | 'defense' | 'speed' | 'accuracy' | 'evasion' | 'range';
+  type: "damage" | "defense" | "speed" | "accuracy" | "evasion" | "range";
   value: number;
   source: string;
   duration?: number;
@@ -127,25 +127,25 @@ export interface StatusEffect {
 }
 
 export type StatusEffectType =
-  | 'Buff'
-  | 'Debuff'
-  | 'Neutral'
-  | 'Transform'
-  | 'Environmental';
+  | "Buff"
+  | "Debuff"
+  | "Neutral"
+  | "Transform"
+  | "Environmental";
 
 export type StatusEffectCategory =
-  | 'Physical'
-  | 'Magical'
-  | 'Mental'
-  | 'Elemental'
-  | 'Special'
-  | 'Transformation';
+  | "Physical"
+  | "Magical"
+  | "Mental"
+  | "Elemental"
+  | "Special"
+  | "Transformation";
 
 export interface StatusEffectData {
-  stat: keyof CombatStats | 'special';
+  stat: keyof CombatStats | "special";
   modification: number;
-  type: 'flat' | 'percentage' | 'multiplier';
-  operation: 'add' | 'subtract' | 'multiply' | 'divide' | 'set';
+  type: "flat" | "percentage" | "multiplier";
+  operation: "add" | "subtract" | "multiply" | "divide" | "set";
 }
 
 export interface CombatEquipment {
@@ -170,16 +170,16 @@ export interface CombatWeapon {
 }
 
 export type WeaponType =
-  | 'Staff'
-  | 'Wand'
-  | 'Sword'
-  | 'Bow'
-  | 'Orb'
-  | 'Crystal'
-  | 'Fan'
-  | 'Gauntlets'
-  | 'Wings'
-  | 'Harp';
+  | "Staff"
+  | "Wand"
+  | "Sword"
+  | "Bow"
+  | "Orb"
+  | "Crystal"
+  | "Fan"
+  | "Gauntlets"
+  | "Wings"
+  | "Harp";
 
 export interface CombatArmor {
   id: string;
@@ -194,13 +194,13 @@ export interface CombatArmor {
 }
 
 export type ArmorType =
-  | 'Dress'
-  | 'Robe'
-  | 'Cloak'
-  | 'Armor'
-  | 'Uniform'
-  | 'Kimono'
-  | 'Battle_Suit';
+  | "Dress"
+  | "Robe"
+  | "Cloak"
+  | "Armor"
+  | "Uniform"
+  | "Kimono"
+  | "Battle_Suit";
 
 export interface CombatAccessory {
   id: string;
@@ -211,13 +211,13 @@ export interface CombatAccessory {
 }
 
 export type AccessoryType =
-  | 'Ring'
-  | 'Necklace'
-  | 'Earrings'
-  | 'Tiara'
-  | 'Bracelet'
-  | 'Charm'
-  | 'Badge';
+  | "Ring"
+  | "Necklace"
+  | "Earrings"
+  | "Tiara"
+  | "Bracelet"
+  | "Charm"
+  | "Badge";
 
 export interface CombatItem {
   id: string;
@@ -230,16 +230,16 @@ export interface CombatItem {
 }
 
 export type ItemType =
-  | 'Healing'
-  | 'Buff'
-  | 'Debuff'
-  | 'Utility'
-  | 'Special'
-  | 'Transformation';
+  | "Healing"
+  | "Buff"
+  | "Debuff"
+  | "Utility"
+  | "Special"
+  | "Transformation";
 
 export interface ItemEffect {
-  type: 'instant' | 'duration' | 'triggered';
-  target: 'self' | 'ally' | 'enemy' | 'all_allies' | 'all_enemies' | 'area';
+  type: "instant" | "duration" | "triggered";
+  target: "self" | "ally" | "enemy" | "all_allies" | "all_enemies" | "area";
   effects: StatusEffectData[];
   duration?: number;
   trigger?: string;
@@ -271,34 +271,34 @@ export interface CombatAction {
 }
 
 export type ActionType =
-  | 'Attack'
-  | 'Ability'
-  | 'Spell'
-  | 'Item'
-  | 'Move'
-  | 'Guard'
-  | 'Transform'
-  | 'Special';
+  | "Attack"
+  | "Ability"
+  | "Spell"
+  | "Item"
+  | "Move"
+  | "Guard"
+  | "Transform"
+  | "Special";
 
 export type ActionCategory =
-  | 'Physical'
-  | 'Magical'
-  | 'Support'
-  | 'Utility'
-  | 'Ultimate'
-  | 'Counter'
-  | 'Passive';
+  | "Physical"
+  | "Magical"
+  | "Support"
+  | "Utility"
+  | "Ultimate"
+  | "Counter"
+  | "Passive";
 
 export interface ActionCost {
-  resource: 'mana' | 'health' | 'energy' | 'charges' | 'items';
+  resource: "mana" | "health" | "energy" | "charges" | "items";
   amount: number;
   percentage?: boolean;
 }
 
 export interface ActionRequirement {
-  type: 'health' | 'mana' | 'status' | 'position' | 'target' | 'combo';
+  type: "health" | "mana" | "status" | "position" | "target" | "combo";
   condition: string;
-  value?: any;
+  value?: unknown;
 }
 
 export interface CombatEffect {
@@ -311,31 +311,31 @@ export interface CombatEffect {
 }
 
 export type EffectType =
-  | 'Damage'
-  | 'Healing'
-  | 'Status'
-  | 'Movement'
-  | 'Manipulation'
-  | 'Special';
+  | "Damage"
+  | "Healing"
+  | "Status"
+  | "Movement"
+  | "Manipulation"
+  | "Special";
 
 export type EffectTarget =
-  | 'Self'
-  | 'Target'
-  | 'AllAllies'
-  | 'AllEnemies'
-  | 'Random'
-  | 'Area'
-  | 'Environment';
+  | "Self"
+  | "Target"
+  | "AllAllies"
+  | "AllEnemies"
+  | "Random"
+  | "Area"
+  | "Environment";
 
 export type EffectTiming =
-  | 'Instant'
-  | 'StartOfTurn'
-  | 'EndOfTurn'
-  | 'OnHit'
-  | 'OnMiss'
-  | 'OnDamage'
-  | 'OnHeal'
-  | 'Triggered';
+  | "Instant"
+  | "StartOfTurn"
+  | "EndOfTurn"
+  | "OnHit"
+  | "OnMiss"
+  | "OnDamage"
+  | "OnHeal"
+  | "Triggered";
 
 export interface EffectCalculation {
   baseValue: number;
@@ -353,13 +353,13 @@ export interface EffectModifier {
 }
 
 export interface EffectCondition {
-  type: 'health' | 'mana' | 'status' | 'position' | 'element' | 'weather';
-  operator: 'equals' | 'greater' | 'less' | 'contains' | 'not';
-  value: any;
+  type: "health" | "mana" | "status" | "position" | "element" | "weather";
+  operator: "equals" | "greater" | "less" | "contains" | "not";
+  value: unknown;
 }
 
 export interface TargetingRule {
-  type: 'Single' | 'Multiple' | 'Area' | 'Line' | 'All' | 'Random' | 'Self';
+  type: "Single" | "Multiple" | "Area" | "Line" | "All" | "Random" | "Self";
   count?: number;
   restrictions: TargetRestriction[];
   autoTarget?: boolean;
@@ -367,20 +367,20 @@ export interface TargetingRule {
 }
 
 export interface TargetRestriction {
-  type: 'team' | 'health' | 'status' | 'position' | 'element' | 'type';
-  value: any;
+  type: "team" | "health" | "status" | "position" | "element" | "type";
+  value: unknown;
   exclude?: boolean;
 }
 
 export interface AreaOfEffect {
-  shape: 'Circle' | 'Square' | 'Line' | 'Cone' | 'Cross' | 'Diamond';
+  shape: "Circle" | "Square" | "Line" | "Cone" | "Cross" | "Diamond";
   size: number;
   centerOnTarget: boolean;
   includeCenter: boolean;
 }
 
 export interface ActionAnimation {
-  type: 'Instant' | 'Projectile' | 'Melee' | 'Channeled' | 'Transformation';
+  type: "Instant" | "Projectile" | "Melee" | "Channeled" | "Transformation";
   duration: number;
   effects: AnimationEffect[];
   sound?: string;
@@ -388,8 +388,8 @@ export interface ActionAnimation {
 }
 
 export interface AnimationEffect {
-  type: 'Flash' | 'Shake' | 'Fade' | 'Scale' | 'Move' | 'Rotate';
-  target: 'caster' | 'target' | 'area' | 'screen';
+  type: "Flash" | "Shake" | "Fade" | "Scale" | "Move" | "Rotate";
+  target: "caster" | "target" | "area" | "screen";
   intensity: number;
   duration: number;
   delay?: number;
@@ -399,7 +399,7 @@ export interface ParticleEffect {
   type: string;
   count: number;
   duration: number;
-  position: 'caster' | 'target' | 'area' | 'path';
+  position: "caster" | "target" | "area" | "path";
   color?: string;
   size?: number;
 }
@@ -432,22 +432,22 @@ export interface CombatAI {
 }
 
 export type AIType =
-  | 'Aggressive'
-  | 'Defensive'
-  | 'Support'
-  | 'Balanced'
-  | 'Adaptive'
-  | 'Berserker'
-  | 'Tactical';
+  | "Aggressive"
+  | "Defensive"
+  | "Support"
+  | "Balanced"
+  | "Adaptive"
+  | "Berserker"
+  | "Tactical";
 
 export type AIDifficulty =
-  | 'Beginner'
-  | 'Easy'
-  | 'Normal'
-  | 'Hard'
-  | 'Expert'
-  | 'Master'
-  | 'Nightmare';
+  | "Beginner"
+  | "Easy"
+  | "Normal"
+  | "Hard"
+  | "Expert"
+  | "Master"
+  | "Nightmare";
 
 export interface AIPersonality {
   aggression: number; // 0-100
@@ -528,15 +528,15 @@ export interface BattleEnvironment {
 }
 
 export type EnvironmentType =
-  | 'City'
-  | 'Forest'
-  | 'Beach'
-  | 'Mountain'
-  | 'School'
-  | 'Magical_Realm'
-  | 'Void'
-  | 'Arena'
-  | 'Dungeon';
+  | "City"
+  | "Forest"
+  | "Beach"
+  | "Mountain"
+  | "School"
+  | "Magical_Realm"
+  | "Void"
+  | "Arena"
+  | "Dungeon";
 
 export interface WeatherCondition {
   type: WeatherType;
@@ -545,42 +545,42 @@ export interface WeatherCondition {
 }
 
 export type WeatherType =
-  | 'Clear'
-  | 'Rain'
-  | 'Storm'
-  | 'Snow'
-  | 'Fog'
-  | 'Wind'
-  | 'Magical_Storm'
-  | 'Eclipse';
+  | "Clear"
+  | "Rain"
+  | "Storm"
+  | "Snow"
+  | "Fog"
+  | "Wind"
+  | "Magical_Storm"
+  | "Eclipse";
 
 export type TerrainType =
-  | 'Flat'
-  | 'Hills'
-  | 'Water'
-  | 'Sand'
-  | 'Ice'
-  | 'Lava'
-  | 'Magical'
-  | 'Floating';
+  | "Flat"
+  | "Hills"
+  | "Water"
+  | "Sand"
+  | "Ice"
+  | "Lava"
+  | "Magical"
+  | "Floating";
 
 export type LightingCondition =
-  | 'Bright'
-  | 'Normal'
-  | 'Dim'
-  | 'Dark'
-  | 'Magical'
-  | 'Blinding'
-  | 'Twilight';
+  | "Bright"
+  | "Normal"
+  | "Dim"
+  | "Dark"
+  | "Magical"
+  | "Blinding"
+  | "Twilight";
 
 export type MagicalFieldType =
-  | 'Neutral'
-  | 'Amplified'
-  | 'Suppressed'
-  | 'Chaotic'
-  | 'Elemental'
-  | 'Void'
-  | 'Sacred';
+  | "Neutral"
+  | "Amplified"
+  | "Suppressed"
+  | "Chaotic"
+  | "Elemental"
+  | "Void"
+  | "Sacred";
 
 export interface EnvironmentEffect {
   name: string;
@@ -593,7 +593,7 @@ export interface EnvironmentEffect {
 export interface EnvironmentHazard {
   name: string;
   description: string;
-  type: 'Damage' | 'Status' | 'Movement' | 'Resource';
+  type: "Damage" | "Status" | "Movement" | "Resource";
   trigger: string;
   effect: CombatEffect;
   positions?: CombatPosition[];
@@ -606,14 +606,14 @@ export interface EnvironmentBonus {
   description: string;
   condition: string;
   effect: StatusEffectData[];
-  targets: 'all' | 'player' | 'enemy' | 'specific';
+  targets: "all" | "player" | "enemy" | "specific";
 }
 
 export interface CombatTurnOrder {
   participants: TurnOrderEntry[];
   currentIndex: number;
   phase: TurnPhase;
-  speedTiebreaker: 'random' | 'player_first' | 'higher_level';
+  speedTiebreaker: "random" | "player_first" | "higher_level";
 }
 
 export interface TurnOrderEntry {
@@ -625,26 +625,21 @@ export interface TurnOrderEntry {
   canAct: boolean;
 }
 
-export type TurnPhase =
-  | 'Start'
-  | 'Action'
-  | 'Resolution'
-  | 'End'
-  | 'Cleanup';
+export type TurnPhase = "Start" | "Action" | "Resolution" | "End" | "Cleanup";
 
 export interface BattleCondition {
   id: string;
   name: string;
   description: string;
-  type: 'Victory' | 'Defeat' | 'Special' | 'Time';
+  type: "Victory" | "Defeat" | "Special" | "Time";
   condition: string;
   priority: number;
   hidden: boolean;
-  checkTiming: 'StartTurn' | 'EndTurn' | 'OnAction' | 'Continuous';
+  checkTiming: "StartTurn" | "EndTurn" | "OnAction" | "Continuous";
 }
 
 export interface CombatReward {
-  type: 'Experience' | 'Currency' | 'Item' | 'Character' | 'Unlock';
+  type: "Experience" | "Currency" | "Item" | "Character" | "Unlock";
   amount?: number;
   item?: string;
   rarity?: string;
@@ -654,7 +649,7 @@ export interface CombatReward {
 }
 
 export interface CombatPenalty {
-  type: 'Experience' | 'Currency' | 'Item' | 'Condition';
+  type: "Experience" | "Currency" | "Item" | "Condition";
   amount?: number;
   condition?: string;
   description: string;
@@ -663,7 +658,7 @@ export interface CombatPenalty {
 export interface CombatShield {
   id: string;
   name: string;
-  type: 'Physical' | 'Magical' | 'Elemental' | 'Universal';
+  type: "Physical" | "Magical" | "Elemental" | "Universal";
   strength: number;
   maxStrength: number;
   duration: number;
@@ -675,7 +670,7 @@ export interface CombatShield {
 export interface CombatBarrier {
   id: string;
   name: string;
-  type: 'Damage' | 'Status' | 'Displacement' | 'Universal';
+  type: "Damage" | "Status" | "Displacement" | "Universal";
   effectiveness: number;
   duration: number;
   source: string;
@@ -695,19 +690,19 @@ export interface CombatLogEntry {
   value?: number;
   critical?: boolean;
   description: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 export type LogEntryType =
-  | 'Action'
-  | 'Damage'
-  | 'Healing'
-  | 'Status'
-  | 'Movement'
-  | 'Environment'
-  | 'System'
-  | 'Victory'
-  | 'Defeat';
+  | "Action"
+  | "Damage"
+  | "Healing"
+  | "Status"
+  | "Movement"
+  | "Environment"
+  | "System"
+  | "Victory"
+  | "Defeat";
 
 export interface CombatRecord {
   id: string;
@@ -717,7 +712,7 @@ export interface CombatRecord {
   type: BattleType;
   playerTeam: string[];
   enemyTeam: string[];
-  result: 'Victory' | 'Defeat' | 'Draw';
+  result: "Victory" | "Defeat" | "Draw";
   turns: number;
   damageDealt: number;
   damageReceived: number;
@@ -745,13 +740,13 @@ export interface CombatFormation {
 }
 
 export type FormationType =
-  | 'Offensive'
-  | 'Defensive'
-  | 'Balanced'
-  | 'Support'
-  | 'Elemental'
-  | 'Specialist'
-  | 'Custom';
+  | "Offensive"
+  | "Defensive"
+  | "Balanced"
+  | "Support"
+  | "Elemental"
+  | "Specialist"
+  | "Custom";
 
 export interface FormationPosition {
   row: number;
@@ -762,17 +757,17 @@ export interface FormationPosition {
 }
 
 export type PositionRole =
-  | 'Tank'
-  | 'Damage'
-  | 'Support'
-  | 'Healer'
-  | 'Buffer'
-  | 'Debuffer'
-  | 'Flexible';
+  | "Tank"
+  | "Damage"
+  | "Support"
+  | "Healer"
+  | "Buffer"
+  | "Debuffer"
+  | "Flexible";
 
 export interface PositionRestriction {
-  type: 'element' | 'specialization' | 'level' | 'equipment';
-  value: any;
+  type: "element" | "specialization" | "level" | "equipment";
+  value: unknown;
   required: boolean;
 }
 
@@ -785,7 +780,7 @@ export interface FormationBonus {
 }
 
 export interface FormationRequirement {
-  type: 'characters' | 'elements' | 'specializations' | 'levels';
+  type: "characters" | "elements" | "specializations" | "levels";
   condition: string;
   description: string;
 }
@@ -806,13 +801,13 @@ export interface CombatSettings {
 }
 
 export type CombatDifficulty =
-  | 'Story'
-  | 'Easy'
-  | 'Normal'
-  | 'Hard'
-  | 'Expert'
-  | 'Nightmare'
-  | 'Custom';
+  | "Story"
+  | "Easy"
+  | "Normal"
+  | "Hard"
+  | "Expert"
+  | "Nightmare"
+  | "Custom";
 
 // Utility types for combat calculations
 export interface DamageCalculation {
@@ -876,7 +871,7 @@ export interface CombatElementStats {
 export interface CombatEvent {
   type: string;
   timestamp: number;
-  data: any;
+  data: Record<string, unknown>;
   handlers: CombatEventHandler[];
 }
 

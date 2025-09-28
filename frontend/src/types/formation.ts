@@ -1,6 +1,16 @@
 // Team Formation and Strategy System Types
-import type { MagicalGirl, MagicalElement, StatBonus } from './magicalGirl';
-import type { CombatParticipant, CombatPosition } from './combat';
+import type { MagicalGirl, MagicalElement } from "./magicalGirl";
+import type { CombatParticipant } from "./combat";
+
+export interface StatBonus {
+  health: number;
+  mana: number;
+  attack: number;
+  defense: number;
+  speed: number;
+  accuracy: number;
+  critical: number;
+}
 
 export interface FormationSystem {
   formations: Formation[];
@@ -56,24 +66,31 @@ export interface Formation {
 }
 
 export type FormationCategory =
-  | 'Offensive'
-  | 'Defensive'
-  | 'Balanced'
-  | 'Support'
-  | 'Elemental'
-  | 'Specialist'
-  | 'Custom';
+  | "Offensive"
+  | "Defensive"
+  | "Balanced"
+  | "Support"
+  | "Elemental"
+  | "Specialist"
+  | "Custom";
 
 export type FormationType =
-  | 'Standard'
-  | 'Advanced'
-  | 'Elite'
-  | 'Legendary'
-  | 'Custom'
-  | 'Experimental';
+  | "Standard"
+  | "Advanced"
+  | "Elite"
+  | "Legendary"
+  | "Custom"
+  | "Experimental";
 
 export interface FormationPattern {
-  shape: 'Triangle' | 'Line' | 'Square' | 'Diamond' | 'Circle' | 'Star' | 'Custom';
+  shape:
+    | "Triangle"
+    | "Line"
+    | "Square"
+    | "Diamond"
+    | "Circle"
+    | "Star"
+    | "Custom";
   frontLine: number;
   midLine: number;
   backLine: number;
@@ -113,15 +130,15 @@ export interface FormationPosition {
 }
 
 export type TeamRole =
-  | 'Tank'
-  | 'Damage'
-  | 'Support'
-  | 'Healer'
-  | 'Buffer'
-  | 'Debuffer'
-  | 'Controller'
-  | 'Utility'
-  | 'Leader';
+  | "Tank"
+  | "Damage"
+  | "Support"
+  | "Healer"
+  | "Buffer"
+  | "Debuffer"
+  | "Controller"
+  | "Utility"
+  | "Leader";
 
 export interface FormationStatRequirements {
   power: number;
@@ -141,24 +158,30 @@ export interface StatWeight {
 }
 
 export interface PositionModifier {
-  type: 'stat' | 'ability' | 'elemental' | 'tactical' | 'special';
+  type: "stat" | "ability" | "elemental" | "tactical" | "special";
   stat?: keyof FormationStatRequirements;
   modification: number;
-  modifierType: 'flat' | 'percentage' | 'multiplier';
+  modifierType: "flat" | "percentage" | "multiplier";
   condition?: ModifierCondition;
   source: string;
   duration?: number;
 }
 
 export interface ModifierCondition {
-  type: 'always' | 'combat' | 'element_match' | 'adjacent_ally' | 'enemy_nearby' | 'health_threshold';
-  value?: any;
-  operator?: 'equals' | 'greater' | 'less' | 'contains';
+  type:
+    | "always"
+    | "combat"
+    | "element_match"
+    | "adjacent_ally"
+    | "enemy_nearby"
+    | "health_threshold";
+  value?: unknown;
+  operator?: "equals" | "greater" | "less" | "contains";
 }
 
 export interface AdjacencyBonus {
-  type: 'stat' | 'ability' | 'synergy' | 'protection';
-  requiredAdjacent: TeamRole | MagicalElement | 'any';
+  type: "stat" | "ability" | "synergy" | "protection";
+  requiredAdjacent: TeamRole | MagicalElement | "any";
   bonus: StatBonus[];
   radius: number; // How many positions away the bonus applies
   stackable: boolean;
@@ -166,25 +189,32 @@ export interface AdjacencyBonus {
 }
 
 export interface FormationRequirement {
-  type: 'level' | 'element' | 'role' | 'stat' | 'mastery' | 'achievement' | 'custom';
+  type:
+    | "level"
+    | "element"
+    | "role"
+    | "stat"
+    | "mastery"
+    | "achievement"
+    | "custom";
   description: string;
-  value: any;
+  value: unknown;
   optional: boolean;
   weight: number; // How important this requirement is (0-1)
 }
 
 export interface FormationRestriction {
-  type: 'element' | 'role' | 'character' | 'equipment' | 'level' | 'custom';
+  type: "element" | "role" | "character" | "equipment" | "level" | "custom";
   description: string;
-  value: any;
-  severity: 'warning' | 'error' | 'blocking';
+  value: unknown;
+  severity: "warning" | "error" | "blocking";
 }
 
 export interface ElementRequirement {
   element: MagicalElement;
   minimum: number;
   maximum?: number;
-  position?: 'any' | 'front' | 'middle' | 'back' | 'specific';
+  position?: "any" | "front" | "middle" | "back" | "specific";
   specificPositions?: number[];
   bonus?: ElementalBonus;
 }
@@ -200,7 +230,7 @@ export interface FormationBonus {
   id: string;
   name: string;
   description: string;
-  type: 'stat' | 'ability' | 'tactical' | 'elemental' | 'special';
+  type: "stat" | "ability" | "tactical" | "elemental" | "special";
 
   // Bonus effects
   statBonuses: StatBonus[];
@@ -217,14 +247,19 @@ export interface FormationBonus {
   scaling: BonusScaling[];
 
   // Timing and duration
-  activationTiming: 'immediate' | 'combat_start' | 'turn_start' | 'on_action' | 'conditional';
-  duration: 'permanent' | 'combat' | 'turn' | 'temporary';
+  activationTiming:
+    | "immediate"
+    | "combat_start"
+    | "turn_start"
+    | "on_action"
+    | "conditional";
+  duration: "permanent" | "combat" | "turn" | "temporary";
   cooldown?: number;
 }
 
 export interface AbilityModifier {
   abilityId: string;
-  type: 'enhance' | 'reduce' | 'disable' | 'replace' | 'add' | 'modify';
+  type: "enhance" | "reduce" | "disable" | "replace" | "add" | "modify";
   value: number;
   description: string;
   conditions?: string[];
@@ -234,7 +269,7 @@ export interface SpecialEffect {
   id: string;
   name: string;
   description: string;
-  type: 'aura' | 'trigger' | 'passive' | 'active' | 'environmental';
+  type: "aura" | "trigger" | "passive" | "active" | "environmental";
 
   // Effect properties
   effects: EffectData[];
@@ -242,7 +277,7 @@ export interface SpecialEffect {
   conditions: EffectCondition[];
 
   // Targeting
-  targets: 'self' | 'team' | 'allies' | 'enemies' | 'all' | 'area' | 'specific';
+  targets: "self" | "team" | "allies" | "enemies" | "all" | "area" | "specific";
   range: number;
   areaOfEffect?: number;
 
@@ -253,7 +288,7 @@ export interface SpecialEffect {
 }
 
 export interface EffectData {
-  type: 'stat' | 'status' | 'damage' | 'healing' | 'movement' | 'special';
+  type: "stat" | "status" | "damage" | "healing" | "movement" | "special";
   value: number;
   target: string;
   duration?: number;
@@ -261,27 +296,50 @@ export interface EffectData {
 }
 
 export interface EffectTrigger {
-  event: 'combat_start' | 'turn_start' | 'action_used' | 'damage_taken' | 'ally_defeated' | 'custom';
+  event:
+    | "combat_start"
+    | "turn_start"
+    | "action_used"
+    | "damage_taken"
+    | "ally_defeated"
+    | "custom";
   condition?: string;
   probability: number;
   cooldown?: number;
 }
 
 export interface EffectCondition {
-  type: 'stat' | 'health' | 'element' | 'position' | 'team_composition' | 'custom';
-  operator: 'equals' | 'greater' | 'less' | 'contains' | 'not';
-  value: any;
+  type:
+    | "stat"
+    | "health"
+    | "element"
+    | "position"
+    | "team_composition"
+    | "custom";
+  operator: "equals" | "greater" | "less" | "contains" | "not";
+  value: unknown;
 }
 
 export interface BonusCondition {
-  type: 'full_formation' | 'element_diversity' | 'role_coverage' | 'stat_threshold' | 'synergy_active' | 'custom';
+  type:
+    | "full_formation"
+    | "element_diversity"
+    | "role_coverage"
+    | "stat_threshold"
+    | "synergy_active"
+    | "custom";
   description: string;
-  value?: any;
+  value?: unknown;
   weight: number; // How much this condition affects bonus strength
 }
 
 export interface BonusScaling {
-  factor: 'team_size' | 'element_count' | 'synergy_level' | 'formation_mastery' | 'custom';
+  factor:
+    | "team_size"
+    | "element_count"
+    | "synergy_level"
+    | "formation_mastery"
+    | "custom";
   multiplier: number;
   maximum?: number;
   threshold?: number;
@@ -318,27 +376,48 @@ export interface SynergyBonus {
 }
 
 export type ElementalSynergyType =
-  | 'Elemental_Harmony' // Same elements
-  | 'Elemental_Contrast' // Opposing elements
-  | 'Elemental_Trinity' // Three complementary elements
-  | 'Elemental_Spectrum' // All different elements
-  | 'Prismatic_Unity' // Special rainbow synergy
-  | 'Void_Resonance' // Dark/light balance
-  | 'Natural_Cycle' // Earth/water/fire/air cycle
-  | 'Celestial_Alignment' // Light/celestial combinations
-  | 'Custom';
+  | "Elemental_Harmony" // Same elements
+  | "Elemental_Contrast" // Opposing elements
+  | "Elemental_Trinity" // Three complementary elements
+  | "Elemental_Spectrum" // All different elements
+  | "Prismatic_Unity" // Special rainbow synergy
+  | "Void_Resonance" // Dark/light balance
+  | "Natural_Cycle" // Earth/water/fire/air cycle
+  | "Celestial_Alignment" // Light/celestial combinations
+  | "Custom";
 
-export type SynergyLevel = 'Basic' | 'Enhanced' | 'Superior' | 'Perfect' | 'Transcendent';
-export type SynergyTier = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Mythical';
-export type SynergyRarity = 'Standard' | 'Special' | 'Secret' | 'Hidden' | 'Ultimate';
+export type SynergyLevel =
+  | "Basic"
+  | "Enhanced"
+  | "Superior"
+  | "Perfect"
+  | "Transcendent";
+export type SynergyTier =
+  | "Common"
+  | "Uncommon"
+  | "Rare"
+  | "Epic"
+  | "Legendary"
+  | "Mythical";
+export type SynergyRarity =
+  | "Standard"
+  | "Special"
+  | "Secret"
+  | "Hidden"
+  | "Ultimate";
 
 export interface SynergyCombatEffect {
-  type: 'damage_boost' | 'defense_boost' | 'special_ability' | 'element_infusion' | 'combo_unlock';
+  type:
+    | "damage_boost"
+    | "defense_boost"
+    | "special_ability"
+    | "element_infusion"
+    | "combo_unlock";
   name: string;
   description: string;
   value: number;
-  target: 'self' | 'team' | 'enemies' | 'all';
-  trigger: 'passive' | 'active' | 'conditional';
+  target: "self" | "team" | "enemies" | "all";
+  trigger: "passive" | "active" | "conditional";
   conditions?: string[];
 }
 
@@ -346,7 +425,7 @@ export interface FormationPenalty {
   id: string;
   name: string;
   description: string;
-  type: 'stat' | 'ability' | 'elemental' | 'tactical';
+  type: "stat" | "ability" | "elemental" | "tactical";
 
   // Penalty effects
   statPenalties: StatPenalty[];
@@ -355,23 +434,28 @@ export interface FormationPenalty {
 
   // Conditions for penalty
   conditions: PenaltyCondition[];
-  severity: 'minor' | 'moderate' | 'major' | 'severe';
+  severity: "minor" | "moderate" | "major" | "severe";
 
   // Mitigation
   canBeMitigated: boolean;
   mitigationMethods: string[];
-  mitigationCost?: any;
+  mitigationCost?: Record<string, number>;
 }
 
 export interface StatPenalty {
   stat: keyof FormationStatRequirements;
   reduction: number;
-  type: 'flat' | 'percentage' | 'multiplier';
-  duration: 'permanent' | 'combat' | 'temporary';
+  type: "flat" | "percentage" | "multiplier";
+  duration: "permanent" | "combat" | "temporary";
 }
 
 export interface PenaltyCondition {
-  type: 'missing_role' | 'element_imbalance' | 'stat_deficiency' | 'position_mismatch' | 'team_size';
+  type:
+    | "missing_role"
+    | "element_imbalance"
+    | "stat_deficiency"
+    | "position_mismatch"
+    | "team_size";
   description: string;
   threshold: number;
   weight: number;
@@ -381,11 +465,16 @@ export interface TacticalEffect {
   id: string;
   name: string;
   description: string;
-  type: 'positioning' | 'movement' | 'targeting' | 'protection' | 'coordination';
+  type:
+    | "positioning"
+    | "movement"
+    | "targeting"
+    | "protection"
+    | "coordination";
 
   // Effect properties
   range: number;
-  duration: 'permanent' | 'combat' | 'turn' | 'action';
+  duration: "permanent" | "combat" | "turn" | "action";
   stackable: boolean;
 
   // Tactical modifiers
@@ -404,10 +493,16 @@ export interface FormationCombatEffect {
   id: string;
   name: string;
   description: string;
-  phase: 'pre_combat' | 'combat_start' | 'turn_start' | 'action' | 'turn_end' | 'combat_end';
+  phase:
+    | "pre_combat"
+    | "combat_start"
+    | "turn_start"
+    | "action"
+    | "turn_end"
+    | "combat_end";
 
   // Effect timing
-  timing: 'immediate' | 'delayed' | 'continuous' | 'triggered';
+  timing: "immediate" | "delayed" | "continuous" | "triggered";
   delay?: number;
   duration?: number;
 
@@ -423,27 +518,42 @@ export interface FormationCombatEffect {
 }
 
 export interface CombatEffectData {
-  type: 'stat_modifier' | 'ability_unlock' | 'special_action' | 'environmental' | 'tactical';
+  type:
+    | "stat_modifier"
+    | "ability_unlock"
+    | "special_action"
+    | "environmental"
+    | "tactical";
   value: number;
   duration: number;
   probability: number;
 }
 
 export interface CombatTarget {
-  type: 'self' | 'allies' | 'enemies' | 'position' | 'area' | 'random';
+  type: "self" | "allies" | "enemies" | "position" | "area" | "random";
   count?: number;
   criteria?: string[];
   priority?: string[];
 }
 
 export interface CombatCondition {
-  type: 'health_threshold' | 'turn_count' | 'element_present' | 'role_present' | 'custom';
-  operator: 'equals' | 'greater' | 'less' | 'contains';
-  value: any;
+  type:
+    | "health_threshold"
+    | "turn_count"
+    | "element_present"
+    | "role_present"
+    | "custom";
+  operator: "equals" | "greater" | "less" | "contains";
+  value: unknown;
   probability?: number;
 }
 
-export type FormationDifficulty = 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert' | 'Master';
+export type FormationDifficulty =
+  | "Beginner"
+  | "Intermediate"
+  | "Advanced"
+  | "Expert"
+  | "Master";
 
 export interface FormationEffectiveness {
   overall: number; // 0-100
@@ -504,10 +614,10 @@ export interface TemplatePosition {
 }
 
 export interface FormationGuideline {
-  category: 'positioning' | 'composition' | 'synergy' | 'tactics' | 'timing';
+  category: "positioning" | "composition" | "synergy" | "tactics" | "timing";
   title: string;
   description: string;
-  importance: 'low' | 'medium' | 'high' | 'critical';
+  importance: "low" | "medium" | "high" | "critical";
   examples: string[];
 }
 
@@ -545,7 +655,7 @@ export interface FormationRecord {
   teamLevel: number;
 
   // Performance
-  result: 'victory' | 'defeat' | 'draw';
+  result: "victory" | "defeat" | "draw";
   performance: FormationPerformance;
   effectiveness: number;
 
@@ -604,7 +714,7 @@ export interface ElementalBalance {
 }
 
 export interface FormationModification {
-  type: 'position_swap' | 'member_replace' | 'role_change' | 'formation_change';
+  type: "position_swap" | "member_replace" | "role_change" | "formation_change";
   description: string;
   reason: string;
   effectiveness: number;
@@ -656,7 +766,12 @@ export interface ElementalSynergy {
 export interface SynergyPositionRequirement {
   positions: number[];
   elements: MagicalElement[];
-  relationshipType: 'adjacent' | 'same_row' | 'same_column' | 'diagonal' | 'any';
+  relationshipType:
+    | "adjacent"
+    | "same_row"
+    | "same_column"
+    | "diagonal"
+    | "any";
   required: boolean;
 }
 
@@ -665,14 +780,14 @@ export interface ScalingBonus {
   baseValue: number;
   scalingFactor: number;
   maxValue: number;
-  scalingType: 'linear' | 'exponential' | 'logarithmic' | 'stepped';
+  scalingType: "linear" | "exponential" | "logarithmic" | "stepped";
 }
 
 export interface SynergyAbility {
   id: string;
   name: string;
   description: string;
-  type: 'active' | 'passive' | 'triggered' | 'ultimate';
+  type: "active" | "passive" | "triggered" | "ultimate";
 
   // Ability properties
   cooldown: number;
@@ -690,13 +805,13 @@ export interface SynergyAbility {
 }
 
 export interface SynergyCost {
-  type: 'mana' | 'energy' | 'synergy_points' | 'turn' | 'health';
+  type: "mana" | "energy" | "synergy_points" | "turn" | "health";
   amount: number;
   percentage?: boolean;
 }
 
 export interface SynergyAbilityEffect {
-  type: 'damage' | 'healing' | 'buff' | 'debuff' | 'special' | 'environmental';
+  type: "damage" | "healing" | "buff" | "debuff" | "special" | "environmental";
   value: number;
   duration?: number;
   probability: number;
@@ -704,14 +819,14 @@ export interface SynergyAbilityEffect {
 }
 
 export interface SynergyTargeting {
-  type: 'self' | 'ally' | 'enemy' | 'team' | 'all' | 'area' | 'smart';
+  type: "self" | "ally" | "enemy" | "team" | "all" | "area" | "smart";
   count?: number;
   range?: number;
   criteria?: string[];
 }
 
 export interface SynergyVisualEffect {
-  type: 'aura' | 'particles' | 'lightning' | 'waves' | 'burst' | 'field';
+  type: "aura" | "particles" | "lightning" | "waves" | "burst" | "field";
   color: string;
   intensity: number;
   duration: number;
@@ -735,19 +850,25 @@ export interface SynergyTierData {
 }
 
 export type SynergyDiscoveryMethod =
-  | 'Combat_Success'
-  | 'Experimentation'
-  | 'Tutorial'
-  | 'Achievement'
-  | 'Story_Progression'
-  | 'Random_Discovery'
-  | 'Community_Sharing'
-  | 'Research';
+  | "Combat_Success"
+  | "Experimentation"
+  | "Tutorial"
+  | "Achievement"
+  | "Story_Progression"
+  | "Random_Discovery"
+  | "Community_Sharing"
+  | "Research";
 
 export interface SynergyRequirement {
-  type: 'battles_won' | 'elements_mastered' | 'formation_level' | 'character_level' | 'achievement' | 'custom';
+  type:
+    | "battles_won"
+    | "elements_mastered"
+    | "formation_level"
+    | "character_level"
+    | "achievement"
+    | "custom";
   description: string;
-  value: any;
+  value: unknown;
   progress?: number;
   completed: boolean;
 }
@@ -810,13 +931,13 @@ export interface AnalysisTeamComposition {
   balance: CompositionBalance;
 }
 
-export interface RoleDistribution {
+export type RoleDistribution = {
   [role in TeamRole]: number;
-}
+};
 
-export interface ElementDistribution {
+export type ElementDistribution = {
   [element in MagicalElement]: number;
-}
+};
 
 export interface LevelDistribution {
   average: number;
@@ -826,14 +947,14 @@ export interface LevelDistribution {
   gaps: number[];
 }
 
-export interface StatDistribution {
-  [stat in keyof FormationStatRequirements]: {
+export type StatDistribution = {
+  [K in keyof FormationStatRequirements]: {
     total: number;
     average: number;
     distribution: number[];
     balance: number;
   };
-}
+};
 
 export interface CompositionBalance {
   roleBalance: number; // 0-100
@@ -853,24 +974,33 @@ export interface AnalysisSynergy {
 }
 
 export interface FormationWeakness {
-  type: 'role_gap' | 'element_weakness' | 'stat_deficiency' | 'position_vulnerability' | 'synergy_loss';
-  severity: 'minor' | 'moderate' | 'major' | 'critical';
+  type:
+    | "role_gap"
+    | "element_weakness"
+    | "stat_deficiency"
+    | "position_vulnerability"
+    | "synergy_loss";
+  severity: "minor" | "moderate" | "major" | "critical";
   description: string;
   impact: number;
   solutions: WeaknessSolution[];
 }
 
 export interface WeaknessSolution {
-  type: 'character_swap' | 'position_change' | 'formation_change' | 'equipment_upgrade';
+  type:
+    | "character_swap"
+    | "position_change"
+    | "formation_change"
+    | "equipment_upgrade";
   description: string;
   cost: number;
   effectiveness: number;
-  difficulty: 'easy' | 'moderate' | 'hard' | 'expert';
+  difficulty: "easy" | "moderate" | "hard" | "expert";
 }
 
 export interface FormationRecommendation {
-  type: 'improvement' | 'optimization' | 'alternative' | 'synergy' | 'counter';
-  priority: 'low' | 'medium' | 'high' | 'critical';
+  type: "improvement" | "optimization" | "alternative" | "synergy" | "counter";
+  priority: "low" | "medium" | "high" | "critical";
   title: string;
   description: string;
   expectedImprovement: number;
@@ -878,11 +1008,11 @@ export interface FormationRecommendation {
 }
 
 export interface RecommendationImplementation {
-  difficulty: 'trivial' | 'easy' | 'moderate' | 'hard' | 'expert';
+  difficulty: "trivial" | "easy" | "moderate" | "hard" | "expert";
   requirements: string[];
   steps: string[];
   estimatedTime: number;
-  cost?: any;
+  cost?: Record<string, number>;
 }
 
 export interface FormationAlternative {
@@ -896,7 +1026,7 @@ export interface FormationAlternative {
 }
 
 export interface AlternativeChange {
-  type: 'character' | 'position' | 'role' | 'formation';
+  type: "character" | "position" | "role" | "formation";
   description: string;
   impact: number;
   feasibility: number;
@@ -970,9 +1100,9 @@ export interface BuilderConstraints {
 }
 
 export interface LevelConstraint {
-  type: 'minimum' | 'maximum' | 'average' | 'range';
+  type: "minimum" | "maximum" | "average" | "range";
   value: number | [number, number];
-  applies: 'individual' | 'team' | 'role';
+  applies: "individual" | "team" | "role";
 }
 
 export interface CustomRule {
@@ -980,11 +1110,11 @@ export interface CustomRule {
   name: string;
   description: string;
   condition: string;
-  enforcement: 'warning' | 'error' | 'blocking';
+  enforcement: "warning" | "error" | "blocking";
 }
 
 export interface BuilderRecommendation {
-  type: 'character' | 'position' | 'synergy' | 'optimization';
+  type: "character" | "position" | "synergy" | "optimization";
   priority: number;
   title: string;
   description: string;
@@ -992,8 +1122,12 @@ export interface BuilderRecommendation {
 }
 
 export interface RecommendationAction {
-  type: 'add_character' | 'move_character' | 'swap_characters' | 'change_formation';
-  parameters: any;
+  type:
+    | "add_character"
+    | "move_character"
+    | "swap_characters"
+    | "change_formation";
+  parameters: Record<string, unknown>;
   expectedBenefit: number;
 }
 
@@ -1014,8 +1148,12 @@ export interface PreviewSynergy {
 }
 
 export interface PreviewWarning {
-  type: 'missing_role' | 'weak_synergy' | 'imbalanced_elements' | 'level_mismatch';
-  severity: 'info' | 'warning' | 'error';
+  type:
+    | "missing_role"
+    | "weak_synergy"
+    | "imbalanced_elements"
+    | "level_mismatch";
+  severity: "info" | "warning" | "error";
   message: string;
   suggestions: string[];
 }
@@ -1040,7 +1178,7 @@ export interface VisualizationLayout {
   positions: VisualizationPosition[];
   spacing: number;
   scale: number;
-  orientation: 'horizontal' | 'vertical';
+  orientation: "horizontal" | "vertical";
 }
 
 export interface VisualizationPosition {
@@ -1057,22 +1195,22 @@ export interface VisualizationPosition {
 export interface VisualizationConnection {
   from: string;
   to: string;
-  type: 'synergy' | 'adjacency' | 'leadership' | 'protection';
+  type: "synergy" | "adjacency" | "leadership" | "protection";
   strength: number;
   color: string;
-  style: 'solid' | 'dashed' | 'dotted' | 'animated';
+  style: "solid" | "dashed" | "dotted" | "animated";
 }
 
 export interface VisualizationHighlight {
   positionId: string;
-  type: 'warning' | 'recommendation' | 'synergy' | 'optimal';
+  type: "warning" | "recommendation" | "synergy" | "optimal";
   color: string;
   intensity: number;
   animation?: string;
 }
 
 export interface VisualizationEffect {
-  type: 'aura' | 'particles' | 'field' | 'pulse';
+  type: "aura" | "particles" | "field" | "pulse";
   positions: string[];
   color: string;
   intensity: number;
@@ -1081,10 +1219,15 @@ export interface VisualizationEffect {
 }
 
 export interface BuilderAction {
-  type: 'add_character' | 'remove_character' | 'move_character' | 'change_formation' | 'apply_template';
+  type:
+    | "add_character"
+    | "remove_character"
+    | "move_character"
+    | "change_formation"
+    | "apply_template";
   timestamp: number;
   description: string;
-  parameters: any;
+  parameters: Record<string, unknown>;
   canUndo: boolean;
   canRedo: boolean;
 }
@@ -1095,20 +1238,20 @@ export interface FormationEvent {
   timestamp: number;
   formationId?: string;
   characterId?: string;
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 export type FormationEventType =
-  | 'formation_created'
-  | 'formation_modified'
-  | 'formation_activated'
-  | 'synergy_discovered'
-  | 'synergy_activated'
-  | 'effectiveness_changed'
-  | 'performance_recorded'
-  | 'recommendation_generated'
-  | 'weakness_detected'
-  | 'achievement_unlocked';
+  | "formation_created"
+  | "formation_modified"
+  | "formation_activated"
+  | "synergy_discovered"
+  | "synergy_activated"
+  | "effectiveness_changed"
+  | "performance_recorded"
+  | "recommendation_generated"
+  | "weakness_detected"
+  | "achievement_unlocked";
 
 // Export utility types
 export type FormationId = string;

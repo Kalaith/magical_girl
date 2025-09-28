@@ -1,14 +1,12 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useGameStore } from '../../stores/gameStore';
+import React, { useState, useCallback, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import type {
   OutfitPiece,
   Accessory,
   SavedOutfit,
   OutfitCategory,
   AccessoryCategory,
-  ColorConfiguration
-} from '../../types';
+} from "../../types";
 
 interface ColorPickerProps {
   color: string;
@@ -16,23 +14,39 @@ interface ColorPickerProps {
   label: string;
 }
 
-const ColorPicker: React.FC<ColorPickerProps> = ({ color, onChange, label }) => {
+const ColorPicker: React.FC<ColorPickerProps> = ({
+  color,
+  onChange,
+  label,
+}) => {
   const presetColors = [
-    '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
-    '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
-    '#F8C471', '#82E0AA', '#F1948A', '#85929E', '#D5A6BD'
+    "#FF6B6B",
+    "#4ECDC4",
+    "#45B7D1",
+    "#96CEB4",
+    "#FFEAA7",
+    "#DDA0DD",
+    "#98D8C8",
+    "#F7DC6F",
+    "#BB8FCE",
+    "#85C1E9",
+    "#F8C471",
+    "#82E0AA",
+    "#F1948A",
+    "#85929E",
+    "#D5A6BD",
   ];
 
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium text-gray-400">{label}</label>
       <div className="flex flex-wrap gap-2">
-        {presetColors.map(presetColor => (
+        {presetColors.map((presetColor) => (
           <button
             key={presetColor}
             onClick={() => onChange(presetColor)}
             className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${
-              color === presetColor ? 'border-white' : 'border-gray-600'
+              color === presetColor ? "border-white" : "border-gray-600"
             }`}
             style={{ backgroundColor: presetColor }}
           />
@@ -55,21 +69,26 @@ interface OutfitItemProps {
   category: OutfitCategory;
 }
 
-const OutfitItem: React.FC<OutfitItemProps> = ({ item, isEquipped, onEquip, category }) => {
+const OutfitItem: React.FC<OutfitItemProps> = ({
+  item,
+  isEquipped,
+  onEquip,
+  category,
+}) => {
   const rarityColors = {
-    common: 'border-gray-500 bg-gray-800',
-    uncommon: 'border-green-500 bg-green-900 bg-opacity-20',
-    rare: 'border-blue-500 bg-blue-900 bg-opacity-20',
-    epic: 'border-purple-500 bg-purple-900 bg-opacity-20',
-    legendary: 'border-yellow-500 bg-yellow-900 bg-opacity-20',
-    mythic: 'border-red-500 bg-red-900 bg-opacity-20'
+    common: "border-gray-500 bg-gray-800",
+    uncommon: "border-green-500 bg-green-900 bg-opacity-20",
+    rare: "border-blue-500 bg-blue-900 bg-opacity-20",
+    epic: "border-purple-500 bg-purple-900 bg-opacity-20",
+    legendary: "border-yellow-500 bg-yellow-900 bg-opacity-20",
+    mythic: "border-red-500 bg-red-900 bg-opacity-20",
   };
 
   return (
     <motion.div
       className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
-        rarityColors[item.rarity]
-      } ${isEquipped ? 'ring-2 ring-blue-400' : ''}`}
+        rarityColors[item.rarity as keyof typeof rarityColors] || rarityColors.common
+      } ${isEquipped ? "ring-2 ring-blue-400" : ""}`}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => onEquip(item)}
@@ -107,21 +126,25 @@ interface AccessoryItemProps {
   onEquip: (accessory: Accessory) => void;
 }
 
-const AccessoryItem: React.FC<AccessoryItemProps> = ({ accessory, isEquipped, onEquip }) => {
+const AccessoryItem: React.FC<AccessoryItemProps> = ({
+  accessory,
+  isEquipped,
+  onEquip,
+}) => {
   const rarityColors = {
-    common: 'border-gray-500 bg-gray-800',
-    uncommon: 'border-green-500 bg-green-900 bg-opacity-20',
-    rare: 'border-blue-500 bg-blue-900 bg-opacity-20',
-    epic: 'border-purple-500 bg-purple-900 bg-opacity-20',
-    legendary: 'border-yellow-500 bg-yellow-900 bg-opacity-20',
-    mythic: 'border-red-500 bg-red-900 bg-opacity-20'
+    common: "border-gray-500 bg-gray-800",
+    uncommon: "border-green-500 bg-green-900 bg-opacity-20",
+    rare: "border-blue-500 bg-blue-900 bg-opacity-20",
+    epic: "border-purple-500 bg-purple-900 bg-opacity-20",
+    legendary: "border-yellow-500 bg-yellow-900 bg-opacity-20",
+    mythic: "border-red-500 bg-red-900 bg-opacity-20",
   };
 
   return (
     <motion.div
       className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
-        rarityColors[accessory.rarity]
-      } ${isEquipped ? 'ring-2 ring-blue-400' : ''}`}
+        rarityColors[accessory.rarity as keyof typeof rarityColors] || rarityColors.common
+      } ${isEquipped ? "ring-2 ring-blue-400" : ""}`}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => onEquip(accessory)}
@@ -130,7 +153,9 @@ const AccessoryItem: React.FC<AccessoryItemProps> = ({ accessory, isEquipped, on
         <span className="text-2xl">✨</span>
       </div>
 
-      <h4 className="font-semibold text-white text-sm truncate">{accessory.name}</h4>
+      <h4 className="font-semibold text-white text-sm truncate">
+        {accessory.name}
+      </h4>
       <p className="text-xs text-gray-400 capitalize">{accessory.category}</p>
 
       {accessory.effects && accessory.effects.length > 0 && (
@@ -152,7 +177,11 @@ interface SavedOutfitCardProps {
   onDelete: (outfitId: string) => void;
 }
 
-const SavedOutfitCard: React.FC<SavedOutfitCardProps> = ({ outfit, onLoad, onDelete }) => {
+const SavedOutfitCard: React.FC<SavedOutfitCardProps> = ({
+  outfit,
+  onLoad,
+  onDelete,
+}) => {
   return (
     <motion.div
       className="bg-gray-800 p-4 rounded-lg border border-gray-600"
@@ -179,8 +208,11 @@ const SavedOutfitCard: React.FC<SavedOutfitCardProps> = ({ outfit, onLoad, onDel
       <div className="space-y-2">
         {outfit.tags && outfit.tags.length > 0 && (
           <div className="flex flex-wrap gap-1">
-            {outfit.tags.map(tag => (
-              <span key={tag} className="px-2 py-1 bg-blue-900 text-blue-300 rounded text-xs">
+            {outfit.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-1 bg-blue-900 text-blue-300 rounded text-xs"
+              >
                 {tag}
               </span>
             ))}
@@ -191,9 +223,9 @@ const SavedOutfitCard: React.FC<SavedOutfitCardProps> = ({ outfit, onLoad, onDel
           Created: {new Date(outfit.createdAt).toLocaleDateString()}
         </div>
 
-        {outfit.harmonyScore && (
+        {(outfit as any).harmonyScore && (
           <div className="text-xs text-green-400">
-            Harmony: {(outfit.harmonyScore * 100).toFixed(1)}%
+            Harmony: {((outfit as any).harmonyScore * 100).toFixed(1)}%
           </div>
         )}
       </div>
@@ -202,33 +234,55 @@ const SavedOutfitCard: React.FC<SavedOutfitCardProps> = ({ outfit, onLoad, onDel
 };
 
 export const CustomizationPanel: React.FC = () => {
-  const {
-    customizationState,
-    availableOutfitPieces,
-    availableAccessories,
-    savedOutfits,
-    equipOutfitPiece,
-    equipAccessory,
-    updateColors,
-    saveOutfit,
-    loadOutfit,
-    deleteOutfit,
-    randomizeOutfit,
-    analyzeOutfitCompatibility
-  } = useGameStore();
+  // Temporary mock data until store methods are implemented
+  const customizationState = {
+    currentOutfit: {},
+    currentColors: {
+      primary: "#FF6B6B",
+      secondary: "#4ECDC4",
+      accent: "#45B7D1",
+      hair: "#8B4513",
+    },
+    equippedAccessories: [],
+    harmonyScore: 0.85,
+  };
 
-  const [activeTab, setActiveTab] = useState<'outfits' | 'accessories' | 'colors' | 'saved'>('outfits');
-  const [selectedCategory, setSelectedCategory] = useState<OutfitCategory>('tops');
-  const [selectedAccessoryCategory, setSelectedAccessoryCategory] = useState<AccessoryCategory>('jewelry');
-  const [saveOutfitName, setSaveOutfitName] = useState('');
+  const availableOutfitPieces: OutfitPiece[] = [];
+  const availableAccessories: Accessory[] = [];
+  const savedOutfits: SavedOutfit[] = [];
+
+  const equipOutfitPiece = (piece: OutfitPiece) =>
+    console.log("equipOutfitPiece", piece);
+  const equipAccessory = (accessory: Accessory) =>
+    console.log("equipAccessory", accessory);
+  const updateColors = (colors: Record<string, string>) => console.log("updateColors", colors);
+  const saveOutfit = (name: string, tags: string[]) =>
+    console.log("saveOutfit", name, tags);
+  const loadOutfit = (outfit: SavedOutfit) => console.log("loadOutfit", outfit);
+  const deleteOutfit = (id: string) => console.log("deleteOutfit", id);
+  const randomizeOutfit = (options: { category?: OutfitCategory; rarity?: string; }) =>
+    console.log("randomizeOutfit", options);
+
+  const [activeTab, setActiveTab] = useState<
+    "outfits" | "accessories" | "colors" | "saved"
+  >("outfits");
+  const [selectedCategory, setSelectedCategory] =
+    useState<OutfitCategory>("top");
+  const [selectedAccessoryCategory, setSelectedAccessoryCategory] =
+    useState<AccessoryCategory>("jewelry");
+  const [saveOutfitName, setSaveOutfitName] = useState("");
   const [showSaveDialog, setShowSaveDialog] = useState(false);
 
   const filteredOutfitPieces = useMemo(() => {
-    return availableOutfitPieces.filter(piece => piece.category === selectedCategory);
+    return availableOutfitPieces.filter(
+      (piece) => piece.category === selectedCategory,
+    );
   }, [availableOutfitPieces, selectedCategory]);
 
   const filteredAccessories = useMemo(() => {
-    return availableAccessories.filter(accessory => accessory.category === selectedAccessoryCategory);
+    return availableAccessories.filter(
+      (accessory) => accessory.category === selectedAccessoryCategory,
+    );
   }, [availableAccessories, selectedAccessoryCategory]);
 
   const currentOutfit = customizationState.currentOutfit;
@@ -237,21 +291,28 @@ export const CustomizationPanel: React.FC = () => {
   const handleSaveOutfit = useCallback(() => {
     if (saveOutfitName.trim()) {
       saveOutfit(saveOutfitName.trim(), []);
-      setSaveOutfitName('');
+      setSaveOutfitName("");
       setShowSaveDialog(false);
     }
   }, [saveOutfit, saveOutfitName]);
 
   const handleRandomize = useCallback(() => {
-    randomizeOutfit({
-      categories: ['tops', 'bottoms', 'shoes'],
-      preserveColors: false,
-      styleConstraints: 'casual'
-    });
+    randomizeOutfit({});
   }, [randomizeOutfit]);
 
-  const outfitCategories: OutfitCategory[] = ['tops', 'bottoms', 'shoes', 'dresses', 'outerwear'];
-  const accessoryCategories: AccessoryCategory[] = ['jewelry', 'hair', 'bags', 'magical'];
+  const outfitCategories: OutfitCategory[] = [
+    "top",
+    "bottom",
+    "shoes",
+    "dress",
+    "outerwear",
+  ];
+  const accessoryCategories: AccessoryCategory[] = [
+    "jewelry",
+    "hair",
+    "face",
+    "magical",
+  ];
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen">
@@ -262,18 +323,18 @@ export const CustomizationPanel: React.FC = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex space-x-1 bg-gray-800 rounded-lg p-1">
               {[
-                { id: 'outfits', label: 'Outfits' },
-                { id: 'accessories', label: 'Accessories' },
-                { id: 'colors', label: 'Colors' },
-                { id: 'saved', label: 'Saved Outfits' }
-              ].map(tab => (
+                { id: "outfits", label: "Outfits" },
+                { id: "accessories", label: "Accessories" },
+                { id: "colors", label: "Colors" },
+                { id: "saved", label: "Saved Outfits" },
+              ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`px-4 py-2 rounded-md font-medium transition-colors ${
                     activeTab === tab.id
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-400 hover:text-white'
+                      ? "bg-blue-600 text-white"
+                      : "text-gray-400 hover:text-white"
                   }`}
                 >
                   {tab.label}
@@ -319,7 +380,9 @@ export const CustomizationPanel: React.FC = () => {
                   <div className="w-full bg-gray-700 rounded-full h-2">
                     <div
                       className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full"
-                      style={{ width: `${customizationState.harmonyScore * 100}%` }}
+                      style={{
+                        width: `${customizationState.harmonyScore * 100}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -331,7 +394,7 @@ export const CustomizationPanel: React.FC = () => {
                   <div key={slot} className="flex justify-between text-sm">
                     <span className="text-gray-400 capitalize">{slot}:</span>
                     <span className="text-white truncate ml-2">
-                      {piece ? piece.name : 'None'}
+                      {piece ? piece.name : "None"}
                     </span>
                   </div>
                 ))}
@@ -341,18 +404,18 @@ export const CustomizationPanel: React.FC = () => {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            {activeTab === 'outfits' && (
+            {activeTab === "outfits" && (
               <div>
                 <div className="mb-4">
                   <div className="flex space-x-1 bg-gray-800 rounded-lg p-1 mb-4">
-                    {outfitCategories.map(category => (
+                    {outfitCategories.map((category) => (
                       <button
                         key={category}
                         onClick={() => setSelectedCategory(category)}
                         className={`px-3 py-2 rounded-md font-medium transition-colors capitalize ${
                           selectedCategory === category
-                            ? 'bg-blue-600 text-white'
-                            : 'text-gray-400 hover:text-white'
+                            ? "bg-blue-600 text-white"
+                            : "text-gray-400 hover:text-white"
                         }`}
                       >
                         {category}
@@ -362,7 +425,7 @@ export const CustomizationPanel: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {filteredOutfitPieces.map(piece => (
+                  {filteredOutfitPieces.map((piece) => (
                     <OutfitItem
                       key={piece.id}
                       item={piece}
@@ -375,18 +438,18 @@ export const CustomizationPanel: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'accessories' && (
+            {activeTab === "accessories" && (
               <div>
                 <div className="mb-4">
                   <div className="flex space-x-1 bg-gray-800 rounded-lg p-1 mb-4">
-                    {accessoryCategories.map(category => (
+                    {accessoryCategories.map((category) => (
                       <button
                         key={category}
                         onClick={() => setSelectedAccessoryCategory(category)}
                         className={`px-3 py-2 rounded-md font-medium transition-colors capitalize ${
                           selectedAccessoryCategory === category
-                            ? 'bg-blue-600 text-white'
-                            : 'text-gray-400 hover:text-white'
+                            ? "bg-blue-600 text-white"
+                            : "text-gray-400 hover:text-white"
                         }`}
                       >
                         {category}
@@ -396,11 +459,13 @@ export const CustomizationPanel: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {filteredAccessories.map(accessory => (
+                  {filteredAccessories.map((accessory) => (
                     <AccessoryItem
                       key={accessory.id}
                       accessory={accessory}
-                      isEquipped={customizationState.equippedAccessories.some(a => a.id === accessory.id)}
+                      isEquipped={customizationState.equippedAccessories.some(
+                        (a) => a.id === accessory.id,
+                      )}
                       onEquip={equipAccessory}
                     />
                   ))}
@@ -408,34 +473,42 @@ export const CustomizationPanel: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'colors' && (
+            {activeTab === "colors" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <ColorPicker
                   color={currentColors.primary}
-                  onChange={(color) => updateColors({ ...currentColors, primary: color })}
+                  onChange={(color) =>
+                    updateColors({ ...currentColors, primary: color })
+                  }
                   label="Primary Color"
                 />
                 <ColorPicker
                   color={currentColors.secondary}
-                  onChange={(color) => updateColors({ ...currentColors, secondary: color })}
+                  onChange={(color) =>
+                    updateColors({ ...currentColors, secondary: color })
+                  }
                   label="Secondary Color"
                 />
                 <ColorPicker
                   color={currentColors.accent}
-                  onChange={(color) => updateColors({ ...currentColors, accent: color })}
+                  onChange={(color) =>
+                    updateColors({ ...currentColors, accent: color })
+                  }
                   label="Accent Color"
                 />
                 <ColorPicker
                   color={currentColors.hair}
-                  onChange={(color) => updateColors({ ...currentColors, hair: color })}
+                  onChange={(color) =>
+                    updateColors({ ...currentColors, hair: color })
+                  }
                   label="Hair Color"
                 />
               </div>
             )}
 
-            {activeTab === 'saved' && (
+            {activeTab === "saved" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {savedOutfits.map(outfit => (
+                {savedOutfits.map((outfit) => (
                   <SavedOutfitCard
                     key={outfit.id}
                     outfit={outfit}
@@ -446,8 +519,12 @@ export const CustomizationPanel: React.FC = () => {
 
                 {savedOutfits.length === 0 && (
                   <div className="col-span-full text-center py-12">
-                    <p className="text-gray-400 text-lg">No saved outfits yet</p>
-                    <p className="text-gray-500 text-sm">Create and save your first outfit!</p>
+                    <p className="text-gray-400 text-lg">
+                      No saved outfits yet
+                    </p>
+                    <p className="text-gray-500 text-sm">
+                      Create and save your first outfit!
+                    </p>
                   </div>
                 )}
               </div>
@@ -472,7 +549,9 @@ export const CustomizationPanel: React.FC = () => {
                 exit={{ scale: 0.9, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <h3 className="text-xl font-bold text-white mb-4">Save Outfit</h3>
+                <h3 className="text-xl font-bold text-white mb-4">
+                  Save Outfit
+                </h3>
 
                 <div className="space-y-4">
                   <div>

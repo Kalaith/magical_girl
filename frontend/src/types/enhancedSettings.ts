@@ -1,5 +1,19 @@
 // Enhanced Settings Panel Types
 
+export interface AccessibilitySettings {
+  highContrast: boolean;
+  largeText: boolean;
+  reducedMotion: boolean;
+  screenReader: boolean;
+  colorBlindSupport: boolean;
+}
+
+export interface PanelArrangement {
+  layout: "grid" | "list" | "compact";
+  columns: number;
+  spacing: number;
+}
+
 export interface EnhancedSettingsSystem {
   // Settings categories and organization
   settingsCategories: SettingsCategory[];
@@ -104,9 +118,9 @@ export interface GameSetting {
   section: string;
 
   // Value and constraints
-  currentValue: any;
-  defaultValue: any;
-  possibleValues?: any[];
+  currentValue: unknown;
+  defaultValue: unknown;
+  possibleValues?: Array<{ value: unknown; label: string; }>;
   constraints: SettingConstraints;
 
   // Validation and dependencies
@@ -371,8 +385,8 @@ export interface SettingsProfile {
 export interface SettingsChange {
   id: string;
   settingId: string;
-  oldValue: any;
-  newValue: any;
+  oldValue: unknown;
+  newValue: unknown;
   timestamp: number;
   source: ChangeSource;
   reason?: string;
@@ -527,39 +541,108 @@ export interface SettingsHelp {
 
 // Enums and Type Unions
 export type SettingType =
-  | 'boolean' | 'number' | 'string' | 'select' | 'multiselect'
-  | 'range' | 'color' | 'file' | 'directory' | 'keybind'
-  | 'resolution' | 'custom' | 'json' | 'array' | 'object';
+  | "boolean"
+  | "number"
+  | "string"
+  | "select"
+  | "multiselect"
+  | "range"
+  | "color"
+  | "file"
+  | "directory"
+  | "keybind"
+  | "resolution"
+  | "custom"
+  | "json"
+  | "array"
+  | "object";
 
-export type AccessLevel = 'basic' | 'intermediate' | 'advanced' | 'expert' | 'developer';
+export type AccessLevel =
+  | "basic"
+  | "intermediate"
+  | "advanced"
+  | "expert"
+  | "developer";
 
-export type SettingVisibility = 'always' | 'conditional' | 'advanced' | 'hidden' | 'debug';
+export type SettingVisibility =
+  | "always"
+  | "conditional"
+  | "advanced"
+  | "hidden"
+  | "debug";
 
-export type ProfileType = 'user' | 'preset' | 'shared' | 'automatic' | 'backup';
+export type ProfileType = "user" | "preset" | "shared" | "automatic" | "backup";
 
-export type ChangeSource = 'user' | 'auto' | 'import' | 'reset' | 'optimization' | 'system';
+export type ChangeSource =
+  | "user"
+  | "auto"
+  | "import"
+  | "reset"
+  | "optimization"
+  | "system";
 
-export type ValidationLevel = 'none' | 'basic' | 'standard' | 'strict' | 'paranoid';
+export type ValidationLevel =
+  | "none"
+  | "basic"
+  | "standard"
+  | "strict"
+  | "paranoid";
 
-export type ConflictType = 'dependency' | 'mutual_exclusion' | 'resource' | 'performance' | 'compatibility';
+export type ConflictType =
+  | "dependency"
+  | "mutual_exclusion"
+  | "resource"
+  | "performance"
+  | "compatibility";
 
-export type LayoutStyle = 'list' | 'grid' | 'tabs' | 'accordion' | 'wizard' | 'custom';
+export type LayoutStyle =
+  | "list"
+  | "grid"
+  | "tabs"
+  | "accordion"
+  | "wizard"
+  | "custom";
 
-export type GroupingMethod = 'category' | 'type' | 'alphabetical' | 'usage' | 'custom';
+export type GroupingMethod =
+  | "category"
+  | "type"
+  | "alphabetical"
+  | "usage"
+  | "custom";
 
-export type SortingMethod = 'alphabetical' | 'priority' | 'recent' | 'frequency' | 'manual';
+export type SortingMethod =
+  | "alphabetical"
+  | "priority"
+  | "recent"
+  | "frequency"
+  | "manual";
 
-export type SettingsTheme = 'light' | 'dark' | 'auto' | 'high_contrast' | 'custom';
+export type SettingsTheme =
+  | "light"
+  | "dark"
+  | "auto"
+  | "high_contrast"
+  | "custom";
 
-export type SuggestionType = 'performance' | 'accessibility' | 'usability' | 'security' | 'quality';
+export type SuggestionType =
+  | "performance"
+  | "accessibility"
+  | "usability"
+  | "security"
+  | "quality";
 
-export type ImpactLevel = 'low' | 'medium' | 'high' | 'critical';
+export type ImpactLevel = "low" | "medium" | "high" | "critical";
 
-export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert';
+export type DifficultyLevel = "easy" | "medium" | "hard" | "expert";
 
-export type WCAGLevel = 'A' | 'AA' | 'AAA' | 'none';
+export type WCAGLevel = "A" | "AA" | "AAA" | "none";
 
-export type HelpPosition = 'sidebar' | 'modal' | 'tooltip' | 'inline' | 'overlay';
+export type HelpPosition =
+  | "sidebar"
+  | "modal"
+  | "tooltip"
+  | "inline"
+  | "overlay";
 
 // Complex type definitions
 export type Resolution = {
@@ -568,11 +651,15 @@ export type Resolution = {
   label?: string;
 };
 
-export type AspectRatio = '16:9' | '16:10' | '4:3' | '21:9' | 'auto' | 'custom';
+export type AspectRatio = "16:9" | "16:10" | "4:3" | "21:9" | "auto" | "custom";
 
-export type DisplayMode = 'windowed' | 'fullscreen' | 'borderless' | 'maximized';
+export type DisplayMode =
+  | "windowed"
+  | "fullscreen"
+  | "borderless"
+  | "maximized";
 
-export type ColorProfile = 'sRGB' | 'DCI-P3' | 'Rec2020' | 'Adobe_RGB' | 'auto';
+export type ColorProfile = "sRGB" | "DCI-P3" | "Rec2020" | "Adobe_RGB" | "auto";
 
 export type ThemeSettings = {
   name: string;
@@ -582,37 +669,56 @@ export type ThemeSettings = {
   customCSS?: string;
 };
 
-export type AnimationQuality = 'none' | 'reduced' | 'normal' | 'high' | 'ultra';
+export type AnimationQuality = "none" | "reduced" | "normal" | "high" | "ultra";
 
-export type RenderQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+export type RenderQuality = "low" | "medium" | "high" | "ultra" | "custom";
 
-export type TextureQuality = 'low' | 'medium' | 'high' | 'ultra';
+export type TextureQuality = "low" | "medium" | "high" | "ultra";
 
-export type ShadowQuality = 'none' | 'low' | 'medium' | 'high' | 'ultra';
+export type ShadowQuality = "none" | "low" | "medium" | "high" | "ultra";
 
-export type LightingQuality = 'basic' | 'standard' | 'enhanced' | 'realistic';
+export type LightingQuality = "basic" | "standard" | "enhanced" | "realistic";
 
-export type AntiAliasingType = 'none' | 'FXAA' | 'MSAA' | 'TAA' | 'DLAA';
+export type AntiAliasingType = "none" | "FXAA" | "MSAA" | "TAA" | "DLAA";
 
-export type ShaderComplexity = 'basic' | 'standard' | 'complex' | 'ultra';
+export type ShaderComplexity = "basic" | "standard" | "complex" | "ultra";
 
-export type RenderPipeline = 'forward' | 'deferred' | 'hybrid' | 'raytracing';
+export type RenderPipeline = "forward" | "deferred" | "hybrid" | "raytracing";
 
-export type AudioQuality = 'low' | 'medium' | 'high' | 'lossless';
+export type AudioQuality = "low" | "medium" | "high" | "lossless";
 
-export type AudioCompression = 'none' | 'light' | 'standard' | 'aggressive';
+export type AudioCompression = "none" | "light" | "standard" | "aggressive";
 
-export type AudioEngine = 'standard' | 'enhanced' | 'spatial' | 'custom';
+export type AudioEngine = "standard" | "enhanced" | "spatial" | "custom";
 
-export type CurrencyFormat = 'short' | 'long' | 'scientific' | 'custom';
+export type CurrencyFormat = "short" | "long" | "scientific" | "custom";
 
-export type NumberFormat = 'standard' | 'grouped' | 'scientific' | 'engineering';
+export type NumberFormat =
+  | "standard"
+  | "grouped"
+  | "scientific"
+  | "engineering";
 
-export type NavigationStyle = 'tabs' | 'sidebar' | 'breadcrumb' | 'tree' | 'custom';
+export type NavigationStyle =
+  | "tabs"
+  | "sidebar"
+  | "breadcrumb"
+  | "tree"
+  | "custom";
 
-export type ColorScheme = 'system' | 'light' | 'dark' | 'high_contrast' | 'custom';
+export type ColorScheme =
+  | "system"
+  | "light"
+  | "dark"
+  | "high_contrast"
+  | "custom";
 
-export type IconTheme = 'default' | 'minimal' | 'detailed' | 'colorful' | 'custom';
+export type IconTheme =
+  | "default"
+  | "minimal"
+  | "detailed"
+  | "colorful"
+  | "custom";
 
 // Complex interface definitions
 export interface SettingConstraints {
@@ -650,7 +756,7 @@ export interface UsageMetrics {
   changeCount: number;
   lastChanged: number;
   averageValue: number;
-  popularValues: any[];
+  popularValues: Array<{ value: unknown; usage: number; }>;
   userPatterns: UserPattern[];
 }
 
@@ -776,7 +882,7 @@ export interface SettingExample {
   settingId: string;
   name: string;
   description: string;
-  value: any;
+  value: unknown;
   explanation: string;
 }
 
@@ -789,11 +895,11 @@ export interface EnhancedSettingsActions {
   navigateToSetting: (settingId: string) => void;
 
   // Setting management
-  updateSetting: (settingId: string, value: any) => void;
+  updateSetting: (settingId: string, value: unknown) => void;
   resetSetting: (settingId: string) => void;
   resetCategory: (categoryId: string) => void;
   resetAllSettings: () => void;
-  previewSetting: (settingId: string, value: any) => void;
+  previewSetting: (settingId: string, value: unknown) => void;
   applySetting: (settingId: string) => void;
   revertSetting: (settingId: string) => void;
 
@@ -843,89 +949,500 @@ export interface EnhancedSettingsActions {
 }
 
 // Additional type definitions for comprehensive settings system
-export type DependencyType = 'enables' | 'disables' | 'requires' | 'conflicts' | 'modifies';
-export type DependencyCondition = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains';
-export type DependencyAction = 'show' | 'hide' | 'enable' | 'disable' | 'modify' | 'validate';
-export type ConflictSeverity = 'info' | 'warning' | 'error' | 'critical';
-export type ConflictResolutionMethod = 'auto' | 'prompt' | 'manual' | 'ignore';
-export type ValidationType = 'range' | 'pattern' | 'custom' | 'dependency' | 'format';
-export type ValidationSeverity = 'info' | 'warning' | 'error' | 'critical';
-export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
-export type FilterType = 'category' | 'type' | 'access_level' | 'status' | 'custom';
+export type DependencyType =
+  | "enables"
+  | "disables"
+  | "requires"
+  | "conflicts"
+  | "modifies";
+export type DependencyCondition =
+  | "equals"
+  | "not_equals"
+  | "greater"
+  | "less"
+  | "contains";
+export type DependencyAction =
+  | "show"
+  | "hide"
+  | "enable"
+  | "disable"
+  | "modify"
+  | "validate";
+export type ConflictSeverity = "info" | "warning" | "error" | "critical";
+export type ConflictResolutionMethod = "auto" | "prompt" | "manual" | "ignore";
+export type ValidationType =
+  | "range"
+  | "pattern"
+  | "custom"
+  | "dependency"
+  | "format";
+export type ValidationSeverity = "info" | "warning" | "error" | "critical";
+export type ErrorSeverity = "low" | "medium" | "high" | "critical";
+export type FilterType =
+  | "category"
+  | "type"
+  | "access_level"
+  | "status"
+  | "custom";
 export type ActionFunction = string; // Function name or code
-export type FontWeight = 'normal' | 'bold' | 'light' | 'medium' | 'black';
-export type FontStyle = 'normal' | 'italic' | 'oblique';
-export type ToolbarPosition = 'top' | 'bottom' | 'left' | 'right' | 'floating';
-export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right' | 'auto';
-export type TooltipStyle = 'simple' | 'detailed' | 'minimal' | 'rich' | 'custom';
+export type FontWeight = "normal" | "bold" | "light" | "medium" | "black";
+export type FontStyle = "normal" | "italic" | "oblique";
+export type ToolbarPosition = "top" | "bottom" | "left" | "right" | "floating";
+export type TooltipPosition = "top" | "bottom" | "left" | "right" | "auto";
+export type TooltipStyle =
+  | "simple"
+  | "detailed"
+  | "minimal"
+  | "rich"
+  | "custom";
 
 // Placeholder types for complex nested structures
-export type CustomConstraint = any;
-export type ValidationMessage = any;
-export type ValidationCondition = any;
-export type UserPattern = any;
-export type EqualizerBand = any;
-export type CustomEqualizerPreset = any;
-export type AutoAction = any;
-export type AutoCondition = any;
-export type AutoSchedule = any;
-export type SmartAssistPrivacy = any;
-export type ToolbarItem = any;
-export type QuickAction = any;
-export type QuickShortcut = any;
-export type ValidationInfo = any;
-export type ValidationWarning = any;
-export type CategoryStyling = any;
-export type ExternalLink = any;
-export type SectionLayout = any;
-export type DisplayCondition = any;
-export type CustomColorScheme = any;
-export type CustomFontSettings = any;
-export type CustomLayout = any;
-export type WidgetPreference = any;
-export type SettingsShortcut = any;
-export type QuickAccessSettings = any;
-export type AutomationSettings = any;
-export type ConfigFile = any;
-export type CommandLineSettings = any;
-export type ScriptingSettings = any;
-export type SystemIntegrationSettings = any;
-export type ExternalToolSettings = any;
-export type APISettings = any;
-export type DebuggingSettings = any;
-export type LoggingSettings = any;
-export type ProfilingSettings = any;
-export type OptimizationAction = any;
-export type AccessibilityCategory = any;
-export type AccessibilityIssue = any;
-export type AccessibilityRecommendation = any;
-export type SettingsExport = any;
-export type SettingsImport = any;
-export type PerformanceSettings = any;
-export type VoiceSettings = any;
-export type DifficultySettings = any;
-export type ProgressionSettings = any;
-export type ControlSettings = any;
-export type NotificationSettings = any;
-export type SocialSettings = any;
-export type PrivacySettings = any;
-export type ModerationSettings = any;
-export type AdvancedSettings = any;
-export type DeveloperSettings = any;
-export type ExperimentalSettings = any;
-export type CustomizationSettings = any;
-export type ModSettings = any;
-export type UserPreferences = any;
-export type StatusDisplaySettings = any;
-export type ProgressBarSettings = any;
-export type NotificationDisplaySettings = any;
-export type ContextMenuSettings = any;
-export type SidebarSettings = any;
-export type SettingChange = any;
-export type UnlockRequirement = any;
-export type ResolutionAction = any;
-export type FilterValue = any;
-export type ActionParameter = any;
-export type ExportOptions = any;
-export type ImportOptions = any;
-export type OptimizationCriteria = any;
+export interface CustomConstraint {
+  id: string;
+  name: string;
+  rule: string;
+  errorMessage: string;
+}
+
+export interface ValidationMessage {
+  type: 'error' | 'warning' | 'info';
+  message: string;
+  field?: string;
+}
+
+export interface ValidationCondition {
+  field: string;
+  operator: 'equals' | 'notEquals' | 'greaterThan' | 'lessThan' | 'contains';
+  value: string | number | boolean;
+}
+
+export interface UserPattern {
+  id: string;
+  name: string;
+  pattern: string;
+  description: string;
+}
+
+export interface EqualizerBand {
+  frequency: number;
+  gain: number;
+  q: number;
+}
+
+export interface CustomEqualizerPreset {
+  id: string;
+  name: string;
+  bands: EqualizerBand[];
+}
+
+export interface AutoAction {
+  id: string;
+  name: string;
+  trigger: string;
+  action: string;
+  parameters: Record<string, unknown>;
+}
+
+export interface AutoCondition {
+  field: string;
+  operator: string;
+  value: unknown;
+}
+
+export interface AutoSchedule {
+  id: string;
+  name: string;
+  enabled: boolean;
+  schedule: string;
+  actions: string[];
+}
+
+export interface SmartAssistPrivacy {
+  collectData: boolean;
+  shareAnalytics: boolean;
+  personalizedRecommendations: boolean;
+}
+
+export interface ToolbarItem {
+  id: string;
+  type: 'button' | 'separator' | 'dropdown';
+  label?: string;
+  icon?: string;
+  action?: string;
+}
+
+export interface QuickAction {
+  id: string;
+  label: string;
+  icon: string;
+  shortcut?: string;
+  action: string;
+}
+
+export interface QuickShortcut {
+  id: string;
+  key: string;
+  modifiers: string[];
+  action: string;
+}
+
+export interface ValidationInfo {
+  field: string;
+  message: string;
+  severity: 'info' | 'warning' | 'error';
+}
+
+export interface ValidationWarning {
+  field: string;
+  message: string;
+  canIgnore: boolean;
+}
+
+export interface CategoryStyling {
+  backgroundColor: string;
+  textColor: string;
+  borderColor: string;
+  iconColor: string;
+}
+
+export interface ExternalLink {
+  label: string;
+  url: string;
+  icon?: string;
+}
+
+export interface SectionLayout {
+  type: 'grid' | 'list' | 'tabs';
+  columns?: number;
+  spacing?: number;
+}
+
+export interface DisplayCondition {
+  field: string;
+  operator: string;
+  value: unknown;
+}
+export interface CustomColorScheme {
+  id: string;
+  name: string;
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: string;
+  text: string;
+}
+
+export interface CustomFontSettings {
+  family: string;
+  size: number;
+  weight: number;
+  lineHeight: number;
+}
+
+export interface CustomLayout {
+  id: string;
+  name: string;
+  structure: {
+    header: boolean;
+    sidebar: boolean;
+    footer: boolean;
+  };
+}
+
+export interface WidgetPreference {
+  widgetId: string;
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+  visible: boolean;
+}
+
+export interface SettingsShortcut {
+  action: string;
+  key: string;
+  modifiers: string[];
+}
+
+export interface QuickAccessSettings {
+  favoriteSettings: string[];
+  recentSettings: string[];
+  pinnedCategories: string[];
+}
+
+export interface AutomationSettings {
+  enabled: boolean;
+  rules: AutoAction[];
+  schedules: AutoSchedule[];
+}
+
+export interface ConfigFile {
+  name: string;
+  path: string;
+  format: 'json' | 'yaml' | 'toml';
+  content: Record<string, unknown>;
+}
+
+export interface CommandLineSettings {
+  enableCLI: boolean;
+  defaultArgs: string[];
+  aliases: Record<string, string>;
+}
+
+export interface ScriptingSettings {
+  enabled: boolean;
+  language: 'javascript' | 'python' | 'lua';
+  customScripts: string[];
+}
+
+export interface SystemIntegrationSettings {
+  enableSystemNotifications: boolean;
+  enableSystemTray: boolean;
+  startWithSystem: boolean;
+}
+
+export interface ExternalToolSettings {
+  enabledTools: string[];
+  toolConfigs: Record<string, Record<string, unknown>>;
+}
+
+export interface APISettings {
+  baseUrl: string;
+  apiKey: string;
+  timeout: number;
+  retries: number;
+}
+
+export interface DebuggingSettings {
+  enabled: boolean;
+  logLevel: 'debug' | 'info' | 'warn' | 'error';
+  showStackTrace: boolean;
+}
+
+export interface LoggingSettings {
+  enabled: boolean;
+  level: 'debug' | 'info' | 'warn' | 'error';
+  outputFile: string;
+  maxFileSize: number;
+}
+
+export interface ProfilingSettings {
+  enabled: boolean;
+  sampleRate: number;
+  maxSamples: number;
+}
+
+export interface OptimizationAction {
+  id: string;
+  name: string;
+  description: string;
+  impact: 'low' | 'medium' | 'high';
+  action: () => void;
+}
+
+export interface AccessibilityCategory {
+  id: string;
+  name: string;
+  description: string;
+  issues: AccessibilityIssue[];
+}
+
+export interface AccessibilityIssue {
+  id: string;
+  severity: 'low' | 'medium' | 'high';
+  description: string;
+  recommendation: string;
+}
+
+export interface AccessibilityRecommendation {
+  issueId: string;
+  action: string;
+  description: string;
+  priority: number;
+}
+
+export interface SettingsExport {
+  format: 'json' | 'yaml';
+  includeDefaults: boolean;
+  categories: string[];
+}
+
+export interface SettingsImport {
+  source: 'file' | 'url' | 'clipboard';
+  mergeStrategy: 'replace' | 'merge' | 'append';
+  validation: boolean;
+}
+export interface PerformanceSettings {
+  enableOptimizations: boolean;
+  cacheSize: number;
+  maxWorkers: number;
+}
+
+export interface VoiceSettings {
+  enabled: boolean;
+  language: string;
+  voice: string;
+  rate: number;
+  pitch: number;
+}
+
+export interface DifficultySettings {
+  level: 'easy' | 'normal' | 'hard' | 'expert';
+  customModifiers: Record<string, number>;
+}
+
+export interface ProgressionSettings {
+  autoSave: boolean;
+  saveInterval: number;
+  backupCount: number;
+}
+
+export interface ControlSettings {
+  keyBindings: Record<string, string>;
+  mouseSettings: {
+    sensitivity: number;
+    invertY: boolean;
+  };
+}
+
+export interface NotificationSettings {
+  enabled: boolean;
+  types: string[];
+  sound: boolean;
+  duration: number;
+}
+
+export interface SocialSettings {
+  allowFriendRequests: boolean;
+  showOnlineStatus: boolean;
+  allowChat: boolean;
+}
+
+export interface PrivacySettings {
+  dataCollection: boolean;
+  analytics: boolean;
+  crashReports: boolean;
+}
+
+export interface ModerationSettings {
+  autoModeration: boolean;
+  filterLevel: 'none' | 'basic' | 'strict';
+  allowedWords: string[];
+  blockedWords: string[];
+}
+
+export interface AdvancedSettings {
+  enableExperimentalFeatures: boolean;
+  debugMode: boolean;
+  verboseLogging: boolean;
+}
+
+export interface DeveloperSettings {
+  enableDevTools: boolean;
+  showDebugInfo: boolean;
+  allowConsoleAccess: boolean;
+}
+
+export interface ExperimentalSettings {
+  enableBetaFeatures: boolean;
+  features: Record<string, boolean>;
+}
+
+export interface CustomizationSettings {
+  theme: string;
+  colorScheme: string;
+  layout: string;
+}
+
+export interface ModSettings {
+  enableMods: boolean;
+  loadedMods: string[];
+  modDirectory: string;
+}
+
+export interface UserPreferences {
+  language: string;
+  timezone: string;
+  dateFormat: string;
+  numberFormat: string;
+}
+
+export interface StatusDisplaySettings {
+  showFPS: boolean;
+  showMemoryUsage: boolean;
+  showNetworkStatus: boolean;
+}
+
+export interface ProgressBarSettings {
+  style: 'linear' | 'circular';
+  showPercentage: boolean;
+  animationSpeed: number;
+}
+
+export interface NotificationDisplaySettings {
+  position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  maxVisible: number;
+  stackDirection: 'up' | 'down';
+}
+
+export interface ContextMenuSettings {
+  enableCustom: boolean;
+  items: ToolbarItem[];
+}
+
+export interface SidebarSettings {
+  position: 'left' | 'right';
+  width: number;
+  collapsible: boolean;
+}
+
+export interface SettingChange {
+  settingId: string;
+  oldValue: unknown;
+  newValue: unknown;
+  timestamp: number;
+  userId?: string;
+}
+
+export interface UnlockRequirement {
+  type: 'level' | 'achievement' | 'item' | 'custom';
+  value: unknown;
+  description: string;
+}
+
+export interface ResolutionAction {
+  id: string;
+  label: string;
+  description: string;
+  action: () => void;
+}
+
+export interface FilterValue {
+  field: string;
+  operator: string;
+  value: unknown;
+}
+
+export interface ActionParameter {
+  name: string;
+  type: 'string' | 'number' | 'boolean' | 'object';
+  required: boolean;
+  defaultValue?: unknown;
+}
+
+export interface ExportOptions {
+  format: 'json' | 'csv' | 'xml';
+  includeMetadata: boolean;
+  compression: boolean;
+}
+
+export interface ImportOptions {
+  format: 'json' | 'csv' | 'xml';
+  validateSchema: boolean;
+  mergeStrategy: 'replace' | 'merge';
+}
+
+export interface OptimizationCriteria {
+  performance: boolean;
+  memory: boolean;
+  storage: boolean;
+  network: boolean;
+}

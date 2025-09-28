@@ -1,28 +1,39 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 import {
-  Star, Users, Sparkles, Dumbbell, Map, Trophy, Settings,
-  TreePine, Palette, Crown, Save, BookOpen, Sliders
-} from 'lucide-react';
-import { useUIStore } from '../../stores/uiStore';
-import { VIEWS, type ViewType } from '../../config/gameConfig';
+  Star,
+  Users,
+  Sparkles,
+  Dumbbell,
+  Map,
+  Trophy,
+  Settings,
+  TreePine,
+  Palette,
+  Crown,
+  Save,
+  BookOpen,
+  Sliders,
+} from "lucide-react";
+import { useUIStore } from "../../stores/uiStore";
+import { VIEWS, type ViewType } from "../../config/gameConfig";
 
 const navigationItems = [
-  { id: VIEWS.DASHBOARD, label: 'Dashboard', icon: Star },
-  { id: VIEWS.MAGICAL_GIRLS, label: 'Magical Girls', icon: Users },
-  { id: VIEWS.RECRUITMENT, label: 'Recruitment', icon: Sparkles },
-  { id: VIEWS.TRAINING, label: 'Training', icon: Dumbbell },
-  { id: VIEWS.MISSIONS, label: 'Missions', icon: Map },
-  { id: VIEWS.ACHIEVEMENTS, label: 'Achievements', icon: Trophy },
+  { id: VIEWS.DASHBOARD, label: "Dashboard", icon: Star },
+  { id: VIEWS.MAGICAL_GIRLS, label: "Magical Girls", icon: Users },
+  { id: VIEWS.RECRUITMENT, label: "Recruitment", icon: Sparkles },
+  { id: VIEWS.TRAINING, label: "Training", icon: Dumbbell },
+  { id: VIEWS.MISSIONS, label: "Missions", icon: Map },
+  { id: VIEWS.ACHIEVEMENTS, label: "Achievements", icon: Trophy },
 ];
 
 const advancedNavigationItems = [
-  { id: VIEWS.SKILL_TREE, label: 'Skill Tree', icon: TreePine },
-  { id: VIEWS.CUSTOMIZATION, label: 'Customize', icon: Palette },
-  { id: VIEWS.PRESTIGE, label: 'Prestige', icon: Crown },
-  { id: VIEWS.SAVE_SYSTEM, label: 'Save', icon: Save },
-  { id: VIEWS.ENHANCED_SETTINGS, label: 'Advanced', icon: Sliders },
-  { id: VIEWS.SETTINGS, label: 'Settings', icon: Settings },
+  { id: VIEWS.SKILL_TREE, label: "Skill Tree", icon: TreePine },
+  { id: VIEWS.CUSTOMIZATION, label: "Customize", icon: Palette },
+  { id: VIEWS.PRESTIGE, label: "Prestige", icon: Crown },
+  { id: VIEWS.SAVE_SYSTEM, label: "Save", icon: Save },
+  { id: VIEWS.ENHANCED_SETTINGS, label: "Advanced", icon: Sliders },
+  { id: VIEWS.SETTINGS, label: "Settings", icon: Settings },
 ];
 
 export const Header: React.FC = () => {
@@ -52,7 +63,6 @@ export const Header: React.FC = () => {
               </h1>
             </motion.div>
           </div>
-
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navigationItems.map((item) => {
@@ -66,9 +76,10 @@ export const Header: React.FC = () => {
                   className={`
                     px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-200
                     flex items-center space-x-2 touch-target
-                    ${isActive
-                      ? 'bg-purple-100 text-purple-700 shadow-sm'
-                      : 'text-gray-600 hover:bg-purple-50 hover:text-purple-600'
+                    ${
+                      isActive
+                        ? "bg-purple-100 text-purple-700 shadow-sm"
+                        : "text-gray-600 hover:bg-purple-50 hover:text-purple-600"
                     }
                   `}
                   whileHover={{ scale: 1.02 }}
@@ -118,7 +129,7 @@ export const Header: React.FC = () => {
                         className={`
                           w-full px-4 py-2 text-left hover:bg-purple-50 transition-colors
                           flex items-center space-x-3
-                          ${isActive ? 'bg-purple-100 text-purple-700' : 'text-gray-700'}
+                          ${isActive ? "bg-purple-100 text-purple-700" : "text-gray-700"}
                         `}
                       >
                         <Icon className="w-4 h-4" />
@@ -129,7 +140,8 @@ export const Header: React.FC = () => {
                 </motion.div>
               )}
             </div>
-          </nav>          {/* Mobile menu button */}
+          </nav>{" "}
+          {/* Mobile menu button */}
           <div className="md:hidden">
             <motion.button
               className="p-2 rounded-lg text-gray-600 hover:bg-purple-50 hover:text-purple-600 touch-target"
@@ -158,9 +170,10 @@ export const Header: React.FC = () => {
                   className={`
                     flex-shrink-0 px-3 py-2 rounded-lg font-medium transition-all duration-200
                     flex flex-col items-center space-y-1 min-w-[70px] touch-target
-                    ${isActive
-                      ? 'bg-purple-100 text-purple-700 shadow-sm'
-                      : 'text-gray-600 hover:bg-purple-50 hover:text-purple-600'
+                    ${
+                      isActive
+                        ? "bg-purple-100 text-purple-700 shadow-sm"
+                        : "text-gray-600 hover:bg-purple-50 hover:text-purple-600"
                     }
                   `}
                   whileHover={{ scale: 1.02 }}
@@ -178,9 +191,10 @@ export const Header: React.FC = () => {
               className={`
                 flex-shrink-0 px-3 py-2 rounded-lg font-medium transition-all duration-200
                 flex flex-col items-center space-y-1 min-w-[70px] touch-target
-                ${showAdvancedMenu
-                  ? 'bg-purple-100 text-purple-700 shadow-sm'
-                  : 'text-gray-600 hover:bg-purple-50 hover:text-purple-600'
+                ${
+                  showAdvancedMenu
+                    ? "bg-purple-100 text-purple-700 shadow-sm"
+                    : "text-gray-600 hover:bg-purple-50 hover:text-purple-600"
                 }
               `}
               whileHover={{ scale: 1.02 }}
@@ -195,7 +209,7 @@ export const Header: React.FC = () => {
           {showAdvancedMenu && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="border-t border-purple-200 bg-purple-50"
             >
@@ -211,16 +225,19 @@ export const Header: React.FC = () => {
                       className={`
                         px-2 py-3 rounded-lg font-medium transition-all duration-200
                         flex flex-col items-center space-y-1 touch-target
-                        ${isActive
-                          ? 'bg-purple-200 text-purple-800 shadow-sm'
-                          : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700'
+                        ${
+                          isActive
+                            ? "bg-purple-200 text-purple-800 shadow-sm"
+                            : "text-gray-700 hover:bg-purple-100 hover:text-purple-700"
                         }
                       `}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       <Icon className="w-4 h-4" />
-                      <span className="text-xs leading-none text-center">{item.label}</span>
+                      <span className="text-xs leading-none text-center">
+                        {item.label}
+                      </span>
                     </motion.button>
                   );
                 })}

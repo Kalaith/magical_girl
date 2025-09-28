@@ -1,5 +1,15 @@
 // Magical Girl Transformation System Types
-import type { MagicalGirl, MagicalElement, StatBonus } from './magicalGirl';
+import type { MagicalElement } from "./magicalGirl";
+
+export interface StatBonus {
+  health: number;
+  mana: number;
+  attack: number;
+  defense: number;
+  speed: number;
+  accuracy: number;
+  critical: number;
+}
 
 export interface TransformationSystem {
   transformations: TransformationSequence[];
@@ -52,24 +62,24 @@ export interface TransformationSequence {
 }
 
 export type TransformationRarity =
-  | 'Common'
-  | 'Uncommon'
-  | 'Rare'
-  | 'Epic'
-  | 'Legendary'
-  | 'Mythical';
+  | "Common"
+  | "Uncommon"
+  | "Rare"
+  | "Epic"
+  | "Legendary"
+  | "Mythical";
 
 export type TransformationCategory =
-  | 'Basic'
-  | 'Combat'
-  | 'Elemental'
-  | 'Guardian'
-  | 'Princess'
-  | 'Ultimate'
-  | 'Fusion'
-  | 'Dark'
-  | 'Light'
-  | 'Custom';
+  | "Basic"
+  | "Combat"
+  | "Elemental"
+  | "Guardian"
+  | "Princess"
+  | "Ultimate"
+  | "Fusion"
+  | "Dark"
+  | "Light"
+  | "Custom";
 
 export interface TransformationAnimation {
   type: AnimationType;
@@ -85,14 +95,14 @@ export interface TransformationAnimation {
 }
 
 export type AnimationType =
-  | 'Classic'
-  | 'Quick'
-  | 'Dramatic'
-  | 'Elemental'
-  | 'Divine'
-  | 'Dark'
-  | 'Fusion'
-  | 'Custom';
+  | "Classic"
+  | "Quick"
+  | "Dramatic"
+  | "Elemental"
+  | "Divine"
+  | "Dark"
+  | "Fusion"
+  | "Custom";
 
 export interface AnimationStage {
   id: string;
@@ -117,7 +127,13 @@ export interface AnimationStage {
 }
 
 export interface CharacterPose {
-  type: 'standing' | 'floating' | 'spinning' | 'dancing' | 'dramatic' | 'custom';
+  type:
+    | "standing"
+    | "floating"
+    | "spinning"
+    | "dancing"
+    | "dramatic"
+    | "custom";
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number };
   scale: number;
@@ -126,22 +142,33 @@ export interface CharacterPose {
 }
 
 export interface FacialExpression {
-  type: 'determined' | 'confident' | 'serene' | 'fierce' | 'joyful' | 'focused';
+  type: "determined" | "confident" | "serene" | "fierce" | "joyful" | "focused";
   intensity: number;
   eyeGlow?: boolean;
   specialMarkings?: string[];
 }
 
 export interface HandGesture {
-  type: 'magical_symbol' | 'heart' | 'star' | 'element' | 'prayer' | 'weapon_summon';
-  position: 'raised' | 'crossed' | 'extended' | 'at_heart' | 'overhead';
+  type:
+    | "magical_symbol"
+    | "heart"
+    | "star"
+    | "element"
+    | "prayer"
+    | "weapon_summon";
+  position: "raised" | "crossed" | "extended" | "at_heart" | "overhead";
   glowEffect?: boolean;
 }
 
 export interface OutfitTransition {
   fromOutfit: string;
   toOutfit: string;
-  transitionType: 'dissolve' | 'sparkle' | 'light_wrap' | 'element_flow' | 'ribbon_wrap';
+  transitionType:
+    | "dissolve"
+    | "sparkle"
+    | "light_wrap"
+    | "element_flow"
+    | "ribbon_wrap";
   duration: number;
 
   // Piece-by-piece transformation
@@ -152,22 +179,22 @@ export interface OutfitTransition {
 export interface OutfitPiece {
   id: string;
   name: string;
-  type: 'dress' | 'skirt' | 'top' | 'boots' | 'gloves' | 'stockings' | 'cape';
+  type: "dress" | "skirt" | "top" | "boots" | "gloves" | "stockings" | "cape";
   color: string;
   pattern?: string;
-  material: 'fabric' | 'magical' | 'crystal' | 'metal' | 'energy';
+  material: "fabric" | "magical" | "crystal" | "metal" | "energy";
   enchantments: string[];
 
   // Animation specific
-  appearanceEffect: 'materialize' | 'spiral' | 'grow' | 'unfold' | 'flash';
+  appearanceEffect: "materialize" | "spiral" | "grow" | "unfold" | "flash";
   timing: number;
   duration: number;
 }
 
 export interface AccessoryTransition {
-  type: 'weapon' | 'tiara' | 'jewelry' | 'wings' | 'tail' | 'ears' | 'markings';
+  type: "weapon" | "tiara" | "jewelry" | "wings" | "tail" | "ears" | "markings";
   accessory: TransformationAccessory;
-  appearanceEffect: 'summon' | 'grow' | 'materialize' | 'sparkle' | 'burst';
+  appearanceEffect: "summon" | "grow" | "materialize" | "sparkle" | "burst";
   timing: number;
   duration: number;
 }
@@ -199,12 +226,19 @@ export interface TransformationAccessory {
 }
 
 export interface AuraEffect {
-  type: 'elemental' | 'divine' | 'dark' | 'rainbow' | 'star' | 'heart' | 'custom';
+  type:
+    | "elemental"
+    | "divine"
+    | "dark"
+    | "rainbow"
+    | "star"
+    | "heart"
+    | "custom";
   color: string;
   intensity: number;
   size: number;
-  shape: 'circular' | 'heart' | 'star' | 'elemental' | 'spiral';
-  animation: 'pulse' | 'rotate' | 'wave' | 'sparkle' | 'flow';
+  shape: "circular" | "heart" | "star" | "elemental" | "spiral";
+  animation: "pulse" | "rotate" | "wave" | "sparkle" | "flow";
   particles: boolean;
   sound?: string;
 }
@@ -218,11 +252,11 @@ export interface StageEffect {
   color?: string;
 
   // Positioning
-  position: 'character' | 'background' | 'foreground' | 'fullscreen' | 'custom';
+  position: "character" | "background" | "foreground" | "fullscreen" | "custom";
   coordinates?: { x: number; y: number; z: number };
 
   // Animation
-  movement: 'static' | 'orbit' | 'spiral' | 'wave' | 'burst' | 'flow';
+  movement: "static" | "orbit" | "spiral" | "wave" | "burst" | "flow";
   fadeIn: number;
   fadeOut: number;
 
@@ -232,29 +266,36 @@ export interface StageEffect {
 }
 
 export type EffectType =
-  | 'sparkles'
-  | 'stars'
-  | 'hearts'
-  | 'flowers'
-  | 'ribbons'
-  | 'light_rays'
-  | 'energy_burst'
-  | 'element_swirl'
-  | 'magic_circle'
-  | 'feathers'
-  | 'crystals'
-  | 'lightning'
-  | 'fire'
-  | 'water'
-  | 'earth'
-  | 'air'
-  | 'custom';
+  | "sparkles"
+  | "stars"
+  | "hearts"
+  | "flowers"
+  | "ribbons"
+  | "light_rays"
+  | "energy_burst"
+  | "element_swirl"
+  | "magic_circle"
+  | "feathers"
+  | "crystals"
+  | "lightning"
+  | "fire"
+  | "water"
+  | "earth"
+  | "air"
+  | "custom";
 
 export interface CameraMovement {
-  type: 'zoom_in' | 'zoom_out' | 'pan' | 'rotate' | 'shake' | 'circle' | 'dramatic';
+  type:
+    | "zoom_in"
+    | "zoom_out"
+    | "pan"
+    | "rotate"
+    | "shake"
+    | "circle"
+    | "dramatic";
   startTime: number;
   duration: number;
-  easing: 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bounce';
+  easing: "linear" | "ease_in" | "ease_out" | "ease_in_out" | "bounce";
 
   // Movement parameters
   startPosition: { x: number; y: number; z: number };
@@ -268,7 +309,7 @@ export interface CameraMovement {
 }
 
 export interface LightingEffect {
-  type: 'spotlight' | 'ambient' | 'rim' | 'dramatic' | 'magical' | 'elemental';
+  type: "spotlight" | "ambient" | "rim" | "dramatic" | "magical" | "elemental";
   color: string;
   intensity: number;
   startTime: number;
@@ -280,12 +321,12 @@ export interface LightingEffect {
   radius?: number;
 
   // Animation
-  animation: 'static' | 'pulse' | 'flicker' | 'sweep' | 'grow' | 'fade';
+  animation: "static" | "pulse" | "flicker" | "sweep" | "grow" | "fade";
   speed: number;
 }
 
 export interface ParticleEffect {
-  type: 'sparkles' | 'stars' | 'petals' | 'energy' | 'elemental' | 'custom';
+  type: "sparkles" | "stars" | "petals" | "energy" | "elemental" | "custom";
   count: number;
   lifetime: number;
   startTime: number;
@@ -304,19 +345,19 @@ export interface ParticleEffect {
   // Emission
   emissionRate: number;
   burstCount?: number;
-  emissionShape: 'point' | 'circle' | 'sphere' | 'box' | 'cone';
+  emissionShape: "point" | "circle" | "sphere" | "box" | "cone";
   emissionArea: { width: number; height: number; depth: number };
 }
 
 export interface ScreenEffect {
-  type: 'flash' | 'blur' | 'distortion' | 'color_shift' | 'vignette' | 'glow';
+  type: "flash" | "blur" | "distortion" | "color_shift" | "vignette" | "glow";
   intensity: number;
   startTime: number;
   duration: number;
   color?: string;
 
   // Animation
-  easing: 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out';
+  easing: "linear" | "ease_in" | "ease_out" | "ease_in_out";
   fadeIn: number;
   fadeOut: number;
 }
@@ -324,9 +365,9 @@ export interface ScreenEffect {
 export interface BackgroundTransition {
   from: string;
   to: string;
-  type: 'fade' | 'wipe' | 'spiral' | 'shatter' | 'elemental';
+  type: "fade" | "wipe" | "spiral" | "shatter" | "elemental";
   duration: number;
-  easing: 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out';
+  easing: "linear" | "ease_in" | "ease_out" | "ease_in_out";
 }
 
 export interface TransformationPhrase {
@@ -337,13 +378,13 @@ export interface TransformationPhrase {
   character: string;
 
   // Delivery
-  emotion: 'determined' | 'confident' | 'gentle' | 'fierce' | 'magical';
+  emotion: "determined" | "confident" | "gentle" | "fierce" | "magical";
   volume: number;
   speed: number;
 
   // Visual presentation
-  displayStyle: 'subtitle' | 'speech_bubble' | 'floating_text' | 'magical_text';
-  textEffect: 'none' | 'glow' | 'sparkle' | 'pulse' | 'typewriter';
+  displayStyle: "subtitle" | "speech_bubble" | "floating_text" | "magical_text";
+  textEffect: "none" | "glow" | "sparkle" | "pulse" | "typewriter";
   color: string;
   font: string;
 
@@ -358,7 +399,7 @@ export interface TransformationEffect {
   id: string;
   name: string;
   description: string;
-  type: 'visual' | 'audio' | 'gameplay' | 'environmental';
+  type: "visual" | "audio" | "gameplay" | "environmental";
 
   // Timing
   startTime: number;
@@ -366,7 +407,7 @@ export interface TransformationEffect {
   delay: number;
 
   // Properties
-  properties: { [key: string]: any };
+  properties: Record<string, string | number | boolean>;
   intensity: number;
 
   // Conditions
@@ -375,26 +416,40 @@ export interface TransformationEffect {
 }
 
 export interface EffectCondition {
-  type: 'element' | 'rarity' | 'level' | 'mastery' | 'time' | 'location' | 'custom';
-  operator: 'equals' | 'greater' | 'less' | 'contains' | 'not';
-  value: any;
+  type:
+    | "element"
+    | "rarity"
+    | "level"
+    | "mastery"
+    | "time"
+    | "location"
+    | "custom";
+  operator: "equals" | "greater" | "less" | "contains" | "not";
+  value: string | number | boolean;
 }
 
 export interface EffectTrigger {
-  event: 'start' | 'middle' | 'end' | 'peak' | 'phrase' | 'gesture' | 'custom';
+  event: "start" | "middle" | "end" | "peak" | "phrase" | "gesture" | "custom";
   action: string;
-  parameters: { [key: string]: any };
+  parameters: Record<string, string | number | boolean>;
 }
 
 export interface TransformationRequirement {
-  type: 'level' | 'element' | 'item' | 'achievement' | 'mastery' | 'story' | 'custom';
+  type:
+    | "level"
+    | "element"
+    | "item"
+    | "achievement"
+    | "mastery"
+    | "story"
+    | "custom";
   description: string;
-  value: any;
+  value: string | number | boolean;
   optional: boolean;
 }
 
 export interface TransformationCost {
-  resource: 'mana' | 'energy' | 'charges' | 'items' | 'currency';
+  resource: "mana" | "energy" | "charges" | "items" | "currency";
   amount: number;
   percentage?: boolean;
   description: string;
@@ -404,7 +459,7 @@ export interface TransformationSpecialEffect {
   id: string;
   name: string;
   description: string;
-  type: 'passive' | 'active' | 'triggered' | 'aura' | 'environmental';
+  type: "passive" | "active" | "triggered" | "aura" | "environmental";
 
   // Gameplay impact
   statModifiers: StatBonus[];
@@ -425,20 +480,20 @@ export interface TransformationSpecialEffect {
 
 export interface AbilityModifier {
   abilityId: string;
-  type: 'enhance' | 'reduce' | 'disable' | 'replace' | 'add';
+  type: "enhance" | "reduce" | "disable" | "replace" | "add";
   value: number;
   description: string;
 }
 
 export interface CombatEffect {
-  type: 'damage' | 'healing' | 'status' | 'movement' | 'special';
+  type: "damage" | "healing" | "status" | "movement" | "special";
   value: number;
-  target: 'self' | 'allies' | 'enemies' | 'all';
+  target: "self" | "allies" | "enemies" | "all";
   description: string;
 }
 
 export interface TransformationVulnerability {
-  type: 'element' | 'damage_type' | 'status' | 'ability' | 'environmental';
+  type: "element" | "damage_type" | "status" | "ability" | "environmental";
   multiplier: number;
   description: string;
   condition?: string;
@@ -467,25 +522,25 @@ export interface TransformationMastery {
 }
 
 export type MasteryTier =
-  | 'Novice'
-  | 'Apprentice'
-  | 'Adept'
-  | 'Expert'
-  | 'Master'
-  | 'Grandmaster'
-  | 'Legendary';
+  | "Novice"
+  | "Apprentice"
+  | "Adept"
+  | "Expert"
+  | "Master"
+  | "Grandmaster"
+  | "Legendary";
 
 export type TransformationSource =
-  | 'Default'
-  | 'Story'
-  | 'Achievement'
-  | 'Gacha'
-  | 'Event'
-  | 'Crafting'
-  | 'Purchase'
-  | 'Gift'
-  | 'Special'
-  | 'Custom';
+  | "Default"
+  | "Story"
+  | "Achievement"
+  | "Gacha"
+  | "Event"
+  | "Crafting"
+  | "Purchase"
+  | "Gift"
+  | "Special"
+  | "Custom";
 
 export interface ActiveTransformation {
   transformationId: string;
@@ -513,14 +568,14 @@ export interface ActiveTransformation {
 }
 
 export type TransformationStage =
-  | 'Idle'
-  | 'Preparing'
-  | 'Chanting'
-  | 'Transforming'
-  | 'Completing'
-  | 'Completed'
-  | 'Failed'
-  | 'Interrupted';
+  | "Idle"
+  | "Preparing"
+  | "Chanting"
+  | "Transforming"
+  | "Completing"
+  | "Completed"
+  | "Failed"
+  | "Interrupted";
 
 export interface TransformationRecord {
   id: string;
@@ -536,7 +591,7 @@ export interface TransformationRecord {
   masteryGained: number;
 
   // Context
-  situation: 'Combat' | 'Exploration' | 'Story' | 'Practice' | 'Event';
+  situation: "Combat" | "Exploration" | "Story" | "Practice" | "Event";
   location: string;
   witnesses: string[];
 
@@ -548,14 +603,20 @@ export interface TransformationRecord {
 
 export interface CharacterReaction {
   characterId: string;
-  reaction: 'amazed' | 'impressed' | 'concerned' | 'jealous' | 'inspired' | 'fearful';
+  reaction:
+    | "amazed"
+    | "impressed"
+    | "concerned"
+    | "jealous"
+    | "inspired"
+    | "fearful";
   intensity: number;
   comment?: string;
 }
 
 export interface TransformationSettings {
   // Animation preferences
-  animationQuality: 'Low' | 'Medium' | 'High' | 'Ultra';
+  animationQuality: "Low" | "Medium" | "High" | "Ultra";
   animationSpeed: number;
   skipAnimations: boolean;
   autoSkipRepeated: boolean;
@@ -567,8 +628,8 @@ export interface TransformationSettings {
   muteRepeated: boolean;
 
   // Visual preferences
-  particleQuality: 'Low' | 'Medium' | 'High';
-  lightingQuality: 'Low' | 'Medium' | 'High';
+  particleQuality: "Low" | "Medium" | "High";
+  lightingQuality: "Low" | "Medium" | "High";
   cameraShake: boolean;
   screenEffects: boolean;
 
@@ -591,20 +652,24 @@ export interface TransformationEvent {
   timestamp: number;
   transformationId: string;
   characterId: string;
-  data?: any;
+  data?: {
+    timestamp: number;
+    userId?: string;
+    metadata?: Record<string, string | number | boolean>;
+  };
 }
 
 export type TransformationEventType =
-  | 'transformation_started'
-  | 'transformation_completed'
-  | 'transformation_failed'
-  | 'transformation_interrupted'
-  | 'stage_completed'
-  | 'phrase_spoken'
-  | 'effect_triggered'
-  | 'mastery_gained'
-  | 'new_unlocked'
-  | 'customization_changed';
+  | "transformation_started"
+  | "transformation_completed"
+  | "transformation_failed"
+  | "transformation_interrupted"
+  | "stage_completed"
+  | "phrase_spoken"
+  | "effect_triggered"
+  | "mastery_gained"
+  | "new_unlocked"
+  | "customization_changed";
 
 // Customization
 export interface TransformationCustomization {
@@ -640,7 +705,7 @@ export interface CustomEffect {
   id: string;
   name: string;
   type: EffectType;
-  properties: { [key: string]: any };
+  properties: Record<string, string | number | boolean>;
   replacesDefault: boolean;
   unlocked: boolean;
 }
@@ -674,7 +739,7 @@ export interface CustomizationOption {
   id: string;
   name: string;
   description: string;
-  category: 'phrase' | 'effect' | 'color' | 'pose' | 'accessory' | 'music';
+  category: "phrase" | "effect" | "color" | "pose" | "accessory" | "music";
   rarity: TransformationRarity;
   cost: TransformationCost[];
   requirements: TransformationRequirement[];

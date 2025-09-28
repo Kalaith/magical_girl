@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useGameStore } from '../../stores/gameStore';
-import { BattleGrid } from './BattleGrid';
-import { ActionPanel } from './ActionPanel';
-import { CombatLog } from './CombatLog';
-import { TurnOrder } from './TurnOrder';
-import { StatusEffects } from './StatusEffects';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import type { CombatBattle, CombatAction } from '../../types/combat';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useGameStore } from "../../stores/gameStore";
+import { BattleGrid } from "./BattleGrid";
+import { ActionPanel } from "./ActionPanel";
+import { CombatLog } from "./CombatLog";
+import { TurnOrder } from "./TurnOrder";
+import { StatusEffects } from "./StatusEffects";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import type { CombatBattle, CombatAction } from "../../types/combat";
 
 interface BattleArenaProps {
   battle: CombatBattle;
@@ -21,18 +21,26 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
     executeAction,
     getAvailableActions,
     endTurn,
-    combatSystem,
-    addNotification
+    addNotification,
   } = useGameStore();
 
-  const [selectedParticipant, setSelectedParticipant] = useState<string | null>(null);
-  const [selectedAction, setSelectedAction] = useState<CombatAction | null>(null);
+  const [selectedParticipant, setSelectedParticipant] = useState<string | null>(
+    null,
+  );
+  const [selectedAction, setSelectedAction] = useState<CombatAction | null>(
+    null,
+  );
   const [targetMode, setTargetMode] = useState(false);
-  const [hoveredPosition, setHoveredPosition] = useState<{row: number, column: number} | null>(null);
+  const [hoveredPosition, setHoveredPosition] = useState<{
+    row: number;
+    column: number;
+  } | null>(null);
 
   const currentParticipant = getCurrentParticipant();
-  const isPlayerTurn = currentParticipant?.source === 'player';
-  const availableActions = currentParticipant ? getAvailableActions(currentParticipant.id) : [];
+  const isPlayerTurn = currentParticipant?.source === "player";
+  const availableActions = currentParticipant
+    ? getAvailableActions(currentParticipant.id)
+    : [];
 
   // Auto-select current participant if it's player turn
   useEffect(() => {
@@ -47,7 +55,7 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
     setSelectedAction(action);
 
     // If action targets self, execute immediately
-    if (action.targeting.type === 'Self') {
+    if (action.targeting.type === "Self") {
       handleExecuteAction(action, []);
     } else {
       setTargetMode(true);
@@ -62,7 +70,10 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
     }
   };
 
-  const handleExecuteAction = async (action: CombatAction, targets: string[]) => {
+  const handleExecuteAction = async (
+    action: CombatAction,
+    _targets: string[],
+  ) => {
     if (!currentParticipant) return;
 
     try {
@@ -75,15 +86,15 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
       endTurn(currentParticipant.id);
 
       addNotification({
-        type: 'info',
-        title: 'Action Executed',
-        message: `${currentParticipant.character.name} used ${action.name}!`
+        type: "info",
+        title: "Action Executed",
+        message: `${currentParticipant.character.name} used ${action.name}!`,
       });
-    } catch (error) {
+    } catch {
       addNotification({
-        type: 'error',
-        title: 'Action Failed',
-        message: 'Unable to execute action'
+        type: "error",
+        title: "Action Failed",
+        message: "Unable to execute action",
       });
     }
   };
@@ -97,12 +108,12 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
   };
 
   const handleSurrender = () => {
-    endBattle(battle.id, 'enemy', 'Surrender');
+    endBattle(battle.id, "enemy", "Surrender");
   };
 
   const getParticipantAtPosition = (row: number, column: number) => {
     return [...battle.playerTeam, ...battle.enemyTeam].find(
-      p => p.position.row === row && p.position.column === column
+      (p) => p.position.row === row && p.position.column === column,
     );
   };
 
@@ -115,14 +126,20 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
     // Simple targeting validation
     const targeting = selectedAction.targeting;
 
-    if (targeting.type === 'Single') {
-      const teamRestriction = targeting.restrictions.find(r => r.type === 'team');
+    if (targeting.type === "Single") {
+      const teamRestriction = targeting.restrictions.find(
+        (r) => r.type === "team",
+      );
       if (teamRestriction) {
-        if (teamRestriction.value === 'enemy') {
-          return participant.position.team !== currentParticipant?.position.team;
+        if (teamRestriction.value === "enemy") {
+          return (
+            participant.position.team !== currentParticipant?.position.team
+          );
         }
-        if (teamRestriction.value === 'ally') {
-          return participant.position.team === currentParticipant?.position.team;
+        if (teamRestriction.value === "ally") {
+          return (
+            participant.position.team === currentParticipant?.position.team
+          );
         }
       }
     }
@@ -136,18 +153,23 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
       <Card className="p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-white mb-1">
-              {battle.name}
-            </h2>
+            <h2 className="text-xl font-bold text-white mb-1">{battle.name}</h2>
             <div className="flex items-center space-x-4 text-sm text-gray-400">
-              <span>Turn {battle.currentTurn}/{battle.maxTurns}</span>
+              <span>
+                Turn {battle.currentTurn}/{battle.maxTurns}
+              </span>
               <span>•</span>
               <span>{battle.environment.name}</span>
               <span>•</span>
-              <span className={`font-semibold ${
-                battle.status === 'Active' ? 'text-green-400' :
-                battle.status === 'Paused' ? 'text-yellow-400' : 'text-red-400'
-              }`}>
+              <span
+                className={`font-semibold ${
+                  battle.status === "Active"
+                    ? "text-green-400"
+                    : battle.status === "Paused"
+                      ? "text-yellow-400"
+                      : "text-red-400"
+                }`}
+              >
                 {battle.status}
               </span>
             </div>
@@ -164,11 +186,7 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
                 >
                   End Turn
                 </Button>
-                <Button
-                  variant="danger"
-                  onClick={handleSurrender}
-                  size="sm"
-                >
+                <Button variant="danger" onClick={handleSurrender} size="sm">
                   Surrender
                 </Button>
               </>
@@ -223,7 +241,7 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
             <StatusEffects
               participant={
                 [...battle.playerTeam, ...battle.enemyTeam].find(
-                  p => p.id === selectedParticipant
+                  (p) => p.id === selectedParticipant,
                 ) || null
               }
             />
@@ -233,32 +251,36 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
 
       {/* Combat Log */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <CombatLog
-          combatLog={battle.combatLog}
-          maxEntries={10}
-        />
+        <CombatLog combatLog={battle.combatLog} maxEntries={10} />
 
         {/* Battle Environment Info */}
         <Card className="p-4">
           <h3 className="text-lg font-bold text-white mb-3">Environment</h3>
           <div className="space-y-3">
             <div>
-              <div className="text-purple-400 font-semibold">{battle.environment.name}</div>
-              <div className="text-gray-400 text-sm">{battle.environment.description}</div>
+              <div className="text-purple-400 font-semibold">
+                {battle.environment.name}
+              </div>
+              <div className="text-gray-400 text-sm">
+                {battle.environment.description}
+              </div>
             </div>
 
-            {battle.environment.weather.type !== 'Clear' && (
+            {battle.environment.weather.type !== "Clear" && (
               <div>
                 <div className="text-blue-400 font-semibold">Weather</div>
                 <div className="text-gray-400 text-sm">
-                  {battle.environment.weather.type} (Intensity: {battle.environment.weather.intensity})
+                  {battle.environment.weather.type} (Intensity:{" "}
+                  {battle.environment.weather.intensity})
                 </div>
               </div>
             )}
 
             {battle.environment.effects.length > 0 && (
               <div>
-                <div className="text-green-400 font-semibold">Active Effects</div>
+                <div className="text-green-400 font-semibold">
+                  Active Effects
+                </div>
                 <div className="space-y-1">
                   {battle.environment.effects.map((effect, index) => (
                     <div key={index} className="text-gray-400 text-sm">
@@ -271,7 +293,9 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
 
             {battle.environment.bonuses.length > 0 && (
               <div>
-                <div className="text-yellow-400 font-semibold">Environmental Bonuses</div>
+                <div className="text-yellow-400 font-semibold">
+                  Environmental Bonuses
+                </div>
                 <div className="space-y-1">
                   {battle.environment.bonuses.map((bonus, index) => (
                     <div key={index} className="text-gray-400 text-sm">
@@ -298,9 +322,7 @@ export const BattleArena: React.FC<BattleArenaProps> = ({ battle }) => {
               <h3 className="text-xl font-bold text-white mb-4">
                 Select Target for {selectedAction.name}
               </h3>
-              <p className="text-gray-400 mb-6">
-                {selectedAction.description}
-              </p>
+              <p className="text-gray-400 mb-6">{selectedAction.description}</p>
               <div className="flex justify-center space-x-4">
                 <Button
                   variant="secondary"

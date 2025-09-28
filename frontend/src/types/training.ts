@@ -20,38 +20,38 @@ export interface TrainingSession {
   instructor?: TrainingInstructor;
 }
 
-export type TrainingType = 
-  | 'Basic' 
-  | 'Combat' 
-  | 'Magic' 
-  | 'Physical' 
-  | 'Mental' 
-  | 'Spiritual' 
-  | 'Elemental' 
-  | 'Team' 
-  | 'Special' 
-  | 'Advanced';
+export type TrainingType =
+  | "Basic"
+  | "Combat"
+  | "Magic"
+  | "Physical"
+  | "Mental"
+  | "Spiritual"
+  | "Elemental"
+  | "Team"
+  | "Special"
+  | "Advanced";
 
-export type TrainingCategory = 
-  | 'Stat_Boost' 
-  | 'Skill_Development' 
-  | 'Ability_Training' 
-  | 'Endurance' 
-  | 'Focus' 
-  | 'Transformation' 
-  | 'Combat_Technique' 
-  | 'Magic_Control' 
-  | 'Team_Coordination' 
-  | 'Leadership';
+export type TrainingCategory =
+  | "Stat_Boost"
+  | "Skill_Development"
+  | "Ability_Training"
+  | "Endurance"
+  | "Focus"
+  | "Transformation"
+  | "Combat_Technique"
+  | "Magic_Control"
+  | "Team_Coordination"
+  | "Leadership";
 
-export type TrainingDifficulty = 
-  | 'Beginner' 
-  | 'Novice' 
-  | 'Intermediate' 
-  | 'Advanced' 
-  | 'Expert' 
-  | 'Master' 
-  | 'Legendary';
+export type TrainingDifficulty =
+  | "Beginner"
+  | "Novice"
+  | "Intermediate"
+  | "Advanced"
+  | "Expert"
+  | "Master"
+  | "Legendary";
 
 export interface TrainingCost {
   magicalEnergy: number;
@@ -62,28 +62,28 @@ export interface TrainingCost {
 }
 
 export interface SpecialTrainingCost {
-  type: 'item' | 'condition' | 'cooldown';
+  type: "item" | "condition" | "cooldown";
   requirement: string;
-  value: any;
+  value: unknown;
 }
 
 export interface TrainingRequirement {
   type: TrainingRequirementType;
-  value: any;
+  value: unknown;
   description: string;
 }
 
-export type TrainingRequirementType = 
-  | 'level' 
-  | 'stat' 
-  | 'ability' 
-  | 'magical_girl' 
-  | 'training_completed' 
-  | 'mission_completed' 
-  | 'achievement' 
-  | 'item' 
-  | 'time_of_day' 
-  | 'energy_level';
+export type TrainingRequirementType =
+  | "level"
+  | "stat"
+  | "ability"
+  | "magical_girl"
+  | "training_completed"
+  | "mission_completed"
+  | "achievement"
+  | "item"
+  | "time_of_day"
+  | "energy_level";
 
 export interface TrainingEffect {
   type: TrainingEffectType;
@@ -95,19 +95,23 @@ export interface TrainingEffect {
   condition?: string;
 }
 
-export type TrainingEffectType = 
-  | 'stat_increase' 
-  | 'stat_temporary' 
-  | 'ability_unlock' 
-  | 'ability_upgrade' 
-  | 'experience_gain' 
-  | 'skill_point' 
-  | 'transformation_progress' 
-  | 'bond_increase' 
-  | 'mood_change' 
-  | 'special';
+export type TrainingEffectType =
+  | "stat_increase"
+  | "stat_temporary"
+  | "ability_unlock"
+  | "ability_upgrade"
+  | "experience_gain"
+  | "skill_point"
+  | "transformation_progress"
+  | "bond_increase"
+  | "mood_change"
+  | "special";
 
-export type TrainingTarget = 'self' | 'all_team' | 'specific_girl' | 'random_girl';
+export type TrainingTarget =
+  | "self"
+  | "all_team"
+  | "specific_girl"
+  | "random_girl";
 
 export interface EffectScaling {
   basedOn: string; // 'level', 'stat', 'training_count', etc.
@@ -124,15 +128,15 @@ export interface TrainingReward {
   scaling?: RewardScaling;
 }
 
-export type TrainingRewardType = 
-  | 'experience' 
-  | 'sparkles' 
-  | 'stardust' 
-  | 'skill_points' 
-  | 'ability_fragment' 
-  | 'equipment' 
-  | 'consumable' 
-  | 'special';
+export type TrainingRewardType =
+  | "experience"
+  | "sparkles"
+  | "stardust"
+  | "skill_points"
+  | "ability_fragment"
+  | "equipment"
+  | "consumable"
+  | "special";
 
 export interface RewardScaling {
   factor: string;
@@ -141,29 +145,29 @@ export interface RewardScaling {
 }
 
 export interface UnlockCondition {
-  type: 'level' | 'training' | 'mission' | 'achievement' | 'special';
-  value: any;
+  type: "level" | "training" | "mission" | "achievement" | "special";
+  value: unknown;
   description: string;
 }
 
-export type TrainingTag = 
-  | 'solo' 
-  | 'group' 
-  | 'combat' 
-  | 'peaceful' 
-  | 'intensive' 
-  | 'relaxed' 
-  | 'elemental' 
-  | 'physical' 
-  | 'mental' 
-  | 'repeatable' 
-  | 'daily' 
-  | 'special' 
-  | 'dangerous' 
-  | 'safe'
-  | 'magic'
-  | 'social'
-  | 'transformation';
+export type TrainingTag =
+  | "solo"
+  | "group"
+  | "combat"
+  | "peaceful"
+  | "intensive"
+  | "relaxed"
+  | "elemental"
+  | "physical"
+  | "mental"
+  | "repeatable"
+  | "daily"
+  | "special"
+  | "dangerous"
+  | "safe"
+  | "magic"
+  | "social"
+  | "transformation";
 
 export interface TrainingInstructor {
   id: string;
@@ -176,7 +180,7 @@ export interface TrainingInstructor {
 }
 
 export interface InstructorBonus {
-  type: 'experience' | 'success_rate' | 'cost_reduction' | 'special_unlock';
+  type: "experience" | "success_rate" | "cost_reduction" | "special_unlock";
   value: number;
   condition?: string;
 }
@@ -194,13 +198,20 @@ export interface TimeSlot {
   efficiency: number; // multiplier
 }
 
-export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
-export type Season = 'Spring' | 'Summer' | 'Autumn' | 'Winter';
+export type DayOfWeek =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+export type Season = "Spring" | "Summer" | "Autumn" | "Winter";
 
 export interface AvailabilityCondition {
   type: string;
   condition: string;
-  effect: 'available' | 'unavailable' | 'bonus';
+  effect: "available" | "unavailable" | "bonus";
 }
 
 export interface InstructorPersonality {
@@ -210,7 +221,13 @@ export interface InstructorPersonality {
   specialQuirks: string[];
 }
 
-export type TeachingStyle = 'Strict' | 'Encouraging' | 'Patient' | 'Demanding' | 'Friendly' | 'Professional';
+export type TeachingStyle =
+  | "Strict"
+  | "Encouraging"
+  | "Patient"
+  | "Demanding"
+  | "Friendly"
+  | "Professional";
 
 // Training progress and results
 export interface TrainingProgress {
@@ -223,30 +240,36 @@ export interface TrainingProgress {
   progress: number; // 0-1
   events: TrainingEvent[];
   modifiers: TrainingModifier[];
-  currentStats: any;
+  currentStats: Record<string, number>;
   score: TrainingScore;
 }
 
-export type TrainingStatus = 'not_started' | 'in_progress' | 'paused' | 'completed' | 'failed' | 'cancelled';
+export type TrainingStatus =
+  | "not_started"
+  | "in_progress"
+  | "paused"
+  | "completed"
+  | "failed"
+  | "cancelled";
 
 export interface TrainingEvent {
   type: TrainingEventType;
   timestamp: number;
   description: string;
-  effect?: any;
+  effect?: Record<string, unknown>;
   critical?: boolean;
 }
 
-export type TrainingEventType = 
-  | 'start' 
-  | 'milestone' 
-  | 'breakthrough' 
-  | 'setback' 
-  | 'critical_success' 
-  | 'critical_failure' 
-  | 'instructor_intervention' 
-  | 'special_event' 
-  | 'completion';
+export type TrainingEventType =
+  | "start"
+  | "milestone"
+  | "breakthrough"
+  | "setback"
+  | "critical_success"
+  | "critical_failure"
+  | "instructor_intervention"
+  | "special_event"
+  | "completion";
 
 export interface TrainingModifier {
   type: string;
@@ -274,7 +297,7 @@ export interface TrainingScoreBreakdown {
   instructor: number;
 }
 
-export type TrainingGrade = 'F' | 'D' | 'C' | 'B' | 'A' | 'S' | 'Perfect';
+export type TrainingGrade = "F" | "D" | "C" | "B" | "A" | "S" | "Perfect";
 
 export interface StatImprovement {
   stat: string;
@@ -308,20 +331,25 @@ export interface TrainingFacility {
   isUnlocked: boolean;
 }
 
-export type FacilityType = 
-  | 'Gym' 
-  | 'Dojo' 
-  | 'Library' 
-  | 'Garden' 
-  | 'Pool' 
-  | 'Meditation_Room' 
-  | 'Obstacle_Course' 
-  | 'Magic_Circle' 
-  | 'Simulation_Chamber' 
-  | 'Healing_Center';
+export type FacilityType =
+  | "Gym"
+  | "Dojo"
+  | "Library"
+  | "Garden"
+  | "Pool"
+  | "Meditation_Room"
+  | "Obstacle_Course"
+  | "Magic_Circle"
+  | "Simulation_Chamber"
+  | "Healing_Center";
 
 export interface FacilityBonus {
-  type: 'experience' | 'efficiency' | 'success_rate' | 'cost_reduction' | 'special';
+  type:
+    | "experience"
+    | "efficiency"
+    | "success_rate"
+    | "cost_reduction"
+    | "special";
   value: number;
   condition?: string;
   trainingTypes?: TrainingType[];
@@ -362,20 +390,20 @@ export interface Material {
 }
 
 export interface UpgradeBenefit {
-  type: 'capacity' | 'bonus' | 'efficiency' | 'unlock' | 'special';
-  value: any;
+  type: "capacity" | "bonus" | "efficiency" | "unlock" | "special";
+  value: unknown;
   description: string;
 }
 
 export interface UpgradeRequirement {
-  type: 'level' | 'achievement' | 'mission' | 'resource' | 'special';
-  value: any;
+  type: "level" | "achievement" | "mission" | "resource" | "special";
+  value: unknown;
   description: string;
 }
 
 export interface FacilityRequirement {
-  type: 'level' | 'achievement' | 'resource' | 'space' | 'special';
-  value: any;
+  type: "level" | "achievement" | "resource" | "space" | "special";
+  value: unknown;
   description: string;
 }
 
@@ -396,22 +424,28 @@ export interface TrainingEquipment {
   quantity: number;
 }
 
-export type EquipmentType = 
-  | 'Weights' 
-  | 'Targets' 
-  | 'Mats' 
-  | 'Books' 
-  | 'Crystals' 
-  | 'Potions' 
-  | 'Tools' 
-  | 'Simulators' 
-  | 'Artifacts' 
-  | 'Consumables';
+export type EquipmentType =
+  | "Weights"
+  | "Targets"
+  | "Mats"
+  | "Books"
+  | "Crystals"
+  | "Potions"
+  | "Tools"
+  | "Simulators"
+  | "Artifacts"
+  | "Consumables";
 
-export type Rarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Mythical';
+export type Rarity =
+  | "Common"
+  | "Uncommon"
+  | "Rare"
+  | "Epic"
+  | "Legendary"
+  | "Mythical";
 
 export interface EquipmentBonus {
-  type: 'stat_gain' | 'experience' | 'efficiency' | 'success_rate' | 'special';
+  type: "stat_gain" | "experience" | "efficiency" | "success_rate" | "special";
   value: number;
   trainingTypes?: TrainingType[];
   condition?: string;
@@ -425,8 +459,8 @@ export interface RepairCost {
 }
 
 export interface EquipmentRequirement {
-  type: 'level' | 'stat' | 'training_type' | 'achievement';
-  value: any;
+  type: "level" | "stat" | "training_type" | "achievement";
+  value: unknown;
   description: string;
 }
 
@@ -454,7 +488,7 @@ export interface ProgramSession {
 }
 
 export interface ProgramGoal {
-  type: 'stat' | 'ability' | 'completion' | 'score';
+  type: "stat" | "ability" | "completion" | "score";
   target: string;
   value: number;
   description: string;
@@ -462,9 +496,9 @@ export interface ProgramGoal {
 }
 
 export interface ProgramReward {
-  type: 'resources' | 'unlock' | 'achievement' | 'special';
-  value: any;
-  condition: 'completion' | 'perfect' | 'goal_achieved';
+  type: "resources" | "unlock" | "achievement" | "special";
+  value: unknown;
+  condition: "completion" | "perfect" | "goal_achieved";
 }
 
 export interface ProgramProgress {
@@ -496,7 +530,12 @@ export interface AIPersonality {
   preferences: AIPreferences;
 }
 
-export type CommunicationStyle = 'Direct' | 'Encouraging' | 'Analytical' | 'Friendly' | 'Professional';
+export type CommunicationStyle =
+  | "Direct"
+  | "Encouraging"
+  | "Analytical"
+  | "Friendly"
+  | "Professional";
 
 export interface AIPreferences {
   trainingIntensity: number; // 0-1
@@ -521,7 +560,12 @@ export interface GirlProfile {
   motivation: MotivationFactors;
 }
 
-export type LearningStyle = 'Visual' | 'Auditory' | 'Kinesthetic' | 'Reading' | 'Mixed';
+export type LearningStyle =
+  | "Visual"
+  | "Auditory"
+  | "Kinesthetic"
+  | "Reading"
+  | "Mixed";
 
 export interface MotivationFactors {
   primary: string;
@@ -555,7 +599,7 @@ export interface TrainingContext {
 }
 
 export interface TrainingPattern {
-  type: 'success' | 'failure' | 'optimal' | 'warning';
+  type: "success" | "failure" | "optimal" | "warning";
   conditions: PatternCondition[];
   outcomes: PatternOutcome[];
   confidence: number; // 0-1
@@ -565,7 +609,7 @@ export interface TrainingPattern {
 export interface PatternCondition {
   factor: string;
   operator: string;
-  value: any;
+  value: unknown;
 }
 
 export interface PatternOutcome {
@@ -575,7 +619,7 @@ export interface PatternOutcome {
 }
 
 export interface AIInsight {
-  type: 'recommendation' | 'warning' | 'observation' | 'prediction';
+  type: "recommendation" | "warning" | "observation" | "prediction";
   title: string;
   description: string;
   confidence: number; // 0-1

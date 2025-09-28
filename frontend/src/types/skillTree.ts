@@ -137,7 +137,7 @@ export interface SkillRequirement {
   type: RequirementType;
   value: number | string;
   description: string;
-  checkFunction?: (character: any) => boolean;
+  checkFunction?: (character: Record<string, unknown>) => boolean;
 }
 
 export interface SkillEffect {
@@ -244,14 +244,14 @@ export interface MasteryReward {
 
 export interface UnlockCondition {
   type: ConditionType;
-  value: any;
+  value: unknown;
   description: string;
   checkFunction?: () => boolean;
 }
 
 export interface EffectCondition {
   type: ConditionType;
-  value: any;
+  value: unknown;
   operator: ComparisonOperator;
   description: string;
 }
@@ -264,100 +264,222 @@ export interface EffectTrigger {
 }
 
 // Enums and Type Unions
-export type SkillTier = 'basic' | 'intermediate' | 'advanced' | 'expert' | 'master' | 'legendary';
+export type SkillTier =
+  | "basic"
+  | "intermediate"
+  | "advanced"
+  | "expert"
+  | "master"
+  | "legendary";
 
 export type SkillCategory =
-  | 'offensive' | 'defensive' | 'support' | 'utility'
-  | 'passive' | 'transformation' | 'synergy' | 'mastery';
+  | "offensive"
+  | "defensive"
+  | "support"
+  | "utility"
+  | "passive"
+  | "transformation"
+  | "synergy"
+  | "mastery";
 
 export type SkillTag =
-  | 'elemental' | 'physical' | 'magical' | 'healing'
-  | 'buff' | 'debuff' | 'aoe' | 'single_target'
-  | 'channeled' | 'instant' | 'toggleable' | 'passive';
+  | "elemental"
+  | "physical"
+  | "magical"
+  | "healing"
+  | "buff"
+  | "debuff"
+  | "aoe"
+  | "single_target"
+  | "channeled"
+  | "instant"
+  | "toggleable"
+  | "passive";
 
 export type SpecializationTheme =
-  | 'destroyer' | 'protector' | 'healer' | 'controller'
-  | 'striker' | 'guardian' | 'sage' | 'trickster'
-  | 'berserker' | 'paladin' | 'scholar' | 'assassin';
+  | "destroyer"
+  | "protector"
+  | "healer"
+  | "controller"
+  | "striker"
+  | "guardian"
+  | "sage"
+  | "trickster"
+  | "berserker"
+  | "paladin"
+  | "scholar"
+  | "assassin";
 
 export type BranchType =
-  | 'core' | 'offensive' | 'defensive' | 'utility'
-  | 'hybrid' | 'specialized' | 'master' | 'capstone';
+  | "core"
+  | "offensive"
+  | "defensive"
+  | "utility"
+  | "hybrid"
+  | "specialized"
+  | "master"
+  | "capstone";
 
 export type ConnectionType =
-  | 'prerequisite' | 'upgrade' | 'branch' | 'synergy'
-  | 'exclusive' | 'optional' | 'mastery';
+  | "prerequisite"
+  | "upgrade"
+  | "branch"
+  | "synergy"
+  | "exclusive"
+  | "optional"
+  | "mastery";
 
 export type PrerequisiteType =
-  | 'node_rank' | 'total_points' | 'path_progress'
-  | 'level' | 'stat_requirement' | 'achievement' | 'special';
+  | "node_rank"
+  | "total_points"
+  | "path_progress"
+  | "level"
+  | "stat_requirement"
+  | "achievement"
+  | "special";
 
 export type CostType =
-  | 'skill_points' | 'experience' | 'resources'
-  | 'special_currency' | 'achievement_tokens';
+  | "skill_points"
+  | "experience"
+  | "resources"
+  | "special_currency"
+  | "achievement_tokens";
 
 export type CostScaling =
-  | 'linear' | 'exponential' | 'logarithmic'
-  | 'fixed' | 'custom';
+  | "linear"
+  | "exponential"
+  | "logarithmic"
+  | "fixed"
+  | "custom";
 
 export type RequirementType =
-  | 'level' | 'stat' | 'element_affinity' | 'transformation_mastery'
-  | 'combat_victories' | 'skill_usage' | 'special_condition';
+  | "level"
+  | "stat"
+  | "element_affinity"
+  | "transformation_mastery"
+  | "combat_victories"
+  | "skill_usage"
+  | "special_condition";
 
 export type EffectType =
-  | 'stat_bonus' | 'stat_multiplier' | 'ability_enhancement'
-  | 'new_ability' | 'passive_effect' | 'triggered_effect'
-  | 'transformation_bonus' | 'synergy_bonus' | 'special_mechanic';
+  | "stat_bonus"
+  | "stat_multiplier"
+  | "ability_enhancement"
+  | "new_ability"
+  | "passive_effect"
+  | "triggered_effect"
+  | "transformation_bonus"
+  | "synergy_bonus"
+  | "special_mechanic";
 
 export type EffectTarget =
-  | 'self' | 'allies' | 'enemies' | 'all'
-  | 'party' | 'specific_role' | 'element_type' | 'ability_type';
+  | "self"
+  | "allies"
+  | "enemies"
+  | "all"
+  | "party"
+  | "specific_role"
+  | "element_type"
+  | "ability_type";
 
 export type EffectScaling =
-  | 'linear' | 'percentage' | 'exponential'
-  | 'diminishing' | 'threshold' | 'custom';
+  | "linear"
+  | "percentage"
+  | "exponential"
+  | "diminishing"
+  | "threshold"
+  | "custom";
 
 export type ScalingType =
-  | 'additive' | 'multiplicative' | 'compound'
-  | 'diminishing' | 'threshold_based';
+  | "additive"
+  | "multiplicative"
+  | "compound"
+  | "diminishing"
+  | "threshold_based";
 
 export type BonusType =
-  | 'stat_increase' | 'ability_unlock' | 'cost_reduction'
-  | 'effect_enhancement' | 'synergy_unlock' | 'special_feature';
+  | "stat_increase"
+  | "ability_unlock"
+  | "cost_reduction"
+  | "effect_enhancement"
+  | "synergy_unlock"
+  | "special_feature";
 
 export type SynergyRarity =
-  | 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
+  | "common"
+  | "uncommon"
+  | "rare"
+  | "epic"
+  | "legendary"
+  | "mythic";
 
 export type UnlockRequirementType =
-  | 'character_level' | 'story_progress' | 'achievement'
-  | 'other_tree_mastery' | 'special_unlock';
+  | "character_level"
+  | "story_progress"
+  | "achievement"
+  | "other_tree_mastery"
+  | "special_unlock";
 
 export type PathRequirementType =
-  | 'nodes_unlocked' | 'points_spent' | 'specific_nodes'
-  | 'tier_reached' | 'mastery_level';
+  | "nodes_unlocked"
+  | "points_spent"
+  | "specific_nodes"
+  | "tier_reached"
+  | "mastery_level";
 
 export type PathMasteryLevel =
-  | 'novice' | 'apprentice' | 'adept' | 'expert' | 'master' | 'grandmaster';
+  | "novice"
+  | "apprentice"
+  | "adept"
+  | "expert"
+  | "master"
+  | "grandmaster";
 
 export type RewardType =
-  | 'skill_points' | 'stat_bonus' | 'ability_unlock'
-  | 'title' | 'cosmetic' | 'special_feature';
+  | "skill_points"
+  | "stat_bonus"
+  | "ability_unlock"
+  | "title"
+  | "cosmetic"
+  | "special_feature";
 
 export type ConditionType =
-  | 'health_threshold' | 'mana_threshold' | 'enemy_type'
-  | 'combat_state' | 'buff_active' | 'time_condition' | 'custom';
+  | "health_threshold"
+  | "mana_threshold"
+  | "enemy_type"
+  | "combat_state"
+  | "buff_active"
+  | "time_condition"
+  | "custom";
 
 export type ComparisonOperator =
-  | 'equals' | 'greater_than' | 'less_than'
-  | 'greater_equal' | 'less_equal' | 'not_equals';
+  | "equals"
+  | "greater_than"
+  | "less_than"
+  | "greater_equal"
+  | "less_equal"
+  | "not_equals";
 
 export type TriggerEvent =
-  | 'on_attack' | 'on_defend' | 'on_cast' | 'on_heal'
-  | 'on_critical' | 'on_kill' | 'on_transform' | 'on_synergy';
+  | "on_attack"
+  | "on_defend"
+  | "on_cast"
+  | "on_heal"
+  | "on_critical"
+  | "on_kill"
+  | "on_transform"
+  | "on_synergy";
 
 export type MagicalElement =
-  | 'fire' | 'water' | 'earth' | 'air' | 'lightning'
-  | 'ice' | 'light' | 'dark' | 'neutral';
+  | "fire"
+  | "water"
+  | "earth"
+  | "air"
+  | "lightning"
+  | "ice"
+  | "light"
+  | "dark"
+  | "neutral";
 
 // Skill Tree Management Types
 export interface SkillTreeState {
@@ -450,9 +572,9 @@ export interface AnalysisRecommendation {
   expectedBenefit: number;
 }
 
-export type RecommendationPriority = 'low' | 'medium' | 'high' | 'critical';
+export type RecommendationPriority = "low" | "medium" | "high" | "critical";
 
-export type TreeViewMode = 'full' | 'compact' | 'paths_only' | 'analysis';
+export type TreeViewMode = "full" | "compact" | "paths_only" | "analysis";
 
 export interface TreeFilterSettings {
   showLockedNodes: boolean;
@@ -490,8 +612,14 @@ export interface SkillTreeActions {
 
   // Analysis and optimization
   analyzeSkillTree: (treeId: string) => TreeAnalysis;
-  getRecommendations: (treeId: string, goal?: string) => AnalysisRecommendation[];
-  optimizeBuild: (treeId: string, constraints?: OptimizationConstraints) => BuildTreeState;
+  getRecommendations: (
+    treeId: string,
+    goal?: string,
+  ) => AnalysisRecommendation[];
+  optimizeBuild: (
+    treeId: string,
+    constraints?: OptimizationConstraints,
+  ) => BuildTreeState;
 
   // Learning queue
   addToLearningQueue: (entry: SkillLearningEntry) => void;
@@ -505,7 +633,11 @@ export interface SkillTreeActions {
   updateFilterSettings: (settings: Partial<TreeFilterSettings>) => void;
 
   // Utility actions
-  calculateNodeCost: (treeId: string, nodeId: string, targetRank: number) => SkillCost[];
+  calculateNodeCost: (
+    treeId: string,
+    nodeId: string,
+    targetRank: number,
+  ) => SkillCost[];
   validateNodeLearning: (treeId: string, nodeId: string) => ValidationResult;
   getAvailableNodes: (treeId: string) => string[];
   getPathProgress: (treeId: string, pathId: string) => PathProgress;
@@ -520,8 +652,13 @@ export interface OptimizationConstraints {
 }
 
 export type OptimizationGoal =
-  | 'damage' | 'survivability' | 'support' | 'utility'
-  | 'balanced' | 'synergy' | 'efficiency';
+  | "damage"
+  | "survivability"
+  | "support"
+  | "utility"
+  | "balanced"
+  | "synergy"
+  | "efficiency";
 
 export interface ValidationResult {
   isValid: boolean;
@@ -542,12 +679,19 @@ export interface ValidationWarning {
 }
 
 export type ErrorType =
-  | 'insufficient_points' | 'prerequisites_not_met' | 'tree_locked'
-  | 'node_maxed' | 'conflicting_paths' | 'invalid_state';
+  | "insufficient_points"
+  | "prerequisites_not_met"
+  | "tree_locked"
+  | "node_maxed"
+  | "conflicting_paths"
+  | "invalid_state";
 
 export type WarningType =
-  | 'inefficient_spending' | 'missed_synergy' | 'path_conflict'
-  | 'overcapping' | 'suboptimal_order';
+  | "inefficient_spending"
+  | "missed_synergy"
+  | "path_conflict"
+  | "overcapping"
+  | "suboptimal_order";
 
 export interface PathProgress {
   pathId: string;
@@ -566,11 +710,18 @@ export interface SkillTreeEvent {
   nodeId?: string;
   pathId?: string;
   timestamp: number;
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 export type SkillTreeEventType =
-  | 'node_learned' | 'node_unlearned' | 'node_maxed'
-  | 'path_selected' | 'path_committed' | 'path_mastered'
-  | 'tree_reset' | 'tree_prestiged' | 'tree_unlocked'
-  | 'synergy_activated' | 'milestone_reached';
+  | "node_learned"
+  | "node_unlearned"
+  | "node_maxed"
+  | "path_selected"
+  | "path_committed"
+  | "path_mastered"
+  | "tree_reset"
+  | "tree_prestiged"
+  | "tree_unlocked"
+  | "synergy_activated"
+  | "milestone_reached";

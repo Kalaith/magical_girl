@@ -1,5 +1,36 @@
 // Magical Girl Customization System Types
 
+// Import required base types
+interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a?: number;
+}
+
+interface Vector3D {
+  x: number;
+  y: number;
+  z: number;
+}
+
+interface SetBonus {
+  id: string;
+  name: string;
+  description: string;
+  pieces: number;
+  effects: Array<{
+    type: string;
+    value: unknown;
+    description: string;
+  }>;
+}
+
+interface EffectCondition {
+  type: string;
+  value: unknown;
+}
+
 export interface CustomizationSystem {
   // Character customization state
   characters: Record<string, CharacterCustomization>;
@@ -392,125 +423,341 @@ export interface TransformationBonus {
 
 // Enums and Type Unions
 export type OutfitCategory =
-  | 'dress' | 'top' | 'bottom' | 'shoes' | 'outerwear'
-  | 'swimwear' | 'sleepwear' | 'formal' | 'casual' | 'magical';
+  | "dress"
+  | "top"
+  | "bottom"
+  | "shoes"
+  | "outerwear"
+  | "swimwear"
+  | "sleepwear"
+  | "formal"
+  | "casual"
+  | "magical";
 
 export type OutfitSlot =
-  | 'dress' | 'top' | 'bottom' | 'shoes' | 'cape'
-  | 'gloves' | 'stockings' | 'jacket' | 'skirt';
+  | "dress"
+  | "top"
+  | "bottom"
+  | "shoes"
+  | "cape"
+  | "gloves"
+  | "stockings"
+  | "jacket"
+  | "skirt";
 
 export type AccessoryCategory =
-  | 'jewelry' | 'hair' | 'face' | 'magical' | 'decorative' | 'functional';
+  | "jewelry"
+  | "hair"
+  | "face"
+  | "magical"
+  | "decorative"
+  | "functional";
 
 export type AccessorySlot =
-  | 'tiara' | 'hairClip' | 'headband' | 'glasses' | 'mask'
-  | 'necklace' | 'earrings' | 'bracelet' | 'ring' | 'wand'
-  | 'charm' | 'brooch' | 'bag' | 'belt' | 'wings' | 'tail';
+  | "tiara"
+  | "hairClip"
+  | "headband"
+  | "glasses"
+  | "mask"
+  | "necklace"
+  | "earrings"
+  | "bracelet"
+  | "ring"
+  | "wand"
+  | "charm"
+  | "brooch"
+  | "bag"
+  | "belt"
+  | "wings"
+  | "tail";
 
 export type OutfitTheme =
-  | 'cute' | 'elegant' | 'cool' | 'sexy' | 'gothic' | 'punk'
-  | 'princess' | 'warrior' | 'magical' | 'school' | 'casual'
-  | 'formal' | 'fantasy' | 'modern' | 'vintage' | 'futuristic';
+  | "cute"
+  | "elegant"
+  | "cool"
+  | "sexy"
+  | "gothic"
+  | "punk"
+  | "princess"
+  | "warrior"
+  | "magical"
+  | "school"
+  | "casual"
+  | "formal"
+  | "fantasy"
+  | "modern"
+  | "vintage"
+  | "futuristic";
 
 export type StyleTag =
-  | 'frilly' | 'minimalist' | 'ornate' | 'edgy' | 'sweet'
-  | 'sporty' | 'romantic' | 'dramatic' | 'playful' | 'sophisticated';
+  | "frilly"
+  | "minimalist"
+  | "ornate"
+  | "edgy"
+  | "sweet"
+  | "sporty"
+  | "romantic"
+  | "dramatic"
+  | "playful"
+  | "sophisticated";
 
-export type FormalityLevel = 'casual' | 'smart_casual' | 'semi_formal' | 'formal' | 'ultra_formal';
+export type FormalityLevel =
+  | "casual"
+  | "smart_casual"
+  | "semi_formal"
+  | "formal"
+  | "ultra_formal";
 
-export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic' | 'unique';
+export type ItemRarity =
+  | "common"
+  | "uncommon"
+  | "rare"
+  | "epic"
+  | "legendary"
+  | "mythic"
+  | "unique";
 
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter' | 'all_season';
+export type Season = "spring" | "summer" | "autumn" | "winter" | "all_season";
 
-export type MetalTone = 'gold' | 'silver' | 'rose_gold' | 'platinum' | 'copper' | 'bronze';
+export type MetalTone =
+  | "gold"
+  | "silver"
+  | "rose_gold"
+  | "platinum"
+  | "copper"
+  | "bronze";
 
-export type EleganceLevel = 'simple' | 'refined' | 'elaborate' | 'extravagant' | 'divine';
+export type EleganceLevel =
+  | "simple"
+  | "refined"
+  | "elaborate"
+  | "extravagant"
+  | "divine";
 
-export type BodyType = 'petite' | 'average' | 'tall' | 'curvy' | 'athletic' | 'custom';
+export type BodyType =
+  | "petite"
+  | "average"
+  | "tall"
+  | "curvy"
+  | "athletic"
+  | "custom";
 
-export type HeightRange = 'very_short' | 'short' | 'average' | 'tall' | 'very_tall';
+export type HeightRange =
+  | "very_short"
+  | "short"
+  | "average"
+  | "tall"
+  | "very_tall";
 
-export type SkinTone = 'pale' | 'fair' | 'medium' | 'tan' | 'dark' | 'custom';
+export type SkinTone = "pale" | "fair" | "medium" | "tan" | "dark" | "custom";
 
 export type Hairstyle =
-  | 'straight' | 'wavy' | 'curly' | 'pigtails' | 'ponytail'
-  | 'braid' | 'bun' | 'short_bob' | 'long_flowing' | 'custom';
+  | "straight"
+  | "wavy"
+  | "curly"
+  | "pigtails"
+  | "ponytail"
+  | "braid"
+  | "bun"
+  | "short_bob"
+  | "long_flowing"
+  | "custom";
 
-export type HairLength = 'very_short' | 'short' | 'medium' | 'long' | 'very_long';
+export type HairLength =
+  | "very_short"
+  | "short"
+  | "medium"
+  | "long"
+  | "very_long";
 
-export type HairTexture = 'straight' | 'wavy' | 'curly' | 'coily';
+export type HairTexture = "straight" | "wavy" | "curly" | "coily";
 
-export type EyeShape = 'round' | 'almond' | 'upturned' | 'downturned' | 'hooded';
+export type EyeShape =
+  | "round"
+  | "almond"
+  | "upturned"
+  | "downturned"
+  | "hooded";
 
-export type EyeSize = 'small' | 'medium' | 'large' | 'extra_large';
+export type EyeSize = "small" | "medium" | "large" | "extra_large";
 
-export type FaceShape = 'oval' | 'round' | 'square' | 'heart' | 'diamond';
+export type FaceShape = "oval" | "round" | "square" | "heart" | "diamond";
 
-export type ExpressionSet = 'cheerful' | 'serious' | 'mysterious' | 'gentle' | 'fierce';
+export type ExpressionSet =
+  | "cheerful"
+  | "serious"
+  | "mysterious"
+  | "gentle"
+  | "fierce";
 
 export type OutfitOccasion =
-  | 'daily' | 'school' | 'work' | 'party' | 'date' | 'battle'
-  | 'ceremony' | 'vacation' | 'sleep' | 'exercise' | 'special_event';
+  | "daily"
+  | "school"
+  | "work"
+  | "party"
+  | "date"
+  | "battle"
+  | "ceremony"
+  | "vacation"
+  | "sleep"
+  | "exercise"
+  | "special_event";
 
-export type OutfitMood = 'happy' | 'confident' | 'romantic' | 'rebellious' | 'peaceful' | 'energetic';
+export type OutfitMood =
+  | "happy"
+  | "confident"
+  | "romantic"
+  | "rebellious"
+  | "peaceful"
+  | "energetic";
 
 export type OutfitEffectType =
-  | 'stat_bonus' | 'skill_enhancement' | 'special_ability'
-  | 'transformation_bonus' | 'social_bonus' | 'combat_bonus';
+  | "stat_bonus"
+  | "skill_enhancement"
+  | "special_ability"
+  | "transformation_bonus"
+  | "social_bonus"
+  | "combat_bonus";
 
 export type AccessoryEffectType =
-  | 'stat_boost' | 'magical_enhancement' | 'protection'
-  | 'utility' | 'social' | 'transformation';
+  | "stat_boost"
+  | "magical_enhancement"
+  | "protection"
+  | "utility"
+  | "social"
+  | "transformation";
 
-export type EffectTarget = 'self' | 'allies' | 'enemies' | 'all' | 'environment';
+export type EffectTarget =
+  | "self"
+  | "allies"
+  | "enemies"
+  | "all"
+  | "environment";
 
-export type GradientType = 'linear' | 'radial' | 'angular' | 'diamond' | 'custom';
+export type GradientType =
+  | "linear"
+  | "radial"
+  | "angular"
+  | "diamond"
+  | "custom";
 
-export type GradientDirection = 'horizontal' | 'vertical' | 'diagonal' | 'radial' | 'custom';
+export type GradientDirection =
+  | "horizontal"
+  | "vertical"
+  | "diagonal"
+  | "radial"
+  | "custom";
 
 export type ColorCategory =
-  | 'warm' | 'cool' | 'neutral' | 'pastel' | 'bright' | 'dark'
-  | 'metallic' | 'magical' | 'natural' | 'rainbow';
+  | "warm"
+  | "cool"
+  | "neutral"
+  | "pastel"
+  | "bright"
+  | "dark"
+  | "metallic"
+  | "magical"
+  | "natural"
+  | "rainbow";
 
 export type PatternCategory =
-  | 'floral' | 'geometric' | 'abstract' | 'cute' | 'elegant'
-  | 'tribal' | 'lace' | 'stripes' | 'polka_dots' | 'magical';
+  | "floral"
+  | "geometric"
+  | "abstract"
+  | "cute"
+  | "elegant"
+  | "tribal"
+  | "lace"
+  | "stripes"
+  | "polka_dots"
+  | "magical";
 
 export type UnlockType =
-  | 'level' | 'story_progress' | 'achievement' | 'purchase'
-  | 'event' | 'gacha' | 'craft' | 'gift' | 'special';
+  | "level"
+  | "story_progress"
+  | "achievement"
+  | "purchase"
+  | "event"
+  | "gacha"
+  | "craft"
+  | "gift"
+  | "special";
 
 export type CurrencyType =
-  | 'coins' | 'gems' | 'fashion_points' | 'event_tokens'
-  | 'crafting_materials' | 'social_points' | 'achievement_points';
+  | "coins"
+  | "gems"
+  | "fashion_points"
+  | "event_tokens"
+  | "crafting_materials"
+  | "social_points"
+  | "achievement_points";
 
-export type AnimationEasing = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bounce';
+export type AnimationEasing =
+  | "linear"
+  | "ease_in"
+  | "ease_out"
+  | "ease_in_out"
+  | "bounce";
 
-export type AnimationTrigger = 'idle' | 'walk' | 'run' | 'cast' | 'transform' | 'victory';
+export type AnimationTrigger =
+  | "idle"
+  | "walk"
+  | "run"
+  | "cast"
+  | "transform"
+  | "victory";
 
 export type BodyPosition =
-  | 'forehead' | 'cheek' | 'shoulder' | 'hand' | 'chest'
-  | 'back' | 'arm' | 'leg' | 'neck' | 'custom';
+  | "forehead"
+  | "cheek"
+  | "shoulder"
+  | "hand"
+  | "chest"
+  | "back"
+  | "arm"
+  | "leg"
+  | "neck"
+  | "custom";
 
 export type FeatureType =
-  | 'wings' | 'tail' | 'ears' | 'horns' | 'markings'
-  | 'aura' | 'magical_effect' | 'special_appendage';
+  | "wings"
+  | "tail"
+  | "ears"
+  | "horns"
+  | "markings"
+  | "aura"
+  | "magical_effect"
+  | "special_appendage";
 
 export type TransformationBonusType =
-  | 'transformation_speed' | 'magical_power' | 'visual_effect'
-  | 'animation_enhancement' | 'special_ability';
+  | "transformation_speed"
+  | "magical_power"
+  | "visual_effect"
+  | "animation_enhancement"
+  | "special_ability";
 
-export type EquipmentSlot = 'weapon' | 'armor' | 'accessory' | 'magical_focus';
+export type EquipmentSlot = "weapon" | "armor" | "accessory" | "magical_focus";
 
 // Additional interfaces for complex features
 export interface CustomizationActions {
   // Outfit management
-  equipOutfitPiece: (characterId: string, slot: OutfitSlot, pieceId: string) => void;
+  equipOutfitPiece: (
+    characterId: string,
+    slot: OutfitSlot,
+    pieceId: string,
+  ) => void;
   unequipOutfitPiece: (characterId: string, slot: OutfitSlot) => void;
-  equipFullOutfit: (characterId: string, outfitConfig: OutfitConfiguration) => void;
+  equipFullOutfit: (
+    characterId: string,
+    outfitConfig: OutfitConfiguration,
+  ) => void;
 
   // Accessory management
-  equipAccessory: (characterId: string, slot: AccessorySlot, accessoryId: string) => void;
+  equipAccessory: (
+    characterId: string,
+    slot: AccessorySlot,
+    accessoryId: string,
+  ) => void;
   unequipAccessory: (characterId: string, slot: AccessorySlot) => void;
 
   // Color customization
@@ -530,18 +777,27 @@ export interface CustomizationActions {
   clearQuickSlot: (slotNumber: number) => void;
 
   // Item management
-  unlockItem: (itemId: string, itemType: 'outfit' | 'accessory') => void;
+  unlockItem: (itemId: string, itemType: "outfit" | "accessory") => void;
   purchaseItem: (itemId: string, currency: CurrencyType) => void;
   craftItem: (recipeId: string, materials: Record<string, number>) => void;
 
   // Randomization
-  randomizeOutfit: (characterId: string, constraints?: RandomizationConstraints) => void;
-  generateOutfitSuggestion: (characterId: string, occasion: OutfitOccasion) => OutfitConfiguration;
+  randomizeOutfit: (
+    characterId: string,
+    constraints?: RandomizationConstraints,
+  ) => void;
+  generateOutfitSuggestion: (
+    characterId: string,
+    occasion: OutfitOccasion,
+  ) => OutfitConfiguration;
 
   // Analysis and stats
   calculateOutfitStats: (outfit: OutfitConfiguration) => OutfitStats;
   analyzeColorHarmony: (colors: ColorConfiguration) => ColorHarmonyScore;
-  getStyleCompatibility: (outfit: OutfitConfiguration, accessories: AccessoryConfiguration) => number;
+  getStyleCompatibility: (
+    outfit: OutfitConfiguration,
+    accessories: AccessoryConfiguration,
+  ) => number;
 
   // Social features
   rateOutfit: (outfitId: string, rating: number) => void;
@@ -583,18 +839,32 @@ export interface AnimationEffect {
 }
 
 export type EffectType =
-  | 'glow' | 'sparkle' | 'float' | 'pulse' | 'shimmer'
-  | 'wave' | 'rotate' | 'scale' | 'fade' | 'custom';
+  | "glow"
+  | "sparkle"
+  | "float"
+  | "pulse"
+  | "shimmer"
+  | "wave"
+  | "rotate"
+  | "scale"
+  | "fade"
+  | "custom";
 
 // Customization Events
 export interface CustomizationEvent {
   type: CustomizationEventType;
   characterId: string;
   timestamp: number;
-  data: any;
+  data: Record<string, unknown>;
 }
 
 export type CustomizationEventType =
-  | 'outfit_changed' | 'accessory_equipped' | 'color_changed'
-  | 'outfit_saved' | 'item_unlocked' | 'achievement_earned'
-  | 'fashion_level_up' | 'set_completed' | 'style_discovered';
+  | "outfit_changed"
+  | "accessory_equipped"
+  | "color_changed"
+  | "outfit_saved"
+  | "item_unlocked"
+  | "achievement_earned"
+  | "fashion_level_up"
+  | "set_completed"
+  | "style_discovered";

@@ -9,79 +9,80 @@ import type {
   TransformationRequirement,
   TransformationCost,
   CustomizationOption,
-  MasteryTier
-} from '../types/transformation';
-import type { MagicalElement } from '../types/magicalGirl';
+  MasteryTier,
+} from "../types/transformation";
+import type { MagicalElement } from "../types/magicalGirl";
 
 export const TRANSFORMATION_CONFIG = {
   // Default transformation sequences available to all characters
   defaultTransformations: [
     {
-      id: 'basic_transformation',
-      name: 'Basic Magical Transformation',
-      description: 'The fundamental transformation sequence every magical girl learns',
-      element: 'Universal' as MagicalElement,
-      rarity: 'Common' as const,
-      category: 'Basic' as const,
+      id: "basic_transformation",
+      name: "Basic Magical Transformation",
+      description:
+        "The fundamental transformation sequence every magical girl learns",
+      element: "Universal" as MagicalElement,
+      rarity: "Common" as const,
+      category: "Basic" as const,
 
       animation: {
-        type: 'Classic' as const,
+        type: "Classic" as const,
         stages: [
           {
-            id: 'preparation',
-            name: 'Preparation',
-            description: 'Character prepares for transformation',
+            id: "preparation",
+            name: "Preparation",
+            description: "Character prepares for transformation",
             duration: 2000,
             startTime: 0,
             characterPose: {
-              type: 'standing' as const,
+              type: "standing" as const,
               position: { x: 0, y: 0, z: 0 },
               rotation: { x: 0, y: 0, z: 0 },
               scale: 1,
               expression: {
-                type: 'determined' as const,
+                type: "determined" as const,
                 intensity: 80,
                 eyeGlow: false,
-                specialMarkings: []
+                specialMarkings: [],
               },
               gesture: {
-                type: 'magical_symbol' as const,
-                position: 'at_heart' as const,
-                glowEffect: false
-              }
+                type: "magical_symbol" as const,
+                position: "at_heart" as const,
+                glowEffect: false,
+              },
             },
             outfit: {
-              fromOutfit: 'casual',
-              toOutfit: 'magical',
-              transitionType: 'sparkle' as const,
+              fromOutfit: "casual",
+              toOutfit: "magical",
+              transitionType: "sparkle" as const,
               duration: 1500,
               pieces: [
                 {
-                  id: 'dress',
-                  name: 'Magical Dress',
-                  type: 'dress' as const,
-                  color: '#FFB6C1',
-                  material: 'magical' as const,
-                  enchantments: ['sparkle', 'flow'],
-                  appearanceEffect: 'materialize' as const,
+                  id: "dress",
+                  name: "Magical Dress",
+                  type: "dress" as const,
+                  color: "#FFB6C1",
+                  material: "magical" as const,
+                  enchantments: ["sparkle", "flow"],
+                  appearanceEffect: "materialize" as const,
                   timing: 500,
-                  duration: 1000
-                }
+                  duration: 1000,
+                },
               ],
-              transformOrder: ['dress', 'boots', 'accessories']
+              transformOrder: ["dress", "boots", "accessories"],
             },
             accessories: [
               {
-                type: 'tiara' as const,
+                type: "tiara" as const,
                 accessory: {
-                  id: 'basic_tiara',
-                  name: 'Starter Tiara',
-                  description: 'A simple but elegant tiara',
-                  element: 'Universal' as MagicalElement,
-                  rarity: 'Common' as const,
-                  model: 'tiara_basic',
-                  texture: 'tiara_basic_texture',
-                  color: '#FFD700',
+                  id: "basic_tiara",
+                  name: "Starter Tiara",
+                  description: "A simple but elegant tiara",
+                  element: "Universal" as MagicalElement,
+                  rarity: "Common" as const,
+                  model: "tiara_basic",
+                  texture: "tiara_basic_texture",
+                  color: "#FFD700",
                   size: 1,
                   position: { x: 0, y: 1.8, z: 0 },
                   glow: true,
@@ -89,185 +90,185 @@ export const TRANSFORMATION_CONFIG = {
                   aura: false,
                   special: false,
                   statBonuses: [
-                    { stat: 'magic', value: 10, type: 'flat' as const }
+                    { stat: "magic", value: 10, type: "flat" as const },
                   ],
                   abilities: [],
-                  passives: []
+                  passives: [],
                 },
-                appearanceEffect: 'materialize' as const,
+                appearanceEffect: "materialize" as const,
                 timing: 1000,
-                duration: 500
-              }
+                duration: 500,
+              },
             ],
             aura: {
-              type: 'star' as const,
-              color: '#FFB6C1',
+              type: "star" as const,
+              color: "#FFB6C1",
               intensity: 60,
               size: 1.2,
-              shape: 'circular' as const,
-              animation: 'pulse' as const,
+              shape: "circular" as const,
+              animation: "pulse" as const,
               particles: true,
-              sound: 'magical_chime.mp3'
+              sound: "magical_chime.mp3",
             },
             visualEffects: [
               {
-                type: 'sparkles' as const,
-                name: 'Initial Sparkles',
+                type: "sparkles" as const,
+                name: "Initial Sparkles",
                 duration: 2000,
                 delay: 0,
                 intensity: 70,
-                color: '#FFB6C1',
-                position: 'character' as const,
-                movement: 'orbit' as const,
+                color: "#FFB6C1",
+                position: "character" as const,
+                movement: "orbit" as const,
                 fadeIn: 200,
                 fadeOut: 300,
-                soundEffect: 'sparkle_loop.mp3',
-                synchronized: true
-              }
+                soundEffect: "sparkle_loop.mp3",
+                synchronized: true,
+              },
             ],
-            soundEffects: ['transformation_start.mp3'],
-            voiceLine: 'transformation_phrase_1'
+            soundEffects: ["transformation_start.mp3"],
+            voiceLine: "transformation_phrase_1",
           },
           {
-            id: 'chanting',
-            name: 'Chanting',
-            description: 'Character speaks transformation phrase',
+            id: "chanting",
+            name: "Chanting",
+            description: "Character speaks transformation phrase",
             duration: 3000,
             startTime: 2000,
             characterPose: {
-              type: 'dramatic' as const,
+              type: "dramatic" as const,
               position: { x: 0, y: 0.2, z: 0 },
               rotation: { x: 0, y: 0, z: 0 },
               scale: 1.1,
               expression: {
-                type: 'confident' as const,
+                type: "confident" as const,
                 intensity: 90,
                 eyeGlow: true,
-                specialMarkings: ['star_mark']
+                specialMarkings: ["star_mark"],
               },
               gesture: {
-                type: 'magical_symbol' as const,
-                position: 'raised' as const,
-                glowEffect: true
-              }
+                type: "magical_symbol" as const,
+                position: "raised" as const,
+                glowEffect: true,
+              },
             },
             outfit: {
-              fromOutfit: 'casual',
-              toOutfit: 'magical_partial',
-              transitionType: 'light_wrap' as const,
+              fromOutfit: "casual",
+              toOutfit: "magical_partial",
+              transitionType: "light_wrap" as const,
               duration: 2500,
               pieces: [
                 {
-                  id: 'top',
-                  name: 'Magical Top',
-                  type: 'top' as const,
-                  color: '#FFB6C1',
-                  material: 'magical' as const,
-                  enchantments: ['glow', 'shimmer'],
-                  appearanceEffect: 'spiral' as const,
+                  id: "top",
+                  name: "Magical Top",
+                  type: "top" as const,
+                  color: "#FFB6C1",
+                  material: "magical" as const,
+                  enchantments: ["glow", "shimmer"],
+                  appearanceEffect: "spiral" as const,
                   timing: 500,
-                  duration: 1500
-                }
+                  duration: 1500,
+                },
               ],
-              transformOrder: ['top', 'skirt']
+              transformOrder: ["top", "skirt"],
             },
             accessories: [],
             aura: {
-              type: 'star' as const,
-              color: '#FFD700',
+              type: "star" as const,
+              color: "#FFD700",
               intensity: 80,
               size: 1.5,
-              shape: 'star' as const,
-              animation: 'rotate' as const,
+              shape: "star" as const,
+              animation: "rotate" as const,
               particles: true,
-              sound: 'aura_intensify.mp3'
+              sound: "aura_intensify.mp3",
             },
             visualEffects: [
               {
-                type: 'light_rays' as const,
-                name: 'Divine Light',
+                type: "light_rays" as const,
+                name: "Divine Light",
                 duration: 3000,
                 delay: 500,
                 intensity: 85,
-                color: '#FFD700',
-                position: 'background' as const,
-                movement: 'static' as const,
+                color: "#FFD700",
+                position: "background" as const,
+                movement: "static" as const,
                 fadeIn: 500,
                 fadeOut: 500,
-                soundEffect: 'light_rays.mp3',
-                synchronized: true
-              }
+                soundEffect: "light_rays.mp3",
+                synchronized: true,
+              },
             ],
-            soundEffects: ['transformation_chant.mp3'],
-            voiceLine: 'transformation_phrase_2'
+            soundEffects: ["transformation_chant.mp3"],
+            voiceLine: "transformation_phrase_2",
           },
           {
-            id: 'transformation',
-            name: 'Transformation',
-            description: 'Main transformation sequence',
+            id: "transformation",
+            name: "Transformation",
+            description: "Main transformation sequence",
             duration: 4000,
             startTime: 5000,
             characterPose: {
-              type: 'spinning' as const,
+              type: "spinning" as const,
               position: { x: 0, y: 0.5, z: 0 },
               rotation: { x: 0, y: 360, z: 0 },
               scale: 1.2,
               expression: {
-                type: 'joyful' as const,
+                type: "joyful" as const,
                 intensity: 95,
                 eyeGlow: true,
-                specialMarkings: ['star_mark', 'heart_mark']
+                specialMarkings: ["star_mark", "heart_mark"],
               },
               gesture: {
-                type: 'heart' as const,
-                position: 'extended' as const,
-                glowEffect: true
-              }
+                type: "heart" as const,
+                position: "extended" as const,
+                glowEffect: true,
+              },
             },
             outfit: {
-              fromOutfit: 'magical_partial',
-              toOutfit: 'magical_complete',
-              transitionType: 'ribbon_wrap' as const,
+              fromOutfit: "magical_partial",
+              toOutfit: "magical_complete",
+              transitionType: "ribbon_wrap" as const,
               duration: 3500,
               pieces: [
                 {
-                  id: 'skirt',
-                  name: 'Magical Skirt',
-                  type: 'skirt' as const,
-                  color: '#FFB6C1',
-                  pattern: 'star_pattern',
-                  material: 'magical' as const,
-                  enchantments: ['flow', 'sparkle', 'glow'],
-                  appearanceEffect: 'unfold' as const,
+                  id: "skirt",
+                  name: "Magical Skirt",
+                  type: "skirt" as const,
+                  color: "#FFB6C1",
+                  pattern: "star_pattern",
+                  material: "magical" as const,
+                  enchantments: ["flow", "sparkle", "glow"],
+                  appearanceEffect: "unfold" as const,
                   timing: 500,
-                  duration: 2000
+                  duration: 2000,
                 },
                 {
-                  id: 'boots',
-                  name: 'Magical Boots',
-                  type: 'boots' as const,
-                  color: '#FF69B4',
-                  material: 'magical' as const,
-                  enchantments: ['speed', 'lightness'],
-                  appearanceEffect: 'grow' as const,
+                  id: "boots",
+                  name: "Magical Boots",
+                  type: "boots" as const,
+                  color: "#FF69B4",
+                  material: "magical" as const,
+                  enchantments: ["speed", "lightness"],
+                  appearanceEffect: "grow" as const,
                   timing: 1500,
-                  duration: 1000
-                }
+                  duration: 1000,
+                },
               ],
-              transformOrder: ['skirt', 'boots', 'gloves']
+              transformOrder: ["skirt", "boots", "gloves"],
             },
             accessories: [
               {
-                type: 'weapon' as const,
+                type: "weapon" as const,
                 accessory: {
-                  id: 'starter_wand',
-                  name: 'Basic Magic Wand',
-                  description: 'A simple but effective magic wand',
-                  element: 'Universal' as MagicalElement,
-                  rarity: 'Common' as const,
-                  model: 'wand_basic',
-                  texture: 'wand_basic_texture',
-                  color: '#FFB6C1',
+                  id: "starter_wand",
+                  name: "Basic Magic Wand",
+                  description: "A simple but effective magic wand",
+                  element: "Universal" as MagicalElement,
+                  rarity: "Common" as const,
+                  model: "wand_basic",
+                  texture: "wand_basic_texture",
+                  color: "#FFB6C1",
                   size: 1,
                   position: { x: 0.3, y: 1.2, z: 0 },
                   glow: true,
@@ -275,298 +276,298 @@ export const TRANSFORMATION_CONFIG = {
                   aura: true,
                   special: false,
                   statBonuses: [
-                    { stat: 'power', value: 15, type: 'flat' as const },
-                    { stat: 'magic', value: 20, type: 'flat' as const }
+                    { stat: "power", value: 15, type: "flat" as const },
+                    { stat: "magic", value: 20, type: "flat" as const },
                   ],
-                  abilities: ['basic_blast'],
-                  passives: ['magic_efficiency']
+                  abilities: ["basic_blast"],
+                  passives: ["magic_efficiency"],
                 },
-                appearanceEffect: 'summon' as const,
+                appearanceEffect: "summon" as const,
                 timing: 2500,
-                duration: 800
-              }
+                duration: 800,
+              },
             ],
             aura: {
-              type: 'rainbow' as const,
-              color: '#FFFFFF',
+              type: "rainbow" as const,
+              color: "#FFFFFF",
               intensity: 100,
               size: 2.0,
-              shape: 'heart' as const,
-              animation: 'wave' as const,
+              shape: "heart" as const,
+              animation: "wave" as const,
               particles: true,
-              sound: 'aura_complete.mp3'
+              sound: "aura_complete.mp3",
             },
             visualEffects: [
               {
-                type: 'ribbons' as const,
-                name: 'Magical Ribbons',
+                type: "ribbons" as const,
+                name: "Magical Ribbons",
                 duration: 4000,
                 delay: 0,
                 intensity: 90,
-                color: '#FFB6C1',
-                position: 'character' as const,
-                movement: 'spiral' as const,
+                color: "#FFB6C1",
+                position: "character" as const,
+                movement: "spiral" as const,
                 fadeIn: 300,
                 fadeOut: 700,
-                soundEffect: 'ribbon_dance.mp3',
-                synchronized: true
+                soundEffect: "ribbon_dance.mp3",
+                synchronized: true,
               },
               {
-                type: 'hearts' as const,
-                name: 'Love Hearts',
+                type: "hearts" as const,
+                name: "Love Hearts",
                 duration: 2000,
                 delay: 1000,
                 intensity: 75,
-                color: '#FF69B4',
-                position: 'foreground' as const,
-                movement: 'burst' as const,
+                color: "#FF69B4",
+                position: "foreground" as const,
+                movement: "burst" as const,
                 fadeIn: 200,
                 fadeOut: 500,
-                synchronized: false
-              }
+                synchronized: false,
+              },
             ],
-            soundEffects: ['transformation_climax.mp3'],
-            voiceLine: 'transformation_phrase_3'
+            soundEffects: ["transformation_climax.mp3"],
+            voiceLine: "transformation_phrase_3",
           },
           {
-            id: 'completion',
-            name: 'Completion',
-            description: 'Final pose and completion',
+            id: "completion",
+            name: "Completion",
+            description: "Final pose and completion",
             duration: 2000,
             startTime: 9000,
             characterPose: {
-              type: 'dramatic' as const,
+              type: "dramatic" as const,
               position: { x: 0, y: 0, z: 0 },
               rotation: { x: 0, y: 0, z: 0 },
               scale: 1,
               expression: {
-                type: 'confident' as const,
+                type: "confident" as const,
                 intensity: 100,
                 eyeGlow: true,
-                specialMarkings: ['complete_mark']
+                specialMarkings: ["complete_mark"],
               },
               gesture: {
-                type: 'weapon_summon' as const,
-                position: 'raised' as const,
-                glowEffect: true
-              }
+                type: "weapon_summon" as const,
+                position: "raised" as const,
+                glowEffect: true,
+              },
             },
             outfit: {
-              fromOutfit: 'magical_complete',
-              toOutfit: 'magical_complete',
-              transitionType: 'sparkle' as const,
+              fromOutfit: "magical_complete",
+              toOutfit: "magical_complete",
+              transitionType: "sparkle" as const,
               duration: 500,
               pieces: [],
-              transformOrder: []
+              transformOrder: [],
             },
             accessories: [],
             aura: {
-              type: 'star' as const,
-              color: '#FFD700',
+              type: "star" as const,
+              color: "#FFD700",
               intensity: 85,
               size: 1.8,
-              shape: 'star' as const,
-              animation: 'sparkle' as const,
+              shape: "star" as const,
+              animation: "sparkle" as const,
               particles: true,
-              sound: 'completion_chime.mp3'
+              sound: "completion_chime.mp3",
             },
             visualEffects: [
               {
-                type: 'energy_burst' as const,
-                name: 'Power Burst',
+                type: "energy_burst" as const,
+                name: "Power Burst",
                 duration: 1000,
                 delay: 200,
                 intensity: 100,
-                color: '#FFD700',
-                position: 'character' as const,
-                movement: 'burst' as const,
+                color: "#FFD700",
+                position: "character" as const,
+                movement: "burst" as const,
                 fadeIn: 100,
                 fadeOut: 900,
-                soundEffect: 'power_burst.mp3',
-                synchronized: true
-              }
+                soundEffect: "power_burst.mp3",
+                synchronized: true,
+              },
             ],
-            soundEffects: ['transformation_complete.mp3'],
-            voiceLine: 'transformation_phrase_4'
-          }
+            soundEffects: ["transformation_complete.mp3"],
+            voiceLine: "transformation_phrase_4",
+          },
         ],
         totalDuration: 11000,
         skippable: true,
         cameraMovements: [
           {
-            type: 'circle' as const,
+            type: "circle" as const,
             startTime: 0,
             duration: 5000,
-            easing: 'ease_in_out' as const,
+            easing: "ease_in_out" as const,
             startPosition: { x: 2, y: 1, z: 2 },
             endPosition: { x: -2, y: 1, z: 2 },
-            lookAt: { x: 0, y: 1, z: 0 }
+            lookAt: { x: 0, y: 1, z: 0 },
           },
           {
-            type: 'zoom_in' as const,
+            type: "zoom_in" as const,
             startTime: 5000,
             duration: 4000,
-            easing: 'ease_in' as const,
+            easing: "ease_in" as const,
             startPosition: { x: 0, y: 1, z: 3 },
             endPosition: { x: 0, y: 1, z: 1.5 },
-            lookAt: { x: 0, y: 1, z: 0 }
-          }
+            lookAt: { x: 0, y: 1, z: 0 },
+          },
         ],
         lightingEffects: [
           {
-            type: 'magical' as const,
-            color: '#FFB6C1',
+            type: "magical" as const,
+            color: "#FFB6C1",
             intensity: 70,
             startTime: 0,
             duration: 11000,
             position: { x: 0, y: 3, z: 0 },
-            animation: 'pulse' as const,
-            speed: 1
-          }
+            animation: "pulse" as const,
+            speed: 1,
+          },
         ],
         particleEffects: [
           {
-            type: 'sparkles' as const,
+            type: "sparkles" as const,
             count: 50,
             lifetime: 2000,
             startTime: 0,
             duration: 11000,
             size: { min: 0.1, max: 0.3 },
-            color: ['#FFB6C1', '#FFD700', '#FF69B4'],
+            color: ["#FFB6C1", "#FFD700", "#FF69B4"],
             opacity: { start: 1, end: 0 },
             velocity: { x: 0, y: 1, z: 0 },
             acceleration: { x: 0, y: -0.5, z: 0 },
             gravity: 0.1,
             emissionRate: 5,
-            emissionShape: 'sphere' as const,
-            emissionArea: { width: 2, height: 2, depth: 2 }
-          }
+            emissionShape: "sphere" as const,
+            emissionArea: { width: 2, height: 2, depth: 2 },
+          },
         ],
         screenEffects: [
           {
-            type: 'flash' as const,
+            type: "flash" as const,
             intensity: 80,
             startTime: 9000,
             duration: 500,
-            color: '#FFFFFF',
-            easing: 'ease_out' as const,
+            color: "#FFFFFF",
+            easing: "ease_out" as const,
             fadeIn: 100,
-            fadeOut: 400
-          }
-        ]
+            fadeOut: 400,
+          },
+        ],
       },
 
       phrases: [
         {
-          id: 'transformation_phrase_1',
-          text: 'By the power of starlight...',
+          id: "transformation_phrase_1",
+          text: "By the power of starlight...",
           timing: 1000,
           duration: 2000,
-          character: 'self',
-          emotion: 'determined' as const,
+          character: "self",
+          emotion: "determined" as const,
           volume: 80,
           speed: 1,
-          displayStyle: 'magical_text' as const,
-          textEffect: 'glow' as const,
-          color: '#FFD700',
-          font: 'magical_serif',
-          voiceFile: 'phrase_1.mp3',
+          displayStyle: "magical_text" as const,
+          textEffect: "glow" as const,
+          color: "#FFD700",
+          font: "magical_serif",
+          voiceFile: "phrase_1.mp3",
           lipSync: true,
           echo: true,
-          reverb: false
+          reverb: false,
         },
         {
-          id: 'transformation_phrase_2',
-          text: 'I call upon the magic within!',
+          id: "transformation_phrase_2",
+          text: "I call upon the magic within!",
           timing: 3500,
           duration: 2500,
-          character: 'self',
-          emotion: 'confident' as const,
+          character: "self",
+          emotion: "confident" as const,
           volume: 85,
           speed: 1.1,
-          displayStyle: 'magical_text' as const,
-          textEffect: 'sparkle' as const,
-          color: '#FFB6C1',
-          font: 'magical_serif',
-          voiceFile: 'phrase_2.mp3',
+          displayStyle: "magical_text" as const,
+          textEffect: "sparkle" as const,
+          color: "#FFB6C1",
+          font: "magical_serif",
+          voiceFile: "phrase_2.mp3",
           lipSync: true,
           echo: true,
-          reverb: true
+          reverb: true,
         },
         {
-          id: 'transformation_phrase_3',
-          text: 'Transform!',
+          id: "transformation_phrase_3",
+          text: "Transform!",
           timing: 7000,
           duration: 1500,
-          character: 'self',
-          emotion: 'fierce' as const,
+          character: "self",
+          emotion: "fierce" as const,
           volume: 90,
           speed: 0.8,
-          displayStyle: 'floating_text' as const,
-          textEffect: 'pulse' as const,
-          color: '#FF69B4',
-          font: 'magical_bold',
-          voiceFile: 'phrase_3.mp3',
+          displayStyle: "floating_text" as const,
+          textEffect: "pulse" as const,
+          color: "#FF69B4",
+          font: "magical_bold",
+          voiceFile: "phrase_3.mp3",
           lipSync: true,
           echo: false,
-          reverb: true
+          reverb: true,
         },
         {
-          id: 'transformation_phrase_4',
-          text: 'Ready to protect everyone!',
+          id: "transformation_phrase_4",
+          text: "Ready to protect everyone!",
           timing: 10000,
           duration: 2000,
-          character: 'self',
-          emotion: 'confident' as const,
+          character: "self",
+          emotion: "confident" as const,
           volume: 85,
           speed: 1,
-          displayStyle: 'speech_bubble' as const,
-          textEffect: 'glow' as const,
-          color: '#FFD700',
-          font: 'magical_serif',
-          voiceFile: 'phrase_4.mp3',
+          displayStyle: "speech_bubble" as const,
+          textEffect: "glow" as const,
+          color: "#FFD700",
+          font: "magical_serif",
+          voiceFile: "phrase_4.mp3",
           lipSync: true,
           echo: false,
-          reverb: false
-        }
+          reverb: false,
+        },
       ],
 
       effects: [
         {
-          id: 'sparkle_trail',
-          name: 'Sparkle Trail',
-          description: 'Leaves a trail of sparkles during movement',
-          type: 'visual' as const,
+          id: "sparkle_trail",
+          name: "Sparkle Trail",
+          description: "Leaves a trail of sparkles during movement",
+          type: "visual" as const,
           startTime: 0,
           duration: 11000,
           delay: 0,
           properties: {
-            color: '#FFB6C1',
+            color: "#FFB6C1",
             intensity: 60,
-            count: 20
+            count: 20,
           },
           intensity: 60,
           conditions: [],
-          triggers: []
-        }
+          triggers: [],
+        },
       ],
 
       requirements: [
         {
-          type: 'level' as const,
-          description: 'Character must be level 1 or higher',
+          type: "level" as const,
+          description: "Character must be level 1 or higher",
           value: 1,
-          optional: false
-        }
+          optional: false,
+        },
       ],
 
       costs: [
         {
-          resource: 'mana' as const,
+          resource: "mana" as const,
           amount: 50,
           percentage: false,
-          description: 'Mana cost for transformation'
-        }
+          description: "Mana cost for transformation",
+        },
       ],
 
       cooldown: 30000, // 30 seconds
@@ -574,55 +575,53 @@ export const TRANSFORMATION_CONFIG = {
       maxDuration: 11000,
 
       statBonuses: [
-        { stat: 'power', value: 25, type: 'percentage' as const },
-        { stat: 'magic', value: 30, type: 'percentage' as const },
-        { stat: 'defense', value: 15, type: 'percentage' as const },
-        { stat: 'speed', value: 20, type: 'percentage' as const }
+        { stat: "power", value: 25, type: "percentage" as const },
+        { stat: "magic", value: 30, type: "percentage" as const },
+        { stat: "defense", value: 15, type: "percentage" as const },
+        { stat: "speed", value: 20, type: "percentage" as const },
       ],
 
-      abilityUnlocks: ['magic_blast', 'sparkle_shield'],
+      abilityUnlocks: ["magic_blast", "sparkle_shield"],
 
       specialEffects: [
         {
-          id: 'magical_aura',
-          name: 'Magical Aura',
-          description: 'Surrounds character with protective magical energy',
-          type: 'aura' as const,
-          statModifiers: [
-            { stat: 'magic', value: 20, type: 'flat' as const }
-          ],
+          id: "magical_aura",
+          name: "Magical Aura",
+          description: "Surrounds character with protective magical energy",
+          type: "aura" as const,
+          statModifiers: [{ stat: "magic", value: 20, type: "flat" as const }],
           abilityModifiers: [
             {
-              abilityId: 'magic_blast',
-              type: 'enhance' as const,
+              abilityId: "magic_blast",
+              type: "enhance" as const,
               value: 25,
-              description: 'Magic attacks deal 25% more damage'
-            }
+              description: "Magic attacks deal 25% more damage",
+            },
           ],
           combatEffects: [
             {
-              type: 'status' as const,
+              type: "status" as const,
               value: 10,
-              target: 'self' as const,
-              description: 'Regenerates mana over time'
-            }
+              target: "self" as const,
+              description: "Regenerates mana over time",
+            },
           ],
           duration: 300000, // 5 minutes
           stackable: false,
           dispellable: false,
           transferable: false,
-          visualEffect: 'aura_sparkle',
-          audioEffect: 'aura_hum.mp3'
-        }
+          visualEffect: "aura_sparkle",
+          audioEffect: "aura_hum.mp3",
+        },
       ],
 
       vulnerabilities: [
         {
-          type: 'element' as const,
+          type: "element" as const,
           multiplier: 1.2,
-          description: 'Takes 20% more damage from dark attacks',
-          condition: 'element_darkness'
-        }
+          description: "Takes 20% more damage from dark attacks",
+          condition: "element_darkness",
+        },
       ],
 
       experience: 0,
@@ -642,236 +641,245 @@ export const TRANSFORMATION_CONFIG = {
         newPhrases: [],
         newEffects: [],
         newPoses: [],
-        tier: 'Novice' as MasteryTier,
+        tier: "Novice" as MasteryTier,
         nextTierRequirements: [
           {
-            type: 'mastery' as const,
-            description: 'Reach mastery level 3',
+            type: "mastery" as const,
+            description: "Reach mastery level 3",
             value: 3,
-            optional: false
-          }
-        ]
+            optional: false,
+          },
+        ],
       },
 
       isUnlocked: true,
       isDefault: true,
-      source: 'Default' as const
-    }
+      source: "Default" as const,
+    },
   ] as TransformationSequence[],
 
   // Transformation element configurations
   elementalTransformations: {
-    'Fire': {
-      baseColor: '#FF4500',
-      particleType: 'fire',
-      soundTheme: 'fire',
-      specialEffects: ['flame_aura', 'heat_shimmer'],
-      phrases: ['Flames of passion, ignite!', 'Burning bright with determination!']
+    Fire: {
+      baseColor: "#FF4500",
+      particleType: "fire",
+      soundTheme: "fire",
+      specialEffects: ["flame_aura", "heat_shimmer"],
+      phrases: [
+        "Flames of passion, ignite!",
+        "Burning bright with determination!",
+      ],
     },
-    'Water': {
-      baseColor: '#4169E1',
-      particleType: 'water',
-      soundTheme: 'water',
-      specialEffects: ['water_veil', 'mist_shroud'],
-      phrases: ['Flowing like the eternal stream!', 'Waves of courage, rise!']
+    Water: {
+      baseColor: "#4169E1",
+      particleType: "water",
+      soundTheme: "water",
+      specialEffects: ["water_veil", "mist_shroud"],
+      phrases: ["Flowing like the eternal stream!", "Waves of courage, rise!"],
     },
-    'Earth': {
-      baseColor: '#8B4513',
-      particleType: 'earth',
-      soundTheme: 'earth',
-      specialEffects: ['stone_armor', 'plant_growth'],
-      phrases: ['Strength of the mountains!', 'Rooted in unwavering resolve!']
+    Earth: {
+      baseColor: "#8B4513",
+      particleType: "earth",
+      soundTheme: "earth",
+      specialEffects: ["stone_armor", "plant_growth"],
+      phrases: ["Strength of the mountains!", "Rooted in unwavering resolve!"],
     },
-    'Air': {
-      baseColor: '#87CEEB',
-      particleType: 'air',
-      soundTheme: 'wind',
-      specialEffects: ['wind_dance', 'feather_float'],
-      phrases: ['Free as the soaring wind!', 'Swift as the morning breeze!']
+    Air: {
+      baseColor: "#87CEEB",
+      particleType: "air",
+      soundTheme: "wind",
+      specialEffects: ["wind_dance", "feather_float"],
+      phrases: ["Free as the soaring wind!", "Swift as the morning breeze!"],
     },
-    'Light': {
-      baseColor: '#FFD700',
-      particleType: 'light',
-      soundTheme: 'celestial',
-      specialEffects: ['divine_radiance', 'holy_blessing'],
-      phrases: ['Radiance of hope, shine forth!', 'Light eternal, guide my way!']
+    Light: {
+      baseColor: "#FFD700",
+      particleType: "light",
+      soundTheme: "celestial",
+      specialEffects: ["divine_radiance", "holy_blessing"],
+      phrases: [
+        "Radiance of hope, shine forth!",
+        "Light eternal, guide my way!",
+      ],
     },
-    'Darkness': {
-      baseColor: '#4B0082',
-      particleType: 'shadow',
-      soundTheme: 'dark',
-      specialEffects: ['shadow_veil', 'void_embrace'],
-      phrases: ['Embrace the mysterious darkness!', 'Shadows dance at my command!']
-    }
+    Darkness: {
+      baseColor: "#4B0082",
+      particleType: "shadow",
+      soundTheme: "dark",
+      specialEffects: ["shadow_veil", "void_embrace"],
+      phrases: [
+        "Embrace the mysterious darkness!",
+        "Shadows dance at my command!",
+      ],
+    },
   },
 
   // Mastery tier configurations
   masteryTiers: {
-    'Novice': {
+    Novice: {
       speedBonus: 0,
       powerBonus: 0,
       durationBonus: 0,
       cooldownReduction: 0,
-      customizationSlots: 0
+      customizationSlots: 0,
     },
-    'Apprentice': {
+    Apprentice: {
       speedBonus: 10,
       powerBonus: 5,
       durationBonus: 0,
       cooldownReduction: 5,
-      customizationSlots: 1
+      customizationSlots: 1,
     },
-    'Adept': {
+    Adept: {
       speedBonus: 15,
       powerBonus: 10,
       durationBonus: 10,
       cooldownReduction: 10,
-      customizationSlots: 2
+      customizationSlots: 2,
     },
-    'Expert': {
+    Expert: {
       speedBonus: 20,
       powerBonus: 15,
       durationBonus: 15,
       cooldownReduction: 15,
-      customizationSlots: 3
+      customizationSlots: 3,
     },
-    'Master': {
+    Master: {
       speedBonus: 25,
       powerBonus: 20,
       durationBonus: 20,
       cooldownReduction: 20,
-      customizationSlots: 4
+      customizationSlots: 4,
     },
-    'Grandmaster': {
+    Grandmaster: {
       speedBonus: 30,
       powerBonus: 30,
       durationBonus: 25,
       cooldownReduction: 25,
-      customizationSlots: 5
+      customizationSlots: 5,
     },
-    'Legendary': {
+    Legendary: {
       speedBonus: 40,
       powerBonus: 40,
       durationBonus: 30,
       cooldownReduction: 30,
-      customizationSlots: 10
-    }
+      customizationSlots: 10,
+    },
   },
 
   // Customization options that can be unlocked
   customizationOptions: [
     {
-      id: 'custom_phrase_set_1',
-      name: 'Alternative Phrases I',
-      description: 'Unlock alternative transformation phrases',
-      category: 'phrase' as const,
-      rarity: 'Uncommon' as const,
+      id: "custom_phrase_set_1",
+      name: "Alternative Phrases I",
+      description: "Unlock alternative transformation phrases",
+      category: "phrase" as const,
+      rarity: "Uncommon" as const,
       cost: [
         {
-          resource: 'currency' as const,
+          resource: "currency" as const,
           amount: 1000,
-          description: 'Sparkles cost'
-        }
+          description: "Sparkles cost",
+        },
       ],
       requirements: [
         {
-          type: 'mastery' as const,
-          description: 'Apprentice mastery tier',
-          value: 'Apprentice',
-          optional: false
-        }
+          type: "mastery" as const,
+          description: "Apprentice mastery tier",
+          value: "Apprentice",
+          optional: false,
+        },
       ],
-      unlocked: false
+      unlocked: false,
     },
     {
-      id: 'color_scheme_pink',
-      name: 'Pink Color Scheme',
-      description: 'Transform with a pink and white color palette',
-      category: 'color' as const,
-      rarity: 'Common' as const,
+      id: "color_scheme_pink",
+      name: "Pink Color Scheme",
+      description: "Transform with a pink and white color palette",
+      category: "color" as const,
+      rarity: "Common" as const,
       cost: [
         {
-          resource: 'currency' as const,
+          resource: "currency" as const,
           amount: 500,
-          description: 'Sparkles cost'
-        }
+          description: "Sparkles cost",
+        },
       ],
       requirements: [],
-      unlocked: false
+      unlocked: false,
     },
     {
-      id: 'effect_heart_particles',
-      name: 'Heart Particle Effect',
-      description: 'Replace sparkles with floating hearts',
-      category: 'effect' as const,
-      rarity: 'Rare' as const,
+      id: "effect_heart_particles",
+      name: "Heart Particle Effect",
+      description: "Replace sparkles with floating hearts",
+      category: "effect" as const,
+      rarity: "Rare" as const,
       cost: [
         {
-          resource: 'currency' as const,
+          resource: "currency" as const,
           amount: 2000,
-          description: 'Sparkles cost'
-        }
+          description: "Sparkles cost",
+        },
       ],
       requirements: [
         {
-          type: 'mastery' as const,
-          description: 'Adept mastery tier',
-          value: 'Adept',
-          optional: false
-        }
+          type: "mastery" as const,
+          description: "Adept mastery tier",
+          value: "Adept",
+          optional: false,
+        },
       ],
-      unlocked: false
-    }
+      unlocked: false,
+    },
   ] as CustomizationOption[],
 
   // Animation presets for different styles
   animationPresets: {
-    'Classic': {
+    Classic: {
       totalDuration: 11000,
       stageCount: 4,
-      cameraStyle: 'cinematic',
-      effectIntensity: 'moderate'
+      cameraStyle: "cinematic",
+      effectIntensity: "moderate",
     },
-    'Quick': {
+    Quick: {
       totalDuration: 5000,
       stageCount: 3,
-      cameraStyle: 'simple',
-      effectIntensity: 'low'
+      cameraStyle: "simple",
+      effectIntensity: "low",
     },
-    'Dramatic': {
+    Dramatic: {
       totalDuration: 15000,
       stageCount: 6,
-      cameraStyle: 'dynamic',
-      effectIntensity: 'high'
-    }
+      cameraStyle: "dynamic",
+      effectIntensity: "high",
+    },
   },
 
   // Sound configurations
   soundConfig: {
     transformationMusic: [
-      'transformation_theme_1.mp3',
-      'transformation_theme_2.mp3',
-      'transformation_theme_3.mp3'
+      "transformation_theme_1.mp3",
+      "transformation_theme_2.mp3",
+      "transformation_theme_3.mp3",
     ],
     elementalSounds: {
-      'Fire': ['fire_crackle.mp3', 'flame_whoosh.mp3'],
-      'Water': ['water_splash.mp3', 'wave_crash.mp3'],
-      'Earth': ['stone_rumble.mp3', 'earth_shift.mp3'],
-      'Air': ['wind_blow.mp3', 'breeze_whistle.mp3'],
-      'Light': ['light_chime.mp3', 'celestial_hum.mp3'],
-      'Darkness': ['shadow_whisper.mp3', 'void_echo.mp3']
+      Fire: ["fire_crackle.mp3", "flame_whoosh.mp3"],
+      Water: ["water_splash.mp3", "wave_crash.mp3"],
+      Earth: ["stone_rumble.mp3", "earth_shift.mp3"],
+      Air: ["wind_blow.mp3", "breeze_whistle.mp3"],
+      Light: ["light_chime.mp3", "celestial_hum.mp3"],
+      Darkness: ["shadow_whisper.mp3", "void_echo.mp3"],
     },
     commonEffects: [
-      'sparkle_loop.mp3',
-      'magical_chime.mp3',
-      'energy_burst.mp3',
-      'transformation_complete.mp3'
-    ]
+      "sparkle_loop.mp3",
+      "magical_chime.mp3",
+      "energy_burst.mp3",
+      "transformation_complete.mp3",
+    ],
   },
 
   // Default settings
   defaultSettings: {
-    animationQuality: 'High' as const,
+    animationQuality: "High" as const,
     animationSpeed: 1.0,
     skipAnimations: false,
     autoSkipRepeated: false,
@@ -879,8 +887,8 @@ export const TRANSFORMATION_CONFIG = {
     effectsVolume: 75,
     musicVolume: 70,
     muteRepeated: false,
-    particleQuality: 'High' as const,
-    lightingQuality: 'High' as const,
+    particleQuality: "High" as const,
+    lightingQuality: "High" as const,
     cameraShake: true,
     screenEffects: true,
     subtitles: true,
@@ -890,6 +898,6 @@ export const TRANSFORMATION_CONFIG = {
     allowInterruption: true,
     requireConfirmation: false,
     showProgress: true,
-    saveReplays: true
-  }
+    saveReplays: true,
+  },
 };

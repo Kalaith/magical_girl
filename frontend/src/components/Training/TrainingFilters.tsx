@@ -1,19 +1,23 @@
 // Training filters component - Single Responsibility Principle
 
-import React from 'react';
-import { Filter, Search, Target, Clock } from 'lucide-react';
-import { Card } from '../ui/Card';
-import type { TrainingType, TrainingDifficulty, TrainingCategory } from '../../types/training';
+import React from "react";
+import { Filter, Search, Target, Clock } from "lucide-react";
+import { Card } from "../ui/Card";
+import type {
+  TrainingType,
+  TrainingDifficulty,
+  TrainingCategory,
+} from "../../types/training";
 
 interface TrainingFiltersProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
-  selectedType: TrainingType | 'all';
-  onTypeChange: (type: TrainingType | 'all') => void;
-  selectedDifficulty: TrainingDifficulty | 'all';
-  onDifficultyChange: (difficulty: TrainingDifficulty | 'all') => void;
-  selectedCategory: TrainingCategory | 'all';
-  onCategoryChange: (category: TrainingCategory | 'all') => void;
+  selectedType: TrainingType | "all";
+  onTypeChange: (type: TrainingType | "all") => void;
+  selectedDifficulty: TrainingDifficulty | "all";
+  onDifficultyChange: (difficulty: TrainingDifficulty | "all") => void;
+  selectedCategory: TrainingCategory | "all";
+  onCategoryChange: (category: TrainingCategory | "all") => void;
   showOnlyUnlocked: boolean;
   onShowOnlyUnlockedChange: (checked: boolean) => void;
 }
@@ -28,24 +32,48 @@ export const TrainingFilters: React.FC<TrainingFiltersProps> = ({
   selectedCategory,
   onCategoryChange,
   showOnlyUnlocked,
-  onShowOnlyUnlockedChange
+  onShowOnlyUnlockedChange,
 }) => {
-  const trainingTypes: (TrainingType | 'all')[] = [
-    'all', 'Basic', 'Combat', 'Magic', 'Physical', 'Mental', 
-    'Spiritual', 'Elemental', 'Team', 'Special', 'Advanced'
+  const trainingTypes: (TrainingType | "all")[] = [
+    "all",
+    "Basic",
+    "Combat",
+    "Magic",
+    "Physical",
+    "Mental",
+    "Spiritual",
+    "Elemental",
+    "Team",
+    "Special",
+    "Advanced",
   ];
-  const difficulties: (TrainingDifficulty | 'all')[] = [
-    'all', 'Beginner', 'Novice', 'Intermediate', 'Advanced', 'Expert', 'Master', 'Legendary'
+  const difficulties: (TrainingDifficulty | "all")[] = [
+    "all",
+    "Beginner",
+    "Novice",
+    "Intermediate",
+    "Advanced",
+    "Expert",
+    "Master",
+    "Legendary",
   ];
 
-  const categories: (TrainingCategory | 'all')[] = [
-    'all', 'Stat_Boost', 'Skill_Development', 'Ability_Training', 
-    'Endurance', 'Focus', 'Transformation', 'Combat_Technique', 
-    'Magic_Control', 'Team_Coordination', 'Leadership'
+  const categories: (TrainingCategory | "all")[] = [
+    "all",
+    "Stat_Boost",
+    "Skill_Development",
+    "Ability_Training",
+    "Endurance",
+    "Focus",
+    "Transformation",
+    "Combat_Technique",
+    "Magic_Control",
+    "Team_Coordination",
+    "Leadership",
   ];
 
   const formatCategoryName = (category: string): string => {
-    return category.replace(/_/g, ' ');
+    return category.replace(/_/g, " ");
   };
   return (
     <Card className="p-3 sm:p-4">
@@ -68,16 +96,20 @@ export const TrainingFilters: React.FC<TrainingFiltersProps> = ({
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Target className="w-4 h-4 text-gray-500" />
-              <label className="text-xs sm:text-sm font-medium text-gray-700">Type</label>
+              <label className="text-xs sm:text-sm font-medium text-gray-700">
+                Type
+              </label>
             </div>
             <select
               value={selectedType}
-              onChange={(e) => onTypeChange(e.target.value as TrainingType | 'all')}
+              onChange={(e) =>
+                onTypeChange(e.target.value as TrainingType | "all")
+              }
               className="w-full px-3 py-3 sm:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white text-sm sm:text-base"
             >
-              {trainingTypes.map(type => (
+              {trainingTypes.map((type) => (
                 <option key={type} value={type}>
-                  {type === 'all' ? 'All Types' : type}
+                  {type === "all" ? "All Types" : type}
                 </option>
               ))}
             </select>
@@ -87,16 +119,20 @@ export const TrainingFilters: React.FC<TrainingFiltersProps> = ({
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Filter className="w-4 h-4 text-gray-500" />
-              <label className="text-xs sm:text-sm font-medium text-gray-700">Difficulty</label>
+              <label className="text-xs sm:text-sm font-medium text-gray-700">
+                Difficulty
+              </label>
             </div>
             <select
               value={selectedDifficulty}
-              onChange={(e) => onDifficultyChange(e.target.value as TrainingDifficulty | 'all')}
+              onChange={(e) =>
+                onDifficultyChange(e.target.value as TrainingDifficulty | "all")
+              }
               className="w-full px-3 py-3 sm:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white text-sm sm:text-base"
             >
-              {difficulties.map(difficulty => (
+              {difficulties.map((difficulty) => (
                 <option key={difficulty} value={difficulty}>
-                  {difficulty === 'all' ? 'All Difficulties' : difficulty}
+                  {difficulty === "all" ? "All Difficulties" : difficulty}
                 </option>
               ))}
             </select>
@@ -106,16 +142,22 @@ export const TrainingFilters: React.FC<TrainingFiltersProps> = ({
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-gray-500" />
-              <label className="text-xs sm:text-sm font-medium text-gray-700">Category</label>
+              <label className="text-xs sm:text-sm font-medium text-gray-700">
+                Category
+              </label>
             </div>
             <select
               value={selectedCategory}
-              onChange={(e) => onCategoryChange(e.target.value as TrainingCategory | 'all')}
+              onChange={(e) =>
+                onCategoryChange(e.target.value as TrainingCategory | "all")
+              }
               className="w-full px-3 py-3 sm:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white text-sm sm:text-base"
             >
-              {categories.map(category => (
+              {categories.map((category) => (
                 <option key={category} value={category}>
-                  {category === 'all' ? 'All Categories' : formatCategoryName(category)}
+                  {category === "all"
+                    ? "All Categories"
+                    : formatCategoryName(category)}
                 </option>
               ))}
             </select>

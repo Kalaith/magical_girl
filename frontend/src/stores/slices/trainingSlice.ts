@@ -1,6 +1,7 @@
 // Training management slice - Single Responsibility Principle
-import type { StateCreator } from 'zustand';
-import { initialTrainingSessions } from '../../data/training';
+import type { StateCreator } from "zustand";
+import type { Notification, Resources, MagicalGirl } from "../../types";
+import { initialTrainingSessions } from "../../data/training";
 
 export interface ActiveTrainingSession {
   id: string;
@@ -15,7 +16,7 @@ export interface ActiveTrainingSession {
 
 export interface TrainingSlice {
   activeSessions: ActiveTrainingSession[];
-  
+
   // Actions
   startTraining: (girlId: string, trainingId: string) => boolean;
   completeTraining: (girlId: string, trainingId: string) => void;
@@ -24,45 +25,45 @@ export interface TrainingSlice {
 }
 
 export const createTrainingSlice: StateCreator<
-  TrainingSlice & { 
-    addNotification: (notification: any) => void;
-    spendResources: (resources: any) => boolean;
+  TrainingSlice & {
+    addNotification: (notification: Omit<Notification, "id" | "timestamp" | "read">) => void;
+    spendResources: (resources: Partial<Resources>) => boolean;
     addExperienceToGirl: (girlId: string, experience: number) => void;
     gainExperience: (amount: number) => void;
-    addResources: (resources: any) => void;
-    magicalGirls: any[];
-    checkAchievements?: (event: any) => void;
+    addResources: (resources: Partial<Resources>) => void;
+    magicalGirls: MagicalGirl[];
+    checkAchievements?: (event: { type: string; data: Record<string, unknown>; timestamp: number }) => void;
   },
   [],
   [],
   TrainingSlice
 > = (set, get) => ({
   activeSessions: [],
-  
+
   startTraining: (girlId, trainingId) => {
     const state = get();
-    const girl = state.magicalGirls.find((g: any) => g.id === girlId);
-    const training = initialTrainingSessions.find(t => t.id === trainingId);
-    
+    const girl = state.magicalGirls.find((g) => g.id === girlId);
+    const training = initialTrainingSessions.find((t) => t.id === trainingId);
+
     if (!girl || !training || !girl.isUnlocked) {
       state.addNotification({
-        type: 'error',
-        title: 'Training Failed',
-        message: 'Unable to start training session'
+        type: "error",
+        title: "Training Failed",
+        message: "Unable to start training session",
       });
       return false;
     }
-    
+
     const cost = { magicalEnergy: training.cost.magicalEnergy };
     if (!state.spendResources(cost)) {
       state.addNotification({
-        type: 'error',
-        title: 'Insufficient Energy',
-        message: 'Not enough magical energy to start training'
+        type: "error",
+        title: "Insufficient Energy",
+        message: "Not enough magical energy to start training",
       });
       return false;
     }
-    
+
     // Create active training session
     const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const now = Date.now();
@@ -74,91 +75,87 @@ export const createTrainingSlice: StateCreator<
       girlName: girl.name,
       startTime: now,
       duration: training.duration,
-      endTime: now + (training.duration * 1000)
+      endTime: now + training.duration * 1000,
     };
-    
+
     set((state) => ({
-      activeSessions: [...state.activeSessions, newSession]
+      activeSessions: [...state.activeSessions, newSession],
     }));
 
     state.addNotification({
-      type: 'info',
-      title: 'Training Started',
-      message: `${girl.name} has started ${training.name}`
+      type: "info",
+      title: "Training Started",
+      message: `${girl.name} has started ${training.name}`,
     });
-    
+
     return true;
-  },  
-  
+  },
+
   completeTraining: (girlId, trainingId) => {
-    const training = initialTrainingSessions.find(t => t.id === trainingId);
+    const training = initialTrainingSessions.find((t) => t.id === trainingId);
     if (!training) return;
-    
+
     const state = get();
-    
+
     // Apply training effects
-    training.effects.forEach(effect => {
-      if (effect.type === 'stat_increase' && Math.random() < effect.probability) {
+    training.effects.forEach((effect) => {
+      if (
+        effect.type === "stat_increase" &&
+        Math.random() < effect.probability
+      ) {
         // Apply stat increase (simplified)
         state.addExperienceToGirl(girlId, 10);
       }
     });
-    
+
     // Give rewards
-    training.rewards.forEach(reward => {
+    training.rewards.forEach((reward) => {
       if (Math.random() < reward.probability) {
-        if (reward.type === 'experience') {
+        if (reward.type === "experience") {
           state.gainExperience(reward.quantity);
-        } else if (reward.type === 'sparkles') {
+        } else if (reward.type === "sparkles") {
           state.addResources({ sparkles: reward.quantity });
         }
       }
     });
 
     state.addNotification({
-      type: 'success',
-      title: 'Training Complete!',
-      message: `Training session completed successfully!`
+      type: "success",
+      title: "Training Complete!",
+      message: `Training session completed successfully!`,
     });
-    
+
     // Trigger achievement event
     if (state.checkAchievements) {
       state.checkAchievements({
-        type: 'training_completed',
-        data: { 
-          trainingId, 
+        type: "training_completed",
+        data: {
+          trainingId,
           girlId,
-          score: 100 // Placeholder score
+          score: 100, // Placeholder score
         },
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
     }
   },
-  
+
   completeActiveSession: (sessionId) => {
     const state = get();
-    const session = state.activeSessions.find(s => s.id === sessionId);
+    const session = state.activeSessions.find((s) => s.id === sessionId);
     if (!session) return;
-    
+
     // Complete the training
     state.completeTraining(session.girlId, session.trainingId);
-    
+
     // Remove from active sessions
     set((state) => ({
-      activeSessions: state.activeSessions.filter(s => s.id !== sessionId)
+      activeSessions: state.activeSessions.filter((s) => s.id !== sessionId),
     }));
   },
-  
+
   updateActiveSessions: () => {
     const now = Date.now();
     const state = get();
-    
+
     // Find completed sessions
-    const completedSessions = state.activeSessions.filter(session => now >= session.endTime);
-    
-    // Auto-complete them
-    completedSessions.forEach(session => {
-      state.completeActiveSession(session.id);
-    });
-  }
-});
+    const completedSessions = st
