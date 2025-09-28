@@ -62,6 +62,11 @@ export const VIEWS = {
   TRAINING: 'training',
   MISSIONS: 'missions',
   ACHIEVEMENTS: 'achievements',
+  SKILL_TREE: 'skill-tree',
+  CUSTOMIZATION: 'customization',
+  PRESTIGE: 'prestige',
+  SAVE_SYSTEM: 'save-system',
+  ENHANCED_SETTINGS: 'enhanced-settings',
   SETTINGS: 'settings',
 } as const;
 

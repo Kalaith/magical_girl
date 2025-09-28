@@ -17,6 +17,14 @@ import { MissionsView } from '../components/views/MissionsView';
 import { AchievementsView } from '../components/views/AchievementsView';
 import { SettingsView } from '../components/views/SettingsView';
 
+// New Advanced Game Components
+import { SkillTreePanel } from '../components/game/SkillTreePanel';
+import { CustomizationPanel } from '../components/game/CustomizationPanel';
+import { PrestigePanel } from '../components/game/PrestigePanel';
+import { SaveSystemPanel } from '../components/game/SaveSystemPanel';
+import { EnhancedSettingsPanel } from '../components/game/EnhancedSettingsPanel';
+import { TutorialOverlay } from '../components/game/TutorialOverlay';
+
 export function GamePage() {
   const gameStore = useGameStore();
   const { currentView } = useUIStore();
@@ -46,6 +54,16 @@ export function GamePage() {
         return <MissionsView />;
       case VIEWS.ACHIEVEMENTS:
         return <AchievementsView />;
+      case VIEWS.SKILL_TREE:
+        return <SkillTreePanel />;
+      case VIEWS.CUSTOMIZATION:
+        return <CustomizationPanel />;
+      case VIEWS.PRESTIGE:
+        return <PrestigePanel />;
+      case VIEWS.SAVE_SYSTEM:
+        return <SaveSystemPanel />;
+      case VIEWS.ENHANCED_SETTINGS:
+        return <EnhancedSettingsPanel />;
       case VIEWS.SETTINGS:
         return <SettingsView />;
       default:
@@ -56,7 +74,7 @@ export function GamePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       <Header />
-      
+
       <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 lg:py-6">
         {/* Resource Display */}
         <motion.div
@@ -80,6 +98,9 @@ export function GamePage() {
           </motion.div>
         </AnimatePresence>
       </main>
+
+      {/* Tutorial Overlay - Always rendered */}
+      <TutorialOverlay />
     </div>
   );
 }

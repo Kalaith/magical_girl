@@ -2,13 +2,20 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-export type ViewType = 
-  | 'dashboard' 
-  | 'collection' 
-  | 'training' 
-  | 'missions' 
-  | 'settings' 
-  | 'achievements';
+export type ViewType =
+  | 'dashboard'
+  | 'collection'
+  | 'recruitment'
+  | 'combat'
+  | 'training'
+  | 'missions'
+  | 'achievements'
+  | 'skill-tree'
+  | 'customization'
+  | 'prestige'
+  | 'save-system'
+  | 'enhanced-settings'
+  | 'settings';
 
 export type ModalType = 
   | 'magical-girl-details' 
