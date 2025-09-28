@@ -1,39 +1,7 @@
 // UI store for managing interface state
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-
-export type ViewType =
-  | "dashboard"
-  | "collection"
-  | "recruitment"
-  | "combat"
-  | "training"
-  | "missions"
-  | "achievements"
-  | "skill-tree"
-  | "customization"
-  | "prestige"
-  | "save-system"
-  | "enhanced-settings"
-  | "settings";
-
-export type ModalType =
-  | "magical-girl-details"
-  | "training-session"
-  | "mission-details"
-  | "settings"
-  | "achievement-details"
-  | "confirmation"
-  | null;
-
-export type ModalData = {
-  "magical-girl-details": { girlId: string };
-  "training-session": { trainingId: string; girlId?: string };
-  "mission-details": { missionId: string };
-  "settings": Record<string, never>;
-  "achievement-details": { achievementId: string };
-  "confirmation": { title: string; message: string; onConfirm: () => void; onCancel?: () => void };
-};
+import type { ViewType, ModalType, ModalData } from "../types/ui";
 
 interface UIState {
   // Current view and navigation

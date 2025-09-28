@@ -1,269 +1,371 @@
-// Main game store using Zustand for state management - Clean Architecture
 import { create } from "zustand";
-import { subscribeWithSelector } from "zustand/middleware";
-import { persist, createJSONStorage } from "zustand/middleware";
-import type { StateCreator } from "zustand";
+import type { Player, Notification, Resources } from "../types/game";
+import type { MagicalGirl } from "../types/magicalGirl";
+import type { Mission } from "../types/missions";
+import { initialMagicalGirls } from "../data/magicalGirls";
+import { initialMissions } from "../data/missions";
 
-// Import all slices following Single Responsibility Principle
-import {
-  createNotificationSlice,
-  type NotificationSlice,
-} from "./slices/notificationSlice";
-import {
-  createResourceSlice,
-  type ResourceSlice,
-} from "./slices/resourceSlice";
-import {
-  createMagicalGirlSlice,
-  type MagicalGirlSlice,
-} from "./slices/magicalGirlSlice";
-import {
-  createGameProgressionSlice,
-  type GameProgressionSlice,
-} from "./slices/gameProgressionSlice";
-// // import { createMissionSlice, type MissionSlice } from "./slices/missionSlice";
-import {
-  createTrainingSlice,
-  type TrainingSlice,
-} from "./slices/trainingSlice";
-// import {
-//   createAchievementSlice,
-//   type AchievementSlice,
-// } from "./slices/achievementSlice";
-import {
-  createSettingsSlice,
-  type SettingsSlice,
-} from "./slices/settingsSlice";
-// import {
-//   createRecruitmentSlice,
-//   type RecruitmentSlice,
-// } from "./slices/recruitmentSlice";
-// import { createCombatSlice, type CombatSlice } from "./slices/combatSlice";
-import {
-  createTransformationSlice,
-  type TransformationSlice,
-} from "./slices/transformationSlice";
-import {
-  createFormationSlice,
-  type FormationSlice,
-} from "./slices/formationSlice";
-// import {
-//   createSkillTreeSlice,
-//   type SkillTreeSlice,
-// } from "./slices/skillTreeSlice";
-// import {
-//   createCustomizationSlice,
-//   type CustomizationSlice,
-// } from "./slices/customizationSlice";
-import {
-  createPrestigeSlice,
-  type PrestigeSlice,
-} from "./slices/prestigeSlice";
-import {
-  createSaveSystemSlice,
-  type SaveSystemSlice,
-} from "./slices/saveSystemSlice";
-import {
-  createTutorialSlice,
-  type TutorialSlice,
-} from "./slices/tutorialSlice";
-// import {
-//   createEnhancedSettingsSlice,
-//   type EnhancedSettingsSlice,
-// } from "./slices/enhancedSettingsSlice";
+const initialState = {
+  notifications: [] as Notification[],
+  resources: {
+    magicalEnergy: 100,
+    maxMagicalEnergy: 100,
+    sparkles: 0,
+    stardust: 0,
+    moonbeams: 0,
+    crystals: 0,
+    experience: 0,
+    level: 1,
+    gold: 0,
+    magicalCrystals: 0,
+    friendshipPoints: 0,
+    premiumGems: 0,
+    eventTokens: 0,
+    summonTickets: 0,
+    rareTickets: 0,
+    legendaryTickets: 0,
+    dreamshards: 0,
+  } as Resources,
+  magicalGirls: [] as MagicalGirl[],
+  gameProgress: { level: 1, experience: 0 },
+  trainingData: { sessions: [] },
+  settings: { soundEnabled: true, musicEnabled: true, masterVolume: 0.5 },
+  transformationData: { unlocked: [] },
+  formationData: { activeFormation: [] },
+  prestigeData: { level: 0, points: 0 },
+  saveSystemData: { lastSave: Date.now() },
+  tutorialData: { completed: false, step: 0 },
+  player: {
+    id: "player-1",
+    name: "Player",
+    resources: {
+      magicalEnergy: 100,
+      maxMagicalEnergy: 100,
+      sparkles: 0,
+      stardust: 0,
+      moonbeams: 0,
+      crystals: 0,
+      experience: 0,
+      level: 1,
+      gold: 0,
+      magicalCrystals: 0,
+      friendshipPoints: 0,
+      premiumGems: 0,
+      eventTokens: 0,
+      summonTickets: 0,
+      rareTickets: 0,
+      legendaryTickets: 0,
+      dreamshards: 0,
+    } as Resources,
+    unlockedFeatures: {
+      training: true,
+      missions: false,
+      advancedTraining: false,
+      teamMissions: false,
+      transformation: false,
+      specialPowers: false,
+      craftingWorkshop: false,
+      magicalGarden: false,
+    },
+    achievements: [],
+    statistics: {
+      totalPlayTime: 0,
+      missionsCompleted: 0,
+      trainingSessionsCompleted: 0,
+      totalMagicalEnergySpent: 0,
+      totalSparklesEarned: 0,
+      transformationsPerformed: 0,
+      criticalSuccesses: 0,
+      perfectMissions: 0,
+    },
+    preferences: {
+      autoSave: true,
+      soundEnabled: true,
+      animationsEnabled: true,
+      notificationsEnabled: true,
+      theme: "light" as const,
+      language: "en",
+    },
+  } as Player,
+  missions: initialMissions as Mission[],
+  activeMission: null as Mission | null,
+  activeSessions: [] as Array<{
+    id: string;
+    name: string;
+    description: string;
+    type: string;
+    category: string;
+    difficulty: string;
+    duration: number;
+    cost: { magicalEnergy: number; time: number };
+    requirements: never[];
+    effects: never[];
+    rewards: never[];
+    unlockConditions: never[];
+    isUnlocked: boolean;
+    isCompleted: boolean;
+    completionCount: number;
+    tags: never[];
+    girlId: string;
+    startTime: number;
+    endTime: number;
+    trainingName: string;
+    girlName: string;
+  }>,
+};
 
-// Combined store interface - Composition over inheritance
-export interface GameStore
-  extends NotificationSlice,
-    ResourceSlice,
-    MagicalGirlSlice,
-    GameProgressionSlice,
-    // MissionSlice,
-    TrainingSlice,
-    // AchievementSlice,
-    SettingsSlice,
-    // RecruitmentSlice,
-    // CombatSlice,
-    TransformationSlice,
-    FormationSlice,
-    // SkillTreeSlice,
-    // CustomizationSlice,
-    PrestigeSlice,
-    SaveSystemSlice,
-    TutorialSlice {
-    // EnhancedSettingsSlice {
-  // Utility actions
+export const useGameStore = create<typeof initialState & {
+  addNotification: (notification: Omit<Notification, "id" | "timestamp" | "read">) => void;
+  markNotificationRead: (id: string) => void;
+  clearNotifications: () => void;
+  addResources: (resources: Partial<Resources>) => void;
+  spendResources: (resources: Partial<Resources>) => boolean;
+  levelUpMagicalGirl: (id: string) => boolean;
+  updateSettings: (newSettings: Partial<typeof initialState.settings>) => void;
+  setMasterVolume: (volume: number) => void;
+  resetSettings: () => void;
+  startTraining: (girlId: string, type: string) => boolean;
+  completeActiveSession: (sessionId: string) => void;
+  updateActiveSessions: () => void;
+  recruitMagicalGirl: () => Promise<boolean>;
+  startMission: (missionId: string, teamIds: string[]) => boolean;
+  completeMission: (missionId: string, success: boolean, score?: number) => void;
   resetGame: () => void;
-}
+  updateGameTime?: () => void;
+}>((set, get) => ({
+  ...initialState,
 
-// Main store creator that properly composes all slices
-const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
-  // Notification slice
-  ...createNotificationSlice(set as any, get as any, api as any),
+  addNotification: (notification: Omit<Notification, "id" | "timestamp" | "read">) => {
+    const newNotification: Notification = {
+      ...notification,
+      id: Math.random().toString(36),
+      timestamp: Date.now(),
+      read: false,
+    };
+    set((state) => ({
+      notifications: [newNotification, ...state.notifications].slice(0, 50),
+    }));
+  },
 
-  // Resource slice
-  ...createResourceSlice(set as any, get as any, api as any),
+  markNotificationRead: (id: string) => {
+    set((state) => ({
+      notifications: state.notifications.map((n) =>
+        n.id === id ? { ...n, read: true } : n
+      ),
+    }));
+  },
 
-  // Magical Girl slice
-  ...createMagicalGirlSlice(set as any, get as any, api as any),
+  clearNotifications: () => {
+    set({ notifications: [] });
+  },
 
-  // Game Progression slice
-  ...createGameProgressionSlice(set as any, get as any, api as any),
+  addResources: (resources: Partial<Resources>) => {
+    set((state) => ({
+      resources: {
+        ...state.resources,
+        ...Object.fromEntries(
+          Object.entries(resources).map(([key, value]) => [
+            key,
+            (state.resources[key as keyof Resources] || 0) + (value || 0),
+          ])
+        ),
+      } as Resources,
+    }));
+  },
 
-  // Mission slice
-  // ...createMissionSlice(set as any, get as any, api as any),
-  // Training slice
-  ...createTrainingSlice(set as any, get as any, api as any),
+  spendResources: (resources: Partial<Resources>) => {
+    const state = get();
+    const canAfford = Object.entries(resources).every(
+      ([key, cost]) => (state.resources[key as keyof Resources] || 0) >= (cost || 0)
+    );
 
-  // Achievement slice
-  // ...createAchievementSlice(set as any, get as any, api as any),
+    if (canAfford) {
+      set((state) => ({
+        resources: {
+          ...state.resources,
+          ...Object.fromEntries(
+            Object.entries(resources).map(([key, cost]) => [
+              key,
+              Math.max(0, (state.resources[key as keyof Resources] || 0) - (cost || 0)),
+            ])
+          ),
+        } as Resources,
+      }));
+      return true;
+    }
+    return false;
+  },
 
-  // Settings slice
-  ...createSettingsSlice(set as any, get as any, api as any),
+  levelUpMagicalGirl: (id: string) => {
+    const girl = get().magicalGirls.find(g => g.id === id);
+    if (!girl) return false;
 
-  // Recruitment slice
-  // ...createRecruitmentSlice(set as any, get as any, api as any),
+    set((state) => ({
+      magicalGirls: state.magicalGirls.map((girl) =>
+        girl.id === id ? { ...girl, level: girl.level + 1 } : girl
+      ),
+    }));
+    return true;
+  },
 
-  // Combat slice
-  // ...createCombatSlice(set as any, get as any, api as any),
+  updateSettings: (newSettings: Partial<typeof initialState.settings>) => {
+    set((state) => ({
+      settings: { ...state.settings, ...newSettings },
+    }));
+  },
 
-  // Transformation slice
-  ...createTransformationSlice(set as any, get as any, api as any),
+  setMasterVolume: (volume: number) => {
+    set((state) => ({
+      settings: { ...state.settings, masterVolume: volume },
+    }));
+  },
 
-  // Formation slice
-  ...createFormationSlice(set as any, get as any, api as any),
+  resetSettings: () => {
+    set(() => ({
+      settings: { soundEnabled: true, musicEnabled: true, masterVolume: 0.5 },
+    }));
+  },
 
-  // Skill Tree slice
-  // ...createSkillTreeSlice(set as any, get as any, api as any),
+  startTraining: (girlId: string, type: string) => {
+    const girl = get().magicalGirls.find((g: MagicalGirl) => g.id === girlId);
+    if (!girl) return false;
 
-  // Customization slice
-  // ...createCustomizationSlice(set as any, get as any, api as any),
+    const startTime = Date.now();
+    const duration = 3600000;
+    const newSession = {
+      id: Math.random().toString(36),
+      name: type + " Training",
+      description: `Training session for ${type}`,
+      type: type,
+      category: "Stat_Boost",
+      difficulty: "Beginner",
+      duration: 3600,
+      cost: { magicalEnergy: 10, time: 60 },
+      requirements: [],
+      effects: [],
+      rewards: [],
+      unlockConditions: [],
+      isUnlocked: true,
+      isCompleted: false,
+      completionCount: 0,
+      tags: [],
+      girlId,
+      startTime,
+      endTime: startTime + duration,
+      trainingName: type + " Training",
+      girlName: girl.name,
+    };
+    set((state) => ({
+      activeSessions: [...state.activeSessions, newSession],
+    }));
+    return true;
+  },
 
-  // Prestige slice
-  ...createPrestigeSlice(set as any, get as any, api as any),
+  completeActiveSession: (sessionId: string) => {
+    set((state) => ({
+      activeSessions: state.activeSessions.filter(
+        (session) => session.id !== sessionId
+      ),
+    }));
+  },
 
-  // Save System slice
-  ...createSaveSystemSlice(set as any, get as any, api as any),
+  updateActiveSessions: () => {
+    // Update active sessions logic
+  },
 
-  // Tutorial slice
-  ...createTutorialSlice(set as any, get as any, api as any),
+  recruitMagicalGirl: async () => {
+    const state = get();
+    
+    // Check if player has enough friendship points
+    if (state.resources.friendshipPoints < 100) {
+      return false;
+    }
 
-  // Enhanced Settings slice
-  // ...createEnhancedSettingsSlice(set as any, get as any, api as any),
+    // Get available girls (not already recruited)
+    const availableGirls = initialMagicalGirls.filter(
+      (girl: MagicalGirl) => !state.magicalGirls.some((owned) => owned.id === girl.id)
+    );
 
-  // Global reset function
+    if (availableGirls.length === 0) {
+      return false;
+    }
+
+    // Randomly select a girl
+    const randomGirl = availableGirls[Math.floor(Math.random() * availableGirls.length)];
+
+    // Spend resources and add girl
+    state.spendResources({ friendshipPoints: 100 });
+    
+    set((currentState) => ({
+      magicalGirls: [...currentState.magicalGirls, { ...randomGirl }],
+    }));
+
+    return true;
+  },
+
+  startMission: (missionId: string, _teamIds: string[]) => {
+    const state = get();
+    const mission = state.missions.find(m => m.id === missionId);
+    
+    if (!mission || !mission.isUnlocked || !mission.isAvailable || state.activeMission) {
+      return false;
+    }
+
+    // Check if player has enough magical energy
+    if (state.resources.magicalEnergy < 30) {
+      return false;
+    }
+
+    // Spend magical energy
+    state.spendResources({ magicalEnergy: 30 });
+
+    // Set mission as active
+    set({ activeMission: { ...mission, attempts: mission.attempts + 1 } });
+
+    return true;
+  },
+
+  completeMission: (missionId: string, success: boolean, _score?: number) => {
+    const state = get();
+    const mission = state.missions.find(m => m.id === missionId);
+    
+    if (!mission || !state.activeMission || state.activeMission.id !== missionId) {
+      return;
+    }
+
+    if (success) {
+      // Award rewards
+      const rewards = { experience: 0, sparkles: 0, stardust: 0 };
+      mission.rewards.forEach(reward => {
+        if (reward.type === 'experience') rewards.experience += reward.quantity;
+        if (reward.type === 'sparkles') rewards.sparkles += reward.quantity;
+        if (reward.type === 'stardust') rewards.stardust += reward.quantity;
+      });
+
+      state.addResources(rewards);
+
+      // Mark mission as completed
+      set((currentState) => ({
+        missions: currentState.missions.map(m => 
+          m.id === missionId ? { ...m, isCompleted: true, completedAt: Date.now() } : m
+        ),
+        activeMission: null,
+        player: {
+          ...currentState.player,
+          statistics: {
+            ...currentState.player.statistics,
+            missionsCompleted: currentState.player.statistics.missionsCompleted + 1,
+          },
+        },
+      }));
+    } else {
+      // Handle failure penalties
+      set({ activeMission: null });
+    }
+  },
+
   resetGame: () => {
-    // Get initial state from each slice
-    const initialNotifications = createNotificationSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    const initialResources = createResourceSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    const initialMagicalGirls = createMagicalGirlSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    const initialProgression = createGameProgressionSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    // const initialMissions = createMissionSlice(
-    //   set as any,
-    //   get as any,
-    //   api as any,
-    // );
-    const initialTraining = createTrainingSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    // const initialAchievements = createAchievementSlice(
-    //   set as any,
-    //   get as any,
-    //   api as any,
-    // );
-    const initialSettings = createSettingsSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    // const initialRecruitment = createRecruitmentSlice(
-    //   set as any,
-    //   get as any,
-    //   api as any,
-    // );
-    // const initialCombat = createCombatSlice(set as any, get as any, api as any);
-    const initialTransformation = createTransformationSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    const initialFormation = createFormationSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    // const initialSkillTree = createSkillTreeSlice(
-    //   set as any,
-    //   get as any,
-    //   api as any,
-    // );
-    // const initialCustomization = createCustomizationSlice(
-    //   set as any,
-    //   get as any,
-    //   api as any,
-    // );
-    const initialPrestige = createPrestigeSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    const initialSaveSystem = createSaveSystemSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    const initialTutorial = createTutorialSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
-    // const initialEnhancedSettings = createEnhancedSettingsSlice(
-    //   set as any,
-    //   get as any,
-    //   api as any,
-    // );
-
-    set({
-      ...initialNotifications,
-      ...initialResources,
-      ...initialMagicalGirls,
-      ...initialProgression,
-      // ...initialMissions,
-      ...initialTraining,
-      // ...initialAchievements,
-      ...initialSettings,
-      // ...initialRecruitment,
-      // ...initialCombat,
-      ...initialTransformation,
-      ...initialFormation,
-      // ...initialSkillTree,
-      // ...initialCustomization,
-      ...initialPrestige,
-      ...initialSaveSystem,
-      ...initialTutorial,
-      // ...initialEnhancedSettings,
-      resetGame: get().resetGame, // Preserve the reset function
-    });
-
-    // Add notification about reset
+    set({ ...initialState, resetGame: get().resetGame });
     setTimeout(() => {
       get().addNotification({
         type: "info",
@@ -272,24 +374,12 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
       });
     }, 100);
   },
-});
 
-export const useGameStore = create<GameStore>()(
-  persist(subscribeWithSelector(createGameStore), {
-    name: "magical-girl-game",
-    storage: createJSONStorage(() => localStorage),
-    version: 1,
-    migrate: (persistedState: unknown, version: number) => {
-      if (version === 0) {
-        // Migration logic for version updates
-        return {};
-      }
-      return persistedState;
-    },
-  }),
-);
+  updateGameTime: () => {
+    // Game time updates handled here
+  },
+}));
 
-// Subscribe to game time updates
 setInterval(() => {
   const state = useGameStore.getState();
   if (state.updateGameTime) {

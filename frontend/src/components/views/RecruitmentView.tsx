@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useGameStore } from "../../stores/gameStore";
 import { Card } from "../ui/Card";
@@ -7,65 +7,51 @@ import { initialMagicalGirls } from "../../data/magicalGirls";
 import type { MagicalGirl } from "../../types/magicalGirl";
 
 export const RecruitmentView: React.FC = () => {
-  const { resources, spendResources, addNotification } = useGameStore();
+  const { resources, addNotification, recruitMagicalGirl, magicalGirls } = useGameStore();
   const [isRecruiting, setIsRecruiting] = useState(false);
+
+  // Memoize calculations to prevent infinite re-renders
+  const recruitmentStats = useMemo(() => {
+    const ownedGirlIds = magicalGirls.map((g) => g.id);
+    const availableCount = initialMagicalGirls.filter(
+      (girl) => !ownedGirlIds.includes(girl.id)
+    ).length;
+    const recentRecruits = magicalGirls.slice(-3);
+    const recruitedCount = magicalGirls.length;
+
+    return {
+      availableCount,
+      recentRecruits,
+      recruitedCount,
+    };
+  }, [magicalGirls]);
 
   const handleRecruit = async () => {
     if (isRecruiting) return;
 
-    // Check if player has enough friendship points
-    if (resources.friendshipPoints < 100) {
-      addNotification({
-        type: "error",
-        title: "Insufficient Currency",
-        message: "You need 100 Friendship Points to recruit a magical girl!",
-      });
-      return;
-    }
-
     setIsRecruiting(true);
 
     // Simulate recruitment delay
-    setTimeout(() => {
-      // Randomly select a magical girl from the initial pool
-      const availableGirls = initialMagicalGirls.filter(
-        (girl) => !useGameStore.getState().magicalGirls.some((owned) => owned.id === girl.id)
-      );
-
-      if (availableGirls.length === 0) {
+    setTimeout(async () => {
+      const success = await recruitMagicalGirl();
+      
+      if (success) {
         addNotification({
-          type: "warning",
-          title: "No New Girls Available",
-          message: "You've recruited all available magical girls!",
+          type: "success",
+          title: "Recruitment Successful!",
+          message: "A new magical girl has joined your team!",
         });
-        setIsRecruiting(false);
-        return;
+      } else {
+        addNotification({
+          type: "error",
+          title: "Recruitment Failed",
+          message: "Either you don't have enough Friendship Points or no new girls are available.",
+        });
       }
-
-      const randomGirl = availableGirls[Math.floor(Math.random() * availableGirls.length)];
-
-      // Spend resources
-      spendResources({ friendshipPoints: 100 });
-
-      // Add the magical girl to the store
-      useGameStore.setState((state) => ({
-        magicalGirls: [...state.magicalGirls, { ...randomGirl }],
-      }));
-
-      addNotification({
-        type: "success",
-        title: "Recruitment Successful!",
-        message: `Welcome ${randomGirl.name} to your team!`,
-      });
 
       setIsRecruiting(false);
     }, 2000);
   };
-
-  const ownedGirlIds = useGameStore((state) => state.magicalGirls.map((g) => g.id));
-  const availableCount = initialMagicalGirls.filter(
-    (girl) => !ownedGirlIds.includes(girl.id)
-  ).length;
 
   return (
     <div className="p-6 space-y-6">
@@ -110,25 +96,25 @@ export const RecruitmentView: React.FC = () => {
 
             <Button
               onClick={handleRecruit}
-              disabled={isRecruiting || resources.friendshipPoints < 100 || availableCount === 0}
+              disabled={isRecruiting || resources.friendshipPoints < 100 || recruitmentStats.availableCount === 0}
               className="w-full"
-              variant={resources.friendshipPoints >= 100 && availableCount > 0 ? "primary" : "secondary"}
+              variant={resources.friendshipPoints >= 100 && recruitmentStats.availableCount > 0 ? "primary" : "secondary"}
             >
               {isRecruiting ? (
                 <div className="flex items-center justify-center">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                   Recruiting...
                 </div>
-              ) : availableCount === 0 ? (
+              ) : recruitmentStats.availableCount === 0 ? (
                 "All Girls Recruited"
               ) : (
                 "Recruit Magical Girl (100 FP)"
               )}
             </Button>
 
-            {availableCount > 0 && (
+            {recruitmentStats.availableCount > 0 && (
               <p className="text-sm text-gray-600 text-center">
-                {availableCount} magical girl{availableCount !== 1 ? 's' : ''} available to recruit
+                {recruitmentStats.availableCount} magical girl{recruitmentStats.availableCount !== 1 ? 's' : ''} available to recruit
               </p>
             )}
           </div>
@@ -142,13 +128,13 @@ export const RecruitmentView: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
                 <div className="text-xl font-bold text-magical-primary">
-                  {useGameStore((state) => state.magicalGirls.length)}
+                  {recruitmentStats.recruitedCount}
                 </div>
                 <div className="text-sm text-gray-600">Recruited</div>
               </div>
               <div className="text-center">
                 <div className="text-xl font-bold text-magical-secondary">
-                  {availableCount}
+                  {recruitmentStats.availableCount}
                 </div>
                 <div className="text-sm text-gray-600">Available</div>
               </div>
@@ -157,7 +143,7 @@ export const RecruitmentView: React.FC = () => {
             <div className="bg-gray-50 p-4 rounded-lg">
               <h4 className="font-semibold mb-2">Recent Recruits</h4>
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {useGameStore((state) => state.magicalGirls.slice(-3)).map((girl: MagicalGirl) => (
+                {recruitmentStats.recentRecruits.map((girl: MagicalGirl) => (
                   <div key={girl.id} className="flex justify-between items-center text-sm">
                     <span>{girl.name}</span>
                     <span className={`px-2 py-1 rounded text-xs ${
@@ -170,7 +156,7 @@ export const RecruitmentView: React.FC = () => {
                     </span>
                   </div>
                 ))}
-                {useGameStore((state) => state.magicalGirls.length === 0) && (
+                {recruitmentStats.recruitedCount === 0 && (
                   <p className="text-gray-500 text-sm">No recruits yet</p>
                 )}
               </div>
