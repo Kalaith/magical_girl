@@ -30,7 +30,13 @@ export const createResourceSlice: StateCreator<
     experience: 0,
     level: 1,
     magicalEnergy: 100,
-    maxMagicalEnergy: 100
+    maxMagicalEnergy: 100,
+    premiumGems: 500,
+    eventTokens: 0,
+    summonTickets: 10,
+    rareTickets: 1,
+    legendaryTickets: 0,
+    dreamshards: 200
   },
   
   addResources: (resourceUpdates) => set((state) => {

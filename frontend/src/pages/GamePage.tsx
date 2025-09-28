@@ -11,6 +11,7 @@ import { ResourceDisplay } from '../components/layout/ResourceDisplay';
 // View Components
 import { DashboardView } from '../components/views/DashboardView';
 import { MagicalGirlsView } from '../components/views/MagicalGirlsView';
+import { RecruitmentView } from '../components/views/RecruitmentView';
 import { TrainingView } from '../components/views/TrainingView';
 import { MissionsView } from '../components/views/MissionsView';
 import { AchievementsView } from '../components/views/AchievementsView';
@@ -37,6 +38,8 @@ export function GamePage() {
         return <DashboardView />;
       case VIEWS.MAGICAL_GIRLS:
         return <MagicalGirlsView />;
+      case VIEWS.RECRUITMENT:
+        return <RecruitmentView />;
       case VIEWS.TRAINING:
         return <TrainingView />;
       case VIEWS.MISSIONS:

@@ -32,6 +32,16 @@ export interface Resources {
   crystals: number;
   experience: number;
   level: number;
+  // Recruitment currencies
+  gold: number;
+  magicalCrystals: number;
+  friendshipPoints: number;
+  premiumGems: number;
+  eventTokens: number;
+  summonTickets: number;
+  rareTickets: number;
+  legendaryTickets: number;
+  dreamshards: number;
 }
 
 export interface UnlockedFeatures {

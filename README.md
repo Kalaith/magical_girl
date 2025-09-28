@@ -293,4 +293,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 **✨ Made with magic and TypeScript ✨**
 
-For questions, suggestions, or contributions, please open an issue or submit a pull request!
+## License
+
+This project is licensed under the MIT License - see the individual component README files for details.
+
+Part of the WebHatchery game collection.

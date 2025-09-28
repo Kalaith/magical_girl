@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star, Users, Dumbbell, Map, Trophy, Settings } from 'lucide-react';
+import { Star, Users, Sparkles, Dumbbell, Map, Trophy, Settings } from 'lucide-react';
 import { useUIStore } from '../../stores/uiStore';
 import { VIEWS, type ViewType } from '../../config/gameConfig';
 
 const navigationItems = [
   { id: VIEWS.DASHBOARD, label: 'Dashboard', icon: Star },
   { id: VIEWS.MAGICAL_GIRLS, label: 'Magical Girls', icon: Users },
+  { id: VIEWS.RECRUITMENT, label: 'Recruitment', icon: Sparkles },
   { id: VIEWS.TRAINING, label: 'Training', icon: Dumbbell },
   { id: VIEWS.MISSIONS, label: 'Missions', icon: Map },
   { id: VIEWS.ACHIEVEMENTS, label: 'Achievements', icon: Trophy },

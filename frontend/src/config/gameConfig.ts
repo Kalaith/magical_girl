@@ -57,6 +57,8 @@ export const GAME_CONFIG = {
 export const VIEWS = {
   DASHBOARD: 'dashboard',
   MAGICAL_GIRLS: 'collection',
+  RECRUITMENT: 'recruitment',
+  COMBAT: 'combat',
   TRAINING: 'training',
   MISSIONS: 'missions',
   ACHIEVEMENTS: 'achievements',
