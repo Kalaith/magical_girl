@@ -1,6 +1,9 @@
 // Recruitment and Gacha system types
 import type { MagicalGirl, Rarity } from "./magicalGirl";
 
+// Re-export Rarity for components that import from recruitment
+export type { Rarity } from "./magicalGirl";
+
 export interface RecruitmentSystem {
   currencies: RecruitmentCurrencies;
   banners: RecruitmentBanner[];

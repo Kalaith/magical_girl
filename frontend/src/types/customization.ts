@@ -268,6 +268,7 @@ export interface SavedOutfit {
   outfit: OutfitConfiguration;
   accessories: AccessoryConfiguration;
   colors: ColorConfiguration;
+  harmonyScore?: number;
 
   // Metadata
   createdAt: number;

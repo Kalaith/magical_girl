@@ -19,10 +19,10 @@ import { SettingsView } from "../components/views/SettingsView";
 
 // New Advanced Game Components
 import { SkillTreePanel } from "../components/game/SkillTreePanel";
-import { CustomizationPanel } from "../components/game/CustomizationPanel";
+import { SimpleCustomizationPanel as CustomizationPanel } from "../components/game/SimpleCustomizationPanel";
 import { PrestigePanel } from "../components/game/PrestigePanel";
 import { SaveSystemPanel } from "../components/game/SaveSystemPanel";
-import { EnhancedSettingsPanel } from "../components/game/EnhancedSettingsPanel";
+import { SimpleEnhancedSettingsPanel as EnhancedSettingsPanel } from "../components/game/SimpleEnhancedSettingsPanel";
 import { TutorialOverlay } from "../components/game/TutorialOverlay";
 
 export function GamePage() {

@@ -1,5 +1,5 @@
 // Turn-based combat system types
-import type { MagicalGirl, MagicalElement, Ability } from "./magicalGirl";
+import type { MagicalGirl, MagicalElement } from "./magicalGirl";
 
 export interface CombatSystem {
   battles: CombatBattle[];

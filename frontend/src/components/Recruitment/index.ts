@@ -1,5 +1,5 @@
 // Recruitment system components
-export { RecruitmentBanner } from "./RecruitmentBanner";
+export { RecruitmentBannerComponent as RecruitmentBanner } from "./RecruitmentBanner";
 export { CurrencyDisplay } from "./CurrencyDisplay";
 export { SummonAnimation } from "./SummonAnimation";
 export { SummonResults } from "./SummonResults";

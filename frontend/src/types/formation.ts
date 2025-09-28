@@ -1,6 +1,6 @@
 // Team Formation and Strategy System Types
 import type { MagicalGirl, MagicalElement } from "./magicalGirl";
-import type { CombatParticipant } from "./combat";
+// import type { CombatParticipant } from "./combat";
 
 export interface StatBonus {
   health: number;

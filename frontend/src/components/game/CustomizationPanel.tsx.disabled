@@ -73,7 +73,7 @@ const OutfitItem: React.FC<OutfitItemProps> = ({
   item,
   isEquipped,
   onEquip,
-  category,
+  category: _category,
 }) => {
   const rarityColors = {
     common: "border-gray-500 bg-gray-800",

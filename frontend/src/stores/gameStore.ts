@@ -21,7 +21,7 @@ import {
   createGameProgressionSlice,
   type GameProgressionSlice,
 } from "./slices/gameProgressionSlice";
-import { createMissionSlice, type MissionSlice } from "./slices/missionSlice";
+// import { createMissionSlice, type MissionSlice } from "./slices/missionSlice";
 import {
   createTrainingSlice,
   type TrainingSlice,
@@ -34,10 +34,10 @@ import {
   createSettingsSlice,
   type SettingsSlice,
 } from "./slices/settingsSlice";
-import {
-  createRecruitmentSlice,
-  type RecruitmentSlice,
-} from "./slices/recruitmentSlice";
+// import {
+//   createRecruitmentSlice,
+//   type RecruitmentSlice,
+// } from "./slices/recruitmentSlice";
 import { createCombatSlice, type CombatSlice } from "./slices/combatSlice";
 import {
   createTransformationSlice,
@@ -47,10 +47,10 @@ import {
   createFormationSlice,
   type FormationSlice,
 } from "./slices/formationSlice";
-import {
-  createSkillTreeSlice,
-  type SkillTreeSlice,
-} from "./slices/skillTreeSlice";
+// import {
+//   createSkillTreeSlice,
+//   type SkillTreeSlice,
+// } from "./slices/skillTreeSlice";
 import {
   createCustomizationSlice,
   type CustomizationSlice,
@@ -67,10 +67,10 @@ import {
   createTutorialSlice,
   type TutorialSlice,
 } from "./slices/tutorialSlice";
-import {
-  createEnhancedSettingsSlice,
-  type EnhancedSettingsSlice,
-} from "./slices/enhancedSettingsSlice";
+// import {
+//   createEnhancedSettingsSlice,
+//   type EnhancedSettingsSlice,
+// } from "./slices/enhancedSettingsSlice";
 
 // Combined store interface - Composition over inheritance
 export interface GameStore
@@ -78,20 +78,20 @@ export interface GameStore
     ResourceSlice,
     MagicalGirlSlice,
     GameProgressionSlice,
-    MissionSlice,
+    // MissionSlice,
     TrainingSlice,
     AchievementSlice,
     SettingsSlice,
-    RecruitmentSlice,
+    // RecruitmentSlice,
     CombatSlice,
     TransformationSlice,
     FormationSlice,
-    SkillTreeSlice,
+    // SkillTreeSlice,
     CustomizationSlice,
     PrestigeSlice,
     SaveSystemSlice,
-    TutorialSlice,
-    EnhancedSettingsSlice {
+    TutorialSlice {
+    // EnhancedSettingsSlice {
   // Utility actions
   resetGame: () => void;
 }
@@ -111,7 +111,7 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
   ...createGameProgressionSlice(set as any, get as any, api as any),
 
   // Mission slice
-  ...createMissionSlice(set as any, get as any, api as any),
+  // ...createMissionSlice(set as any, get as any, api as any),
   // Training slice
   ...createTrainingSlice(set as any, get as any, api as any),
 
@@ -122,7 +122,7 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
   ...createSettingsSlice(set as any, get as any, api as any),
 
   // Recruitment slice
-  ...createRecruitmentSlice(set as any, get as any, api as any),
+  // ...createRecruitmentSlice(set as any, get as any, api as any),
 
   // Combat slice
   ...createCombatSlice(set as any, get as any, api as any),
@@ -134,7 +134,7 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
   ...createFormationSlice(set as any, get as any, api as any),
 
   // Skill Tree slice
-  ...createSkillTreeSlice(set as any, get as any, api as any),
+  // ...createSkillTreeSlice(set as any, get as any, api as any),
 
   // Customization slice
   ...createCustomizationSlice(set as any, get as any, api as any),
@@ -149,7 +149,7 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
   ...createTutorialSlice(set as any, get as any, api as any),
 
   // Enhanced Settings slice
-  ...createEnhancedSettingsSlice(set as any, get as any, api as any),
+  // ...createEnhancedSettingsSlice(set as any, get as any, api as any),
 
   // Global reset function
   resetGame: () => {
@@ -174,11 +174,11 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
       get as any,
       api as any,
     );
-    const initialMissions = createMissionSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
+    // const initialMissions = createMissionSlice(
+    //   set as any,
+    //   get as any,
+    //   api as any,
+    // );
     const initialTraining = createTrainingSlice(
       set as any,
       get as any,
@@ -194,11 +194,11 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
       get as any,
       api as any,
     );
-    const initialRecruitment = createRecruitmentSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
+    // const initialRecruitment = createRecruitmentSlice(
+    //   set as any,
+    //   get as any,
+    //   api as any,
+    // );
     const initialCombat = createCombatSlice(set as any, get as any, api as any);
     const initialTransformation = createTransformationSlice(
       set as any,
@@ -210,11 +210,11 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
       get as any,
       api as any,
     );
-    const initialSkillTree = createSkillTreeSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
+    // const initialSkillTree = createSkillTreeSlice(
+    //   set as any,
+    //   get as any,
+    //   api as any,
+    // );
     const initialCustomization = createCustomizationSlice(
       set as any,
       get as any,
@@ -235,31 +235,31 @@ const createGameStore: StateCreator<GameStore> = (set, get, api) => ({
       get as any,
       api as any,
     );
-    const initialEnhancedSettings = createEnhancedSettingsSlice(
-      set as any,
-      get as any,
-      api as any,
-    );
+    // const initialEnhancedSettings = createEnhancedSettingsSlice(
+    //   set as any,
+    //   get as any,
+    //   api as any,
+    // );
 
     set({
       ...initialNotifications,
       ...initialResources,
       ...initialMagicalGirls,
       ...initialProgression,
-      ...initialMissions,
+      // ...initialMissions,
       ...initialTraining,
       ...initialAchievements,
       ...initialSettings,
-      ...initialRecruitment,
+      // ...initialRecruitment,
       ...initialCombat,
       ...initialTransformation,
       ...initialFormation,
-      ...initialSkillTree,
+      // ...initialSkillTree,
       ...initialCustomization,
       ...initialPrestige,
       ...initialSaveSystem,
       ...initialTutorial,
-      ...initialEnhancedSettings,
+      // ...initialEnhancedSettings,
       resetGame: get().resetGame, // Preserve the reset function
     });
 

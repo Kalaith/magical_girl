@@ -9,6 +9,8 @@ import type {
   BattleType,
   ActionType,
   TargetingRule,
+  CombatStats,
+  CombatPosition,
 } from "../types/combat";
 import type { MagicalGirl } from "../types/magicalGirl";
 
@@ -404,10 +406,10 @@ export const COMBAT_CONFIG = {
             trigger: "passive",
             effect: [
               {
-                stat: "evasion",
+                stat: "evasion" as keyof CombatStats,
                 modification: 10,
-                type: "flat",
-                operation: "add",
+                type: "flat" as const,
+                operation: "add" as const,
               },
             ],
             probability: 100,
@@ -433,10 +435,10 @@ export const COMBAT_CONFIG = {
             trigger: "on_nature_ability",
             effect: [
               {
-                stat: "elementalPower",
+                stat: "elementalPower" as keyof CombatStats,
                 modification: 25,
-                type: "percentage",
-                operation: "add",
+                type: "percentage" as const,
+                operation: "add" as const,
               },
             ],
             probability: 100,
@@ -450,13 +452,13 @@ export const COMBAT_CONFIG = {
             condition: "element_nature",
             effect: [
               {
-                stat: "health",
+                stat: "health" as keyof CombatStats,
                 modification: 5,
-                type: "flat",
-                operation: "add",
+                type: "flat" as const,
+                operation: "add" as const,
               },
             ],
-            targets: "all",
+            targets: "all" as const,
           },
         ],
         background: "/images/environments/magical_forest.jpg",
@@ -758,9 +760,9 @@ export const COMBAT_UTILS = {
 
   getValidTargets: (
     targeting: TargetingRule,
-    caster: { position: { row: number; column: number; }; id: string; },
-    allParticipants: Array<{ position: { row: number; column: number; }; id: string; }>,
-  ): Array<{ position: { row: number; column: number; }; id: string; }> => {
+    caster: { position: CombatPosition; id: string; },
+    allParticipants: Array<{ position: CombatPosition; id: string; }>,
+  ): Array<{ position: CombatPosition; id: string; }> => {
     // Simplified target selection
     return allParticipants.filter((p) => {
       if (targeting.type === "Self") return p.id === caster.id;

@@ -3,11 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useGameStore } from "../../stores/gameStore";
 import { BattleArena } from "../Combat/BattleArena";
 import { TeamSetup } from "../Combat/TeamSetup";
-import { CombatHistory } from "../Combat/CombatHistory";
+import { CombatLog } from "../Combat/CombatLog";
 import { FormationManager } from "../Combat/FormationManager";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 import type { BattleType, CombatParticipant } from "../../types/combat";
+import type { MagicalGirl } from "../../types/magicalGirl";
 
 export const CombatView: React.FC = () => {
   const {
@@ -61,7 +62,7 @@ export const CombatView: React.FC = () => {
     }
   };
 
-  const generateEnemyTeam = (type: BattleType, playerTeam: CombatParticipant[]) => {
+  const generateEnemyTeam = (type: BattleType, playerTeam: MagicalGirl[]) => {
     // Generate enemy team based on player team strength and battle type
     const enemyCount = Math.min(playerTeam.length, 3);
     const enemies = [];
@@ -224,7 +225,7 @@ export const CombatView: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
             >
-              <CombatHistory history={combatSystem.combatHistory} />
+              <CombatLog combatLog={combatSystem.activeBattle?.combatLog || []} />
             </motion.div>
           )}
         </AnimatePresence>

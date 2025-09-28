@@ -19,6 +19,9 @@ import type {
   SkillTreeEvent,
   SpecializationPath,
   PathMasteryLevel,
+  SkillPrerequisite,
+  SkillRequirement,
+  BranchType,
 } from "../../types/skillTree";
 
 export interface SkillTreeSlice extends SkillTreeState, SkillTreeActions {
@@ -28,6 +31,20 @@ export interface SkillTreeSlice extends SkillTreeState, SkillTreeActions {
   getActiveBuild: () => SkillBuild | null;
   getTotalSkillPoints: () => number;
   getUnlockedTrees: () => SkillTree[];
+
+  // Missing methods from implementation
+  emitSkillTreeEvent: (event: SkillTreeEvent) => void;
+  checkPrerequisite: (tree: SkillTree, prereq: SkillPrerequisite) => boolean;
+  checkUnlockRequirement: (requirement: SkillRequirement) => boolean;
+  updatePathProgression: (tree: SkillTree, nodeId: string) => void;
+  updateSpecializationPaths: (tree: SkillTree) => void;
+  calculatePointEfficiency: (tree: SkillTree) => number;
+  calculatePathOptimization: (tree: SkillTree) => number;
+  calculateSynergyScore: (tree: SkillTree) => number;
+  findInefficientNodes: (tree: SkillTree) => string[];
+  findMissedSynergies: (tree: SkillTree) => string[];
+  generateOptimizationTips: (tree: SkillTree) => string[];
+  calculateNodeBenefit: (tree: SkillTree, node: SkillNode) => number;
 }
 
 export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (
@@ -413,7 +430,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (
         ) {
           return {
             ...node,
-            specializationPath: pathId as string,
+            specializationPath: path,
             branchType: path.keyNodes.includes(node.id)
               ? "specialized"
               : "branch",
@@ -464,7 +481,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (
       // Remove path assignment from nodes
       const updatedTree = { ...tree };
       updatedTree.nodes = tree.nodes.map((node) => {
-        if (node.specializationPath === pathId) {
+        if (node.specializationPath?.id === pathId) {
           return {
             ...node,
             specializationPath: undefined,
