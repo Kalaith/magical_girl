@@ -359,7 +359,7 @@ export const SaveSystemPanel: React.FC = () => {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as string)}
                 className={`px-4 py-2 rounded-md font-medium transition-colors ${
                   activeTab === tab.id
                     ? "bg-blue-600 text-white"

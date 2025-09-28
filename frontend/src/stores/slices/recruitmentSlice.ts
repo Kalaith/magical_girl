@@ -7,10 +7,10 @@ import type {
   SummonResult,
   SummonSession,
   PityCounter,
-  BannerType,
   RecruitmentCurrencies,
   GachaRates,
   Rarity,
+  RecruitmentStatistics,
 } from "../../types/recruitment";
 import type { MagicalGirl } from "../../types/magicalGirl";
 import type { Notification, Resources } from "../../types";
@@ -63,7 +63,7 @@ export interface RecruitmentSlice {
   // Statistics and history
   addSummonRecord: (record: SummonRecord) => void;
   getSummonHistory: (bannerId?: string) => SummonRecord[];
-  getPlayerStatistics: () => any;
+  getPlayerStatistics: () => RecruitmentStatistics;
 
   // Wishlist system
   addToWishlist: (characterId: string) => boolean;
@@ -256,8 +256,8 @@ export const createRecruitmentSlice: StateCreator<
         startTime: Date.now(),
         totalPulls: 0,
         results: [],
-        totalCost: {} as any,
-        rarityBreakdown: {} as any,
+        totalCost: {} as { [K in keyof RecruitmentCurrencies]: number },
+        rarityBreakdown: {} as { [K in Rarity]: number },
         newCharacters: 0,
         duplicates: 0,
         pityActivated: false,

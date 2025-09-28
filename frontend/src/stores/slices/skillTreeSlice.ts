@@ -413,7 +413,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (
         ) {
           return {
             ...node,
-            specializationPath: pathId as any,
+            specializationPath: pathId as string,
             branchType: path.keyNodes.includes(node.id)
               ? "specialized"
               : "branch",
@@ -940,11 +940,12 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (
 
   checkPrerequisite: (tree: SkillTree, prereq: SkillPrerequisite): boolean => {
     switch (prereq.type) {
-      case "node_rank":
+      case "node_rank": {
         const reqNode = tree.nodes.find((n) => n.id === prereq.nodeId);
         return reqNode
           ? reqNode.currentRank >= (prereq.minimumRank || 1)
           : false;
+      }
 
       case "total_points":
         return tree.totalPointsSpent >= prereq.value;

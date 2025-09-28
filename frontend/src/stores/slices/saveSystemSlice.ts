@@ -42,8 +42,8 @@ export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (set, get) =
       ...slot,
       timestamp: Date.now(),
       data: JSON.stringify(gameState),
-      playerLevel: (gameState.player as any)?.level || 1,
-      playtime: (gameState.player as any)?.playtime || 0,
+      playerLevel: (gameState.player as { level?: number })?.level || 1,
+      playtime: (gameState.player as { playtime?: number })?.playtime || 0,
     };
 
     set(state => ({

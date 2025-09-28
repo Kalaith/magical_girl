@@ -326,6 +326,7 @@ export interface OutfitStats {
   cuteness: number;
   coolness: number;
   uniqueness: number;
+  harmonyScore?: number;
 
   // Combat stats (if applicable)
   magicalPower?: number;

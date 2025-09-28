@@ -5,7 +5,7 @@ import { Card } from "../ui/Card";
 import type { Rarity } from "../../types/magicalGirl";
 
 export const RecruitmentStats: React.FC = () => {
-  const { recruitmentSystem, getPlayerStatistics } = useGameStore();
+  const { recruitmentSystem } = useGameStore();
 
   const stats = useMemo(() => {
     const history = recruitmentSystem.summonHistory;

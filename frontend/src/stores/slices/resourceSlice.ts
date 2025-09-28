@@ -65,9 +65,9 @@ export const createResourceSlice: StateCreator<
               newResources[resourceKey] = Math.min(
                 current + valueToAdd,
                 max,
-              ) as any;
+              ) as number;
             } else {
-              newResources[resourceKey] = (current + valueToAdd) as any;
+              newResources[resourceKey] = (current + valueToAdd) as number;
             }
           }
         }
@@ -90,7 +90,7 @@ export const createResourceSlice: StateCreator<
           const resourceKey = key as keyof Resources;
           const current = newResources[resourceKey] as number;
           const cost = value as number;
-          newResources[resourceKey] = Math.max(0, current - cost) as any;
+          newResources[resourceKey] = Math.max(0, current - cost) as number;
         }
       });
 
