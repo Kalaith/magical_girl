@@ -811,7 +811,7 @@ export interface PrestigeStrategy {
 export interface PrestigeAction {
   type: string;
   timing: number;
-  parameters: Record<string, any>;
+  parameters: Record<string, string | number | boolean>;
 }
 
 export interface PrestigeOutcome {

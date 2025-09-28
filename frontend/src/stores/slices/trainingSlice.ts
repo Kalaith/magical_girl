@@ -32,7 +32,7 @@ export const createTrainingSlice: StateCreator<
     gainExperience: (amount: number) => void;
     addResources: (resources: Partial<Resources>) => void;
     magicalGirls: MagicalGirl[];
-    checkAchievements?: (event: { type: string; data: Record<string, unknown>; timestamp: number }) => void;
+    checkAchievements?: (event: { type: string; data: Record<string, string | number | boolean>; timestamp: number }) => void;
   },
   [],
   [],
@@ -158,4 +158,13 @@ export const createTrainingSlice: StateCreator<
     const state = get();
 
     // Find completed sessions
-    const completedSessions = st
+    const completedSessions = state.activeSessions.filter(
+      (session) => now >= session.endTime,
+    );
+
+    // Auto-complete them
+    completedSessions.forEach((session) => {
+      state.completeActiveSession(session.id);
+    });
+  },
+});

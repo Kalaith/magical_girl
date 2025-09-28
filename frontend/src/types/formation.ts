@@ -175,7 +175,7 @@ export interface ModifierCondition {
     | "adjacent_ally"
     | "enemy_nearby"
     | "health_threshold";
-  value?: unknown;
+  value?: string | number;
   operator?: "equals" | "greater" | "less" | "contains";
 }
 
@@ -198,7 +198,7 @@ export interface FormationRequirement {
     | "achievement"
     | "custom";
   description: string;
-  value: unknown;
+  value: string | number;
   optional: boolean;
   weight: number; // How important this requirement is (0-1)
 }
@@ -206,7 +206,7 @@ export interface FormationRequirement {
 export interface FormationRestriction {
   type: "element" | "role" | "character" | "equipment" | "level" | "custom";
   description: string;
-  value: unknown;
+  value: string | number;
   severity: "warning" | "error" | "blocking";
 }
 
@@ -317,7 +317,7 @@ export interface EffectCondition {
     | "team_composition"
     | "custom";
   operator: "equals" | "greater" | "less" | "contains" | "not";
-  value: unknown;
+  value: string | number;
 }
 
 export interface BonusCondition {
@@ -329,7 +329,7 @@ export interface BonusCondition {
     | "synergy_active"
     | "custom";
   description: string;
-  value?: unknown;
+  value?: string | number;
   weight: number; // How much this condition affects bonus strength
 }
 
@@ -544,7 +544,7 @@ export interface CombatCondition {
     | "role_present"
     | "custom";
   operator: "equals" | "greater" | "less" | "contains";
-  value: unknown;
+  value: string | number;
   probability?: number;
 }
 
@@ -868,7 +868,7 @@ export interface SynergyRequirement {
     | "achievement"
     | "custom";
   description: string;
-  value: unknown;
+  value: string | number;
   progress?: number;
   completed: boolean;
 }
@@ -1127,7 +1127,7 @@ export interface RecommendationAction {
     | "move_character"
     | "swap_characters"
     | "change_formation";
-  parameters: Record<string, unknown>;
+  parameters: Record<string, string | number | boolean>;
   expectedBenefit: number;
 }
 
@@ -1227,7 +1227,7 @@ export interface BuilderAction {
     | "apply_template";
   timestamp: number;
   description: string;
-  parameters: Record<string, unknown>;
+  parameters: Record<string, string | number | boolean>;
   canUndo: boolean;
   canRedo: boolean;
 }
@@ -1238,7 +1238,7 @@ export interface FormationEvent {
   timestamp: number;
   formationId?: string;
   characterId?: string;
-  data?: Record<string, unknown>;
+  data?: Record<string, string | number | boolean>;
 }
 
 export type FormationEventType =

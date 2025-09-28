@@ -1,4 +1,5 @@
 // Save System Types for Multiple Save Slots
+import type { MagicalGirl } from "./magicalGirl";
 
 export interface SaveSystem {
   // Save slots management
@@ -72,26 +73,26 @@ export interface SaveSlot {
 
 export interface GameStateSnapshot {
   // Core game data
-  characters: Record<string, any>;
+  characters: Record<string, MagicalGirl>;
   resources: Record<string, number>;
-  progression: Record<string, unknown>;
+  progression: Record<string, number | boolean>;
 
   // Game systems state
-  combat: Record<string, unknown>;
-  formation: Record<string, unknown>;
-  skillTrees: Record<string, unknown>;
-  customization: Record<string, unknown>;
-  prestige: Record<string, unknown>;
+  combat: Record<string, number | boolean>;
+  formation: Record<string, string | number>;
+  skillTrees: Record<string, number | boolean>;
+  customization: Record<string, string | number>;
+  prestige: Record<string, number | boolean>;
 
   // UI and settings state
-  settings: Record<string, unknown>;
-  notifications: Array<Record<string, unknown>>;
+  settings: Record<string, string | number | boolean>;
+  notifications: Array<Record<string, string | number | boolean>>;
 
   // World and environment state
-  missions: Record<string, unknown>;
-  training: Record<string, unknown>;
-  recruitment: Record<string, unknown>;
-  achievements: Record<string, unknown>;
+  missions: Record<string, number | boolean>;
+  training: Record<string, number | boolean>;
+  recruitment: Record<string, number>;
+  achievements: Record<string, boolean | number>;
 
   // Timestamp and session info
   saveTimestamp: number;
@@ -99,8 +100,8 @@ export interface GameStateSnapshot {
   lastActiveCharacter: string;
 
   // Custom data and mods
-  customData: Record<string, any>;
-  modData: Record<string, any>;
+  customData: Record<string, string | number | boolean>;
+  modData: Record<string, string | number | boolean>;
 }
 
 export interface SavePreview {
@@ -261,8 +262,8 @@ export interface CompressionSettings {
 
 export interface ConflictDetail {
   field: string;
-  localValue: unknown;
-  cloudValue: unknown;
+  localValue: string | number | boolean;
+  cloudValue: string | number | boolean;
   importance: ConflictImportance;
   suggestedResolution: ResolutionSuggestion;
 }
@@ -528,8 +529,8 @@ export interface SaveComparison {
 export interface SaveDifference {
   field: string;
   type: DifferenceType;
-  value1: unknown;
-  value2: unknown;
+  value1: string | number | boolean;
+  value2: string | number | boolean;
   importance: DifferenceImportance;
 }
 
@@ -615,7 +616,7 @@ export interface SaveSystemEvent {
   type: SaveEventType;
   slotId?: string;
   timestamp: number;
-  data?: Record<string, unknown>;
+  data?: Record<string, string | number | boolean>;
 }
 
 export type SaveEventType =

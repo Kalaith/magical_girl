@@ -13,6 +13,7 @@ import type {
   Rarity,
 } from "../../types/recruitment";
 import type { MagicalGirl } from "../../types/magicalGirl";
+import type { Notification, Resources } from "../../types";
 import { RECRUITMENT_CONFIG } from "../../data/recruitmentConfig";
 
 export interface RecruitmentSlice {
@@ -72,11 +73,11 @@ export interface RecruitmentSlice {
 
 export const createRecruitmentSlice: StateCreator<
   RecruitmentSlice & {
-    addNotification: (notification: any) => void;
+    addNotification: (notification: Omit<Notification, "id" | "timestamp" | "read">) => void;
     addMagicalGirl: (girl: MagicalGirl) => void;
     getMagicalGirl: (id: string) => MagicalGirl | undefined;
-    spendResources: (resources: any) => boolean;
-    addResources: (resources: any) => void;
+    spendResources: (resources: Partial<Resources>) => boolean;
+    addResources: (resources: Partial<Resources>) => void;
   },
   [],
   [],

@@ -570,7 +570,7 @@ export interface HelpContent {
 export interface HelpAction {
   text: string;
   action: string;
-  parameters?: Record<string, any>;
+  parameters?: Record<string, string | number | boolean>;
 }
 
 // Enums and Type Unions
@@ -874,7 +874,7 @@ export type HelpContext = {
   page: string;
   section: string;
   element?: string;
-  gameState?: Record<string, any>;
+  gameState?: Record<string, string | number | boolean>;
 };
 
 export type HelpCondition = {

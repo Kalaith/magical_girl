@@ -137,7 +137,7 @@ export interface SkillRequirement {
   type: RequirementType;
   value: number | string;
   description: string;
-  checkFunction?: (character: Record<string, unknown>) => boolean;
+  checkFunction?: (character: Record<string, string | number | boolean>) => boolean;
 }
 
 export interface SkillEffect {
@@ -244,14 +244,14 @@ export interface MasteryReward {
 
 export interface UnlockCondition {
   type: ConditionType;
-  value: unknown;
+  value: string | number;
   description: string;
   checkFunction?: () => boolean;
 }
 
 export interface EffectCondition {
   type: ConditionType;
-  value: unknown;
+  value: string | number;
   operator: ComparisonOperator;
   description: string;
 }
@@ -710,7 +710,7 @@ export interface SkillTreeEvent {
   nodeId?: string;
   pathId?: string;
   timestamp: number;
-  data?: Record<string, unknown>;
+  data?: Record<string, string | number | boolean>;
 }
 
 export type SkillTreeEventType =

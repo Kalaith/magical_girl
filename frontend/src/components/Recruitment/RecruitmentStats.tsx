@@ -16,7 +16,7 @@ export const RecruitmentStats: React.FC = () => {
         totalSessions: 0,
         averagePulls: 0,
         rarityStats: {} as Record<Rarity, number>,
-        bannerStats: {} as Record<string, any>,
+        bannerStats: {} as Record<string, number>,
         newCharacters: 0,
         duplicates: 0,
         pityActivations: 0,
@@ -89,7 +89,7 @@ export const RecruitmentStats: React.FC = () => {
 
         return stats;
       },
-      {} as Record<string, any>,
+      {} as Record<string, number>,
     );
 
     // Character acquisition stats

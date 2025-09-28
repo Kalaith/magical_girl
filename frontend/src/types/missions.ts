@@ -62,7 +62,7 @@ export type Difficulty =
 
 export interface MissionRequirement {
   type: RequirementType;
-  value: unknown;
+  value: string | number;
   description: string;
   optional?: boolean;
 }
@@ -115,7 +115,7 @@ export interface ObjectiveTarget {
   id?: string;
   name: string;
   quantity?: number;
-  properties?: Record<string, unknown>;
+  properties?: Record<string, string | number | boolean>;
 }
 
 export interface ObjectiveCondition {
@@ -127,7 +127,7 @@ export interface ObjectiveCondition {
 export interface ConditionRule {
   field: string;
   operator: "equals" | "greater" | "less" | "contains" | "exists";
-  value: unknown;
+  value: string | number;
   negated?: boolean;
 }
 
@@ -189,7 +189,7 @@ export type PenaltySeverity = "minor" | "moderate" | "severe" | "critical";
 
 export interface PenaltyEffect {
   type: "resource_loss" | "stat_reduction" | "cooldown" | "lock" | "special";
-  value: unknown;
+  value: string | number;
   duration?: number;
 }
 
@@ -296,7 +296,7 @@ export type HazardFrequency =
 
 export interface HazardEffect {
   type: "damage" | "status" | "debuff" | "drain" | "disable" | "special";
-  value: unknown;
+  value: string | number;
   duration?: number;
   condition?: string;
 }
@@ -321,7 +321,7 @@ export type FeatureType =
 
 export interface FeatureEffect {
   type: "buff" | "heal" | "resource" | "unlock" | "teleport" | "special";
-  value: unknown;
+  value: string | number;
   duration?: number;
 }
 
@@ -363,20 +363,20 @@ export interface StoryChoice {
 export interface StoryConsequence {
   type: "story" | "mission" | "character" | "world" | "special";
   target: string;
-  effect: Record<string, unknown>;
+  effect: Record<string, string | number | boolean>;
   permanent?: boolean;
 }
 
 export interface StoryCondition {
   type: "progress" | "choice" | "character" | "world" | "random";
   condition: string;
-  value: unknown;
+  value: string | number;
 }
 
 export interface StoryEffect {
   type: "unlock" | "change" | "add" | "remove" | "special";
   target: string;
-  value: unknown;
+  value: string | number;
 }
 
 export interface StoryMedia {
@@ -423,7 +423,7 @@ export interface MissionProgress {
   team: MissionTeam;
   events: MissionEvent[];
   score: MissionScore;
-  variables: Record<string, unknown>;
+  variables: Record<string, string | number | boolean>;
 }
 
 export type MissionStatus =
@@ -454,7 +454,7 @@ export type ObjectiveStatus =
 export interface ObjectiveEvent {
   type: "start" | "progress" | "complete" | "fail" | "reset";
   timestamp: number;
-  data?: Record<string, unknown>;
+  data?: Record<string, string | number | boolean>;
 }
 
 export interface MissionTeam {
@@ -488,7 +488,7 @@ export interface StatusEffect {
   description: string;
   duration: number;
   remaining: number;
-  effects: Array<{ type: string; value: unknown; }>;
+  effects: Array<{ type: string; value: string | number; }>;
   source: string;
   removable: boolean;
 }
@@ -498,7 +498,7 @@ export interface MissionEvent {
   type: MissionEventType;
   timestamp: number;
   description: string;
-  data: Record<string, unknown>;
+  data: Record<string, string | number | boolean>;
   important: boolean;
 }
 
@@ -588,9 +588,9 @@ export interface ObjectiveVariation {
 export interface MissionVariable {
   name: string;
   type: "number" | "string" | "boolean" | "array" | "object";
-  defaultValue: unknown;
+  defaultValue: string | number | boolean;
   range?: [number, number];
-  options?: Array<{ value: unknown; label: string; }>;
+  options?: Array<{ value: string | number; label: string; }>;
   formula?: string;
 }
 

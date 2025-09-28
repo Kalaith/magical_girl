@@ -17,8 +17,8 @@ export interface SaveSystemSlice {
   autoSaveEnabled: boolean;
 
   // Actions
-  saveToSlot: (slotId: string, gameState: Record<string, unknown>) => void;
-  loadFromSlot: (slotId: string) => Record<string, unknown> | null;
+  saveToSlot: (slotId: string, gameState: Record<string, string | number | boolean>) => void;
+  loadFromSlot: (slotId: string) => Record<string, string | number | boolean> | null;
   deleteSlot: (slotId: string) => void;
   createSlot: (name: string) => string;
   renameSlot: (slotId: string, newName: string) => void;
@@ -32,7 +32,7 @@ export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (set, get) =
   currentSlot: null,
   autoSaveEnabled: true,
 
-  saveToSlot: (slotId: string, gameState: Record<string, unknown>) => {
+  saveToSlot: (slotId: string, gameState: Record<string, string | number | boolean>) => {
     const { saveSlots } = get();
     const slot = saveSlots.find(s => s.id === slotId);
 

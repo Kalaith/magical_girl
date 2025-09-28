@@ -144,7 +144,7 @@ export interface EffectScaling {
 
 export interface AbilityRequirement {
   type: "level" | "stat" | "element" | "ability" | "item";
-  value: unknown;
+  value: string | number;
   condition?: string;
 }
 
@@ -188,7 +188,7 @@ export type EquipmentType = "Weapon" | "Accessory" | "Outfit" | "Charm";
 
 export interface EquipmentRequirement {
   type: "level" | "stat" | "element" | "specialization";
-  value: unknown;
+  value: string | number;
 }
 
 export interface SetBonus {
@@ -222,7 +222,7 @@ export interface Transformation {
 
 export interface TransformationRequirement {
   type: "level" | "bond" | "mission" | "special";
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
@@ -247,7 +247,7 @@ export interface TransformationMastery {
 
 export interface MasteryBonus {
   type: "stat" | "ability" | "cost_reduction" | "duration" | "special";
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
@@ -304,7 +304,7 @@ export type RelationshipType =
 
 export interface RelationshipBonus {
   type: "stat" | "ability" | "mission" | "special";
-  value: unknown;
+  value: string | number;
   condition?: string;
 }
 
@@ -439,7 +439,7 @@ export interface CollectionCategory {
   name: string;
   girls: string[];
   completed: boolean;
-  reward?: Record<string, unknown>;
+  reward?: Record<string, number>;
 }
 
 export interface CollectionMilestone {
@@ -448,7 +448,7 @@ export interface CollectionMilestone {
   description: string;
   requirement: number;
   current: number;
-  reward: Record<string, unknown>;
+  reward: Record<string, number>;
   completed: boolean;
 }
 
@@ -467,7 +467,7 @@ export interface MagicalGirlTemplate {
 
 export interface UnlockCondition {
   type: "level" | "mission" | "achievement" | "time" | "special";
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
@@ -506,13 +506,13 @@ export type TeamRole =
 
 export interface FormationBonus {
   type: "stat" | "ability" | "special";
-  value: unknown;
+  value: string | number;
   condition?: string;
 }
 
 export interface TeamBonus {
   source: "synergy" | "leadership" | "equipment" | "special";
   type: "stat" | "ability" | "experience" | "resources";
-  value: unknown;
+  value: string | number;
   description: string;
 }

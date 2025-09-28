@@ -30,7 +30,7 @@ export const createMissionSlice: StateCreator<
     spendResources: (resources: Record<string, number>) => boolean;
     gainExperience: (amount: number) => void;
     addResources: (resources: Record<string, number>) => void;
-    checkAchievements?: (event: { type: string; data: Record<string, unknown>; }) => void;
+    checkAchievements?: (event: { type: string; data: Record<string, string | number | boolean>; }) => void;
   },
   [],
   [],

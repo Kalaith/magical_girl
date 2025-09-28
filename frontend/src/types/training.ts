@@ -64,12 +64,12 @@ export interface TrainingCost {
 export interface SpecialTrainingCost {
   type: "item" | "condition" | "cooldown";
   requirement: string;
-  value: unknown;
+  value: string | number;
 }
 
 export interface TrainingRequirement {
   type: TrainingRequirementType;
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
@@ -146,7 +146,7 @@ export interface RewardScaling {
 
 export interface UnlockCondition {
   type: "level" | "training" | "mission" | "achievement" | "special";
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
@@ -256,7 +256,7 @@ export interface TrainingEvent {
   type: TrainingEventType;
   timestamp: number;
   description: string;
-  effect?: Record<string, unknown>;
+  effect?: Record<string, string | number | boolean>;
   critical?: boolean;
 }
 
@@ -391,19 +391,19 @@ export interface Material {
 
 export interface UpgradeBenefit {
   type: "capacity" | "bonus" | "efficiency" | "unlock" | "special";
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
 export interface UpgradeRequirement {
   type: "level" | "achievement" | "mission" | "resource" | "special";
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
 export interface FacilityRequirement {
   type: "level" | "achievement" | "resource" | "space" | "special";
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
@@ -460,7 +460,7 @@ export interface RepairCost {
 
 export interface EquipmentRequirement {
   type: "level" | "stat" | "training_type" | "achievement";
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
@@ -497,7 +497,7 @@ export interface ProgramGoal {
 
 export interface ProgramReward {
   type: "resources" | "unlock" | "achievement" | "special";
-  value: unknown;
+  value: string | number;
   condition: "completion" | "perfect" | "goal_achieved";
 }
 
@@ -609,7 +609,7 @@ export interface TrainingPattern {
 export interface PatternCondition {
   factor: string;
   operator: string;
-  value: unknown;
+  value: string | number;
 }
 
 export interface PatternOutcome {

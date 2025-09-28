@@ -17,7 +17,7 @@ export interface MagicalGirlSlice {
 export const createMagicalGirlSlice: StateCreator<
   MagicalGirlSlice & {
     addNotification: (notification: { type: string; title: string; message: string; }) => void;
-    checkAchievements?: (event: { type: string; data: Record<string, unknown>; }) => void;
+    checkAchievements?: (event: { type: string; data: Record<string, string | number | boolean>; }) => void;
   },
   [],
   [],

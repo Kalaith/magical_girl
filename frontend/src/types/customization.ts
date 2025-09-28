@@ -21,14 +21,14 @@ interface SetBonus {
   pieces: number;
   effects: Array<{
     type: string;
-    value: unknown;
+    value: string | number;
     description: string;
   }>;
 }
 
 interface EffectCondition {
   type: string;
-  value: unknown;
+  value: string | number;
 }
 
 export interface CustomizationSystem {
@@ -835,7 +835,7 @@ export interface AnimationEffect {
   type: EffectType;
   timing: number;
   duration: number;
-  properties: Record<string, any>;
+  properties: Record<string, string | number | boolean>;
 }
 
 export type EffectType =
@@ -855,7 +855,7 @@ export interface CustomizationEvent {
   type: CustomizationEventType;
   characterId: string;
   timestamp: number;
-  data: Record<string, unknown>;
+  data: Record<string, string | number | boolean>;
 }
 
 export type CustomizationEventType =

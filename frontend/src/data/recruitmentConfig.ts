@@ -5,6 +5,7 @@ import type {
   BannerRarity,
   GachaRates,
   RecruitmentCost,
+  BannerCosts,
   PitySystemConfig,
 } from "../types/recruitment";
 import type { MagicalGirl, Rarity } from "../types/magicalGirl";
@@ -98,7 +99,7 @@ export const RECRUITMENT_CONFIG = {
         },
       ],
     },
-  } as any,
+  } as BannerCosts,
 
   // Premium costs
   premiumCosts: {
@@ -130,7 +131,7 @@ export const RECRUITMENT_CONFIG = {
         },
       ],
     },
-  } as any,
+  } as BannerCosts,
 
   // Available banners
   banners: [
@@ -708,7 +709,7 @@ export const RECRUITMENT_CONFIG = {
           effects: [],
         },
       },
-    } as any,
+    } as BannerCosts,
 
     // Rare character example
     {
@@ -813,7 +814,7 @@ export const RECRUITMENT_CONFIG = {
           effects: ["flame_aura"],
         },
       },
-    } as any,
+    } as BannerCosts,
   ],
 };
 

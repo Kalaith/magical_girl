@@ -58,7 +58,7 @@ export interface AchievementReward {
     id: string;
   };
   title?: string;
-  special?: Record<string, unknown>;
+  special?: Record<string, string | number>;
 }
 
 export interface AchievementProgress {
@@ -95,7 +95,7 @@ export interface AchievementFilters {
 
 export interface AchievementEvent {
   type: string;
-  data: Record<string, unknown>;
+  data: Record<string, string | number | boolean>;
   timestamp: number;
 }
 

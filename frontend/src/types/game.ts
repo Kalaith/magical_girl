@@ -104,7 +104,7 @@ export interface AchievementRequirement {
 
 export interface AchievementReward {
   type: "resources" | "feature" | "cosmetic" | "special";
-  value: unknown;
+  value: string | number;
 }
 
 export interface Notification {
@@ -136,7 +136,7 @@ export interface GameEvent {
   id: string;
   type: GameEventType;
   timestamp: number;
-  data: Record<string, unknown>;
+  data: Record<string, string | number | boolean>;
   processed: boolean;
 }
 
@@ -253,6 +253,6 @@ export interface SaveData {
 
 export interface GameAction {
   type: string;
-  payload?: Record<string, unknown>;
+  payload?: Record<string, string | number | boolean>;
   timestamp?: number;
 }

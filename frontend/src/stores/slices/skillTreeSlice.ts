@@ -938,7 +938,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (
     );
   },
 
-  checkPrerequisite: (tree: SkillTree, prereq: any): boolean => {
+  checkPrerequisite: (tree: SkillTree, prereq: SkillPrerequisite): boolean => {
     switch (prereq.type) {
       case "node_rank":
         const reqNode = tree.nodes.find((n) => n.id === prereq.nodeId);
@@ -958,7 +958,7 @@ export const createSkillTreeSlice: StateCreator<SkillTreeSlice> = (
     }
   },
 
-  checkUnlockRequirement: (requirement: any): boolean => {
+  checkUnlockRequirement: (requirement: SkillRequirement): boolean => {
     // Implement unlock requirement checking
     return true; // Placeholder
   },

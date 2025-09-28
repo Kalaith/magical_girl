@@ -74,7 +74,7 @@ const SettingControl: React.FC<SettingControlProps> = ({
               disabled={disabled}
               className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600"
             >
-              {(setting.possibleValues || []).map((option: { value: unknown; label: string; }) => (
+              {(setting.possibleValues || []).map((option: { value: string | number; label: string; }) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
@@ -143,7 +143,7 @@ const SettingControl: React.FC<SettingControlProps> = ({
 
 interface SettingsCategoryProps {
   category: SettingsCategory;
-  settings: Record<string, any>;
+  settings: Record<string, string | number | boolean>;
   onSettingChange: (key: string, value: string | number | boolean) => void;
   searchQuery: string;
 }

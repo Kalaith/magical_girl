@@ -26,6 +26,15 @@ export type ModalType =
   | "confirmation"
   | null;
 
+export type ModalData = {
+  "magical-girl-details": { girlId: string };
+  "training-session": { trainingId: string; girlId?: string };
+  "mission-details": { missionId: string };
+  "settings": Record<string, never>;
+  "achievement-details": { achievementId: string };
+  "confirmation": { title: string; message: string; onConfirm: () => void; onCancel?: () => void };
+};
+
 interface UIState {
   // Current view and navigation
   currentView: ViewType;
@@ -34,7 +43,7 @@ interface UIState {
 
   // Modal system
   activeModal: ModalType;
-  modalData: any;
+  modalData: ModalData[keyof ModalData] | null;
 
   // Panel states
   sidebarCollapsed: boolean;
@@ -96,7 +105,7 @@ interface UIActions {
   setLoading: (loading: boolean) => void;
 
   // Modal management
-  openModal: (modal: ModalType, data?: any) => void;
+  openModal: <T extends Exclude<ModalType, null>>(modal: T, data?: ModalData[T]) => void;
   closeModal: () => void;
 
   // Panel management

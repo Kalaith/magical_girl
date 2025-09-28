@@ -1,5 +1,6 @@
 // Settings management slice - Single Responsibility Principle
 import type { StateCreator } from "zustand";
+import type { Notification } from "../../types";
 
 export interface SettingsSlice {
   // State
@@ -31,7 +32,7 @@ const defaultSettings = {
 
 export const createSettingsSlice: StateCreator<
   SettingsSlice & {
-    addNotification: (notification: any) => void;
+    addNotification: (notification: Omit<Notification, "id" | "timestamp" | "read">) => void;
   },
   [],
   [],

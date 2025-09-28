@@ -118,9 +118,9 @@ export interface GameSetting {
   section: string;
 
   // Value and constraints
-  currentValue: unknown;
-  defaultValue: unknown;
-  possibleValues?: Array<{ value: unknown; label: string; }>;
+  currentValue: string | number | boolean;
+  defaultValue: string | number | boolean;
+  possibleValues?: Array<{ value: string | number; label: string; }>;
   constraints: SettingConstraints;
 
   // Validation and dependencies
@@ -385,8 +385,8 @@ export interface SettingsProfile {
 export interface SettingsChange {
   id: string;
   settingId: string;
-  oldValue: unknown;
-  newValue: unknown;
+  oldValue: string | number | boolean;
+  newValue: string | number | boolean;
   timestamp: number;
   source: ChangeSource;
   reason?: string;
@@ -756,7 +756,7 @@ export interface UsageMetrics {
   changeCount: number;
   lastChanged: number;
   averageValue: number;
-  popularValues: Array<{ value: unknown; usage: number; }>;
+  popularValues: Array<{ value: string | number; usage: number; }>;
   userPatterns: UserPattern[];
 }
 
@@ -882,7 +882,7 @@ export interface SettingExample {
   settingId: string;
   name: string;
   description: string;
-  value: unknown;
+  value: string | number;
   explanation: string;
 }
 
@@ -895,11 +895,11 @@ export interface EnhancedSettingsActions {
   navigateToSetting: (settingId: string) => void;
 
   // Setting management
-  updateSetting: (settingId: string, value: unknown) => void;
+  updateSetting: (settingId: string, value: string | number) => void;
   resetSetting: (settingId: string) => void;
   resetCategory: (categoryId: string) => void;
   resetAllSettings: () => void;
-  previewSetting: (settingId: string, value: unknown) => void;
+  previewSetting: (settingId: string, value: string | number) => void;
   applySetting: (settingId: string) => void;
   revertSetting: (settingId: string) => void;
 
@@ -1040,13 +1040,13 @@ export interface AutoAction {
   name: string;
   trigger: string;
   action: string;
-  parameters: Record<string, unknown>;
+  parameters: Record<string, string | number | boolean>;
 }
 
 export interface AutoCondition {
   field: string;
   operator: string;
-  value: unknown;
+  value: string | number;
 }
 
 export interface AutoSchedule {
@@ -1120,7 +1120,7 @@ export interface SectionLayout {
 export interface DisplayCondition {
   field: string;
   operator: string;
-  value: unknown;
+  value: string | number;
 }
 export interface CustomColorScheme {
   id: string;
@@ -1178,7 +1178,7 @@ export interface ConfigFile {
   name: string;
   path: string;
   format: 'json' | 'yaml' | 'toml';
-  content: Record<string, unknown>;
+  content: Record<string, string | number | boolean>;
 }
 
 export interface CommandLineSettings {
@@ -1201,7 +1201,7 @@ export interface SystemIntegrationSettings {
 
 export interface ExternalToolSettings {
   enabledTools: string[];
-  toolConfigs: Record<string, Record<string, unknown>>;
+  toolConfigs: Record<string, Record<string, string | number | boolean>>;
 }
 
 export interface APISettings {
@@ -1396,15 +1396,15 @@ export interface SidebarSettings {
 
 export interface SettingChange {
   settingId: string;
-  oldValue: unknown;
-  newValue: unknown;
+  oldValue: string | number | boolean;
+  newValue: string | number | boolean;
   timestamp: number;
   userId?: string;
 }
 
 export interface UnlockRequirement {
   type: 'level' | 'achievement' | 'item' | 'custom';
-  value: unknown;
+  value: string | number;
   description: string;
 }
 
@@ -1418,14 +1418,14 @@ export interface ResolutionAction {
 export interface FilterValue {
   field: string;
   operator: string;
-  value: unknown;
+  value: string | number;
 }
 
 export interface ActionParameter {
   name: string;
   type: 'string' | 'number' | 'boolean' | 'object';
   required: boolean;
-  defaultValue?: unknown;
+  defaultValue?: string | number | boolean;
 }
 
 export interface ExportOptions {

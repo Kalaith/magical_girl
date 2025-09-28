@@ -108,7 +108,7 @@ export interface CombatSlice {
 
   // AI System
   executeAITurn: (participantId: string) => Promise<void>;
-  updateAIKnowledge: (participantId: string, event: string, data: Record<string, unknown>) => void;
+  updateAIKnowledge: (participantId: string, event: string, data: Record<string, string | number | boolean>) => void;
 
   // Combat Log
   addLogEntry: (entry: Omit<CombatLogEntry, "id" | "timestamp">) => void;

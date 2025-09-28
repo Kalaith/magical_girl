@@ -455,7 +455,7 @@ export interface Image {
 }
 
 // API Response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = string | number | boolean | object> {
   success: boolean;
   data?: T;
   error?: ApiError;
@@ -603,7 +603,7 @@ export interface PerformanceMetrics {
   networkLatency: number;
 }
 
-export interface CacheEntry<T = any> {
+export interface CacheEntry<T = string | number | boolean | object> {
   key: string;
   value: T;
   timestamp: number;

@@ -298,7 +298,7 @@ export interface ActionCost {
 export interface ActionRequirement {
   type: "health" | "mana" | "status" | "position" | "target" | "combo";
   condition: string;
-  value?: unknown;
+  value?: string | number;
 }
 
 export interface CombatEffect {
@@ -355,7 +355,7 @@ export interface EffectModifier {
 export interface EffectCondition {
   type: "health" | "mana" | "status" | "position" | "element" | "weather";
   operator: "equals" | "greater" | "less" | "contains" | "not";
-  value: unknown;
+  value: string | number;
 }
 
 export interface TargetingRule {
@@ -368,7 +368,7 @@ export interface TargetingRule {
 
 export interface TargetRestriction {
   type: "team" | "health" | "status" | "position" | "element" | "type";
-  value: unknown;
+  value: string | number;
   exclude?: boolean;
 }
 
@@ -690,7 +690,7 @@ export interface CombatLogEntry {
   value?: number;
   critical?: boolean;
   description: string;
-  details?: Record<string, unknown>;
+  details?: Record<string, string | number | boolean>;
 }
 
 export type LogEntryType =
@@ -767,7 +767,7 @@ export type PositionRole =
 
 export interface PositionRestriction {
   type: "element" | "specialization" | "level" | "equipment";
-  value: unknown;
+  value: string | number;
   required: boolean;
 }
 
@@ -871,7 +871,7 @@ export interface CombatElementStats {
 export interface CombatEvent {
   type: string;
   timestamp: number;
-  data: Record<string, unknown>;
+  data: Record<string, string | number | boolean>;
   handlers: CombatEventHandler[];
 }
 
