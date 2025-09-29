@@ -14,7 +14,7 @@ import { MagicalGirlsView } from "../components/views/MagicalGirlsView";
 import { RecruitmentView } from "../components/views/RecruitmentView";
 import { TrainingView } from "../components/views/TrainingView";
 import { MissionsView } from "../components/views/MissionsView";
-// import { AchievementsView } from "../components/views/AchievementsView";
+import { AchievementsView } from "../components/views/AchievementsView";
 import { SettingsView } from "../components/views/SettingsView";
 
 // New Advanced Game Components
@@ -53,8 +53,7 @@ export function GamePage() {
       case VIEWS.MISSIONS:
         return <MissionsView />;
       case VIEWS.ACHIEVEMENTS:
-        // return <AchievementsView />;
-        return <DashboardView />;
+        return <AchievementsView />;
       case VIEWS.SKILL_TREE:
         // return <SkillTreePanel />;
         return <DashboardView />;

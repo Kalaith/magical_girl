@@ -4,6 +4,7 @@ import type { MagicalGirl } from "../types/magicalGirl";
 import type { Mission } from "../types/missions";
 import { initialMagicalGirls } from "../data/magicalGirls";
 import { initialMissions } from "../data/missions";
+import { useAchievementStore } from "./achievementStore";
 
 const initialState = {
   notifications: [] as Notification[],
@@ -18,7 +19,7 @@ const initialState = {
     level: 1,
     gold: 0,
     magicalCrystals: 0,
-    friendshipPoints: 0,
+    friendshipPoints: 100, // Start with enough for first recruitment
     premiumGems: 0,
     eventTokens: 0,
     summonTickets: 0,
@@ -132,6 +133,8 @@ export const useGameStore = create<typeof initialState & {
   completeMission: (missionId: string, success: boolean, score?: number) => void;
   resetGame: () => void;
   updateGameTime?: () => void;
+  saveGame: () => void;
+  loadGame: () => boolean;
 }>((set, get) => ({
   ...initialState,
 
@@ -258,6 +261,10 @@ export const useGameStore = create<typeof initialState & {
     set((state) => ({
       activeSessions: [...state.activeSessions, newSession],
     }));
+
+    // Save game after starting training
+    get().saveGame();
+
     return true;
   },
 
@@ -267,6 +274,9 @@ export const useGameStore = create<typeof initialState & {
         (session) => session.id !== sessionId
       ),
     }));
+
+    // Save game after training completion
+    get().saveGame();
   },
 
   updateActiveSessions: () => {
@@ -297,8 +307,17 @@ export const useGameStore = create<typeof initialState & {
     state.spendResources({ friendshipPoints: 100 });
     
     set((currentState) => ({
-      magicalGirls: [...currentState.magicalGirls, { ...randomGirl }],
+      magicalGirls: [...currentState.magicalGirls, { ...randomGirl, isUnlocked: true, unlockedAt: Date.now() }],
     }));
+
+    // Trigger achievement checks
+    const achievementStore = useAchievementStore.getState();
+    achievementStore.updateProgress("summon_first_girl", 1);
+    achievementStore.updateProgress("first_girl", 1);
+    achievementStore.checkAllAchievements();
+
+    // Save game after recruitment
+    get().saveGame();
 
     return true;
   },
@@ -321,6 +340,9 @@ export const useGameStore = create<typeof initialState & {
 
     // Set mission as active
     set({ activeMission: { ...mission, attempts: mission.attempts + 1 } });
+
+    // Save game after starting mission
+    get().saveGame();
 
     return true;
   },
@@ -358,6 +380,9 @@ export const useGameStore = create<typeof initialState & {
           },
         },
       }));
+
+      // Save game after mission completion
+      get().saveGame();
     } else {
       // Handle failure penalties
       set({ activeMission: null });
@@ -378,7 +403,73 @@ export const useGameStore = create<typeof initialState & {
   updateGameTime: () => {
     // Game time updates handled here
   },
+
+  saveGame: () => {
+    try {
+      const state = get();
+      const saveData = {
+        version: "1.0.0",
+        timestamp: Date.now(),
+        gameState: {
+          notifications: state.notifications,
+          resources: state.resources,
+          magicalGirls: state.magicalGirls,
+          gameProgress: state.gameProgress,
+          trainingData: state.trainingData,
+          settings: state.settings,
+          transformationData: state.transformationData,
+          formationData: state.formationData,
+          prestigeData: state.prestigeData,
+          saveSystemData: { lastSave: Date.now() },
+          tutorialData: state.tutorialData,
+          player: state.player,
+          missions: state.missions,
+          activeMission: state.activeMission,
+          activeSessions: state.activeSessions,
+        },
+      };
+      localStorage.setItem('magicalGirlSave', JSON.stringify(saveData));
+      console.log('Game saved successfully');
+    } catch (error) {
+      console.error('Failed to save game:', error);
+    }
+  },
+
+  loadGame: () => {
+    try {
+      const saveData = localStorage.getItem('magicalGirlSave');
+      if (!saveData) {
+        console.log('No save data found');
+        return false;
+      }
+
+      const parsed = JSON.parse(saveData);
+      if (parsed.version !== "1.0.0") {
+        console.warn('Save data version mismatch');
+        return false;
+      }
+
+      set({
+        ...parsed.gameState,
+        saveSystemData: { lastSave: parsed.timestamp },
+      });
+
+      console.log('Game loaded successfully');
+      return true;
+    } catch (error) {
+      console.error('Failed to load game:', error);
+      return false;
+    }
+  },
 }));
+
+// Load saved game on initialization
+useGameStore.getState().loadGame();
+
+// Auto-save every 30 seconds
+setInterval(() => {
+  useGameStore.getState().saveGame();
+}, 30000);
 
 setInterval(() => {
   const state = useGameStore.getState();

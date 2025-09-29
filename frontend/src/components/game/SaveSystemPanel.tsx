@@ -4,31 +4,64 @@ import { Button } from "../ui/Button";
 import { useGameStore } from "../../stores/gameStore";
 
 export const SaveSystemPanel: React.FC = () => {
+  const { saveGame, loadGame, saveSystemData } = useGameStore();
   const [saveSlots] = useState([
-    { id: 1, name: "Auto Save", date: new Date().toLocaleString(), auto: true },
+    { id: 1, name: "Auto Save", date: saveSystemData?.lastSave ? new Date(saveSystemData.lastSave).toLocaleString() : "Never", auto: true },
     { id: 2, name: "Manual Save 1", date: "2024-01-15 10:30", auto: false },
     { id: 3, name: "Manual Save 2", date: "2024-01-14 16:45", auto: false },
   ]);
 
   const handleSave = () => {
-    // In a real implementation, this would save the game state
+    saveGame();
+    // In a real implementation, this would show a success notification
     console.log("Game saved!");
   };
 
   const handleLoad = (slotId: number) => {
-    // In a real implementation, this would load the game state
-    console.log(`Loading save slot ${slotId}`);
+    if (slotId === 1) { // Auto save slot
+      const success = loadGame();
+      if (success) {
+        console.log("Game loaded successfully!");
+        // In a real implementation, this would show a success notification
+      } else {
+        console.log("Failed to load game or no save data found");
+      }
+    } else {
+      // For manual save slots, this would load from specific slots
+      console.log(`Loading save slot ${slotId} (not implemented yet)`);
+    }
   };
 
   const handleExport = () => {
     // Export save data as JSON
     const gameState = useGameStore.getState();
-    const saveData = JSON.stringify(gameState, null, 2);
-    const blob = new Blob([saveData], { type: 'application/json' });
+    const saveData = {
+      version: "1.0.0",
+      timestamp: Date.now(),
+      gameState: {
+        notifications: gameState.notifications,
+        resources: gameState.resources,
+        magicalGirls: gameState.magicalGirls,
+        gameProgress: gameState.gameProgress,
+        trainingData: gameState.trainingData,
+        settings: gameState.settings,
+        transformationData: gameState.transformationData,
+        formationData: gameState.formationData,
+        prestigeData: gameState.prestigeData,
+        saveSystemData: gameState.saveSystemData,
+        tutorialData: gameState.tutorialData,
+        player: gameState.player,
+        missions: gameState.missions,
+        activeMission: gameState.activeMission,
+        activeSessions: gameState.activeSessions,
+      },
+    };
+    const dataStr = JSON.stringify(saveData, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'magical-girl-save.json';
+    a.download = `magical-girl-save-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -82,14 +115,27 @@ export const SaveSystemPanel: React.FC = () => {
                     reader.onload = (event) => {
                       try {
                         const saveData = JSON.parse(event.target?.result as string);
-                        console.log("Import save data:", saveData);
-                        // In a real implementation, this would load the imported data
+                        if (saveData.version === "1.0.0" && saveData.gameState) {
+                          // Load the imported save data
+                          const gameStore = useGameStore.getState();
+                          Object.keys(saveData.gameState).forEach(key => {
+                            if (key in gameStore) {
+                              (gameStore as any)[key] = saveData.gameState[key];
+                            }
+                          });
+                          console.log("Save data imported successfully!");
+                          // In a real implementation, this would show a success notification
+                        } else {
+                          console.error("Invalid save file format");
+                        }
                       } catch (error) {
-                        console.error("Invalid save file");
+                        console.error("Invalid save file:", error);
                       }
                     };
                     reader.readAsText(file);
                   }
+                  // Reset the input
+                  e.target.value = '';
                 }}
               />
             </label>

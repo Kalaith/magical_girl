@@ -17,6 +17,26 @@ export interface Achievement {
   tags: string[];
 }
 
+// Simple achievement type for basic achievement system
+export interface SimpleAchievement {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  icon: string;
+  unlocked: boolean;
+  unlockedAt?: number;
+  progress: number;
+  maxProgress: number;
+  hidden?: boolean;
+  rarity: string;
+  tags: string[];
+  reward: {
+    type: string;
+    amount: number;
+  };
+}
+
 export type AchievementCategory =
   | "training"
   | "missions"

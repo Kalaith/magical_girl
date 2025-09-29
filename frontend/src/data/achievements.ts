@@ -207,6 +207,30 @@ export const initialAchievements: Achievement[] = [
 
   // Collection Category
   {
+    id: "summon_first_girl",
+    name: "Summon Your First Magical Girl",
+    description: "Recruit your first magical girl to join your team",
+    category: "collection",
+    icon: "✨",
+    requirement: {
+      type: "count",
+      target: 1,
+      condition: "magical_girl_recruited",
+    },
+    reward: {
+      type: "resources",
+      resources: {
+        sparkles: 50,
+        experience: 75,
+      },
+    },
+    rarity: "common",
+    unlocked: false,
+    progress: 0,
+    maxProgress: 1,
+    tags: ["beginner", "recruitment", "first"],
+  },
+  {
     id: "first_girl",
     name: "New Friend",
     description: "Unlock your first magical girl",
