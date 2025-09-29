@@ -12,11 +12,11 @@ export const initialMissions: Mission[] = [
     requirements: [],
     objectives: [
       {
-        id: "transform-1",
-        name: "Perform your first transformation",
-        description: "Transform into your magical girl form",
+        id: "tutorial-1",
+        name: "Complete the tutorial",
+        description: "Welcome to the magical girl training system!",
         type: "special",
-        target: { type: "condition", name: "transformation" },
+        target: { type: "condition", name: "tutorial_complete" },
         condition: { type: "simple", rules: [] },
         progress: 0,
         maxProgress: 1,

@@ -135,6 +135,7 @@ export const useGameStore = create<typeof initialState & {
   updateGameTime?: () => void;
   saveGame: () => void;
   loadGame: () => boolean;
+  updateMissions: () => void;
 }>((set, get) => ({
   ...initialState,
 
@@ -330,15 +331,54 @@ export const useGameStore = create<typeof initialState & {
       return false;
     }
 
-    // Check if player has enough magical energy
-    if (state.resources.magicalEnergy < 30) {
+    // Check if player has enough magical energy (skip for tutorials)
+    if (mission.type !== "Tutorial" && state.resources.magicalEnergy < 30) {
       return false;
     }
 
-    // Spend magical energy
-    state.spendResources({ magicalEnergy: 30 });
+    // Spend magical energy (skip for tutorials)
+    if (mission.type !== "Tutorial") {
+      state.spendResources({ magicalEnergy: 30 });
+    }
 
-    // Set mission as active
+    // Auto-complete tutorial missions
+    if (mission.type === "Tutorial") {
+      // Award rewards immediately for tutorial missions
+      const rewards = { experience: 0, sparkles: 0, stardust: 0 };
+      mission.rewards.forEach(reward => {
+        if (reward.type === 'experience') rewards.experience += reward.quantity;
+        if (reward.type === 'sparkles') rewards.sparkles += reward.quantity;
+        if (reward.type === 'stardust') rewards.stardust += reward.quantity;
+      });
+
+      state.addResources(rewards);
+
+      // Mark mission as completed
+      set((currentState) => ({
+        missions: currentState.missions.map(m => 
+          m.id === missionId ? { 
+            ...m, 
+            isCompleted: true, 
+            completedAt: Date.now(),
+            objectives: m.objectives.map(obj => ({ ...obj, isCompleted: true, progress: obj.maxProgress }))
+          } : m
+        ),
+        player: {
+          ...currentState.player,
+          statistics: {
+            ...currentState.player.statistics,
+            missionsCompleted: currentState.player.statistics.missionsCompleted + 1,
+          },
+        },
+      }));
+
+      // Save game after tutorial mission completion
+      get().saveGame();
+
+      return true;
+    }
+
+    // Set mission as active for non-tutorial missions
     set({ activeMission: { ...mission, attempts: mission.attempts + 1 } });
 
     // Save game after starting mission
@@ -404,6 +444,69 @@ export const useGameStore = create<typeof initialState & {
     // Game time updates handled here
   },
 
+  updateMissions: () => {
+    const now = Date.now();
+    const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+    set((currentState) => ({
+      missions: currentState.missions.map(mission => {
+        // Reset daily missions after 24 hours
+        if (mission.type === "Daily" && mission.isCompleted && mission.completedAt) {
+          const timeSinceCompletion = now - mission.completedAt;
+          if (timeSinceCompletion >= oneDay) {
+            return {
+              ...mission,
+              isCompleted: false,
+              completedAt: undefined,
+              attempts: 0,
+              objectives: mission.objectives.map(obj => ({
+                ...obj,
+                isCompleted: false,
+                progress: 0
+              }))
+            };
+          }
+        }
+
+        // Update mission availability based on requirements
+        let isAvailable = mission.isAvailable;
+        let isUnlocked = mission.isUnlocked;
+
+        // Check unlock conditions based on requirements
+        if (mission.requirements && mission.requirements.length > 0) {
+          isUnlocked = mission.requirements.every(requirement => {
+            switch (requirement.type) {
+              case 'level':
+                return currentState.gameProgress.level >= (requirement.value as number);
+              case 'mission_completed':
+                // Check if required mission is completed
+                const requiredMission = currentState.missions.find(m => m.id === requirement.value);
+                return requiredMission?.isCompleted || false;
+              case 'achievement':
+                // Check if achievement is unlocked
+                const achievementStore = useAchievementStore.getState();
+                const achievement = achievementStore.achievements.find(a => a.id === requirement.value);
+                return achievement?.unlocked || false;
+              case 'magical_girl':
+                return currentState.magicalGirls.length >= (requirement.value as number);
+              default:
+                return true;
+            }
+          });
+        }
+
+        // Mission is available if unlocked and not completed (or reset)
+        isAvailable = isUnlocked && !mission.isCompleted;
+
+        return {
+          ...mission,
+          isUnlocked,
+          isAvailable
+        };
+      })
+    }));
+  },
+
   saveGame: () => {
     try {
       const state = get();
@@ -452,9 +555,46 @@ export const useGameStore = create<typeof initialState & {
       set({
         ...parsed.gameState,
         saveSystemData: { lastSave: parsed.timestamp },
+        // Always refresh mission data from the source to prevent stale tutorial data
+        missions: initialMissions,
       });
 
+      // Auto-complete any tutorial missions that were active when saved
+      const state = get();
+      if (state.activeMission && state.activeMission.type === "Tutorial") {
+        // Complete the tutorial mission
+        const rewards = { experience: 0, sparkles: 0, stardust: 0 };
+        state.activeMission.rewards.forEach(reward => {
+          if (reward.type === 'experience') rewards.experience += reward.quantity;
+          if (reward.type === 'sparkles') rewards.sparkles += reward.quantity;
+          if (reward.type === 'stardust') rewards.stardust += reward.quantity;
+        });
+
+        state.addResources(rewards);
+
+        set((currentState) => ({
+          activeMission: null,
+          missions: currentState.missions.map(m => 
+            m.id === state.activeMission!.id ? { 
+              ...m, 
+              isCompleted: true, 
+              completedAt: Date.now(),
+              objectives: m.objectives.map(obj => ({ ...obj, isCompleted: true, progress: obj.maxProgress }))
+            } : m
+          ),
+          player: {
+            ...currentState.player,
+            statistics: {
+              ...currentState.player.statistics,
+              missionsCompleted: currentState.player.statistics.missionsCompleted + 1,
+            },
+          },
+        }));
+      }
+
       console.log('Game loaded successfully');
+      // Update mission availability after loading
+      get().updateMissions();
       return true;
     } catch (error) {
       console.error('Failed to load game:', error);
@@ -476,4 +616,6 @@ setInterval(() => {
   if (state.updateGameTime) {
     state.updateGameTime();
   }
+  // Update mission availability and reset daily missions
+  state.updateMissions();
 }, 1000);

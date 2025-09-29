@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useGameStore } from "../../stores/gameStore";
-import type { SkillNode, SpecializationPath, SkillTree } from "../../types";
+import { useSkillTreeStore } from "../../stores/skillTreeStore";
+import type { SkillNode, SpecializationPath, SkillTree } from "../../types/skillTree";
 
 interface SkillNodeComponentProps {
   node: SkillNode;
@@ -24,6 +24,7 @@ const SkillNodeComponent: React.FC<SkillNodeComponentProps> = ({
 
   const tierColors = {
     basic: "bg-gray-600 border-gray-500",
+    intermediate: "bg-green-600 border-green-500",
     advanced: "bg-blue-600 border-blue-500",
     expert: "bg-purple-600 border-purple-500",
     master: "bg-yellow-600 border-yellow-500",
@@ -79,7 +80,11 @@ const SkillTreeView: React.FC<SkillTreeViewProps> = ({
   onNodeSelect,
   onNodeLearn,
 }) => {
-  const { skillTreeState, getNodeAvailability } = useGameStore();
+  // For now, assume all nodes are available if tree is unlocked
+  const getNodeAvailability = (nodeId: string) => {
+    const node = tree.nodes.find(n => n.id === nodeId);
+    return tree.isUnlocked && node ? node.isLearnable : false;
+  };
 
   const connections = useMemo(() => {
     const lines: Array<{
@@ -153,8 +158,7 @@ const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
   node,
   onLearn,
 }) => {
-  const { skillTreeState, getNodeAvailability, getSkillPointBalance } =
-    useGameStore();
+  const { getTotalSkillPoints } = useSkillTreeStore();
 
   if (!node) {
     return (
@@ -166,10 +170,10 @@ const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
     );
   }
 
-  const isAvailable = getNodeAvailability(node.id);
+  const isAvailable = node.isLearnable;
   const canLearn = isAvailable && node.currentRank < node.maxRank;
-  const skillPoints = getSkillPointBalance();
-  const cost = node.cost?.base || 1;
+  const skillPoints = getTotalSkillPoints();
+  const cost = 1; // Simple cost for now
 
   return (
     <motion.div
@@ -236,7 +240,7 @@ const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
               {node.prerequisites.map((prereq, index) => (
                 <li key={index} className="text-sm text-gray-300">
                   •{" "}
-                  {prereq.description ||
+                  {prereq.requirement ||
                     `Node ${prereq.nodeId} (Rank ${prereq.minimumRank})`}
                 </li>
               ))}
@@ -270,21 +274,21 @@ const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
 
 export const SkillTreePanel: React.FC = () => {
   const {
-    skillTreeState,
-    availableSkillTrees,
+    trees,
     learnSkillNode,
     analyzeSkillTree,
-    getSkillPointBalance,
-  } = useGameStore();
+    getTotalSkillPoints,
+    getUnlockedTrees,
+    lastAnalysis,
+  } = useSkillTreeStore();
 
   const [selectedTreeId, setSelectedTreeId] = useState<string>("");
   const [selectedNode, setSelectedNode] = useState<SkillNode | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
 
-  const selectedTree = availableSkillTrees.find(
-    (tree) => tree.id === selectedTreeId,
-  );
-  const skillPoints = getSkillPointBalance();
+  const availableSkillTrees = getUnlockedTrees();
+  const selectedTree = selectedTreeId ? trees[selectedTreeId] : null;
+  const skillPoints = getTotalSkillPoints();
 
   const handleNodeSelect = useCallback((node: SkillNode) => {
     setSelectedNode(node);
@@ -292,16 +296,18 @@ export const SkillTreePanel: React.FC = () => {
 
   const handleNodeLearn = useCallback(
     (nodeId: string) => {
-      learnSkillNode(nodeId);
-      // Update selected node with new rank
-      if (selectedNode?.id === nodeId && selectedTree) {
-        const updatedNode = selectedTree.nodes.find((n) => n.id === nodeId);
-        if (updatedNode) {
-          setSelectedNode(updatedNode);
+      if (selectedTreeId) {
+        learnSkillNode(selectedTreeId, nodeId);
+        // Update selected node with new rank
+        if (selectedNode?.id === nodeId && selectedTree) {
+          const updatedNode = selectedTree.nodes.find((n) => n.id === nodeId);
+          if (updatedNode) {
+            setSelectedNode(updatedNode);
+          }
         }
       }
     },
-    [learnSkillNode, selectedNode, selectedTree],
+    [learnSkillNode, selectedNode, selectedTree, selectedTreeId],
   );
 
   const handleAnalyze = useCallback(() => {
@@ -364,7 +370,7 @@ export const SkillTreePanel: React.FC = () => {
                 <p className="text-gray-300 mb-4">{selectedTree.description}</p>
 
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {selectedTree.specializationPaths.map((path) => (
+                  {selectedTree.specializations.map((path: SpecializationPath) => (
                     <span
                       key={path.id}
                       className="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm"
@@ -396,7 +402,7 @@ export const SkillTreePanel: React.FC = () => {
         )}
 
         <AnimatePresence>
-          {showAnalysis && skillTreeState.lastAnalysis && (
+          {showAnalysis && lastAnalysis && (
             <motion.div
               className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
               initial={{ opacity: 0 }}
@@ -421,27 +427,24 @@ export const SkillTreePanel: React.FC = () => {
                       Efficiency Score
                     </h4>
                     <div className="text-2xl font-bold text-green-400">
-                      {(
-                        skillTreeState.lastAnalysis.efficiencyScore * 100
-                      ).toFixed(1)}
-                      %
+                      {(lastAnalysis.pointEfficiency * 100).toFixed(1)}%
                     </div>
                   </div>
 
-                  {skillTreeState.lastAnalysis.recommendations.length > 0 && (
+                  {lastAnalysis.recommendedNodes.length > 0 && (
                     <div>
                       <h4 className="font-semibold text-gray-400 mb-2">
                         Recommendations
                       </h4>
                       <ul className="space-y-2">
-                        {skillTreeState.lastAnalysis.recommendations.map(
+                        {lastAnalysis.recommendedNodes.map(
                           (rec, index) => (
                             <li
                               key={index}
                               className="text-sm text-gray-300 flex items-start"
                             >
                               <span className="text-yellow-400 mr-2">•</span>
-                              <span>{rec.description}</span>
+                              <span>{rec.reason}</span>
                             </li>
                           ),
                         )}
