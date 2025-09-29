@@ -180,7 +180,7 @@ export const createGameProgressionSlice: StateCreator<
     }),
 
   saveGame: () => {
-    set((_state) => ({ lastSaveTime: Date.now() }));
+    set(() => ({ lastSaveTime: Date.now() }));
     get().addNotification({
       type: "success",
       title: "Game Saved",

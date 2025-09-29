@@ -4,6 +4,7 @@ import type { MagicalGirl } from "../types/magicalGirl";
 import type { Mission } from "../types/missions";
 import { initialMagicalGirls } from "../data/magicalGirls";
 import { initialMissions } from "../data/missions";
+import { GAME_CONFIG } from "../config/gameConfig";
 import { useAchievementStore } from "./achievementStore";
 
 const initialState = {
@@ -78,6 +79,7 @@ const initialState = {
       transformationsPerformed: 0,
       criticalSuccesses: 0,
       perfectMissions: 0,
+      totalScore: 0,
     },
     preferences: {
       autoSave: true,
@@ -89,7 +91,7 @@ const initialState = {
     },
   } as Player,
   missions: initialMissions as Mission[],
-  activeMission: null as Mission | null,
+  activeMission: null as { mission: Mission; teamIds: string[] } | null,
   activeSessions: [] as Array<{
     id: string;
     name: string;
@@ -288,7 +290,7 @@ export const useGameStore = create<typeof initialState & {
     const state = get();
     
     // Check if player has enough friendship points
-    if (state.resources.friendshipPoints < 100) {
+    if (state.resources.friendshipPoints < GAME_CONFIG.RECRUITMENT.BASIC_COST) {
       return false;
     }
 
@@ -305,7 +307,7 @@ export const useGameStore = create<typeof initialState & {
     const randomGirl = availableGirls[Math.floor(Math.random() * availableGirls.length)];
 
     // Spend resources and add girl
-    state.spendResources({ friendshipPoints: 100 });
+    state.spendResources({ friendshipPoints: GAME_CONFIG.RECRUITMENT.BASIC_COST });
     
     set((currentState) => ({
       magicalGirls: [...currentState.magicalGirls, { ...randomGirl, isUnlocked: true, unlockedAt: Date.now() }],
@@ -323,7 +325,7 @@ export const useGameStore = create<typeof initialState & {
     return true;
   },
 
-  startMission: (missionId: string, _teamIds: string[]) => {
+  startMission: (missionId: string, teamIds: string[]) => {
     const state = get();
     const mission = state.missions.find(m => m.id === missionId);
     
@@ -332,13 +334,13 @@ export const useGameStore = create<typeof initialState & {
     }
 
     // Check if player has enough magical energy (skip for tutorials)
-    if (mission.type !== "Tutorial" && state.resources.magicalEnergy < 30) {
+    if (mission.type !== "Tutorial" && state.resources.magicalEnergy < GAME_CONFIG.MISSION_ENERGY_COST) {
       return false;
     }
 
     // Spend magical energy (skip for tutorials)
     if (mission.type !== "Tutorial") {
-      state.spendResources({ magicalEnergy: 30 });
+      state.spendResources({ magicalEnergy: GAME_CONFIG.MISSION_ENERGY_COST });
     }
 
     // Auto-complete tutorial missions
@@ -379,7 +381,7 @@ export const useGameStore = create<typeof initialState & {
     }
 
     // Set mission as active for non-tutorial missions
-    set({ activeMission: { ...mission, attempts: mission.attempts + 1 } });
+    set({ activeMission: { mission: { ...mission, attempts: mission.attempts + 1 }, teamIds: teamIds } });
 
     // Save game after starting mission
     get().saveGame();
@@ -387,11 +389,11 @@ export const useGameStore = create<typeof initialState & {
     return true;
   },
 
-  completeMission: (missionId: string, success: boolean, _score?: number) => {
+  completeMission: (missionId: string, success: boolean, score?: number) => {
     const state = get();
     const mission = state.missions.find(m => m.id === missionId);
     
-    if (!mission || !state.activeMission || state.activeMission.id !== missionId) {
+    if (!mission || !state.activeMission || state.activeMission.mission.id !== missionId) {
       return;
     }
 
@@ -417,6 +419,7 @@ export const useGameStore = create<typeof initialState & {
           statistics: {
             ...currentState.player.statistics,
             missionsCompleted: currentState.player.statistics.missionsCompleted + 1,
+            totalScore: currentState.player.statistics.totalScore + (score || 0),
           },
         },
       }));
@@ -476,19 +479,23 @@ export const useGameStore = create<typeof initialState & {
         if (mission.requirements && mission.requirements.length > 0) {
           isUnlocked = mission.requirements.every(requirement => {
             switch (requirement.type) {
-              case 'level':
+              case 'level': {
                 return currentState.gameProgress.level >= (requirement.value as number);
-              case 'mission_completed':
+              }
+              case 'mission_completed': {
                 // Check if required mission is completed
                 const requiredMission = currentState.missions.find(m => m.id === requirement.value);
                 return requiredMission?.isCompleted || false;
-              case 'achievement':
+              }
+              case 'achievement': {
                 // Check if achievement is unlocked
                 const achievementStore = useAchievementStore.getState();
                 const achievement = achievementStore.achievements.find(a => a.id === requirement.value);
                 return achievement?.unlocked || false;
-              case 'magical_girl':
+              }
+              case 'magical_girl': {
                 return currentState.magicalGirls.length >= (requirement.value as number);
+              }
               default:
                 return true;
             }
@@ -527,14 +534,13 @@ export const useGameStore = create<typeof initialState & {
           tutorialData: state.tutorialData,
           player: state.player,
           missions: state.missions,
-          activeMission: state.activeMission,
+          activeMission: state.activeMission?.mission || null,
           activeSessions: state.activeSessions,
         },
       };
       localStorage.setItem('magicalGirlSave', JSON.stringify(saveData));
-      console.log('Game saved successfully');
-    } catch (error) {
-      console.error('Failed to save game:', error);
+    } catch {
+      // Handle save error silently or log to external service
     }
   },
 
@@ -542,13 +548,11 @@ export const useGameStore = create<typeof initialState & {
     try {
       const saveData = localStorage.getItem('magicalGirlSave');
       if (!saveData) {
-        console.log('No save data found');
         return false;
       }
 
       const parsed = JSON.parse(saveData);
       if (parsed.version !== "1.0.0") {
-        console.warn('Save data version mismatch');
         return false;
       }
 
@@ -561,10 +565,10 @@ export const useGameStore = create<typeof initialState & {
 
       // Auto-complete any tutorial missions that were active when saved
       const state = get();
-      if (state.activeMission && state.activeMission.type === "Tutorial") {
+      if (state.activeMission && state.activeMission.mission.type === "Tutorial") {
         // Complete the tutorial mission
         const rewards = { experience: 0, sparkles: 0, stardust: 0 };
-        state.activeMission.rewards.forEach(reward => {
+        state.activeMission.mission.rewards.forEach(reward => {
           if (reward.type === 'experience') rewards.experience += reward.quantity;
           if (reward.type === 'sparkles') rewards.sparkles += reward.quantity;
           if (reward.type === 'stardust') rewards.stardust += reward.quantity;
@@ -575,7 +579,7 @@ export const useGameStore = create<typeof initialState & {
         set((currentState) => ({
           activeMission: null,
           missions: currentState.missions.map(m => 
-            m.id === state.activeMission!.id ? { 
+            m.id === state.activeMission!.mission.id ? { 
               ...m, 
               isCompleted: true, 
               completedAt: Date.now(),
@@ -592,12 +596,11 @@ export const useGameStore = create<typeof initialState & {
         }));
       }
 
-      console.log('Game loaded successfully');
       // Update mission availability after loading
       get().updateMissions();
       return true;
-    } catch (error) {
-      console.error('Failed to load game:', error);
+    } catch {
+      // Handle load error silently
       return false;
     }
   },

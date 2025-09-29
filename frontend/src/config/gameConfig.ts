@@ -44,14 +44,15 @@ export const GAME_CONFIG = {
     ANIMATION_DURATION: 300, // ms
   },
 
-  // Game balance
-  BALANCE: {
-    STARTING_MANA: 100,
-    STARTING_ENERGY: 50,
-    MAX_MANA: 1000,
-    MAX_ENERGY: 200,
-    TRANSFORMATION_COST: 20,
+  // Recruitment costs
+  RECRUITMENT: {
+    BASIC_COST: 100,
+    PREMIUM_COST: 500,
+    LEGENDARY_COST: 1000,
   },
+
+  // Mission costs
+  MISSION_ENERGY_COST: 30,
 } as const;
 
 export const VIEWS = {

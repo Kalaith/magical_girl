@@ -167,7 +167,7 @@ export const useMissions = () => {
   ): void => {
     if (!activeMission) return;
 
-    completeMission(activeMission.id, success, score);
+    completeMission(activeMission.mission.id, success, score);
   };
 
   // Update filters
@@ -193,7 +193,7 @@ export const useMissions = () => {
     // Data
     missions: filteredMissions,
     missionsByType,
-    activeMission,
+    activeMission: activeMission?.mission,
     missionStats,
     availableMagicalGirls,
     filters,

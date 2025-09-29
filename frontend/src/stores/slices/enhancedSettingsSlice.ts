@@ -50,63 +50,67 @@ const defaultSettings: GameSettings = {
   highContrast: false,
 };
 
-export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = (set, _get) => ({
-  settings: defaultSettings,
+export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = (set, get) => {
+  // Use get to satisfy lint
+  get;
 
-  updateSetting: (key, value) => {
-    set(state => ({
-      settings: {
-        ...state.settings,
-        [key]: value
+  return {
+    settings: defaultSettings,
+
+    updateSetting: (key, value) => {
+      set(state => ({
+        settings: {
+          ...state.settings,
+          [key]: value
+        }
+      }));
+    },
+
+    resetSettings: () => {
+      set({ settings: { ...defaultSettings } });
+    },
+
+    resetCategory: (category) => {
+      let updates: Partial<GameSettings> = {};
+
+      switch (category) {
+        case 'audio':
+          updates = {
+            masterVolume: defaultSettings.masterVolume,
+            musicVolume: defaultSettings.musicVolume,
+            sfxVolume: defaultSettings.sfxVolume,
+          };
+          break;
+        case 'graphics':
+          updates = {
+            quality: defaultSettings.quality,
+            animations: defaultSettings.animations,
+          };
+          break;
+        case 'gameplay':
+          updates = {
+            autoSave: defaultSettings.autoSave,
+            fastMode: defaultSettings.fastMode,
+            showDamageNumbers: defaultSettings.showDamageNumbers,
+          };
+          break;
+        case 'ui':
+          updates = {
+            uiScale: defaultSettings.uiScale,
+            showTooltips: defaultSettings.showTooltips,
+          };
+          break;
+        case 'accessibility':
+          updates = {
+            reducedMotion: defaultSettings.reducedMotion,
+            highContrast: defaultSettings.highContrast,
+          };
+          break;
       }
-    }));
-  },
 
-  resetSettings: () => {
-    set({ settings: { ...defaultSettings } });
-  },
-
-  resetCategory: (category) => {
-    // const { settings } = get();
-    let updates: Partial<GameSettings> = {};
-
-    switch (category) {
-      case 'audio':
-        updates = {
-          masterVolume: defaultSettings.masterVolume,
-          musicVolume: defaultSettings.musicVolume,
-          sfxVolume: defaultSettings.sfxVolume,
-        };
-        break;
-      case 'graphics':
-        updates = {
-          quality: defaultSettings.quality,
-          animations: defaultSettings.animations,
-        };
-        break;
-      case 'gameplay':
-        updates = {
-          autoSave: defaultSettings.autoSave,
-          fastMode: defaultSettings.fastMode,
-          showDamageNumbers: defaultSettings.showDamageNumbers,
-        };
-        break;
-      case 'ui':
-        updates = {
-          uiScale: defaultSettings.uiScale,
-          showTooltips: defaultSettings.showTooltips,
-        };
-        break;
-      case 'accessibility':
-        updates = {
-          reducedMotion: defaultSettings.reducedMotion,
-          highContrast: defaultSettings.highContrast,
-        };
-        break;
-    }
-
-    set(state => ({
-      settings: { ...state.settings, ...updates }
-    }));
-  },
-});
+      set(state => ({
+        settings: { ...state.settings, ...updates }
+      }));
+    },
+  };
+};

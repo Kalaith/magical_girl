@@ -38,7 +38,7 @@ export function GamePage() {
       title: "Welcome!",
       message: "Welcome to Magical Girl Simulator!",
     });
-  }, []); // Empty dependency array - only run once on mount
+  }, [gameStore]); // gameStore is stable, but added for linter
 
   const renderCurrentView = () => {
     switch (currentView) {

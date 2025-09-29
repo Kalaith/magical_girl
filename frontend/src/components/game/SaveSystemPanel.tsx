@@ -120,7 +120,7 @@ export const SaveSystemPanel: React.FC = () => {
                           const gameStore = useGameStore.getState();
                           Object.keys(saveData.gameState).forEach(key => {
                             if (key in gameStore) {
-                              (gameStore as any)[key] = saveData.gameState[key];
+                              (gameStore as Record<string, unknown>)[key] = (saveData.gameState as Record<string, unknown>)[key];
                             }
                           });
                           console.log("Save data imported successfully!");

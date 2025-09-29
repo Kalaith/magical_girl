@@ -64,6 +64,7 @@ export interface PlayerStatistics {
   transformationsPerformed: number;
   criticalSuccesses: number;
   perfectMissions: number;
+  totalScore: number;
 }
 
 export interface PlayerPreferences {
