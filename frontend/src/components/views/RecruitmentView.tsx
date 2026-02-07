@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useGameStore } from "../../stores/gameStore";
 import { Card } from "../ui/Card";
@@ -7,9 +7,19 @@ import { initialMagicalGirls } from "../../data/magicalGirls";
 import { GAME_CONFIG } from "../../config/gameConfig";
 import type { MagicalGirl } from "../../types/magicalGirl";
 
+const rarityStyles: Record<MagicalGirl["rarity"], string> = {
+  Legendary: "bg-yellow-100 text-yellow-800",
+  Epic: "bg-purple-100 text-purple-800",
+  Rare: "bg-blue-100 text-blue-800",
+  Uncommon: "bg-green-100 text-green-800",
+  Common: "bg-gray-100 text-gray-800",
+  Mythical: "bg-pink-100 text-pink-800",
+};
+
 export const RecruitmentView: React.FC = () => {
   const { resources, addNotification, recruitMagicalGirl, magicalGirls } = useGameStore();
   const [isRecruiting, setIsRecruiting] = useState(false);
+  const recruitmentTimeoutRef = useRef<number | null>(null);
 
   // Memoize calculations to prevent infinite re-renders
   const recruitmentStats = useMemo(() => {
@@ -32,10 +42,13 @@ export const RecruitmentView: React.FC = () => {
 
     setIsRecruiting(true);
 
-    // Simulate recruitment delay
-    setTimeout(async () => {
+    if (recruitmentTimeoutRef.current) {
+      clearTimeout(recruitmentTimeoutRef.current);
+    }
+
+    recruitmentTimeoutRef.current = window.setTimeout(async () => {
       const success = await recruitMagicalGirl();
-      
+
       if (success) {
         addNotification({
           type: "success",
@@ -51,8 +64,15 @@ export const RecruitmentView: React.FC = () => {
       }
 
       setIsRecruiting(false);
-    }, 2000);
+      recruitmentTimeoutRef.current = null;
+    }, GAME_CONFIG.RECRUITMENT.RECRUITMENT_DELAY_MS);
   };
+
+  useEffect(() => () => {
+    if (recruitmentTimeoutRef.current) {
+      clearTimeout(recruitmentTimeoutRef.current);
+    }
+  }, []);
 
   return (
     <div className="p-6 space-y-6">
@@ -148,10 +168,7 @@ export const RecruitmentView: React.FC = () => {
                   <div key={girl.id} className="flex justify-between items-center text-sm">
                     <span>{girl.name}</span>
                     <span className={`px-2 py-1 rounded text-xs ${
-                      girl.rarity === 'Legendary' ? 'bg-yellow-100 text-yellow-800' :
-                      girl.rarity === 'Epic' ? 'bg-purple-100 text-purple-800' :
-                      girl.rarity === 'Rare' ? 'bg-blue-100 text-blue-800' :
-                      'bg-gray-100 text-gray-800'
+                      rarityStyles[girl.rarity] ?? rarityStyles.Common
                     }`}>
                       {girl.rarity}
                     </span>
@@ -173,19 +190,19 @@ export const RecruitmentView: React.FC = () => {
           <div>
             <h4 className="font-semibold mb-2">Basic Recruitment</h4>
             <ul className="space-y-1 text-gray-600">
-              <li>• Costs 100 Friendship Points</li>
-              <li>• Random magical girl from available pool</li>
-              <li>• Cannot recruit duplicates</li>
-              <li>• Instant recruitment</li>
+              <li>Costs 100 Friendship Points</li>
+              <li>Random magical girl from available pool</li>
+              <li>Cannot recruit duplicates</li>
+              <li>Instant recruitment</li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-2">Getting Friendship Points</h4>
             <ul className="space-y-1 text-gray-600">
-              <li>• Complete training sessions</li>
-              <li>• Finish missions</li>
-              <li>• Level up your magical girls</li>
-              <li>• Daily login bonuses</li>
+              <li>Complete training sessions</li>
+              <li>Finish missions</li>
+              <li>Level up your magical girls</li>
+              <li>Daily login bonuses</li>
             </ul>
           </div>
         </div>

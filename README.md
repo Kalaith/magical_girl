@@ -11,13 +11,19 @@ A comprehensive magical girl management game built with React, TypeScript, and T
 
 ### Current Features
 - **Character Management**: Comprehensive magical girl roster with detailed stats, abilities, and progression
+- **Combat System**: Turn-based tactical combat with formations, action system, and battle arena
+- **Recruitment System**: Gacha-style recruitment with friendship points and banner system
 - **Training System**: Multi-faceted training with various exercise types and stat improvements
 - **Mission System**: Story-rich missions with varying difficulties and compelling narratives
 - **Achievement System**: Unlockable achievements with meaningful rewards
+- **Skill Tree System**: Character progression with skill nodes, specializations, and builds
+- **Prestige System**: End-game progression with prestige levels and bonuses
 - **Real-time Notifications**: Smooth notification system for game events
 - **Responsive Design**: Mobile-first design that scales beautifully across devices
-- **State Management**: Robust Zustand-powered state management with persistence
+- **State Management**: Robust Zustand-powered state management with persistence and modular slices
 - **Beautiful Animations**: Framer Motion animations for smooth, engaging interactions
+- **Error Handling**: Comprehensive error boundaries and graceful error recovery
+- **Code Quality**: Clean, maintainable codebase with strict TypeScript typing and ESLint compliance
 
 ### Core Game Mechanics
 - **10 Different Stats**: Power, Defense, Speed, Magic, Wisdom, Charm, Courage, Luck, Endurance, Focus
@@ -71,9 +77,11 @@ A comprehensive magical girl management game built with React, TypeScript, and T
 src/
 ├── components/
 │   ├── Achievement/          # Achievement-related components
+│   ├── Combat/              # Combat system components (battle arena, action panel, etc.)
 │   ├── layout/              # Header, navigation, resource display
 │   ├── MagicalGirl/         # Character cards, details, management
 │   ├── Mission/             # Mission system components
+│   ├── Recruitment/         # Recruitment and gacha system components
 │   ├── Training/            # Training interface components
 │   ├── ui/                  # Reusable UI components
 │   └── views/               # Main application views
@@ -83,18 +91,28 @@ src/
 │   ├── gameConfig.ts        # Extended game configuration
 │   ├── magicalGirls.ts      # Initial character data
 │   ├── missions.ts          # Mission definitions
+│   ├── recruitmentBanners.ts # Recruitment banner configurations
+│   ├── skillTreeConfig.ts   # Skill tree definitions
 │   └── training.ts          # Training exercises data
 ├── hooks/                   # Custom React hooks
 ├── stores/
 │   ├── gameStore.ts         # Main game state store
 │   ├── uiStore.ts          # UI state management
-│   └── slices/             # Zustand store slices
+│   ├── skillTreeStore.ts   # Skill tree state management
+│   ├── slices/             # Zustand store slices for modular state
+│   │   ├── combatSlice.ts  # Combat system state slice
+│   │   └── ...             # Other feature slices
+│   └── achievementStore.ts # Achievement state management
 ├── types/
 │   ├── game.ts             # Core game type definitions
+│   ├── combat.ts           # Combat system type definitions
 │   ├── magicalGirl.ts      # Character type system
 │   ├── mission.ts          # Mission type definitions
+│   ├── recruitment.ts      # Recruitment system type definitions
+│   ├── skillTree.ts        # Skill tree type definitions
 │   └── index.ts            # Type exports
-└── assets/                 # Static assets and images
+├── assets/                 # Static assets and images
+└── ErrorBoundary.tsx      # Global error handling component
 ```
 
 ## 🎮 Game Systems
@@ -106,6 +124,15 @@ src/
 - **Personality System**: Dynamic personalities affecting interactions and performance
 - **Equipment System**: Weapons, accessories, outfits, and charms with set bonuses
 
+### Combat System
+- **Turn-Based Tactical Combat**: Strategic battles with turn order management
+- **Formation System**: 3x3 grid formations with role-based positioning (Tank, Damage, Support, Healer, etc.)
+- **Action System**: Diverse actions including attacks, abilities, spells, and items
+- **Battle Arena**: Real-time battle visualization with damage numbers and status effects
+- **Combat Log**: Detailed battle history with action tracking and analytics
+- **AI System**: Intelligent enemy AI with adaptive strategies
+- **Combat Settings**: Customizable battle experience (auto mode, animation speed, difficulty)
+
 ### Mission System
 - **Story Integration**: Rich narratives with dialogue, character development
 - **Dynamic Difficulty**: Missions scale with player progression
@@ -113,25 +140,48 @@ src/
 - **Team Dynamics**: Different team compositions provide various bonuses
 - **Success Calculations**: Complex algorithms considering stats, elements, and conditions
 
+### Recruitment System
+- **Basic Recruitment**: Use Friendship Points to recruit new magical girls
+- **Banner System**: Multiple recruitment banners with different rates and featured characters
+- **Pity System**: Soft and hard pity counters for guaranteed rare characters
+- **No Duplicates**: Intelligent system prevents recruiting the same character twice
+- **Recruitment Stats**: Track recruitment history and available characters
+
 ### Training System
 - **Varied Exercises**: Physical conditioning, magical practice, social activities
 - **Instructor System**: Different trainers with unique specialties and personalities
 - **Unlockable Content**: New training types unlock as players progress
 - **Team Training**: Group exercises that improve multiple characters simultaneously
 
+### Skill Tree System
+- **Skill Nodes**: Unlockable skills with prerequisites and branching paths
+- **Specialization Paths**: Choose unique builds with exclusive abilities
+- **Skill Points**: Earn and allocate points to customize character progression
+- **Build Management**: Save, load, and share skill builds
+- **Tree Progression**: Multiple tiers from basic to legendary skills
+
 ## 🔧 Technical Architecture
 
 ### State Management
-- **Zustand Store**: Lightweight, performant state management
-- **Slice Pattern**: Modular store architecture with separated concerns
+- **Zustand Store**: Lightweight, performant state management with slice pattern
+- **Modular Slices**: Separated concerns with dedicated slices for different features
 - **Persistence**: Automatic save/load functionality with localStorage
 - **Immer Integration**: Immutable state updates with readable syntax
+- **Type Safety**: Full TypeScript coverage with strict typing
 
 ### Component Architecture
 - **Atomic Design**: Reusable components following atomic design principles
 - **TypeScript First**: Comprehensive type safety throughout the application
 - **Props Interface**: Well-defined interfaces for all component props
 - **Separation of Concerns**: Clear separation between UI, logic, and data
+- **Error Boundaries**: Graceful error handling with React Error Boundaries
+
+### Code Quality & Best Practices
+- **ESLint Compliance**: Strict linting rules with no workarounds or disable comments
+- **Magic Number Elimination**: All hardcoded values replaced with named constants
+- **Clean Code Principles**: Maintainable, readable code following industry standards
+- **Type Safety**: Zero 'any' types, comprehensive interface definitions
+- **Unused Code Removal**: Regular cleanup of unused files and dead code
 
 ### Performance Optimizations
 - **Code Splitting**: Dynamic imports for optimal bundle sizes
@@ -159,14 +209,24 @@ src/
 - **Color Contrast**: WCAG compliant color contrast ratios
 - **Focus Management**: Proper focus management for modals and navigation
 
-## 🔮 Future Enhancements
+## 🔮 Recent Improvements & Future Enhancements
+
+### ✅ Recently Completed
+- **Combat System**: Full turn-based tactical combat with formations, actions, and battle arena
+- **Recruitment System**: Gacha-style recruitment with banners, pity system, and friendship points
+- **Skill Tree System**: Character progression trees with specializations and build management
+- **Enhanced Settings System**: Modular settings with category-based management
+- **Error Boundary Implementation**: Global error handling for improved stability
+- **Code Quality Overhaul**: Eliminated magic numbers, improved typing, removed unused code
+- **State Management Refactoring**: Modular slices for better separation of concerns
+- **Save System Improvements**: Robust persistence with error handling
 
 ### Planned Features (Short Term)
-- [ ] **Recruitment System**: Gacha-style summoning with animated sequences
-- [ ] **Save System**: Multiple save slots with cloud sync capabilities
+- [ ] **Advanced Recruitment**: Animated summoning sequences and premium currencies
 - [ ] **Sound Design**: Immersive audio with voice acting and sound effects
 - [ ] **Tutorial System**: Interactive tutorial with step-by-step guidance
-- [ ] **Settings Panel**: Comprehensive settings for customization
+- [ ] **Advanced Settings Panel**: Additional customization options
+- [ ] **Combat Enhancements**: More action types, combo system, and environmental interactions
 
 ### Expansion Plans (Medium Term)
 - [ ] **Multiplayer Features**: 
@@ -214,11 +274,19 @@ src/
 
 ## 🛠️ Development
 
+### Code Quality Standards
+- **Zero ESLint Violations**: Strict adherence to linting rules without workarounds
+- **TypeScript Strict Mode**: Full type safety with no 'any' types or loose typing
+- **Clean Code**: Following SOLID principles and clean code best practices
+- **Magic Number Free**: All hardcoded values replaced with named constants
+- **Unused Code Removal**: Regular cleanup of unused imports, variables, and files
+
 ### Contributing Guidelines
 1. **Code Style**: Follow the existing TypeScript and React conventions
 2. **Testing**: Write unit tests for new features using Vitest
 3. **Documentation**: Update documentation for API changes
 4. **Performance**: Consider performance implications of new features
+5. **Code Review**: All changes undergo thorough code review for quality
 
 ### Development Setup
 ```bash
@@ -236,7 +304,7 @@ npm run lint
 ```
 
 ### Code Quality Tools
-- **ESLint**: Code linting with React and TypeScript rules
+- **ESLint**: Code linting with React and TypeScript rules (strict, no disables)
 - **TypeScript**: Strict type checking for reliability
 - **Prettier**: Code formatting for consistency
 - **Husky**: Git hooks for pre-commit quality checks

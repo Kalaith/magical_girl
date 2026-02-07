@@ -3,14 +3,25 @@ import type { MagicalGirl, MagicalGirlStats } from "./magicalGirl";
 import type { Mission } from "./missions";
 
 export interface GameState {
-  player: Player;
-  magicalGirls: MagicalGirl[];
-  missions: Mission[];
-  activeMission: Mission | null;
   notifications: Notification[];
-  gameTime: number;
-  lastSaveTime: number;
-  version: string;
+  resources: Resources;
+  magicalGirls: MagicalGirl[];
+  gameProgress: { level: number; experience: number };
+  trainingData: { sessions: any[] };
+  settings: { soundEnabled: boolean; musicEnabled: boolean; masterVolume: number };
+  transformationData: { unlocked: any[] };
+  formationData: { activeFormation: any[] };
+  prestigeData: { level: number; points: number };
+  saveSystemData: { lastSave: number };
+  tutorialData: { completed: boolean; step: number };
+  player: Player;
+  missions: Mission[];
+  activeMission: { mission: Mission; teamIds: string[] } | null;
+  activeSessions: any[];
+  recruitmentSystem: any; // Will be properly typed later
+  gameTime?: number;
+  lastSaveTime?: number;
+  version?: string;
 }
 
 export interface Player {

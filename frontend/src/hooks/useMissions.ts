@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useGameStore } from "../stores/gameStore";
+import { GAME_CONFIG } from "../config/gameConfig";
 import type {
   MissionType,
   MissionCategory,
@@ -121,7 +122,16 @@ export const useMissions = () => {
       unlockedMissions,
       averageSuccessRate,
       streakCount,
-      totalRewardsEarned: completedMissions * 50, // Simplified calculation
+      totalRewardsEarned: missions.reduce((sum, mission) => {
+        if (!mission.isCompleted) {
+          return sum;
+        }
+        const rewardSumValue = mission.rewards.reduce((rewardSum, reward) =>
+          rewardSum + (typeof reward.quantity === "number" ? reward.quantity : 0),
+        0);
+        const missionRewardTotal = rewardSumValue || GAME_CONFIG.MISSION_STATS.COMPLETED_REWARD_ESTIMATE;
+        return sum + missionRewardTotal;
+      }, 0),
     };
   }, [missions, activeMission]);
 
@@ -139,7 +149,7 @@ export const useMissions = () => {
     if (activeMission) return false;
 
     // Check basic energy requirement (simplified)
-    return resources.magicalEnergy >= 30;
+    return resources.magicalEnergy >= GAME_CONFIG.MISSION_ENERGY_COST;
   };
 
   // Start mission with validation
@@ -177,13 +187,13 @@ export const useMissions = () => {
 
   // Group missions by type for better organization
   const missionsByType = useMemo(() => {
-    const groups: Record<string, typeof filteredMissions> = {};
+    const groups: Partial<Record<MissionType, typeof filteredMissions>> = {};
 
     filteredMissions.forEach((mission) => {
       if (!groups[mission.type]) {
         groups[mission.type] = [];
       }
-      groups[mission.type].push(mission);
+      groups[mission.type]!.push(mission);
     });
 
     return groups;

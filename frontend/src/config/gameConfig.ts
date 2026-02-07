@@ -44,11 +44,66 @@ export const GAME_CONFIG = {
     ANIMATION_DURATION: 300, // ms
   },
 
-  // Recruitment costs
+  // Recruitment costs and gacha mechanics
   RECRUITMENT: {
     BASIC_COST: 100,
     PREMIUM_COST: 500,
     LEGENDARY_COST: 1000,
+    RECRUITMENT_DELAY_MS: 2000,
+
+    // Gacha rates (in percent)
+    RATES: {
+      BASIC: {
+        LEGENDARY: 0.5,
+        EPIC: 3.0,
+        RARE: 15.0,
+        COMMON: 81.5,
+      },
+      PREMIUM: {
+        LEGENDARY: 2.0,
+        EPIC: 8.0,
+        RARE: 30.0,
+        COMMON: 60.0,
+      },
+      LIMITED: {
+        LEGENDARY: 3.0,
+        EPIC: 12.0,
+        RARE: 35.0,
+        COMMON: 50.0,
+      },
+    },
+
+    // Pity systems
+    PITY: {
+      BASIC: {
+        SOFT_PITY_START: 50,
+        HARD_PITY: 100,
+        SOFT_PITY_MULTIPLIER: 1.5,
+      },
+      PREMIUM: {
+        SOFT_PITY_START: 25,
+        HARD_PITY: 50,
+        SOFT_PITY_MULTIPLIER: 2.0,
+      },
+      LIMITED: {
+        SOFT_PITY_START: 20,
+        HARD_PITY: 40,
+        SOFT_PITY_MULTIPLIER: 2.5,
+      },
+    },
+
+    // Pull counts
+    SINGLE_PULL: 1,
+    MULTI_PULL: 10,
+    MULTI_PULL_DISCOUNT: 0.9, // 10% discount for multi pulls
+  },
+
+  MISSION_STATS: {
+    COMPLETED_REWARD_ESTIMATE: 50,
+  },
+
+  TIMERS: {
+    GAME_TICK_INTERVAL_MS: 1000,
   },
 
   // Mission costs

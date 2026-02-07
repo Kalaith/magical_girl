@@ -72,6 +72,7 @@ export const createGameProgressionSlice: StateCreator<
       transformationsPerformed: 0,
       criticalSuccesses: 0,
       perfectMissions: 0,
+      totalScore: 0,
     },
     preferences: {
       autoSave: true,

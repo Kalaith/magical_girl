@@ -14,6 +14,7 @@ import { MagicalGirlsView } from "../components/views/MagicalGirlsView";
 import { RecruitmentView } from "../components/views/RecruitmentView";
 import { TrainingView } from "../components/views/TrainingView";
 import { MissionsView } from "../components/views/MissionsView";
+import { CombatView } from "../components/views/CombatView";
 import { AchievementsView } from "../components/views/AchievementsView";
 import { SettingsView } from "../components/views/SettingsView";
 
@@ -26,19 +27,21 @@ import { SimpleEnhancedSettingsPanel as EnhancedSettingsPanel } from "../compone
 import { TutorialOverlay } from "../components/game/TutorialOverlay";
 
 export function GamePage() {
-  const gameStore = useGameStore();
+  const addNotification = useGameStore((state) => state.addNotification);
+  const initializePersistence = useGameStore((state) => state.initializePersistence);
   const { currentView } = useUIStore();
 
-  // Initialize game on app start
   useEffect(() => {
-    // The game store already initializes with the persist middleware
-    // Just trigger the first notification
-    gameStore.addNotification({
+    return initializePersistence();
+  }, [initializePersistence]);
+
+  useEffect(() => {
+    addNotification({
       type: "info",
       title: "Welcome!",
       message: "Welcome to Magical Girl Simulator!",
     });
-  }, [gameStore]); // gameStore is stable, but added for linter
+  }, [addNotification]);
 
   const renderCurrentView = () => {
     switch (currentView) {
@@ -48,6 +51,8 @@ export function GamePage() {
         return <MagicalGirlsView />;
       case VIEWS.RECRUITMENT:
         return <RecruitmentView />;
+      case VIEWS.COMBAT:
+        return <CombatView />;
       case VIEWS.TRAINING:
         return <TrainingView />;
       case VIEWS.MISSIONS:

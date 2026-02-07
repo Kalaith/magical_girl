@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { useGameStore } from "../../stores/gameStore";
 
 export const SaveSystemPanel: React.FC = () => {
-  const { saveGame, loadGame, saveSystemData } = useGameStore();
-  const [saveSlots] = useState([
-    { id: 1, name: "Auto Save", date: saveSystemData?.lastSave ? new Date(saveSystemData.lastSave).toLocaleString() : "Never", auto: true },
-    { id: 2, name: "Manual Save 1", date: "2024-01-15 10:30", auto: false },
-    { id: 3, name: "Manual Save 2", date: "2024-01-14 16:45", auto: false },
-  ]);
+  const saveGame = useGameStore((state) => state.saveGame);
+  const loadGame = useGameStore((state) => state.loadGame);
+  const serializeGameState = useGameStore((state) => state.serializeGameState);
+  const importGameState = useGameStore((state) => state.importGameState);
+  const saveSystemData = useGameStore((state) => state.saveSystemData);
+
+  const saveSlots = useMemo(() => {
+    const autoDate = saveSystemData?.lastSave ? new Date(saveSystemData.lastSave).toLocaleString() : "Never";
+    return [
+      { id: 1, name: "Auto Save", date: autoDate, auto: true },
+      { id: 2, name: "Manual Save 1", date: "2024-01-15 10:30", auto: false },
+      { id: 3, name: "Manual Save 2", date: "2024-01-14 16:45", auto: false },
+    ];
+  }, [saveSystemData?.lastSave]);
 
   const handleSave = () => {
     saveGame();
@@ -18,7 +26,12 @@ export const SaveSystemPanel: React.FC = () => {
   };
 
   const handleLoad = (slotId: number) => {
-    if (slotId === 1) { // Auto save slot
+    const slot = saveSlots.find((entry) => entry.id === slotId);
+    if (!slot) {
+      return;
+    }
+
+    if (slot.auto) {
       const success = loadGame();
       if (success) {
         console.log("Game loaded successfully!");
@@ -33,29 +46,7 @@ export const SaveSystemPanel: React.FC = () => {
   };
 
   const handleExport = () => {
-    // Export save data as JSON
-    const gameState = useGameStore.getState();
-    const saveData = {
-      version: "1.0.0",
-      timestamp: Date.now(),
-      gameState: {
-        notifications: gameState.notifications,
-        resources: gameState.resources,
-        magicalGirls: gameState.magicalGirls,
-        gameProgress: gameState.gameProgress,
-        trainingData: gameState.trainingData,
-        settings: gameState.settings,
-        transformationData: gameState.transformationData,
-        formationData: gameState.formationData,
-        prestigeData: gameState.prestigeData,
-        saveSystemData: gameState.saveSystemData,
-        tutorialData: gameState.tutorialData,
-        player: gameState.player,
-        missions: gameState.missions,
-        activeMission: gameState.activeMission,
-        activeSessions: gameState.activeSessions,
-      },
-    };
+    const saveData = serializeGameState();
     const dataStr = JSON.stringify(saveData, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -86,22 +77,22 @@ export const SaveSystemPanel: React.FC = () => {
               className="w-full"
               onClick={handleSave}
             >
-              💾 Save Game
+              Save Game
             </Button>
             <Button
               variant="secondary"
               className="w-full"
               onClick={handleExport}
             >
-              📤 Export Save Data
+              Export Save Data
             </Button>
             <label className="block">
               <Button
                 variant="secondary"
                 className="w-full"
                 onClick={() => document.getElementById('importFile')?.click()}
-              >
-                📥 Import Save Data
+            >
+              Import Save Data
               </Button>
               <input
                 id="importFile"
@@ -114,15 +105,9 @@ export const SaveSystemPanel: React.FC = () => {
                     const reader = new FileReader();
                     reader.onload = (event) => {
                       try {
-                        const saveData = JSON.parse(event.target?.result as string);
-                        if (saveData.version === "1.0.0" && saveData.gameState) {
-                          // Load the imported save data
-                          const gameStore = useGameStore.getState();
-                          Object.keys(saveData.gameState).forEach(key => {
-                            if (key in gameStore) {
-                              (gameStore as Record<string, unknown>)[key] = (saveData.gameState as Record<string, unknown>)[key];
-                            }
-                          });
+                        const parsed = JSON.parse(event.target?.result as string);
+                        if (parsed.version === "1.0.0" && parsed.gameState) {
+                          importGameState(parsed.gameState, parsed.timestamp);
                           console.log("Save data imported successfully!");
                           // In a real implementation, this would show a success notification
                         } else {
