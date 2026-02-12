@@ -6,7 +6,7 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 
 export const CombatView: React.FC = () => {
-  const { combatSystem, startMission, completeMission } = useGameStore();
+  const { combatSystem, startMission } = useGameStore();
   const { activeBattle, battles } = combatSystem;
 
   // If there's an active battle, show the battle arena

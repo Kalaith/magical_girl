@@ -1,24 +1,25 @@
 // Core game types and interfaces
 import type { MagicalGirl, MagicalGirlStats } from "./magicalGirl";
 import type { Mission } from "./missions";
+import type { RecruitmentSystem } from "./recruitment";
 
 export interface GameState {
   notifications: Notification[];
   resources: Resources;
   magicalGirls: MagicalGirl[];
   gameProgress: { level: number; experience: number };
-  trainingData: { sessions: any[] };
+  trainingData: { sessions: unknown[] };
   settings: { soundEnabled: boolean; musicEnabled: boolean; masterVolume: number };
-  transformationData: { unlocked: any[] };
-  formationData: { activeFormation: any[] };
+  transformationData: { unlocked: unknown[] };
+  formationData: { activeFormation: unknown[] };
   prestigeData: { level: number; points: number };
   saveSystemData: { lastSave: number };
   tutorialData: { completed: boolean; step: number };
   player: Player;
   missions: Mission[];
   activeMission: { mission: Mission; teamIds: string[] } | null;
-  activeSessions: any[];
-  recruitmentSystem: any; // Will be properly typed later
+  activeSessions: unknown[];
+  recruitmentSystem: RecruitmentSystem;
   gameTime?: number;
   lastSaveTime?: number;
   version?: string;

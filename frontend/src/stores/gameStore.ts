@@ -3,7 +3,7 @@ import type { Player, Notification, Resources, SaveData } from "../types/game";
 import type { MagicalGirl } from "../types/magicalGirl";
 import type { Mission } from "../types/missions";
 import type { RecruitmentSystem, SummonResult, SummonRecord } from "../types/recruitment";
-import type { CombatSystem, CombatBattle, CombatParticipant, CombatAction } from "../types/combat";
+import type { CombatSystem, CombatBattle, CombatParticipant, CombatAction, CombatLogEntry, BattleEndReason } from "../types/combat";
 
 import { GAME_CONFIG } from "../config/gameConfig";
 import { initialMagicalGirls } from "../data/magicalGirls";
@@ -60,10 +60,10 @@ const initialState = {
   resources: createInitialResources(),
   magicalGirls: [] as MagicalGirl[],
   gameProgress: { level: 1, experience: 0 },
-  trainingData: { sessions: [] as any[] },
+  trainingData: { sessions: [] as unknown[] },
   settings: { soundEnabled: true, musicEnabled: true, masterVolume: 0.5 },
-  transformationData: { unlocked: [] as any[] },
-  formationData: { activeFormation: [] as any[] },
+  transformationData: { unlocked: [] as unknown[] },
+  formationData: { activeFormation: [] as unknown[] },
   prestigeData: { level: 0, points: 0 },
   saveSystemData: { lastSave: Date.now() },
   tutorialData: { completed: false, step: 0 },
@@ -216,14 +216,14 @@ export const useGameStore = create<typeof initialState & {
   // Combat methods
   startCombatBattle: (battle: Omit<CombatBattle, "id" | "status" | "startTime" | "combatLog">) => void;
   executeCombatAction: (participantId: string, action: CombatAction, targets?: CombatParticipant[]) => void;
-  endCombatBattle: (battleId: string, winner: "player" | "enemy" | "draw", reason: string) => void;
+  endCombatBattle: (battleId: string, winner: "player" | "enemy" | "draw", reason: BattleEndReason) => void;
 
   // Helper methods
   initializeCombatTurnOrder: (battleId: string) => void;
   nextCombatTurn: () => void;
   processCombatActionEffects: (participantId: string, action: CombatAction, targets?: CombatParticipant[]) => void;
   updateCombatParticipant: (battleId: string, participantId: string, updates: Partial<CombatParticipant>) => void;
-  addCombatLogEntry: (battleId: string, entryData: any) => void;
+  addCombatLogEntry: (battleId: string, entryData: Omit<CombatLogEntry, "id" | "timestamp">) => void;
   createCombatRecord: (battle: CombatBattle) => void;
 }>((set, get) => ({
   ...initialState,
@@ -454,7 +454,7 @@ export const useGameStore = create<typeof initialState & {
       // Apply pity system
       const pityCounter = state.recruitmentSystem.pityCounters[bannerId]?.current || 0;
       const pityConfig = banner.pitySystem;
-      let rates = { ...banner.rates };
+      const rates = { ...banner.rates };
 
       if (pityConfig.enabled && pityConfig.softPity && pityCounter >= pityConfig.softPity.startAt) {
         // Apply soft pity multiplier
@@ -647,7 +647,7 @@ export const useGameStore = create<typeof initialState & {
 
     // Start combat battle for combat missions
     if (mission.category === "Combat") {
-      const playerTeam = selectedTeam.map(girlId => {
+      const playerTeam = selectedTeam.map((girlId): CombatParticipant | null => {
         const girl = state.magicalGirls.find(g => g.id === girlId);
         if (!girl) return null;
         
@@ -723,7 +723,7 @@ export const useGameStore = create<typeof initialState & {
           shields: [],
           barriers: [],
         };
-      }).filter(Boolean) as any[];
+      }).filter((participant): participant is CombatParticipant => participant !== null);
 
       const enemyTeam = [
         {
@@ -1230,7 +1230,7 @@ export const useGameStore = create<typeof initialState & {
                 status: "Completed" as const,
                 endTime: Date.now(),
                 winner,
-                reason: reason as any,
+                reason,
               }
             : battle
         ),
@@ -1349,7 +1349,7 @@ export const useGameStore = create<typeof initialState & {
     }));
   },
 
-  addCombatLogEntry: (battleId: string, entryData: any) => {
+  addCombatLogEntry: (battleId: string, entryData: Omit<CombatLogEntry, "id" | "timestamp">) => {
     const entry = {
       ...entryData,
       id: `log-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,

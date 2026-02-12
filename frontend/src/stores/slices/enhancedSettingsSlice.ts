@@ -50,10 +50,7 @@ const defaultSettings: GameSettings = {
   highContrast: false,
 };
 
-export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = (set, get) => {
-  // Use get to satisfy lint
-  get;
-
+export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = (set) => {
   return {
     settings: defaultSettings,
 

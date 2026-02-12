@@ -8,6 +8,7 @@ import type {
   CombatSettings,
   CombatAction,
   CombatLogEntry,
+  BattleEndReason,
   BattleStatus,
   TurnPhase,
 } from "../../types/combat";
@@ -17,7 +18,7 @@ export interface CombatSlice {
 
   // Battle management
   startBattle: (battle: Omit<CombatBattle, "id" | "status" | "startTime" | "combatLog">) => void;
-  endBattle: (battleId: string, winner: "player" | "enemy" | "draw", reason: string) => void;
+  endBattle: (battleId: string, winner: "player" | "enemy" | "draw", reason: BattleEndReason) => void;
   pauseBattle: (battleId: string) => void;
   resumeBattle: (battleId: string) => void;
 
@@ -44,7 +45,13 @@ export interface CombatSlice {
   addCombatLogEntry: (battleId: string, entry: Omit<CombatLogEntry, "id" | "timestamp">) => void;
 
   // Analytics
-  getCombatAnalytics: () => any;
+  getCombatAnalytics: () => {
+    totalBattles: number;
+    victories: number;
+    defeats: number;
+    winRate: number;
+    averageTurns: number;
+  };
 
   // Internal helper methods
   initializeTurnOrder: (battleId: string) => void;
@@ -134,7 +141,7 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
                 status: "Completed" as BattleStatus,
                 endTime: Date.now(),
                 winner,
-                reason: reason as any,
+                reason,
               }
             : battle
         ),
