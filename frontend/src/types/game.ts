@@ -9,7 +9,11 @@ export interface GameState {
   magicalGirls: MagicalGirl[];
   gameProgress: { level: number; experience: number };
   trainingData: { sessions: unknown[] };
-  settings: { soundEnabled: boolean; musicEnabled: boolean; masterVolume: number };
+  settings: {
+    soundEnabled: boolean;
+    musicEnabled: boolean;
+    masterVolume: number;
+  };
   transformationData: { unlocked: unknown[] };
   formationData: { activeFormation: unknown[] };
   prestigeData: { level: number; points: number };

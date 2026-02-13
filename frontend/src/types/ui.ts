@@ -26,9 +26,14 @@ export type ModalData = {
   "magical-girl-details": { girlId: string };
   "training-session": { trainingId: string; girlId?: string };
   "mission-details": { missionId: string };
-  "settings": Record<string, never>;
+  settings: Record<string, never>;
   "achievement-details": { achievementId: string };
-  "confirmation": { title: string; message: string; onConfirm: () => void; onCancel?: () => void };
+  confirmation: {
+    title: string;
+    message: string;
+    onConfirm: () => void;
+    onCancel?: () => void;
+  };
 };
 
 export interface UIState {
@@ -113,7 +118,10 @@ export interface UIActions {
   setLoading: (loading: boolean) => void;
 
   // Modal actions
-  openModal: <T extends ModalType>(type: T, data?: T extends keyof ModalData ? ModalData[T] : never) => void;
+  openModal: <T extends ModalType>(
+    type: T,
+    data?: T extends keyof ModalData ? ModalData[T] : never,
+  ) => void;
   closeModal: () => void;
   setModalData: (data: ModalData[keyof ModalData] | null) => void;
 
@@ -132,7 +140,11 @@ export interface UIActions {
 
   // Interaction actions
   setDragDropActive: (active: boolean) => void;
-  showContextMenu: (x: number, y: number, data?: Record<string, unknown>) => void;
+  showContextMenu: (
+    x: number,
+    y: number,
+    data?: Record<string, unknown>,
+  ) => void;
   hideContextMenu: () => void;
 
   // Animation actions

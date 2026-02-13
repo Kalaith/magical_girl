@@ -21,10 +21,22 @@ export const defaultBanners: RecruitmentBanner[] = [
     },
     costs: {
       single: {
-        primary: { currency: "friendshipPoints", amount: gameConfig.RECRUITMENT.BASIC_COST, displayName: "Friendship Points" },
+        primary: {
+          currency: "friendshipPoints",
+          amount: gameConfig.RECRUITMENT.BASIC_COST,
+          displayName: "Friendship Points",
+        },
       },
       ten: {
-        primary: { currency: "friendshipPoints", amount: Math.floor(gameConfig.RECRUITMENT.BASIC_COST * 10 * gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT), displayName: "Friendship Points" },
+        primary: {
+          currency: "friendshipPoints",
+          amount: Math.floor(
+            gameConfig.RECRUITMENT.BASIC_COST *
+              10 *
+              gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT,
+          ),
+          displayName: "Friendship Points",
+        },
       },
     },
     pitySystem: {
@@ -54,8 +66,20 @@ export const defaultBanners: RecruitmentBanner[] = [
         type: "standard",
         duration: 2000,
         effects: [
-          { type: "particle", name: "sparkle", intensity: 0.8, duration: 1500, delay: 0 },
-          { type: "light", name: "glow", intensity: 0.6, duration: 2000, delay: 0 },
+          {
+            type: "particle",
+            name: "sparkle",
+            intensity: 0.8,
+            duration: 1500,
+            delay: 0,
+          },
+          {
+            type: "light",
+            name: "glow",
+            intensity: 0.6,
+            duration: 2000,
+            delay: 0,
+          },
         ],
       },
       revealSequence: {
@@ -81,7 +105,7 @@ export const defaultBanners: RecruitmentBanner[] = [
     type: "Limited",
     rarity: "Premium",
     startDate: Date.now(),
-    endDate: Date.now() + (7 * 24 * 60 * 60 * 1000), // 7 days
+    endDate: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
     isActive: true,
     featuredGirls: ["girl-legendary-1", "girl-epic-1"], // Example featured girls
     rates: {
@@ -94,10 +118,22 @@ export const defaultBanners: RecruitmentBanner[] = [
     },
     costs: {
       single: {
-        primary: { currency: "premiumGems", amount: gameConfig.RECRUITMENT.PREMIUM_COST, displayName: "Premium Gems" },
+        primary: {
+          currency: "premiumGems",
+          amount: gameConfig.RECRUITMENT.PREMIUM_COST,
+          displayName: "Premium Gems",
+        },
       },
       ten: {
-        primary: { currency: "premiumGems", amount: Math.floor(gameConfig.RECRUITMENT.PREMIUM_COST * 10 * gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT), displayName: "Premium Gems" },
+        primary: {
+          currency: "premiumGems",
+          amount: Math.floor(
+            gameConfig.RECRUITMENT.PREMIUM_COST *
+              10 *
+              gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT,
+          ),
+          displayName: "Premium Gems",
+        },
       },
     },
     pitySystem: {
@@ -116,7 +152,11 @@ export const defaultBanners: RecruitmentBanner[] = [
       {
         type: "featured_character",
         condition: { type: "pulls_count", value: 40, resetType: "banner" },
-        reward: { type: "specific_character", value: 0, description: "Guaranteed featured Legendary character" },
+        reward: {
+          type: "specific_character",
+          value: 0,
+          description: "Guaranteed featured Legendary character",
+        },
         maxTriggers: 1,
         currentTriggers: 0,
       },
@@ -125,13 +165,23 @@ export const defaultBanners: RecruitmentBanner[] = [
       {
         type: "milestone",
         requirement: 10,
-        reward: { type: "currency", id: "premiumGems", amount: 50, description: "50 Premium Gems" },
+        reward: {
+          type: "currency",
+          id: "premiumGems",
+          amount: 50,
+          description: "50 Premium Gems",
+        },
         claimed: false,
       },
       {
         type: "milestone",
         requirement: 25,
-        reward: { type: "currency", id: "summonTickets", amount: 5, description: "5 Summon Tickets" },
+        reward: {
+          type: "currency",
+          id: "summonTickets",
+          amount: 5,
+          description: "5 Summon Tickets",
+        },
         claimed: false,
       },
     ],
@@ -149,9 +199,27 @@ export const defaultBanners: RecruitmentBanner[] = [
         type: "special",
         duration: 3000,
         effects: [
-          { type: "particle", name: "firework", intensity: 1.0, duration: 2500, delay: 0 },
-          { type: "light", name: "spotlight", intensity: 0.9, duration: 3000, delay: 0 },
-          { type: "screen", name: "shake", intensity: 0.3, duration: 500, delay: 500 },
+          {
+            type: "particle",
+            name: "firework",
+            intensity: 1.0,
+            duration: 2500,
+            delay: 0,
+          },
+          {
+            type: "light",
+            name: "spotlight",
+            intensity: 0.9,
+            duration: 3000,
+            delay: 0,
+          },
+          {
+            type: "screen",
+            name: "shake",
+            intensity: 0.3,
+            duration: 500,
+            delay: 500,
+          },
         ],
         music: "limited-summon-bgm.mp3",
       },

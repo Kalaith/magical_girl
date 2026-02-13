@@ -126,10 +126,14 @@ export const useMissions = () => {
         if (!mission.isCompleted) {
           return sum;
         }
-        const rewardSumValue = mission.rewards.reduce((rewardSum, reward) =>
-          rewardSum + (typeof reward.quantity === "number" ? reward.quantity : 0),
-        0);
-        const missionRewardTotal = rewardSumValue || gameConfig.MISSION_STATS.COMPLETED_REWARD_ESTIMATE;
+        const rewardSumValue = mission.rewards.reduce(
+          (rewardSum, reward) =>
+            rewardSum +
+            (typeof reward.quantity === "number" ? reward.quantity : 0),
+          0,
+        );
+        const missionRewardTotal =
+          rewardSumValue || gameConfig.MISSION_STATS.COMPLETED_REWARD_ESTIMATE;
         return sum + missionRewardTotal;
       }, 0),
     };

@@ -32,7 +32,9 @@ const defaultSettings = {
 
 export const createSettingsSlice: StateCreator<
   SettingsSlice & {
-    addNotification: (notification: Omit<Notification, "id" | "timestamp" | "read">) => void;
+    addNotification: (
+      notification: Omit<Notification, "id" | "timestamp" | "read">,
+    ) => void;
   },
   [],
   [],

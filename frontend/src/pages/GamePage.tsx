@@ -28,7 +28,9 @@ import { TutorialOverlay } from "../components/game/TutorialOverlay";
 
 export function GamePage() {
   const addNotification = useGameStore((state) => state.addNotification);
-  const initializePersistence = useGameStore((state) => state.initializePersistence);
+  const initializePersistence = useGameStore(
+    (state) => state.initializePersistence,
+  );
   const { currentView } = useUIStore();
 
   useEffect(() => {

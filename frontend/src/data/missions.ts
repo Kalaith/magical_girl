@@ -5,7 +5,8 @@ export const initialMissions: Mission[] = [
   {
     id: "tutorial-1",
     name: "First Steps",
-    description: "Complete your first magical transformation and learn the basics of being a magical girl.",
+    description:
+      "Complete your first magical transformation and learn the basics of being a magical girl.",
     type: "Tutorial",
     category: "Training",
     difficulty: "Tutorial",
@@ -155,7 +156,8 @@ export const initialMissions: Mission[] = [
   {
     id: "combat-1",
     name: "Monster Attack",
-    description: "A mysterious monster is attacking the city. Stop it before it causes more damage!",
+    description:
+      "A mysterious monster is attacking the city. Stop it before it causes more damage!",
     type: "Story",
     category: "Combat",
     difficulty: "Normal",
@@ -246,7 +248,10 @@ export const initialMissions: Mission[] = [
               condition: undefined,
             },
           ],
-          countermeasures: ["Use magical attacks", "Transform to increase power"],
+          countermeasures: [
+            "Use magical attacks",
+            "Transform to increase power",
+          ],
         },
       ],
       features: [],

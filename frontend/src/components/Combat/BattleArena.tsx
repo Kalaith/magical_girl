@@ -1,32 +1,39 @@
-import React from 'react';
-import type { CombatParticipant } from '../../types/combat';
-import { useGameStore } from '../../stores/gameStore';
-import BattleGrid from './BattleGrid';
-import ActionPanel from './ActionPanel';
-import CombatLog from './CombatLog';
-import TurnOrder from './TurnOrder';
+import React from "react";
+import type { CombatParticipant } from "../../types/combat";
+import { useGameStore } from "../../stores/gameStore";
+import BattleGrid from "./BattleGrid";
+import ActionPanel from "./ActionPanel";
+import CombatLog from "./CombatLog";
+import TurnOrder from "./TurnOrder";
 
 interface BattleArenaProps {
   className?: string;
 }
 
-const BattleArena: React.FC<BattleArenaProps> = ({ className = '' }) => {
+const BattleArena: React.FC<BattleArenaProps> = ({ className = "" }) => {
   const { combatSystem } = useGameStore();
   const { activeBattle } = combatSystem;
 
   if (!activeBattle) {
     return (
-      <div className={`flex items-center justify-center h-96 bg-gray-100 rounded-lg ${className}`}>
+      <div
+        className={`flex items-center justify-center h-96 bg-gray-100 rounded-lg ${className}`}
+      >
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-700 mb-2">No Active Battle</h2>
+          <h2 className="text-2xl font-bold text-gray-700 mb-2">
+            No Active Battle
+          </h2>
           <p className="text-gray-500">Start a mission to begin combat!</p>
         </div>
       </div>
     );
   }
 
-  const currentParticipant = activeBattle.turnOrder.participants[activeBattle.turnOrder.currentIndex];
-  const isPlayerTurn = activeBattle.playerTeam.some(p => p.id === currentParticipant?.participantId);
+  const currentParticipant =
+    activeBattle.turnOrder.participants[activeBattle.turnOrder.currentIndex];
+  const isPlayerTurn = activeBattle.playerTeam.some(
+    (p) => p.id === currentParticipant?.participantId,
+  );
 
   return (
     <div className={`bg-white rounded-lg shadow-lg p-6 ${className}`}>
@@ -37,7 +44,8 @@ const BattleArena: React.FC<BattleArenaProps> = ({ className = '' }) => {
             {activeBattle.type} Battle
           </h2>
           <div className="text-sm text-gray-600">
-            Turn {activeBattle.currentTurn} • {activeBattle.turnOrder.phase} Phase
+            Turn {activeBattle.currentTurn} • {activeBattle.turnOrder.phase}{" "}
+            Phase
           </div>
         </div>
 
@@ -48,15 +56,20 @@ const BattleArena: React.FC<BattleArenaProps> = ({ className = '' }) => {
               <span className="font-medium">Status:</span> {activeBattle.status}
             </div>
             <div className="text-sm">
-              <span className="font-medium">Current Turn:</span> {currentParticipant?.participantId || 'Unknown'}
+              <span className="font-medium">Current Turn:</span>{" "}
+              {currentParticipant?.participantId || "Unknown"}
             </div>
           </div>
           <div className="text-sm">
             <span className="font-medium">Player Turn:</span>
-            <span className={`ml-2 px-2 py-1 rounded text-xs font-medium ${
-              isPlayerTurn ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-            }`}>
-              {isPlayerTurn ? 'Yes' : 'No'}
+            <span
+              className={`ml-2 px-2 py-1 rounded text-xs font-medium ${
+                isPlayerTurn
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {isPlayerTurn ? "Yes" : "No"}
             </span>
           </div>
         </div>
@@ -125,27 +138,30 @@ interface ParticipantCardProps {
 const ParticipantCard: React.FC<ParticipantCardProps> = ({
   participant,
   isCurrent,
-  isPlayerTeam
+  isPlayerTeam,
 }) => {
-  const healthPercent = (participant.currentStats.health / participant.maxStats.health) * 100;
+  const healthPercent =
+    (participant.currentStats.health / participant.maxStats.health) * 100;
   const isAlive = participant.currentStats.health > 0;
 
   return (
-    <div className={`p-3 rounded-lg border-2 transition-all ${
-      isCurrent
-        ? 'border-blue-500 bg-blue-50 shadow-md'
-        : isPlayerTeam
-          ? 'border-green-200 bg-green-50'
-          : 'border-red-200 bg-red-50'
-    }`}>
+    <div
+      className={`p-3 rounded-lg border-2 transition-all ${
+        isCurrent
+          ? "border-blue-500 bg-blue-50 shadow-md"
+          : isPlayerTeam
+            ? "border-green-200 bg-green-50"
+            : "border-red-200 bg-red-50"
+      }`}
+    >
       <div className="flex justify-between items-center mb-2">
         <h4 className="font-medium text-sm">{participant.character.name}</h4>
-        <span className={`text-xs px-2 py-1 rounded ${
-          isAlive
-            ? 'bg-green-100 text-green-800'
-            : 'bg-red-100 text-red-800'
-        }`}>
-          {isAlive ? 'Alive' : 'Defeated'}
+        <span
+          className={`text-xs px-2 py-1 rounded ${
+            isAlive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+          }`}
+        >
+          {isAlive ? "Alive" : "Defeated"}
         </span>
       </div>
 
@@ -153,13 +169,18 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({
       <div className="mb-2">
         <div className="flex justify-between text-xs text-gray-600 mb-1">
           <span>HP</span>
-          <span>{participant.currentStats.health}/{participant.maxStats.health}</span>
+          <span>
+            {participant.currentStats.health}/{participant.maxStats.health}
+          </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
             className={`h-2 rounded-full transition-all ${
-              healthPercent > 60 ? 'bg-green-500' :
-              healthPercent > 30 ? 'bg-yellow-500' : 'bg-red-500'
+              healthPercent > 60
+                ? "bg-green-500"
+                : healthPercent > 30
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
             }`}
             style={{ width: `${healthPercent}%` }}
           />
@@ -182,9 +203,11 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({
               <span
                 key={effect.id}
                 className={`text-xs px-1 py-0.5 rounded ${
-                  effect.type === 'Buff' ? 'bg-blue-100 text-blue-800' :
-                  effect.type === 'Debuff' ? 'bg-red-100 text-red-800' :
-                  'bg-gray-100 text-gray-800'
+                  effect.type === "Buff"
+                    ? "bg-blue-100 text-blue-800"
+                    : effect.type === "Debuff"
+                      ? "bg-red-100 text-red-800"
+                      : "bg-gray-100 text-gray-800"
                 }`}
                 title={effect.description}
               >

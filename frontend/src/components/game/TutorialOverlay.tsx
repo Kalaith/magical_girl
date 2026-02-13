@@ -15,28 +15,33 @@ const tutorialSteps: TutorialStep[] = [
   {
     id: "welcome",
     title: "Welcome to Magical Girl Adventure!",
-    content: "Let's get you started on your magical journey. This tutorial will guide you through the basics of the game."
+    content:
+      "Let's get you started on your magical journey. This tutorial will guide you through the basics of the game.",
   },
   {
     id: "dashboard",
     title: "Dashboard Overview",
-    content: "This is your main dashboard where you can see your progress, active magical girls, and quick stats."
+    content:
+      "This is your main dashboard where you can see your progress, active magical girls, and quick stats.",
   },
   {
     id: "recruitment",
     title: "Recruitment System",
-    content: "Here you can summon new magical girls to join your team. Use different currencies to perform summons."
+    content:
+      "Here you can summon new magical girls to join your team. Use different currencies to perform summons.",
   },
   {
     id: "training",
     title: "Training & Growth",
-    content: "Train your magical girls to improve their stats and unlock new abilities."
+    content:
+      "Train your magical girls to improve their stats and unlock new abilities.",
   },
   {
     id: "missions",
     title: "Missions & Battles",
-    content: "Send your magical girls on missions to earn rewards and experience."
-  }
+    content:
+      "Send your magical girls on missions to earn rewards and experience.",
+  },
 ];
 
 export const TutorialOverlay: React.FC = () => {
@@ -46,8 +51,10 @@ export const TutorialOverlay: React.FC = () => {
 
   useEffect(() => {
     // Show tutorial on first visit or when explicitly requested
-    const hasSeenTutorial = localStorage.getItem('magical-girl-tutorial-completed');
-    if (!hasSeenTutorial && currentView === 'dashboard') {
+    const hasSeenTutorial = localStorage.getItem(
+      "magical-girl-tutorial-completed",
+    );
+    if (!hasSeenTutorial && currentView === "dashboard") {
       setIsVisible(true);
     }
   }, [currentView]);
@@ -68,7 +75,7 @@ export const TutorialOverlay: React.FC = () => {
 
   const handleComplete = () => {
     setIsVisible(false);
-    localStorage.setItem('magical-girl-tutorial-completed', 'true');
+    localStorage.setItem("magical-girl-tutorial-completed", "true");
   };
 
   const handleSkip = () => {
@@ -106,16 +113,14 @@ export const TutorialOverlay: React.FC = () => {
               <div
                 className="bg-magical-primary h-2 rounded-full transition-all duration-300"
                 style={{
-                  width: `${((currentStep + 1) / tutorialSteps.length) * 100}%`
+                  width: `${((currentStep + 1) / tutorialSteps.length) * 100}%`,
                 }}
               />
             </div>
           </div>
 
           <div className="mb-6">
-            <p className="text-gray-700 leading-relaxed">
-              {step.content}
-            </p>
+            <p className="text-gray-700 leading-relaxed">{step.content}</p>
           </div>
 
           <div className="flex justify-between items-center">
@@ -129,17 +134,11 @@ export const TutorialOverlay: React.FC = () => {
 
             <div className="flex gap-2">
               {currentStep > 0 && (
-                <Button
-                  variant="secondary"
-                  onClick={handlePrevious}
-                >
+                <Button variant="secondary" onClick={handlePrevious}>
                   Previous
                 </Button>
               )}
-              <Button
-                variant="primary"
-                onClick={handleNext}
-              >
+              <Button variant="primary" onClick={handleNext}>
                 {currentStep === tutorialSteps.length - 1 ? "Complete" : "Next"}
               </Button>
             </div>

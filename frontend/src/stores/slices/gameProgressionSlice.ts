@@ -22,7 +22,11 @@ export interface GameProgressionSlice {
 
 export const createGameProgressionSlice: StateCreator<
   GameProgressionSlice & {
-    addNotification: (notification: { type: string; title: string; message: string; }) => void;
+    addNotification: (notification: {
+      type: string;
+      title: string;
+      message: string;
+    }) => void;
     unlockMission: (missionId: string) => void;
     addResources: (resources: Record<string, number>) => void;
   },

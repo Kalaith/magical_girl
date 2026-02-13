@@ -11,7 +11,9 @@ export const SaveSystemPanel: React.FC = () => {
   const saveSystemData = useGameStore((state) => state.saveSystemData);
 
   const saveSlots = useMemo(() => {
-    const autoDate = saveSystemData?.lastSave ? new Date(saveSystemData.lastSave).toLocaleString() : "Never";
+    const autoDate = saveSystemData?.lastSave
+      ? new Date(saveSystemData.lastSave).toLocaleString()
+      : "Never";
     return [
       { id: 1, name: "Auto Save", date: autoDate, auto: true },
       { id: 2, name: "Manual Save 1", date: "2024-01-15 10:30", auto: false },
@@ -48,11 +50,11 @@ export const SaveSystemPanel: React.FC = () => {
   const handleExport = () => {
     const saveData = serializeGameState();
     const dataStr = JSON.stringify(saveData, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
+    const blob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `magical-girl-save-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `magical-girl-save-${new Date().toISOString().split("T")[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -72,11 +74,7 @@ export const SaveSystemPanel: React.FC = () => {
         <Card className="p-6">
           <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
           <div className="space-y-3">
-            <Button
-              variant="primary"
-              className="w-full"
-              onClick={handleSave}
-            >
+            <Button variant="primary" className="w-full" onClick={handleSave}>
               Save Game
             </Button>
             <Button
@@ -90,9 +88,9 @@ export const SaveSystemPanel: React.FC = () => {
               <Button
                 variant="secondary"
                 className="w-full"
-                onClick={() => document.getElementById('importFile')?.click()}
-            >
-              Import Save Data
+                onClick={() => document.getElementById("importFile")?.click()}
+              >
+                Import Save Data
               </Button>
               <input
                 id="importFile"
@@ -105,7 +103,9 @@ export const SaveSystemPanel: React.FC = () => {
                     const reader = new FileReader();
                     reader.onload = (event) => {
                       try {
-                        const parsed = JSON.parse(event.target?.result as string);
+                        const parsed = JSON.parse(
+                          event.target?.result as string,
+                        );
                         if (parsed.version === "1.0.0" && parsed.gameState) {
                           importGameState(parsed.gameState, parsed.timestamp);
                           console.log("Save data imported successfully!");
@@ -120,7 +120,7 @@ export const SaveSystemPanel: React.FC = () => {
                     reader.readAsText(file);
                   }
                   // Reset the input
-                  e.target.value = '';
+                  e.target.value = "";
                 }}
               />
             </label>
@@ -184,7 +184,9 @@ export const SaveSystemPanel: React.FC = () => {
             <span>Auto-Save Interval</span>
             <select className="border rounded px-3 py-1">
               <option value="1">Every 1 minute</option>
-              <option value="5" defaultValue="">Every 5 minutes</option>
+              <option value="5" defaultValue="">
+                Every 5 minutes
+              </option>
               <option value="10">Every 10 minutes</option>
               <option value="30">Every 30 minutes</option>
             </select>

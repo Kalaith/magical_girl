@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import checker from 'vite-plugin-checker'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import checker from "vite-plugin-checker";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/magical_girl/',
+  base: "/magical_girl/",
   plugins: [
     react(),
     tailwindcss(),
@@ -16,22 +16,22 @@ export default defineConfig({
       // eslint: {
       //   lintCommand: 'eslint "./src/**/*.{ts,tsx}"'
       // }
-    })
+    }),
   ],
   esbuild: {
-    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+    logOverride: { "this-is-undefined-in-esm": "silent" },
   },
   build: {
     rollupOptions: {
       onwarn(warning, warn) {
         // Suppress TypeScript warnings in production builds if needed
-        if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return
-        warn(warning)
-      }
-    }
+        if (warning.code === "UNUSED_EXTERNAL_IMPORT") return;
+        warn(warning);
+      },
+    },
   },
   server: {
     host: true,
-    port: 5173
-  }
-})
+    port: 5173,
+  },
+});

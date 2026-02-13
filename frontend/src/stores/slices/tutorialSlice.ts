@@ -13,7 +13,7 @@ export interface TutorialStep {
   title: string;
   description: string;
   target?: string; // CSS selector for highlighting
-  position?: 'top' | 'bottom' | 'left' | 'right';
+  position?: "top" | "bottom" | "left" | "right";
 }
 
 export interface TutorialSlice {

@@ -120,7 +120,7 @@ export interface GameSetting {
   // Value and constraints
   currentValue: string | number | boolean;
   defaultValue: string | number | boolean;
-  possibleValues?: Array<{ value: string | number; label: string; }>;
+  possibleValues?: Array<{ value: string | number; label: string }>;
   constraints: SettingConstraints;
 
   // Validation and dependencies
@@ -756,7 +756,7 @@ export interface UsageMetrics {
   changeCount: number;
   lastChanged: number;
   averageValue: number;
-  popularValues: Array<{ value: string | number; usage: number; }>;
+  popularValues: Array<{ value: string | number; usage: number }>;
   userPatterns: UserPattern[];
 }
 
@@ -1005,14 +1005,14 @@ export interface CustomConstraint {
 }
 
 export interface ValidationMessage {
-  type: 'error' | 'warning' | 'info';
+  type: "error" | "warning" | "info";
   message: string;
   field?: string;
 }
 
 export interface ValidationCondition {
   field: string;
-  operator: 'equals' | 'notEquals' | 'greaterThan' | 'lessThan' | 'contains';
+  operator: "equals" | "notEquals" | "greaterThan" | "lessThan" | "contains";
   value: string | number | boolean;
 }
 
@@ -1065,7 +1065,7 @@ export interface SmartAssistPrivacy {
 
 export interface ToolbarItem {
   id: string;
-  type: 'button' | 'separator' | 'dropdown';
+  type: "button" | "separator" | "dropdown";
   label?: string;
   icon?: string;
   action?: string;
@@ -1089,7 +1089,7 @@ export interface QuickShortcut {
 export interface ValidationInfo {
   field: string;
   message: string;
-  severity: 'info' | 'warning' | 'error';
+  severity: "info" | "warning" | "error";
 }
 
 export interface ValidationWarning {
@@ -1112,7 +1112,7 @@ export interface ExternalLink {
 }
 
 export interface SectionLayout {
-  type: 'grid' | 'list' | 'tabs';
+  type: "grid" | "list" | "tabs";
   columns?: number;
   spacing?: number;
 }
@@ -1177,7 +1177,7 @@ export interface AutomationSettings {
 export interface ConfigFile {
   name: string;
   path: string;
-  format: 'json' | 'yaml' | 'toml';
+  format: "json" | "yaml" | "toml";
   content: Record<string, string | number | boolean>;
 }
 
@@ -1189,7 +1189,7 @@ export interface CommandLineSettings {
 
 export interface ScriptingSettings {
   enabled: boolean;
-  language: 'javascript' | 'python' | 'lua';
+  language: "javascript" | "python" | "lua";
   customScripts: string[];
 }
 
@@ -1213,13 +1213,13 @@ export interface APISettings {
 
 export interface DebuggingSettings {
   enabled: boolean;
-  logLevel: 'debug' | 'info' | 'warn' | 'error';
+  logLevel: "debug" | "info" | "warn" | "error";
   showStackTrace: boolean;
 }
 
 export interface LoggingSettings {
   enabled: boolean;
-  level: 'debug' | 'info' | 'warn' | 'error';
+  level: "debug" | "info" | "warn" | "error";
   outputFile: string;
   maxFileSize: number;
 }
@@ -1234,7 +1234,7 @@ export interface OptimizationAction {
   id: string;
   name: string;
   description: string;
-  impact: 'low' | 'medium' | 'high';
+  impact: "low" | "medium" | "high";
   action: () => void;
 }
 
@@ -1247,7 +1247,7 @@ export interface AccessibilityCategory {
 
 export interface AccessibilityIssue {
   id: string;
-  severity: 'low' | 'medium' | 'high';
+  severity: "low" | "medium" | "high";
   description: string;
   recommendation: string;
 }
@@ -1260,14 +1260,14 @@ export interface AccessibilityRecommendation {
 }
 
 export interface SettingsExport {
-  format: 'json' | 'yaml';
+  format: "json" | "yaml";
   includeDefaults: boolean;
   categories: string[];
 }
 
 export interface SettingsImport {
-  source: 'file' | 'url' | 'clipboard';
-  mergeStrategy: 'replace' | 'merge' | 'append';
+  source: "file" | "url" | "clipboard";
+  mergeStrategy: "replace" | "merge" | "append";
   validation: boolean;
 }
 export interface PerformanceSettings {
@@ -1285,7 +1285,7 @@ export interface VoiceSettings {
 }
 
 export interface DifficultySettings {
-  level: 'easy' | 'normal' | 'hard' | 'expert';
+  level: "easy" | "normal" | "hard" | "expert";
   customModifiers: Record<string, number>;
 }
 
@@ -1324,7 +1324,7 @@ export interface PrivacySettings {
 
 export interface ModerationSettings {
   autoModeration: boolean;
-  filterLevel: 'none' | 'basic' | 'strict';
+  filterLevel: "none" | "basic" | "strict";
   allowedWords: string[];
   blockedWords: string[];
 }
@@ -1372,15 +1372,15 @@ export interface StatusDisplaySettings {
 }
 
 export interface ProgressBarSettings {
-  style: 'linear' | 'circular';
+  style: "linear" | "circular";
   showPercentage: boolean;
   animationSpeed: number;
 }
 
 export interface NotificationDisplaySettings {
-  position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
   maxVisible: number;
-  stackDirection: 'up' | 'down';
+  stackDirection: "up" | "down";
 }
 
 export interface ContextMenuSettings {
@@ -1389,7 +1389,7 @@ export interface ContextMenuSettings {
 }
 
 export interface SidebarSettings {
-  position: 'left' | 'right';
+  position: "left" | "right";
   width: number;
   collapsible: boolean;
 }
@@ -1403,7 +1403,7 @@ export interface SettingChange {
 }
 
 export interface UnlockRequirement {
-  type: 'level' | 'achievement' | 'item' | 'custom';
+  type: "level" | "achievement" | "item" | "custom";
   value: string | number;
   description: string;
 }
@@ -1423,21 +1423,21 @@ export interface FilterValue {
 
 export interface ActionParameter {
   name: string;
-  type: 'string' | 'number' | 'boolean' | 'object';
+  type: "string" | "number" | "boolean" | "object";
   required: boolean;
   defaultValue?: string | number | boolean;
 }
 
 export interface ExportOptions {
-  format: 'json' | 'csv' | 'xml';
+  format: "json" | "csv" | "xml";
   includeMetadata: boolean;
   compression: boolean;
 }
 
 export interface ImportOptions {
-  format: 'json' | 'csv' | 'xml';
+  format: "json" | "csv" | "xml";
   validateSchema: boolean;
-  mergeStrategy: 'replace' | 'merge';
+  mergeStrategy: "replace" | "merge";
 }
 
 export interface OptimizationCriteria {

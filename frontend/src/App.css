@@ -72,7 +72,11 @@
   }
 
   /* Ensure touch targets are large enough */
-  button, a, input, select, textarea {
+  button,
+  a,
+  input,
+  select,
+  textarea {
     min-height: 44px;
     min-width: 44px;
   }
@@ -88,7 +92,8 @@
   }
 
   /* Improve tap highlights */
-  button, a {
+  button,
+  a {
     -webkit-tap-highlight-color: rgba(168, 85, 247, 0.1);
   }
 
@@ -123,7 +128,7 @@
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .py-6 {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -151,7 +156,8 @@
   }
 
   /* Prevent iOS Safari from adding blue highlight on buttons */
-  button, .touch-target {
+  button,
+  .touch-target {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -179,12 +185,12 @@
   .min-h-screen {
     min-height: 100vh;
   }
-  
+
   /* Reduce vertical spacing in landscape */
   .space-y-6 > * + * {
     margin-top: 0.75rem;
   }
-  
+
   .space-y-4 > * + * {
     margin-top: 0.5rem;
   }

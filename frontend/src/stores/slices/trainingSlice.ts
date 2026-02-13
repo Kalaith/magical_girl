@@ -27,13 +27,19 @@ export interface TrainingSlice {
 
 export const createTrainingSlice: StateCreator<
   TrainingSlice & {
-    addNotification: (notification: Omit<Notification, "id" | "timestamp" | "read">) => void;
+    addNotification: (
+      notification: Omit<Notification, "id" | "timestamp" | "read">,
+    ) => void;
     spendResources: (resources: Partial<Resources>) => boolean;
     addExperienceToGirl: (girlId: string, experience: number) => void;
     gainExperience: (amount: number) => void;
     addResources: (resources: Partial<Resources>) => void;
     magicalGirls: MagicalGirl[];
-    checkAchievements?: (event: { type: string; data: Record<string, string | number | boolean>; timestamp: number }) => void;
+    checkAchievements?: (event: {
+      type: string;
+      data: Record<string, string | number | boolean>;
+      timestamp: number;
+    }) => void;
   },
   [],
   [],

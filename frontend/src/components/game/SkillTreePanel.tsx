@@ -1,7 +1,11 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSkillTreeStore } from "../../stores/skillTreeStore";
-import type { SkillNode, SpecializationPath, SkillTree } from "../../types/skillTree";
+import type {
+  SkillNode,
+  SpecializationPath,
+  SkillTree,
+} from "../../types/skillTree";
 
 interface SkillNodeComponentProps {
   node: SkillNode;
@@ -82,7 +86,7 @@ const SkillTreeView: React.FC<SkillTreeViewProps> = ({
 }) => {
   // For now, assume all nodes are available if tree is unlocked
   const getNodeAvailability = (nodeId: string) => {
-    const node = tree.nodes.find(n => n.id === nodeId);
+    const node = tree.nodes.find((n) => n.id === nodeId);
     return tree.isUnlocked && node ? node.isLearnable : false;
   };
 
@@ -370,14 +374,16 @@ export const SkillTreePanel: React.FC = () => {
                 <p className="text-gray-300 mb-4">{selectedTree.description}</p>
 
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {selectedTree.specializations.map((path: SpecializationPath) => (
-                    <span
-                      key={path.id}
-                      className="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm"
-                    >
-                      {path.name}
-                    </span>
-                  ))}
+                  {selectedTree.specializations.map(
+                    (path: SpecializationPath) => (
+                      <span
+                        key={path.id}
+                        className="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm"
+                      >
+                        {path.name}
+                      </span>
+                    ),
+                  )}
                 </div>
               </div>
 
@@ -437,17 +443,15 @@ export const SkillTreePanel: React.FC = () => {
                         Recommendations
                       </h4>
                       <ul className="space-y-2">
-                        {lastAnalysis.recommendedNodes.map(
-                          (rec, index) => (
-                            <li
-                              key={index}
-                              className="text-sm text-gray-300 flex items-start"
-                            >
-                              <span className="text-yellow-400 mr-2">•</span>
-                              <span>{rec.reason}</span>
-                            </li>
-                          ),
-                        )}
+                        {lastAnalysis.recommendedNodes.map((rec, index) => (
+                          <li
+                            key={index}
+                            className="text-sm text-gray-300 flex items-start"
+                          >
+                            <span className="text-yellow-400 mr-2">•</span>
+                            <span>{rec.reason}</span>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   )}

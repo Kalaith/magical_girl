@@ -17,7 +17,8 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
   onClick,
   showDetails = true,
 }) => {
-  const rarityConfig = achievementRarities[achievement.rarity as keyof typeof achievementRarities];
+  const rarityConfig =
+    achievementRarities[achievement.rarity as keyof typeof achievementRarities];
   const progressPercentage = Math.min(
     (achievement.progress / achievement.maxProgress) * 100,
     100,

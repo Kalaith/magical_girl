@@ -27,7 +27,9 @@ export const PrestigePanel: React.FC = () => {
             </div>
             <div className="flex justify-between">
               <span>Total Experience:</span>
-              <span className="font-semibold">{player.resources.experience.toLocaleString()}</span>
+              <span className="font-semibold">
+                {player.resources.experience.toLocaleString()}
+              </span>
             </div>
             <div className="flex justify-between">
               <span>Prestige Level:</span>
@@ -59,7 +61,8 @@ export const PrestigePanel: React.FC = () => {
         <h3 className="text-xl font-semibold mb-4">Prestige Simulation</h3>
         <div className="space-y-4">
           <p className="text-gray-600">
-            Performing prestige will reset your level and experience, but grant permanent bonuses.
+            Performing prestige will reset your level and experience, but grant
+            permanent bonuses.
           </p>
 
           <div className="border rounded-lg p-4 bg-gray-50">
@@ -78,7 +81,9 @@ export const PrestigePanel: React.FC = () => {
               disabled={player.resources.level < 50}
               className="flex-1"
             >
-              {player.resources.level < 50 ? "Requires Level 50" : "Perform Prestige"}
+              {player.resources.level < 50
+                ? "Requires Level 50"
+                : "Perform Prestige"}
             </Button>
             <Button variant="secondary" className="flex-1">
               Learn More

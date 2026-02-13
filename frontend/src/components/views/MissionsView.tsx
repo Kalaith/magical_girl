@@ -96,7 +96,9 @@ export const MissionsView: React.FC = () => {
       <div className="space-y-4">
         {missions.length === 0 ? (
           <Card className="p-8 text-center">
-            <p className="text-gray-500">No missions match your current filters.</p>
+            <p className="text-gray-500">
+              No missions match your current filters.
+            </p>
             <p className="text-sm text-gray-400 mt-2">
               Try adjusting your search or filter criteria.
             </p>
@@ -131,7 +133,10 @@ export const MissionsView: React.FC = () => {
               >
                 Start Mission
               </Button>
-              <Button variant="secondary" onClick={() => setSelectedMission(null)}>
+              <Button
+                variant="secondary"
+                onClick={() => setSelectedMission(null)}
+              >
                 Close
               </Button>
             </div>

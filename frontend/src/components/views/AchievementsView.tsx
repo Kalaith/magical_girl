@@ -51,15 +51,11 @@ export const AchievementsView: React.FC = () => {
           </div>
           <div className="flex items-center gap-1">
             <Award className="w-4 h-4 text-purple-500" />
-            <span className="font-medium">
-              {unlockedCount} Unlocked
-            </span>
+            <span className="font-medium">{unlockedCount} Unlocked</span>
           </div>
           <div className="flex items-center gap-1">
             <Target className="w-4 h-4 text-blue-500" />
-            <span className="font-medium">
-              {achievements.length} Total
-            </span>
+            <span className="font-medium">{achievements.length} Total</span>
           </div>
         </div>
       </div>
@@ -79,8 +75,18 @@ export const AchievementsView: React.FC = () => {
                 <div className="text-left">
                   <div className="font-medium">{nextAchievement.name}</div>
                   <div className="text-sm text-gray-600">
-                    {formatProgress(nextAchievement.progress, nextAchievement.maxProgress)}
-                    ({Math.round(getProgressPercentage(nextAchievement.progress, nextAchievement.maxProgress))}%)
+                    {formatProgress(
+                      nextAchievement.progress,
+                      nextAchievement.maxProgress,
+                    )}
+                    (
+                    {Math.round(
+                      getProgressPercentage(
+                        nextAchievement.progress,
+                        nextAchievement.maxProgress,
+                      ),
+                    )}
+                    %)
                   </div>
                 </div>
               </div>
@@ -95,7 +101,9 @@ export const AchievementsView: React.FC = () => {
 
       {/* Achievement Grid */}
       <div className="px-2 sm:px-0">
-        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">All Achievements</h2>
+        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
+          All Achievements
+        </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
           {achievements.map((achievement) => (

@@ -17,24 +17,45 @@ export interface CombatSlice {
   combatSystem: CombatSystem;
 
   // Battle management
-  startBattle: (battle: Omit<CombatBattle, "id" | "status" | "startTime" | "combatLog">) => void;
-  endBattle: (battleId: string, winner: "player" | "enemy" | "draw", reason: BattleEndReason) => void;
+  startBattle: (
+    battle: Omit<CombatBattle, "id" | "status" | "startTime" | "combatLog">,
+  ) => void;
+  endBattle: (
+    battleId: string,
+    winner: "player" | "enemy" | "draw",
+    reason: BattleEndReason,
+  ) => void;
   pauseBattle: (battleId: string) => void;
   resumeBattle: (battleId: string) => void;
 
   // Turn management
   nextTurn: () => void;
-  executeAction: (participantId: string, action: CombatAction, targets?: CombatParticipant[]) => void;
+  executeAction: (
+    participantId: string,
+    action: CombatAction,
+    targets?: CombatParticipant[],
+  ) => void;
   processTurn: () => void;
 
   // Participant management
-  addParticipant: (battleId: string, participant: CombatParticipant, team: "player" | "enemy") => void;
+  addParticipant: (
+    battleId: string,
+    participant: CombatParticipant,
+    team: "player" | "enemy",
+  ) => void;
   removeParticipant: (battleId: string, participantId: string) => void;
-  updateParticipant: (battleId: string, participantId: string, updates: Partial<CombatParticipant>) => void;
+  updateParticipant: (
+    battleId: string,
+    participantId: string,
+    updates: Partial<CombatParticipant>,
+  ) => void;
 
   // Formation management
   createFormation: (formation: Omit<CombatFormation, "id">) => void;
-  updateFormation: (formationId: string, updates: Partial<CombatFormation>) => void;
+  updateFormation: (
+    formationId: string,
+    updates: Partial<CombatFormation>,
+  ) => void;
   deleteFormation: (formationId: string) => void;
   setActiveFormation: (formationId: string) => void;
 
@@ -42,7 +63,10 @@ export interface CombatSlice {
   updateCombatSettings: (settings: Partial<CombatSettings>) => void;
 
   // Combat log
-  addCombatLogEntry: (battleId: string, entry: Omit<CombatLogEntry, "id" | "timestamp">) => void;
+  addCombatLogEntry: (
+    battleId: string,
+    entry: Omit<CombatLogEntry, "id" | "timestamp">,
+  ) => void;
 
   // Analytics
   getCombatAnalytics: () => {
@@ -55,7 +79,11 @@ export interface CombatSlice {
 
   // Internal helper methods
   initializeTurnOrder: (battleId: string) => void;
-  processActionEffects: (participantId: string, action: CombatAction, targets?: CombatParticipant[]) => void;
+  processActionEffects: (
+    participantId: string,
+    action: CombatAction,
+    targets?: CombatParticipant[],
+  ) => void;
   executeAIAction: (participantId: string) => void;
   createCombatRecord: (battle: CombatBattle) => void;
 }
@@ -88,11 +116,23 @@ const initialCombatSystem: CombatSystem = {
         { row: 1, column: 2, role: "Damage", modifiers: [], restrictions: [] },
         { row: 1, column: 3, role: "Support", modifiers: [], restrictions: [] },
         { row: 2, column: 1, role: "Damage", modifiers: [], restrictions: [] },
-        { row: 2, column: 2, role: "Flexible", modifiers: [], restrictions: [] },
+        {
+          row: 2,
+          column: 2,
+          role: "Flexible",
+          modifiers: [],
+          restrictions: [],
+        },
         { row: 2, column: 3, role: "Healer", modifiers: [], restrictions: [] },
         { row: 3, column: 1, role: "Support", modifiers: [], restrictions: [] },
         { row: 3, column: 2, role: "Buffer", modifiers: [], restrictions: [] },
-        { row: 3, column: 3, role: "Debuffer", modifiers: [], restrictions: [] },
+        {
+          row: 3,
+          column: 3,
+          role: "Debuffer",
+          modifiers: [],
+          restrictions: [],
+        },
       ],
       bonuses: [],
       requirements: [],
@@ -143,9 +183,12 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
                 winner,
                 reason,
               }
-            : battle
+            : battle,
         ),
-        activeBattle: state.combatSystem.activeBattle?.id === battleId ? null : state.combatSystem.activeBattle,
+        activeBattle:
+          state.combatSystem.activeBattle?.id === battleId
+            ? null
+            : state.combatSystem.activeBattle,
       },
     }));
 
@@ -161,7 +204,9 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
       combatSystem: {
         ...state.combatSystem,
         battles: state.combatSystem.battles.map((battle) =>
-          battle.id === battleId ? { ...battle, status: "Paused" as BattleStatus } : battle
+          battle.id === battleId
+            ? { ...battle, status: "Paused" as BattleStatus }
+            : battle,
         ),
       },
     }));
@@ -172,7 +217,9 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
       combatSystem: {
         ...state.combatSystem,
         battles: state.combatSystem.battles.map((battle) =>
-          battle.id === battleId ? { ...battle, status: "Active" as BattleStatus } : battle
+          battle.id === battleId
+            ? { ...battle, status: "Active" as BattleStatus }
+            : battle,
         ),
       },
     }));
@@ -183,7 +230,8 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
     if (!activeBattle || activeBattle.status !== "Active") return;
 
     const turnOrder = activeBattle.turnOrder;
-    const nextIndex = (turnOrder.currentIndex + 1) % turnOrder.participants.length;
+    const nextIndex =
+      (turnOrder.currentIndex + 1) % turnOrder.participants.length;
 
     set((state) => ({
       combatSystem: {
@@ -228,11 +276,18 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
     const { activeBattle } = get().combatSystem;
     if (!activeBattle || activeBattle.status !== "Active") return;
 
-    const currentParticipant = activeBattle.turnOrder.participants[activeBattle.turnOrder.currentIndex];
+    const currentParticipant =
+      activeBattle.turnOrder.participants[activeBattle.turnOrder.currentIndex];
 
     // If it's an AI participant, execute AI action
-    if (currentParticipant && !currentParticipant.participantId.startsWith("player")) {
-      setTimeout(() => get().executeAIAction(currentParticipant.participantId), 500);
+    if (
+      currentParticipant &&
+      !currentParticipant.participantId.startsWith("player")
+    ) {
+      setTimeout(
+        () => get().executeAIAction(currentParticipant.participantId),
+        500,
+      );
     }
   },
 
@@ -249,7 +304,7 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
                   participant,
                 ],
               }
-            : battle
+            : battle,
         ),
       },
     }));
@@ -275,10 +330,10 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
         battles: state.combatSystem.battles.map((battle) => ({
           ...battle,
           playerTeam: battle.playerTeam.map((p) =>
-            p.id === participantId ? { ...p, ...updates } : p
+            p.id === participantId ? { ...p, ...updates } : p,
           ),
           enemyTeam: battle.enemyTeam.map((p) =>
-            p.id === participantId ? { ...p, ...updates } : p
+            p.id === participantId ? { ...p, ...updates } : p,
           ),
         })),
       },
@@ -304,7 +359,9 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
       combatSystem: {
         ...state.combatSystem,
         formations: state.combatSystem.formations.map((formation) =>
-          formation.id === formationId ? { ...formation, ...updates } : formation
+          formation.id === formationId
+            ? { ...formation, ...updates }
+            : formation,
         ),
       },
     }));
@@ -314,8 +371,13 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
     set((state) => ({
       combatSystem: {
         ...state.combatSystem,
-        formations: state.combatSystem.formations.filter((f) => f.id !== formationId),
-        activeFormation: state.combatSystem.activeFormation === formationId ? "default" : state.combatSystem.activeFormation,
+        formations: state.combatSystem.formations.filter(
+          (f) => f.id !== formationId,
+        ),
+        activeFormation:
+          state.combatSystem.activeFormation === formationId
+            ? "default"
+            : state.combatSystem.activeFormation,
       },
     }));
   },
@@ -351,7 +413,7 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
         battles: state.combatSystem.battles.map((battle) =>
           battle.id === battleId
             ? { ...battle, combatLog: [...battle.combatLog, entry] }
-            : battle
+            : battle,
         ),
       },
     }));
@@ -364,12 +426,17 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
       totalBattles: combatHistory.length,
       victories: combatHistory.filter((r) => r.result === "Victory").length,
       defeats: combatHistory.filter((r) => r.result === "Defeat").length,
-      winRate: combatHistory.length > 0
-        ? (combatHistory.filter((r) => r.result === "Victory").length / combatHistory.length) * 100
-        : 0,
-      averageTurns: combatHistory.length > 0
-        ? combatHistory.reduce((sum, r) => sum + r.turns, 0) / combatHistory.length
-        : 0,
+      winRate:
+        combatHistory.length > 0
+          ? (combatHistory.filter((r) => r.result === "Victory").length /
+              combatHistory.length) *
+            100
+          : 0,
+      averageTurns:
+        combatHistory.length > 0
+          ? combatHistory.reduce((sum, r) => sum + r.turns, 0) /
+            combatHistory.length
+          : 0,
     };
   },
 
@@ -399,7 +466,7 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
       combatSystem: {
         ...state.combatSystem,
         battles: state.combatSystem.battles.map((b) =>
-          b.id === battleId ? { ...b, turnOrder } : b
+          b.id === battleId ? { ...b, turnOrder } : b,
         ),
       },
     }));
@@ -439,14 +506,21 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
     const { activeBattle } = get().combatSystem;
     if (!activeBattle) return;
 
-    const participant = [...activeBattle.playerTeam, ...activeBattle.enemyTeam].find(
-      (p) => p.id === participantId
-    );
+    const participant = [
+      ...activeBattle.playerTeam,
+      ...activeBattle.enemyTeam,
+    ].find((p) => p.id === participantId);
     if (!participant || participant.availableActions.length === 0) return;
 
     // Simple AI: pick random action and target
-    const action = participant.availableActions[Math.floor(Math.random() * participant.availableActions.length)];
-    const enemyTeam = participant.source === "player" ? activeBattle.enemyTeam : activeBattle.playerTeam;
+    const action =
+      participant.availableActions[
+        Math.floor(Math.random() * participant.availableActions.length)
+      ];
+    const enemyTeam =
+      participant.source === "player"
+        ? activeBattle.enemyTeam
+        : activeBattle.playerTeam;
     const target = enemyTeam[Math.floor(Math.random() * enemyTeam.length)];
 
     if (target) {
@@ -463,7 +537,12 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
       type: battle.type,
       playerTeam: battle.playerTeam.map((p) => p.id),
       enemyTeam: battle.enemyTeam.map((p) => p.id),
-      result: battle.winner === "player" ? "Victory" : battle.winner === "enemy" ? "Defeat" : "Draw",
+      result:
+        battle.winner === "player"
+          ? "Victory"
+          : battle.winner === "enemy"
+            ? "Defeat"
+            : "Draw",
       turns: battle.currentTurn,
       damageDealt: 0, // Would calculate from log
       damageReceived: 0, // Would calculate from log
@@ -481,7 +560,10 @@ export const createCombatSlice: StateCreator<CombatSlice> = (set, get) => ({
     set((state) => ({
       combatSystem: {
         ...state.combatSystem,
-        combatHistory: [record, ...state.combatSystem.combatHistory].slice(0, 100),
+        combatHistory: [record, ...state.combatSystem.combatHistory].slice(
+          0,
+          100,
+        ),
       },
     }));
   },

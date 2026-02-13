@@ -7,7 +7,11 @@ import { Button } from "../ui/Button";
 import { MagicalGirlCard } from "../MagicalGirl/MagicalGirlCard";
 import { MagicalGirlDetails } from "../MagicalGirl/MagicalGirlDetails";
 import { Modal } from "../ui/Modal";
-import type { MagicalGirl, MagicalElement, Rarity } from "../../types/magicalGirl";
+import type {
+  MagicalGirl,
+  MagicalElement,
+  Rarity,
+} from "../../types/magicalGirl";
 
 export const MagicalGirlsView: React.FC = () => {
   const { magicalGirls } = useGameStore();

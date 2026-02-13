@@ -137,7 +137,9 @@ export interface SkillRequirement {
   type: RequirementType;
   value: number | string;
   description: string;
-  checkFunction?: (character: Record<string, string | number | boolean>) => boolean;
+  checkFunction?: (
+    character: Record<string, string | number | boolean>,
+  ) => boolean;
 }
 
 export interface SkillEffect {

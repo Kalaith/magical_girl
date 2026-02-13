@@ -8,7 +8,7 @@ export interface GameSettings {
   sfxVolume: number;
 
   // Graphics settings
-  quality: 'low' | 'medium' | 'high';
+  quality: "low" | "medium" | "high";
   animations: boolean;
 
   // Gameplay settings
@@ -30,16 +30,21 @@ export interface EnhancedSettingsSlice {
   settings: GameSettings;
 
   // Actions
-  updateSetting: <K extends keyof GameSettings>(key: K, value: GameSettings[K]) => void;
+  updateSetting: <K extends keyof GameSettings>(
+    key: K,
+    value: GameSettings[K],
+  ) => void;
   resetSettings: () => void;
-  resetCategory: (category: 'audio' | 'graphics' | 'gameplay' | 'ui' | 'accessibility') => void;
+  resetCategory: (
+    category: "audio" | "graphics" | "gameplay" | "ui" | "accessibility",
+  ) => void;
 }
 
 const defaultSettings: GameSettings = {
   masterVolume: 80,
   musicVolume: 70,
   sfxVolume: 80,
-  quality: 'medium',
+  quality: "medium",
   animations: true,
   autoSave: true,
   fastMode: false,
@@ -50,16 +55,18 @@ const defaultSettings: GameSettings = {
   highContrast: false,
 };
 
-export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = (set) => {
+export const createEnhancedSettingsSlice: StateCreator<
+  EnhancedSettingsSlice
+> = (set) => {
   return {
     settings: defaultSettings,
 
     updateSetting: (key, value) => {
-      set(state => ({
+      set((state) => ({
         settings: {
           ...state.settings,
-          [key]: value
-        }
+          [key]: value,
+        },
       }));
     },
 
@@ -71,33 +78,33 @@ export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = 
       let updates: Partial<GameSettings> = {};
 
       switch (category) {
-        case 'audio':
+        case "audio":
           updates = {
             masterVolume: defaultSettings.masterVolume,
             musicVolume: defaultSettings.musicVolume,
             sfxVolume: defaultSettings.sfxVolume,
           };
           break;
-        case 'graphics':
+        case "graphics":
           updates = {
             quality: defaultSettings.quality,
             animations: defaultSettings.animations,
           };
           break;
-        case 'gameplay':
+        case "gameplay":
           updates = {
             autoSave: defaultSettings.autoSave,
             fastMode: defaultSettings.fastMode,
             showDamageNumbers: defaultSettings.showDamageNumbers,
           };
           break;
-        case 'ui':
+        case "ui":
           updates = {
             uiScale: defaultSettings.uiScale,
             showTooltips: defaultSettings.showTooltips,
           };
           break;
-        case 'accessibility':
+        case "accessibility":
           updates = {
             reducedMotion: defaultSettings.reducedMotion,
             highContrast: defaultSettings.highContrast,
@@ -105,8 +112,8 @@ export const createEnhancedSettingsSlice: StateCreator<EnhancedSettingsSlice> = 
           break;
       }
 
-      set(state => ({
-        settings: { ...state.settings, ...updates }
+      set((state) => ({
+        settings: { ...state.settings, ...updates },
       }));
     },
   };

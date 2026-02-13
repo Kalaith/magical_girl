@@ -122,7 +122,9 @@ export const DashboardView: React.FC = () => {
           </h3>{" "}
           <div className="space-y-3">
             {magicalGirls
-              .filter((mg) => activeSessions.some(session => session.girlId === mg.id))
+              .filter((mg) =>
+                activeSessions.some((session) => session.girlId === mg.id),
+              )
               .map((girl) => (
                 <div
                   key={girl.id}
@@ -132,7 +134,9 @@ export const DashboardView: React.FC = () => {
                   <span className="text-sm text-orange-600">Training...</span>
                 </div>
               ))}
-            {magicalGirls.filter((mg) => activeSessions.some(session => session.girlId === mg.id)).length === 0 && (
+            {magicalGirls.filter((mg) =>
+              activeSessions.some((session) => session.girlId === mg.id),
+            ).length === 0 && (
               <p className="text-gray-500 text-center py-4">
                 No active training sessions.
               </p>

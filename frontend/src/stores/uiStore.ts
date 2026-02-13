@@ -73,7 +73,10 @@ interface UIActions {
   setLoading: (loading: boolean) => void;
 
   // Modal management
-  openModal: <T extends Exclude<ModalType, null>>(modal: T, data?: ModalData[T]) => void;
+  openModal: <T extends Exclude<ModalType, null>>(
+    modal: T,
+    data?: ModalData[T],
+  ) => void;
   closeModal: () => void;
 
   // Panel management

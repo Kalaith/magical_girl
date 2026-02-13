@@ -31,10 +31,13 @@ interface SkillTreeStore extends SkillTreeState {
 }
 
 const initialState: SkillTreeState = {
-  trees: skillTrees.reduce((acc, tree) => {
-    acc[tree.id] = tree;
-    return acc;
-  }, {} as Record<string, SkillTree>),
+  trees: skillTrees.reduce(
+    (acc, tree) => {
+      acc[tree.id] = tree;
+      return acc;
+    },
+    {} as Record<string, SkillTree>,
+  ),
   activeTreeId: null,
   globalSkillPoints: 10,
   savedBuilds: [],
@@ -73,7 +76,11 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
         const node = tree.nodes[nodeIndex];
 
         // Simple validation
-        if (!tree.isUnlocked || node.currentRank >= node.maxRank || tree.availablePoints < 1) {
+        if (
+          !tree.isUnlocked ||
+          node.currentRank >= node.maxRank ||
+          tree.availablePoints < 1
+        ) {
           return;
         }
 
@@ -92,17 +99,25 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
         // Update tree
         tree.availablePoints -= cost;
         tree.totalPointsSpent += cost;
-        tree.totalNodesUnlocked = tree.nodes.filter(n => n.currentRank > 0).length;
+        tree.totalNodesUnlocked = tree.nodes.filter(
+          (n) => n.currentRank > 0,
+        ).length;
 
         // Update learnable status
-        tree.nodes.forEach(n => {
-          n.isLearnable = n.prerequisites.length === 0 || n.prerequisites.every(prereq => {
-            if (prereq.type === "node_rank" && prereq.nodeId) {
-              const prereqNode = tree.nodes.find(pn => pn.id === prereq.nodeId);
-              return prereqNode ? prereqNode.currentRank >= (prereq.minimumRank || 1) : false;
-            }
-            return true;
-          });
+        tree.nodes.forEach((n) => {
+          n.isLearnable =
+            n.prerequisites.length === 0 ||
+            n.prerequisites.every((prereq) => {
+              if (prereq.type === "node_rank" && prereq.nodeId) {
+                const prereqNode = tree.nodes.find(
+                  (pn) => pn.id === prereq.nodeId,
+                );
+                return prereqNode
+                  ? prereqNode.currentRank >= (prereq.minimumRank || 1)
+                  : false;
+              }
+              return true;
+            });
         });
       });
     },
@@ -129,7 +144,9 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
 
         tree.availablePoints += refund;
         tree.totalPointsSpent -= refund;
-        tree.totalNodesUnlocked = tree.nodes.filter(n => n.currentRank > 0).length;
+        tree.totalNodesUnlocked = tree.nodes.filter(
+          (n) => n.currentRank > 0,
+        ).length;
       });
     },
 
@@ -142,7 +159,7 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
 
         state.trees[treeId] = {
           ...tree,
-          nodes: tree.nodes.map(node => ({
+          nodes: tree.nodes.map((node) => ({
             ...node,
             currentRank: 0,
             isMaxRank: false,
@@ -223,26 +240,29 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
 
     getSkillNode: (treeId: string, nodeId: string) => {
       const tree = get().getSkillTree(treeId);
-      return tree?.nodes.find(node => node.id === nodeId) || null;
+      return tree?.nodes.find((node) => node.id === nodeId) || null;
     },
 
     getActiveBuild: () => {
       const state = get();
-      return state.savedBuilds.find(build => build.id === state.activeBuildId) || null;
+      return (
+        state.savedBuilds.find((build) => build.id === state.activeBuildId) ||
+        null
+      );
     },
 
     getTotalSkillPoints: () => {
       const state = get();
       const treePoints = Object.values(state.trees).reduce(
         (total, tree) => total + tree.availablePoints,
-        0
+        0,
       );
       return state.globalSkillPoints + treePoints;
     },
 
     getUnlockedTrees: () => {
       const state = get();
-      return Object.values(state.trees).filter(tree => tree.isUnlocked);
+      return Object.values(state.trees).filter((tree) => tree.isUnlocked);
     },
-  }))
+  })),
 );

@@ -37,7 +37,10 @@ export const useAchievements = () => {
   const getNextAchievement = () => {
     const inProgress = achievements
       .filter((a: Achievement) => !a.unlocked && a.progress > 0)
-      .sort((a: Achievement, b: Achievement) => b.progress / b.maxProgress - a.progress / a.maxProgress);
+      .sort(
+        (a: Achievement, b: Achievement) =>
+          b.progress / b.maxProgress - a.progress / a.maxProgress,
+      );
 
     return inProgress[0] || null;
   };

@@ -1,5 +1,9 @@
 // Skill tree configuration
-import type { SkillTree, SkillNode, SpecializationPath } from "../types/skillTree";
+import type {
+  SkillTree,
+  SkillNode,
+  SpecializationPath,
+} from "../types/skillTree";
 
 const sampleNodes: SkillNode[] = [
   {
@@ -12,19 +16,23 @@ const sampleNodes: SkillNode[] = [
     prerequisites: [],
     unlocks: ["fire_basic_2"],
     position: { x: 100, y: 100, tier: "basic" },
-    costs: [{ type: "skill_points", amount: 1, scaling: "linear", rankMultiplier: 1 }],
+    costs: [
+      { type: "skill_points", amount: 1, scaling: "linear", rankMultiplier: 1 },
+    ],
     requirements: [],
-    effects: [{
-      id: "fire_damage",
-      type: "stat_bonus",
-      target: "enemies",
-      value: 10,
-      scaling: "linear",
-      isPercentage: false,
-      stackable: false,
-      description: "+10 Fire Damage",
-      displayFormat: "Fire Damage: +{value}"
-    }],
+    effects: [
+      {
+        id: "fire_damage",
+        type: "stat_bonus",
+        target: "enemies",
+        value: 10,
+        scaling: "linear",
+        isPercentage: false,
+        stackable: false,
+        description: "+10 Fire Damage",
+        displayFormat: "Fire Damage: +{value}",
+      },
+    ],
     scaling: { baseValue: 10, perRank: 5, scalingType: "additive" },
     icon: "🔥",
     color: "#ff4444",
@@ -41,22 +49,28 @@ const sampleNodes: SkillNode[] = [
     tier: "basic",
     maxRank: 3,
     currentRank: 0,
-    prerequisites: [{ type: "node_rank", nodeId: "fire_basic_1", minimumRank: 1 }],
+    prerequisites: [
+      { type: "node_rank", nodeId: "fire_basic_1", minimumRank: 1 },
+    ],
     unlocks: [],
     position: { x: 200, y: 100, tier: "basic" },
-    costs: [{ type: "skill_points", amount: 2, scaling: "linear", rankMultiplier: 1 }],
+    costs: [
+      { type: "skill_points", amount: 2, scaling: "linear", rankMultiplier: 1 },
+    ],
     requirements: [],
-    effects: [{
-      id: "fire_damage_bonus",
-      type: "stat_multiplier",
-      target: "self",
-      value: 1.1,
-      scaling: "percentage",
-      isPercentage: true,
-      stackable: false,
-      description: "+10% Fire Damage",
-      displayFormat: "Fire Damage: +{value}%"
-    }],
+    effects: [
+      {
+        id: "fire_damage_bonus",
+        type: "stat_multiplier",
+        target: "self",
+        value: 1.1,
+        scaling: "percentage",
+        isPercentage: true,
+        stackable: false,
+        description: "+10% Fire Damage",
+        displayFormat: "Fire Damage: +{value}%",
+      },
+    ],
     scaling: { baseValue: 1.1, perRank: 0.05, scalingType: "multiplicative" },
     icon: "🔥",
     color: "#ff6666",
@@ -100,7 +114,13 @@ export const skillTrees: SkillTree[] = [
     characterId: "player-1",
     element: "fire",
     nodes: sampleNodes,
-    connections: [{ fromNode: "fire_basic_1", toNode: "fire_basic_2", connectionType: "prerequisite" }],
+    connections: [
+      {
+        fromNode: "fire_basic_1",
+        toNode: "fire_basic_2",
+        connectionType: "prerequisite",
+      },
+    ],
     specializations: sampleSpecializations,
     totalNodesUnlocked: 0,
     totalPointsSpent: 0,
@@ -127,10 +147,12 @@ export const skillTreeHelpers = {
   calculateSkillPoints: (level: number) => level * 2,
   getSkillRequirements: () => [],
   checkPrerequisites: (tree: SkillTree, node: SkillNode) => {
-    return node.prerequisites.every(prereq => {
+    return node.prerequisites.every((prereq) => {
       if (prereq.type === "node_rank" && prereq.nodeId) {
-        const prereqNode = tree.nodes.find(n => n.id === prereq.nodeId);
-        return prereqNode ? prereqNode.currentRank >= (prereq.minimumRank || 1) : false;
+        const prereqNode = tree.nodes.find((n) => n.id === prereq.nodeId);
+        return prereqNode
+          ? prereqNode.currentRank >= (prereq.minimumRank || 1)
+          : false;
       }
       return true;
     });

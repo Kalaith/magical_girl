@@ -37,8 +37,11 @@ const createEmptyFormation = (name: string): Formation => ({
   })),
 });
 
-export const createFormationSlice: StateCreator<FormationSlice> = (set, get) => ({
-  activeFormation: createEmptyFormation('Default'),
+export const createFormationSlice: StateCreator<FormationSlice> = (
+  set,
+  get,
+) => ({
+  activeFormation: createEmptyFormation("Default"),
   savedFormations: [],
 
   createFormation: (name: string) => {
@@ -48,7 +51,7 @@ export const createFormationSlice: StateCreator<FormationSlice> = (set, get) => 
 
   saveFormation: (formation: Formation) => {
     const { savedFormations } = get();
-    const existing = savedFormations.findIndex(f => f.id === formation.id);
+    const existing = savedFormations.findIndex((f) => f.id === formation.id);
 
     if (existing >= 0) {
       const updated = [...savedFormations];
@@ -61,7 +64,7 @@ export const createFormationSlice: StateCreator<FormationSlice> = (set, get) => 
 
   loadFormation: (formationId: string) => {
     const { savedFormations } = get();
-    const formation = savedFormations.find(f => f.id === formationId);
+    const formation = savedFormations.find((f) => f.id === formationId);
     if (formation) {
       set({ activeFormation: { ...formation } });
     }
@@ -70,7 +73,7 @@ export const createFormationSlice: StateCreator<FormationSlice> = (set, get) => 
   deleteFormation: (formationId: string) => {
     const { savedFormations } = get();
     set({
-      savedFormations: savedFormations.filter(f => f.id !== formationId)
+      savedFormations: savedFormations.filter((f) => f.id !== formationId),
     });
   },
 
@@ -78,17 +81,15 @@ export const createFormationSlice: StateCreator<FormationSlice> = (set, get) => 
     const { activeFormation } = get();
     if (!activeFormation) return;
 
-    const newPositions = activeFormation.positions.map(pos =>
-      pos.row === row && pos.column === column
-        ? { ...pos, girlId }
-        : pos
+    const newPositions = activeFormation.positions.map((pos) =>
+      pos.row === row && pos.column === column ? { ...pos, girlId } : pos,
     );
 
     set({
       activeFormation: {
         ...activeFormation,
         positions: newPositions,
-      }
+      },
     });
   },
 
@@ -96,7 +97,7 @@ export const createFormationSlice: StateCreator<FormationSlice> = (set, get) => 
     const { activeFormation } = get();
     if (!activeFormation) return;
 
-    const clearedPositions = activeFormation.positions.map(pos => ({
+    const clearedPositions = activeFormation.positions.map((pos) => ({
       ...pos,
       girlId: null,
     }));
@@ -105,7 +106,7 @@ export const createFormationSlice: StateCreator<FormationSlice> = (set, get) => 
       activeFormation: {
         ...activeFormation,
         positions: clearedPositions,
-      }
+      },
     });
   },
 });

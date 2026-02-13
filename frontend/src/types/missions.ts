@@ -488,7 +488,7 @@ export interface StatusEffect {
   description: string;
   duration: number;
   remaining: number;
-  effects: Array<{ type: string; value: string | number; }>;
+  effects: Array<{ type: string; value: string | number }>;
   source: string;
   removable: boolean;
 }
@@ -590,7 +590,7 @@ export interface MissionVariable {
   type: "number" | "string" | "boolean" | "array" | "object";
   defaultValue: string | number | boolean;
   range?: [number, number];
-  options?: Array<{ value: string | number; label: string; }>;
+  options?: Array<{ value: string | number; label: string }>;
   formula?: string;
 }
 

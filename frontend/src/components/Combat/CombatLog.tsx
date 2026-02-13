@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import type { CombatBattle, CombatLogEntry } from '../../types/combat';
+import React, { useEffect, useRef } from "react";
+import type { CombatBattle, CombatLogEntry } from "../../types/combat";
 
 interface CombatLogProps {
   battle: CombatBattle;
@@ -9,8 +9,8 @@ interface CombatLogProps {
 
 const CombatLog: React.FC<CombatLogProps> = ({
   battle,
-  className = '',
-  maxEntries = 20
+  className = "",
+  maxEntries = 20,
 }) => {
   const logRef = useRef<HTMLDivElement>(null);
 
@@ -23,28 +23,43 @@ const CombatLog: React.FC<CombatLogProps> = ({
 
   const recentEntries = battle.combatLog.slice(-maxEntries);
 
-  const getEntryIcon = (type: CombatLogEntry['type']) => {
+  const getEntryIcon = (type: CombatLogEntry["type"]) => {
     switch (type) {
-      case 'Action': return '⚔️';
-      case 'Damage': return '💥';
-      case 'Healing': return '💚';
-      case 'Status': return '✨';
-      case 'Movement': return '🏃';
-      case 'Environment': return '🌍';
-      case 'System': return 'ℹ️';
-      case 'Victory': return '🏆';
-      case 'Defeat': return '💀';
-      default: return '📝';
+      case "Action":
+        return "⚔️";
+      case "Damage":
+        return "💥";
+      case "Healing":
+        return "💚";
+      case "Status":
+        return "✨";
+      case "Movement":
+        return "🏃";
+      case "Environment":
+        return "🌍";
+      case "System":
+        return "ℹ️";
+      case "Victory":
+        return "🏆";
+      case "Defeat":
+        return "💀";
+      default:
+        return "📝";
     }
   };
 
-  const getEntryColor = (type: CombatLogEntry['type']) => {
+  const getEntryColor = (type: CombatLogEntry["type"]) => {
     switch (type) {
-      case 'Damage': return 'text-red-600';
-      case 'Healing': return 'text-green-600';
-      case 'Victory': return 'text-yellow-600';
-      case 'Defeat': return 'text-red-800';
-      default: return 'text-gray-700';
+      case "Damage":
+        return "text-red-600";
+      case "Healing":
+        return "text-green-600";
+      case "Victory":
+        return "text-yellow-600";
+      case "Defeat":
+        return "text-red-800";
+      default:
+        return "text-gray-700";
     }
   };
 
@@ -65,10 +80,13 @@ const CombatLog: React.FC<CombatLogProps> = ({
             <div
               key={entry.id}
               className={`flex items-start space-x-2 p-2 rounded text-sm ${
-                entry.type === 'Action' ? 'bg-blue-50' :
-                entry.type === 'Damage' ? 'bg-red-50' :
-                entry.type === 'Healing' ? 'bg-green-50' :
-                'bg-gray-50'
+                entry.type === "Action"
+                  ? "bg-blue-50"
+                  : entry.type === "Damage"
+                    ? "bg-red-50"
+                    : entry.type === "Healing"
+                      ? "bg-green-50"
+                      : "bg-gray-50"
               }`}
             >
               <span className="text-lg">{getEntryIcon(entry.type)}</span>
