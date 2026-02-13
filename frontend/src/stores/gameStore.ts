@@ -1,5 +1,12 @@
+
 import { create } from "zustand";
-import type { Player, Notification, Resources, SaveData } from "../types/game";
+import type {
+  Player,
+  Notification,
+  Resources,
+  SaveData,
+  ActiveTrainingSession,
+} from "../types/game";
 import type { MagicalGirl } from "../types/magicalGirl";
 import type { Mission } from "../types/missions";
 import type {
@@ -15,6 +22,7 @@ import type {
   CombatLogEntry,
   BattleEndReason,
 } from "../types/combat";
+import type { TrainingSession } from "../types/training";
 
 import { gameConfig } from "../config/gameConfig";
 import { initialMagicalGirls } from "../data/magicalGirls";
@@ -222,29 +230,7 @@ const initialState = {
   } as Player,
   missions: initialMissions as Mission[],
   activeMission: null as { mission: Mission; teamIds: string[] } | null,
-  activeSessions: [] as Array<{
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-    category: string;
-    difficulty: string;
-    duration: number;
-    cost: { magicalEnergy: number; time: number };
-    requirements: never[];
-    effects: never[];
-    rewards: never[];
-    unlockConditions: never[];
-    isUnlocked: boolean;
-    isCompleted: boolean;
-    completionCount: number;
-    tags: never[];
-    girlId: string;
-    startTime: number;
-    endTime: number;
-    trainingName: string;
-    girlName: string;
-  }>,
+  activeSessions: [] as ActiveTrainingSession[],
 };
 
 export const useGameStore = create<
@@ -440,11 +426,11 @@ export const useGameStore = create<
 
     const startTime = Date.now();
     const duration = 3600000;
-    const newSession = {
+    const newSession: ActiveTrainingSession = {
       id: Math.random().toString(36),
       name: type + " Training",
       description: `Training session for ${type}`,
-      type: type,
+      type: type as TrainingSession["type"],
       category: "Stat_Boost",
       difficulty: "Beginner",
       duration: 3600,
@@ -875,7 +861,7 @@ export const useGameStore = create<
               },
             },
             statusEffects: [],
-            equipment: {},
+            equipment: { accessories: [], temporaryItems: [] },
             availableActions: [
               {
                 id: "attack",

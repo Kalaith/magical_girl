@@ -2,6 +2,15 @@
 import type { MagicalGirl, MagicalGirlStats } from "./magicalGirl";
 import type { Mission } from "./missions";
 import type { RecruitmentSystem } from "./recruitment";
+import type { TrainingSession } from "./training";
+
+export type ActiveTrainingSession = TrainingSession & {
+  girlId: string;
+  startTime: number;
+  endTime: number;
+  trainingName: string;
+  girlName: string;
+};
 
 export interface GameState {
   notifications: Notification[];
@@ -22,7 +31,7 @@ export interface GameState {
   player: Player;
   missions: Mission[];
   activeMission: { mission: Mission; teamIds: string[] } | null;
-  activeSessions: unknown[];
+  activeSessions: ActiveTrainingSession[];
   recruitmentSystem: RecruitmentSystem;
   gameTime?: number;
   lastSaveTime?: number;
