@@ -1,7 +1,7 @@
 // Game configuration and constants
 import type { GameConfig } from "../types/game";
 
-export const GAME_CONFIG: GameConfig = {
+export const gameConfig: GameConfig = {
   version: "1.0.0",
   resourceLimits: {
     maxMagicalEnergy: 1000,
@@ -138,7 +138,7 @@ export const GAME_CONFIG: GameConfig = {
   },
 };
 
-export const INITIAL_RESOURCES = {
+export const initialResources = {
   magicalEnergy: 100,
   maxMagicalEnergy: 100,
   sparkles: 50,
@@ -149,7 +149,7 @@ export const INITIAL_RESOURCES = {
   level: 1,
 };
 
-export const LEVEL_REQUIREMENTS = {
+export const levelRequirements = {
   experienceFormula: (level: number) =>
     Math.floor(100 * Math.pow(1.5, level - 1)),
   maxLevel: 50,
@@ -157,7 +157,7 @@ export const LEVEL_REQUIREMENTS = {
   abilityPointsPerLevel: 1,
 };
 
-export const ELEMENT_EFFECTIVENESS = {
+export const elementEffectiveness = {
   Light: {
     strong: ["Darkness"],
     weak: ["Void"],
@@ -292,14 +292,14 @@ export const ELEMENT_EFFECTIVENESS = {
   },
 };
 
-export const DAMAGE_MULTIPLIERS = {
+export const damageMultipliers = {
   strong: 1.5,
   neutral: 1.0,
   weak: 0.75,
   amplified: 1.25,
 };
 
-export const RARITY_MODIFIERS = {
+export const rarityModifiers = {
   Common: {
     statMultiplier: 1.0,
     experienceMultiplier: 1.0,
@@ -328,7 +328,7 @@ export const RARITY_MODIFIERS = {
   },
 };
 
-export const TIME_CONSTANTS = {
+export const timeConstants = {
   SECOND: 1000,
   MINUTE: 60 * 1000,
   HOUR: 60 * 60 * 1000,
@@ -337,7 +337,7 @@ export const TIME_CONSTANTS = {
   MONTH: 30 * 24 * 60 * 60 * 1000,
 };
 
-export const ENERGY_REGENERATION = {
+export const energyRegeneration = {
   baseRate: 1, // energy per second
   levelMultiplier: 0.1, // additional energy per level
   restMultiplier: 2.0, // multiplier when not active
@@ -345,14 +345,14 @@ export const ENERGY_REGENERATION = {
   missionPenalty: 0.3, // multiplier during missions
 };
 
-export const SAVE_CONSTANTS = {
-  autoSaveInterval: 30 * TIME_CONSTANTS.SECOND,
+export const saveConstants = {
+  autoSaveInterval: 30 * timeConstants.SECOND,
   maxSaveSlots: 5,
   saveVersion: "1.0.0",
   compressionEnabled: true,
 };
 
-export const UI_CONSTANTS = {
+export const uiConstants = {
   animationDuration: 300,
   notificationDuration: 3000,
   modalFadeTime: 200,
@@ -360,7 +360,7 @@ export const UI_CONSTANTS = {
   tooltipDelay: 500,
 };
 
-export const AUDIO_CONSTANTS = {
+export const audioConstants = {
   defaultVolume: 0.7,
   fadeTime: 1000,
   maxConcurrentSounds: 10,
@@ -372,7 +372,7 @@ export const AUDIO_CONSTANTS = {
   },
 };
 
-export const PERFORMANCE_CONSTANTS = {
+export const performanceConstants = {
   targetFPS: 60,
   maxParticles: 100,
   renderDistance: 1000,
@@ -380,7 +380,7 @@ export const PERFORMANCE_CONSTANTS = {
   levelOfDetail: true,
 };
 
-export const TUTORIAL_CONSTANTS = {
+export const tutorialConstants = {
   steps: [
     {
       id: "welcome",
@@ -413,7 +413,7 @@ export const TUTORIAL_CONSTANTS = {
   showProgress: true,
 };
 
-export const ACHIEVEMENT_CATEGORIES = {
+export const achievementCategories = {
   training: {
     name: "Training Master",
     description: "Achievements related to training activities",
@@ -452,7 +452,7 @@ export const ACHIEVEMENT_CATEGORIES = {
   },
 };
 
-export const ERROR_MESSAGES = {
+export const errorMessages = {
   INSUFFICIENT_ENERGY: "Not enough magical energy to perform this action",
   INSUFFICIENT_RESOURCES: "Not enough resources to complete this action",
   LEVEL_REQUIRED: "You need to reach a higher level first",
@@ -466,7 +466,7 @@ export const ERROR_MESSAGES = {
   UNKNOWN_ERROR: "An unknown error occurred",
 };
 
-export const SUCCESS_MESSAGES = {
+export const successMessages = {
   TRAINING_COMPLETE: "Training session completed successfully!",
   MISSION_COMPLETE: "Mission completed!",
   LEVEL_UP: "Congratulations! You leveled up!",
@@ -478,7 +478,7 @@ export const SUCCESS_MESSAGES = {
   LOAD_SUCCESS: "Game loaded successfully",
 };
 
-export const NOTIFICATION_TYPES = {
+export const notificationTypes = {
   SUCCESS: "success",
   ERROR: "error",
   WARNING: "warning",
@@ -486,7 +486,7 @@ export const NOTIFICATION_TYPES = {
   ACHIEVEMENT: "achievement",
 } as const;
 
-export const STORAGE_KEYS = {
+export const storageKeys = {
   GAME_SAVE: "magical_girl_save",
   SETTINGS: "magical_girl_settings",
   PREFERENCES: "magical_girl_preferences",
@@ -494,7 +494,7 @@ export const STORAGE_KEYS = {
   STATISTICS: "magical_girl_statistics",
 };
 
-export const API_ENDPOINTS = {
+export const apiEndpoints = {
   SAVE_GAME: "/api/save",
   LOAD_GAME: "/api/load",
   SYNC_PROGRESS: "/api/sync",
@@ -503,7 +503,7 @@ export const API_ENDPOINTS = {
   REPORT_BUG: "/api/bug-report",
 };
 
-export const FEATURE_FLAGS = {
+export const featureFlags = {
   CLOUD_SAVE: false,
   MULTIPLAYER: false,
   ANALYTICS: true,

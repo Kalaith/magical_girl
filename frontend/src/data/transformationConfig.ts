@@ -6,7 +6,7 @@ import type {
 } from "../types/transformation";
 import type { MagicalElement } from "../types/magicalGirl";
 
-export const TRANSFORMATION_CONFIG = {
+export const transformationConfig = {
   // Default transformation sequences available to all characters
   defaultTransformations: [
     {

@@ -5,12 +5,12 @@ import type { Mission } from "../types/missions";
 import type { RecruitmentSystem, SummonResult, SummonRecord } from "../types/recruitment";
 import type { CombatSystem, CombatBattle, CombatParticipant, CombatAction, CombatLogEntry, BattleEndReason } from "../types/combat";
 
-import { GAME_CONFIG } from "../config/gameConfig";
+import { gameConfig } from "../config/gameConfig";
 import { initialMagicalGirls } from "../data/magicalGirls";
 import { initialMissions } from "../data/missions";
 import { useAchievementStore } from "./achievementStore";
 
-const PERSISTENCE_VERSION = "1.0.0";
+const persistenceVersion = "1.0.0";
 
 const createInitialResources = (): Resources => ({
   magicalEnergy: 100,
@@ -394,7 +394,7 @@ export const useGameStore = create<typeof initialState & {
     const state = get();
     
     // Check if player has enough friendship points
-    if (state.resources.friendshipPoints < GAME_CONFIG.RECRUITMENT.BASIC_COST) {
+    if (state.resources.friendshipPoints < gameConfig.RECRUITMENT.BASIC_COST) {
       return false;
     }
 
@@ -411,7 +411,7 @@ export const useGameStore = create<typeof initialState & {
     const randomGirl = availableGirls[Math.floor(Math.random() * availableGirls.length)];
 
     // Spend resources and add girl
-    state.spendResources({ friendshipPoints: GAME_CONFIG.RECRUITMENT.BASIC_COST });
+    state.spendResources({ friendshipPoints: gameConfig.RECRUITMENT.BASIC_COST });
     
     set((currentState) => ({
       magicalGirls: [...currentState.magicalGirls, { ...randomGirl, isUnlocked: true, unlockedAt: Date.now() }],
@@ -440,7 +440,7 @@ export const useGameStore = create<typeof initialState & {
     // Check costs
     const cost = pullCount === 1 ? banner.costs.single : banner.costs.ten;
     const totalCost = {
-      [cost.primary.currency]: cost.primary.amount * (pullCount === 10 ? GAME_CONFIG.RECRUITMENT.MULTI_PULL_DISCOUNT : 1)
+      [cost.primary.currency]: cost.primary.amount * (pullCount === 10 ? gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT : 1)
     };
 
     if (!state.spendResources(totalCost)) {
@@ -593,13 +593,13 @@ export const useGameStore = create<typeof initialState & {
     }
 
     // Check if player has enough magical energy (skip for tutorials)
-    if (mission.type !== "Tutorial" && state.resources.magicalEnergy < GAME_CONFIG.MISSION_ENERGY_COST) {
+    if (mission.type !== "Tutorial" && state.resources.magicalEnergy < gameConfig.MISSION_ENERGY_COST) {
       return false;
     }
 
     // Spend magical energy (skip for tutorials)
     if (mission.type !== "Tutorial") {
-      state.spendResources({ magicalEnergy: GAME_CONFIG.MISSION_ENERGY_COST });
+      state.spendResources({ magicalEnergy: gameConfig.MISSION_ENERGY_COST });
     }
 
     // Auto-complete tutorial missions
@@ -1011,7 +1011,7 @@ export const useGameStore = create<typeof initialState & {
     const timestamp = Date.now();
 
     return {
-      version: PERSISTENCE_VERSION,
+      version: persistenceVersion,
       timestamp,
       gameState: {
         notifications: state.notifications,
@@ -1131,7 +1131,7 @@ export const useGameStore = create<typeof initialState & {
       }
 
       const parsed: SaveData = JSON.parse(rawSave);
-      if (parsed.version !== PERSISTENCE_VERSION) {
+      if (parsed.version !== persistenceVersion) {
         return false;
       }
 
@@ -1156,7 +1156,7 @@ export const useGameStore = create<typeof initialState & {
 
       autoSaveTimer = window.setInterval(() => {
         get().saveGame();
-      }, GAME_CONFIG.UI.AUTO_SAVE_INTERVAL);
+      }, gameConfig.UI.AUTO_SAVE_INTERVAL);
 
       gameTickTimer = window.setInterval(() => {
         const state = get();
@@ -1164,7 +1164,7 @@ export const useGameStore = create<typeof initialState & {
           state.updateGameTime();
         }
         state.updateMissions();
-      }, GAME_CONFIG.TIMERS.GAME_TICK_INTERVAL_MS);
+      }, gameConfig.TIMERS.GAME_TICK_INTERVAL_MS);
     }
 
     return () => {

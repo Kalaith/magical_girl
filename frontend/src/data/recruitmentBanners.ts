@@ -1,7 +1,7 @@
 import type { RecruitmentBanner } from "../types/recruitment";
-import { GAME_CONFIG } from "../config/gameConfig";
+import { gameConfig } from "../config/gameConfig";
 
-export const DEFAULT_BANNERS: RecruitmentBanner[] = [
+export const defaultBanners: RecruitmentBanner[] = [
   {
     id: "basic-standard",
     name: "Standard Banner",
@@ -12,30 +12,30 @@ export const DEFAULT_BANNERS: RecruitmentBanner[] = [
     isActive: true,
     featuredGirls: [], // All girls are available
     rates: {
-      Common: GAME_CONFIG.RECRUITMENT.RATES.BASIC.COMMON,
+      Common: gameConfig.RECRUITMENT.RATES.BASIC.COMMON,
       Uncommon: 0, // Not used in basic banner
-      Rare: GAME_CONFIG.RECRUITMENT.RATES.BASIC.RARE,
-      Epic: GAME_CONFIG.RECRUITMENT.RATES.BASIC.EPIC,
-      Legendary: GAME_CONFIG.RECRUITMENT.RATES.BASIC.LEGENDARY,
+      Rare: gameConfig.RECRUITMENT.RATES.BASIC.RARE,
+      Epic: gameConfig.RECRUITMENT.RATES.BASIC.EPIC,
+      Legendary: gameConfig.RECRUITMENT.RATES.BASIC.LEGENDARY,
       Mythical: 0, // Not used in basic banner
     },
     costs: {
       single: {
-        primary: { currency: "friendshipPoints", amount: GAME_CONFIG.RECRUITMENT.BASIC_COST, displayName: "Friendship Points" },
+        primary: { currency: "friendshipPoints", amount: gameConfig.RECRUITMENT.BASIC_COST, displayName: "Friendship Points" },
       },
       ten: {
-        primary: { currency: "friendshipPoints", amount: Math.floor(GAME_CONFIG.RECRUITMENT.BASIC_COST * 10 * GAME_CONFIG.RECRUITMENT.MULTI_PULL_DISCOUNT), displayName: "Friendship Points" },
+        primary: { currency: "friendshipPoints", amount: Math.floor(gameConfig.RECRUITMENT.BASIC_COST * 10 * gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT), displayName: "Friendship Points" },
       },
     },
     pitySystem: {
       enabled: true,
-      maxCounter: GAME_CONFIG.RECRUITMENT.PITY.BASIC.HARD_PITY,
+      maxCounter: gameConfig.RECRUITMENT.PITY.BASIC.HARD_PITY,
       targetRarity: "Legendary",
       carryOver: false,
       resetOnPull: true,
       softPity: {
-        startAt: GAME_CONFIG.RECRUITMENT.PITY.BASIC.SOFT_PITY_START,
-        rateIncrease: GAME_CONFIG.RECRUITMENT.PITY.BASIC.SOFT_PITY_MULTIPLIER,
+        startAt: gameConfig.RECRUITMENT.PITY.BASIC.SOFT_PITY_START,
+        rateIncrease: gameConfig.RECRUITMENT.PITY.BASIC.SOFT_PITY_MULTIPLIER,
         maxIncrease: 10.0,
       },
     },
@@ -85,30 +85,30 @@ export const DEFAULT_BANNERS: RecruitmentBanner[] = [
     isActive: true,
     featuredGirls: ["girl-legendary-1", "girl-epic-1"], // Example featured girls
     rates: {
-      Common: GAME_CONFIG.RECRUITMENT.RATES.LIMITED.COMMON,
+      Common: gameConfig.RECRUITMENT.RATES.LIMITED.COMMON,
       Uncommon: 0,
-      Rare: GAME_CONFIG.RECRUITMENT.RATES.LIMITED.RARE,
-      Epic: GAME_CONFIG.RECRUITMENT.RATES.LIMITED.EPIC,
-      Legendary: GAME_CONFIG.RECRUITMENT.RATES.LIMITED.LEGENDARY,
+      Rare: gameConfig.RECRUITMENT.RATES.LIMITED.RARE,
+      Epic: gameConfig.RECRUITMENT.RATES.LIMITED.EPIC,
+      Legendary: gameConfig.RECRUITMENT.RATES.LIMITED.LEGENDARY,
       Mythical: 0,
     },
     costs: {
       single: {
-        primary: { currency: "premiumGems", amount: GAME_CONFIG.RECRUITMENT.PREMIUM_COST, displayName: "Premium Gems" },
+        primary: { currency: "premiumGems", amount: gameConfig.RECRUITMENT.PREMIUM_COST, displayName: "Premium Gems" },
       },
       ten: {
-        primary: { currency: "premiumGems", amount: Math.floor(GAME_CONFIG.RECRUITMENT.PREMIUM_COST * 10 * GAME_CONFIG.RECRUITMENT.MULTI_PULL_DISCOUNT), displayName: "Premium Gems" },
+        primary: { currency: "premiumGems", amount: Math.floor(gameConfig.RECRUITMENT.PREMIUM_COST * 10 * gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT), displayName: "Premium Gems" },
       },
     },
     pitySystem: {
       enabled: true,
-      maxCounter: GAME_CONFIG.RECRUITMENT.PITY.LIMITED.HARD_PITY,
+      maxCounter: gameConfig.RECRUITMENT.PITY.LIMITED.HARD_PITY,
       targetRarity: "Legendary",
       carryOver: false,
       resetOnPull: true,
       softPity: {
-        startAt: GAME_CONFIG.RECRUITMENT.PITY.LIMITED.SOFT_PITY_START,
-        rateIncrease: GAME_CONFIG.RECRUITMENT.PITY.LIMITED.SOFT_PITY_MULTIPLIER,
+        startAt: gameConfig.RECRUITMENT.PITY.LIMITED.SOFT_PITY_START,
+        rateIncrease: gameConfig.RECRUITMENT.PITY.LIMITED.SOFT_PITY_MULTIPLIER,
         maxIncrease: 15.0,
       },
     },

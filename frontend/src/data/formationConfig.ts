@@ -1,9 +1,9 @@
 // Simplified formation configuration for compilation
-export const FORMATION_TEMPLATES = [];
-export const ELEMENTAL_SYNERGIES = [];
-export const FORMATION_EFFECTIVENESS_MATRIX = {};
-export const FORMATION_SYNERGY_ANALYTICS = {};
-export const STANDARD_POSITIONS = [];
+export const formationTemplates = [];
+export const elementalSynergies = [];
+export const formationEffectivenessMatrix = {};
+export const formationSynergyAnalytics = {};
+export const standardPositions = [];
 
 export const FormationConfig = {
   getFormationTemplate: () => null,

@@ -1,7 +1,7 @@
 // Resource management slice - Single Responsibility Principle
 import type { StateCreator } from "zustand";
 import type { Resources } from "../../types/game";
-import { GAME_CONFIG } from "../../data/gameConfig";
+import { gameConfig } from "../../data/gameConfig";
 
 export interface ResourceSlice {
   // State
@@ -58,8 +58,8 @@ export const createResourceSlice: StateCreator<
             }
           } else {
             const maxKey =
-              `max${resourceKey.charAt(0).toUpperCase() + resourceKey.slice(1)}` as keyof typeof GAME_CONFIG.resourceLimits;
-            const max = GAME_CONFIG.resourceLimits[maxKey];
+              `max${resourceKey.charAt(0).toUpperCase() + resourceKey.slice(1)}` as keyof typeof gameConfig.resourceLimits;
+            const max = gameConfig.resourceLimits[maxKey];
 
             if (max !== undefined) {
               newResources[resourceKey] = Math.min(

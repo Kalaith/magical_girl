@@ -92,7 +92,7 @@ const sampleSpecializations: SpecializationPath[] = [
   },
 ];
 
-export const SKILL_TREES: SkillTree[] = [
+export const skillTrees: SkillTree[] = [
   {
     id: "fire_tree",
     name: "Fire Mastery",
@@ -116,13 +116,13 @@ export const SKILL_TREES: SkillTree[] = [
   },
 ];
 
-export const SKILL_TREE_CONFIG = {
+export const skillTreeConfig = {
   defaultSkillPoints: 10,
   maxTreeLevel: 100,
   prestigeMultiplier: 1.5,
 };
 
-export const SKILL_TREE_HELPERS = {
+export const skillTreeHelpers = {
   validateSkillTree: () => ({ isValid: true, errors: [] }),
   calculateSkillPoints: (level: number) => level * 2,
   getSkillRequirements: () => [],

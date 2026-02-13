@@ -4,7 +4,7 @@ import { useGameStore } from "../../stores/gameStore";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { initialMagicalGirls } from "../../data/magicalGirls";
-import { GAME_CONFIG } from "../../config/gameConfig";
+import { gameConfig } from "../../config/gameConfig";
 import type { MagicalGirl } from "../../types/magicalGirl";
 
 const rarityStyles: Record<MagicalGirl["rarity"], string> = {
@@ -65,7 +65,7 @@ export const RecruitmentView: React.FC = () => {
 
       setIsRecruiting(false);
       recruitmentTimeoutRef.current = null;
-    }, GAME_CONFIG.RECRUITMENT.RECRUITMENT_DELAY_MS);
+    }, gameConfig.RECRUITMENT.RECRUITMENT_DELAY_MS);
   };
 
   useEffect(() => () => {
@@ -111,15 +111,15 @@ export const RecruitmentView: React.FC = () => {
               <h4 className="font-semibold mb-2">Recruitment Cost</h4>
               <div className="flex justify-between items-center">
                 <span>Friendship Points</span>
-                <span className="font-bold">{GAME_CONFIG.RECRUITMENT.BASIC_COST}</span>
+                <span className="font-bold">{gameConfig.RECRUITMENT.BASIC_COST}</span>
               </div>
             </div>
 
             <Button
               onClick={handleRecruit}
-              disabled={isRecruiting || resources.friendshipPoints < GAME_CONFIG.RECRUITMENT.BASIC_COST || recruitmentStats.availableCount === 0}
+              disabled={isRecruiting || resources.friendshipPoints < gameConfig.RECRUITMENT.BASIC_COST || recruitmentStats.availableCount === 0}
               className="w-full"
-              variant={resources.friendshipPoints >= GAME_CONFIG.RECRUITMENT.BASIC_COST && recruitmentStats.availableCount > 0 ? "primary" : "secondary"}
+              variant={resources.friendshipPoints >= gameConfig.RECRUITMENT.BASIC_COST && recruitmentStats.availableCount > 0 ? "primary" : "secondary"}
             >
               {isRecruiting ? (
                 <div className="flex items-center justify-center">
@@ -129,7 +129,7 @@ export const RecruitmentView: React.FC = () => {
               ) : recruitmentStats.availableCount === 0 ? (
                 "All Girls Recruited"
               ) : (
-                `Recruit Magical Girl (${GAME_CONFIG.RECRUITMENT.BASIC_COST} FP)`
+                `Recruit Magical Girl (${gameConfig.RECRUITMENT.BASIC_COST} FP)`
               )}
             </Button>
 

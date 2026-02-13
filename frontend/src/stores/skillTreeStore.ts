@@ -9,7 +9,7 @@ import type {
   TreeFilterSettings,
   TreeViewMode,
 } from "../types/skillTree";
-import { SKILL_TREES } from "../data/skillTreeConfig";
+import { skillTrees } from "../data/skillTreeConfig";
 
 interface SkillTreeStore extends SkillTreeState {
   // Actions
@@ -31,7 +31,7 @@ interface SkillTreeStore extends SkillTreeState {
 }
 
 const initialState: SkillTreeState = {
-  trees: SKILL_TREES.reduce((acc, tree) => {
+  trees: skillTrees.reduce((acc, tree) => {
     acc[tree.id] = tree;
     return acc;
   }, {} as Record<string, SkillTree>),

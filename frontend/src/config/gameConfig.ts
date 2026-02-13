@@ -1,9 +1,9 @@
 // Game configuration constants
-export const GAME_CONFIG = {
+export const gameConfig = {
   // Resource generation rates (per second)
   RESOURCE_RATES: {
     MANA_REGENERATION: 1,
-    ENERGY_REGENERATION: 2,
+    energyRegeneration: 2,
     EXPERIENCE_MULTIPLIER: 1,
   },
 

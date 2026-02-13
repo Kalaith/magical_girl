@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useGameStore } from "../stores/gameStore";
-import { GAME_CONFIG } from "../config/gameConfig";
+import { gameConfig } from "../config/gameConfig";
 import type {
   MissionType,
   MissionCategory,
@@ -129,7 +129,7 @@ export const useMissions = () => {
         const rewardSumValue = mission.rewards.reduce((rewardSum, reward) =>
           rewardSum + (typeof reward.quantity === "number" ? reward.quantity : 0),
         0);
-        const missionRewardTotal = rewardSumValue || GAME_CONFIG.MISSION_STATS.COMPLETED_REWARD_ESTIMATE;
+        const missionRewardTotal = rewardSumValue || gameConfig.MISSION_STATS.COMPLETED_REWARD_ESTIMATE;
         return sum + missionRewardTotal;
       }, 0),
     };
@@ -149,7 +149,7 @@ export const useMissions = () => {
     if (activeMission) return false;
 
     // Check basic energy requirement (simplified)
-    return resources.magicalEnergy >= GAME_CONFIG.MISSION_ENERGY_COST;
+    return resources.magicalEnergy >= gameConfig.MISSION_ENERGY_COST;
   };
 
   // Start mission with validation
