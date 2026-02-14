@@ -111,19 +111,19 @@ export const gameConfig = {
 } as const;
 
 export const VIEWS = {
-  DASHBOARD: "dashboard",
-  MAGICAL_GIRLS: "collection",
-  RECRUITMENT: "recruitment",
-  COMBAT: "combat",
-  TRAINING: "training",
-  MISSIONS: "missions",
-  ACHIEVEMENTS: "achievements",
-  SKILL_TREE: "skill-tree",
-  CUSTOMIZATION: "customization",
-  PRESTIGE: "prestige",
-  SAVE_SYSTEM: "save-system",
-  ENHANCED_SETTINGS: "enhanced-settings",
-  SETTINGS: "settings",
+  DASHBOARD: 'dashboard',
+  MAGICAL_GIRLS: 'collection',
+  RECRUITMENT: 'recruitment',
+  COMBAT: 'combat',
+  TRAINING: 'training',
+  MISSIONS: 'missions',
+  ACHIEVEMENTS: 'achievements',
+  SKILL_TREE: 'skill-tree',
+  CUSTOMIZATION: 'customization',
+  PRESTIGE: 'prestige',
+  SAVE_SYSTEM: 'save-system',
+  ENHANCED_SETTINGS: 'enhanced-settings',
+  SETTINGS: 'settings',
 } as const;
 
 export type ViewType = (typeof VIEWS)[keyof typeof VIEWS];

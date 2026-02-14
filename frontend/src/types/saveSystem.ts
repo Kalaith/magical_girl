@@ -1,5 +1,5 @@
 // Save System Types for Multiple Save Slots
-import type { MagicalGirl } from "./magicalGirl";
+import type { MagicalGirl } from './magicalGirl';
 
 export interface SaveSystem {
   // Save slots management
@@ -320,76 +320,67 @@ export interface ImportWarning {
 
 // Enums and Type Unions
 export type ConflictType =
-  | "timestamp"
-  | "data_difference"
-  | "version_mismatch"
-  | "structure_change";
+  | 'timestamp'
+  | 'data_difference'
+  | 'version_mismatch'
+  | 'structure_change';
 
 export type ConflictResolution =
-  | "use_local"
-  | "use_cloud"
-  | "merge_data"
-  | "create_backup"
-  | "manual_resolve";
+  | 'use_local'
+  | 'use_cloud'
+  | 'merge_data'
+  | 'create_backup'
+  | 'manual_resolve';
 
-export type ConflictImportance = "low" | "medium" | "high" | "critical";
+export type ConflictImportance = 'low' | 'medium' | 'high' | 'critical';
 
 export type ResolutionSuggestion =
-  | "prefer_local"
-  | "prefer_cloud"
-  | "merge_recommended"
-  | "manual_review";
+  | 'prefer_local'
+  | 'prefer_cloud'
+  | 'merge_recommended'
+  | 'manual_review';
 
-export type DataLossRisk = "none" | "minimal" | "moderate" | "high" | "severe";
+export type DataLossRisk = 'none' | 'minimal' | 'moderate' | 'high' | 'severe';
 
 export type ExportType =
-  | "single_slot"
-  | "multiple_slots"
-  | "all_slots"
-  | "settings_only"
-  | "progress_only";
+  | 'single_slot'
+  | 'multiple_slots'
+  | 'all_slots'
+  | 'settings_only'
+  | 'progress_only';
 
-export type ImportType =
-  | "full_import"
-  | "selective_import"
-  | "merge_import"
-  | "settings_import";
+export type ImportType = 'full_import' | 'selective_import' | 'merge_import' | 'settings_import';
 
-export type ImportStatus = "success" | "partial" | "failed" | "skipped";
+export type ImportStatus = 'success' | 'partial' | 'failed' | 'skipped';
 
-export type CompressionAlgorithm =
-  | "none"
-  | "gzip"
-  | "lz4"
-  | "brotli"
-  | "custom";
+export type CompressionAlgorithm = 'none' | 'gzip' | 'lz4' | 'brotli' | 'custom';
 
 export type ValidationType =
-  | "checksum"
-  | "structure"
-  | "version"
-  | "data_integrity"
-  | "compatibility";
+  | 'checksum'
+  | 'structure'
+  | 'version'
+  | 'data_integrity'
+  | 'compatibility';
 
-export type ValidationSeverity = "info" | "warning" | "error" | "critical";
+export type ValidationSeverity = 'info' | 'warning' | 'error' | 'critical';
 
 export type CompatibilityType =
-  | "version_upgrade"
-  | "version_downgrade"
-  | "structure_change"
-  | "missing_data";
+  | 'version_upgrade'
+  | 'version_downgrade'
+  | 'structure_change'
+  | 'missing_data';
 
 export type ErrorType =
-  | "parse_error"
-  | "validation_error"
-  | "compatibility_error"
-  | "corruption_error";
+  | 'parse_error'
+  | 'validation_error'
+  | 'compatibility_error'
+  | 'corruption_error';
 
 export type WarningType =
-  | "version_difference"
-  | "missing_optional_data"
-  | "deprecated_feature"
-  | "performance_impact";
+  | 'version_difference'
+  | 'missing_optional_data'
+  | 'deprecated_feature'
+  | 'performance_impact';
 
 // Save System Actions
 export interface SaveSystemActions {
@@ -418,18 +409,12 @@ export interface SaveSystemActions {
 
   // Import/Export
   exportSave: (slotIds: string[], options: ExportOptions) => Promise<string>;
-  importSave: (
-    data: string | File,
-    options: ImportOptions,
-  ) => Promise<ImportResult>;
+  importSave: (data: string | File, options: ImportOptions) => Promise<ImportResult>;
 
   // Cloud save operations
   syncToCloud: (slotId: string) => Promise<boolean>;
   syncFromCloud: (slotId: string) => Promise<boolean>;
-  resolveCloudConflict: (
-    conflictId: string,
-    resolution: ConflictResolution,
-  ) => Promise<boolean>;
+  resolveCloudConflict: (conflictId: string, resolution: ConflictResolution) => Promise<boolean>;
 
   // Validation and repair
   validateSave: (slotId: string) => Promise<ValidationResult>;
@@ -438,10 +423,7 @@ export interface SaveSystemActions {
 
   // Backup and recovery
   createBackup: (slotId: string) => Promise<string>;
-  restoreFromBackup: (
-    backupId: string,
-    targetSlotId: string,
-  ) => Promise<boolean>;
+  restoreFromBackup: (backupId: string, targetSlotId: string) => Promise<boolean>;
   listBackups: () => BackupInfo[];
 
   // Utilities
@@ -452,10 +434,7 @@ export interface SaveSystemActions {
   // Settings and configuration
   configureSaveSystem: (settings: SaveSystemSettings) => void;
   resetSaveSystem: () => Promise<boolean>;
-  migrateSaveFormat: (
-    fromVersion: string,
-    toVersion: string,
-  ) => Promise<MigrationResult>;
+  migrateSaveFormat: (fromVersion: string, toVersion: string) => Promise<MigrationResult>;
 }
 
 // Additional interfaces for save system operations
@@ -596,20 +575,20 @@ export interface ValidationError {
   canAutoFix: boolean;
 }
 
-export type ExportFormat = "json" | "binary" | "compressed" | "encrypted";
+export type ExportFormat = 'json' | 'binary' | 'compressed' | 'encrypted';
 
 export type DifferenceType =
-  | "value_change"
-  | "added"
-  | "removed"
-  | "type_change"
-  | "structure_change";
+  | 'value_change'
+  | 'added'
+  | 'removed'
+  | 'type_change'
+  | 'structure_change';
 
-export type DifferenceImportance = "trivial" | "minor" | "major" | "critical";
+export type DifferenceImportance = 'trivial' | 'minor' | 'major' | 'critical';
 
-export type ValidationLevel = "basic" | "standard" | "strict" | "paranoid";
+export type ValidationLevel = 'basic' | 'standard' | 'strict' | 'paranoid';
 
-export type ErrorSeverity = "low" | "medium" | "high" | "critical";
+export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 // Save system events
 export interface SaveSystemEvent {
@@ -620,19 +599,19 @@ export interface SaveSystemEvent {
 }
 
 export type SaveEventType =
-  | "save_created"
-  | "save_loaded"
-  | "save_deleted"
-  | "save_corrupted"
-  | "auto_save_performed"
-  | "cloud_sync_started"
-  | "cloud_sync_completed"
-  | "conflict_detected"
-  | "conflict_resolved"
-  | "backup_created"
-  | "validation_failed"
-  | "repair_attempted"
-  | "import_completed"
-  | "export_completed"
-  | "migration_started"
-  | "migration_completed";
+  | 'save_created'
+  | 'save_loaded'
+  | 'save_deleted'
+  | 'save_corrupted'
+  | 'auto_save_performed'
+  | 'cloud_sync_started'
+  | 'cloud_sync_completed'
+  | 'conflict_detected'
+  | 'conflict_resolved'
+  | 'backup_created'
+  | 'validation_failed'
+  | 'repair_attempted'
+  | 'import_completed'
+  | 'export_completed'
+  | 'migration_started'
+  | 'migration_completed';

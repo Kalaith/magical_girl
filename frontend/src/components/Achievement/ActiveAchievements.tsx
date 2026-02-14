@@ -1,10 +1,10 @@
 // Active achievements component - Single Responsibility Principle
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Star, Clock, TrendingUp } from "lucide-react";
-import { Card } from "../ui/Card";
-import type { Achievement } from "../../types/achievements";
-import { achievementRarities } from "../../data/achievements";
+import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Trophy, Star, Clock, TrendingUp } from 'lucide-react';
+import { Card } from '../ui/Card';
+import type { Achievement } from '../../types/achievements';
+import { achievementRarities } from '../../data/achievements';
 
 interface ActiveAchievementsProps {
   recentUnlocks: Achievement[];
@@ -40,9 +40,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
                 >
                   <div className="text-2xl">{achievement.icon}</div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-medium text-gray-900 truncate">
-                      {achievement.name}
-                    </div>
+                    <div className="font-medium text-gray-900 truncate">{achievement.name}</div>
                     <div className="text-xs text-gray-600">
                       {achievement.unlockedAt &&
                         new Date(achievement.unlockedAt).toLocaleDateString()}
@@ -57,9 +55,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
                 </motion.div>
               ))
             ) : (
-              <p className="text-gray-500 text-center py-4">
-                No recent achievements unlocked.
-              </p>
+              <p className="text-gray-500 text-center py-4">No recent achievements unlocked.</p>
             )}
           </AnimatePresence>
         </div>
@@ -75,8 +71,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
         <div className="space-y-3">
           {nearCompletion.length > 0 ? (
             nearCompletion.slice(0, 3).map((achievement, index) => {
-              const progressPercentage =
-                (achievement.progress / achievement.maxProgress) * 100;
+              const progressPercentage = (achievement.progress / achievement.maxProgress) * 100;
 
               return (
                 <motion.div
@@ -93,9 +88,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
                         {achievement.name}
                       </span>
                     </div>
-                    <span className="text-xs text-gray-600">
-                      {Math.round(progressPercentage)}%
-                    </span>
+                    <span className="text-xs text-gray-600">{Math.round(progressPercentage)}%</span>
                   </div>
 
                   <div className="w-full bg-gray-200 rounded-full h-2">
@@ -114,9 +107,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
               );
             })
           ) : (
-            <p className="text-gray-500 text-center py-4">
-              No achievements near completion.
-            </p>
+            <p className="text-gray-500 text-center py-4">No achievements near completion.</p>
           )}
         </div>
       </Card>
@@ -137,9 +128,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
             <div className="flex items-center gap-3">
               <div className="text-3xl">{nextAchievement.icon}</div>
               <div className="flex-1 min-w-0">
-                <div className="font-medium text-gray-900">
-                  {nextAchievement.name}
-                </div>
+                <div className="font-medium text-gray-900">{nextAchievement.name}</div>
                 <div
                   className="text-xs font-medium px-2 py-1 rounded-full inline-block mt-1"
                   style={{
@@ -152,9 +141,7 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
               </div>
             </div>
 
-            <p className="text-sm text-gray-600">
-              {nextAchievement.description}
-            </p>
+            <p className="text-sm text-gray-600">{nextAchievement.description}</p>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
@@ -176,15 +163,12 @@ export const ActiveAchievements: React.FC<ActiveAchievementsProps> = ({
               </div>
 
               <div className="text-xs text-gray-500">
-                {nextAchievement.maxProgress - nextAchievement.progress} more to
-                unlock
+                {nextAchievement.maxProgress - nextAchievement.progress} more to unlock
               </div>
             </div>
           </motion.div>
         ) : (
-          <p className="text-gray-500 text-center py-4">
-            No achievements in progress.
-          </p>
+          <p className="text-gray-500 text-center py-4">No achievements in progress.</p>
         )}
       </Card>
     </div>

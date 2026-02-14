@@ -1,6 +1,6 @@
 // Game progression slice - Single Responsibility Principle
-import type { StateCreator } from "zustand";
-import type { Player } from "../../types/game";
+import type { StateCreator } from 'zustand';
+import type { Player } from '../../types/game';
 
 export interface GameProgressionSlice {
   // State
@@ -12,7 +12,7 @@ export interface GameProgressionSlice {
   // Actions
   gainExperience: (amount: number) => void;
   levelUp: () => void;
-  unlockFeature: (feature: keyof Player["unlockedFeatures"]) => void;
+  unlockFeature: (feature: keyof Player['unlockedFeatures']) => void;
   updateGameTime: () => void;
   saveGame: () => void;
   loadGame: () => void;
@@ -22,11 +22,7 @@ export interface GameProgressionSlice {
 
 export const createGameProgressionSlice: StateCreator<
   GameProgressionSlice & {
-    addNotification: (notification: {
-      type: string;
-      title: string;
-      message: string;
-    }) => void;
+    addNotification: (notification: { type: string; title: string; message: string }) => void;
     unlockMission: (missionId: string) => void;
     addResources: (resources: Record<string, number>) => void;
   },
@@ -35,8 +31,8 @@ export const createGameProgressionSlice: StateCreator<
   GameProgressionSlice
 > = (set, get) => ({
   player: {
-    id: "player_1",
-    name: "Magical Girl Trainer",
+    id: 'player_1',
+    name: 'Magical Girl Trainer',
     resources: {
       gold: 1000,
       magicalCrystals: 500,
@@ -83,20 +79,20 @@ export const createGameProgressionSlice: StateCreator<
       soundEnabled: true,
       animationsEnabled: true,
       notificationsEnabled: true,
-      theme: "light",
-      language: "en",
+      theme: 'light',
+      language: 'en',
     },
   },
   gameTime: Date.now(),
   lastSaveTime: 0,
-  version: "1.0.0",
+  version: '1.0.0',
 
-  gainExperience: (amount) => {
+  gainExperience: amount => {
     get().addResources({ experience: amount });
   },
 
   levelUp: () =>
-    set((state) => {
+    set(state => {
       const newLevel = state.player.resources.level + 1;
       const newMaxEnergy = state.player.resources.maxMagicalEnergy + 10;
 
@@ -113,7 +109,7 @@ export const createGameProgressionSlice: StateCreator<
       // Unlock features based on level
       if (newLevel === 2) {
         updatedPlayer.unlockedFeatures.missions = true;
-        setTimeout(() => get().unlockMission("rescue_cat"), 0);
+        setTimeout(() => get().unlockMission('rescue_cat'), 0);
       }
       if (newLevel === 3) {
         updatedPlayer.unlockedFeatures.advancedTraining = true;
@@ -124,16 +120,16 @@ export const createGameProgressionSlice: StateCreator<
       }
 
       get().addNotification({
-        type: "success",
-        title: "Level Up!",
+        type: 'success',
+        title: 'Level Up!',
         message: `Congratulations! You reached level ${newLevel}!`,
       });
 
       return { player: updatedPlayer };
     }),
 
-  unlockFeature: (feature) =>
-    set((state) => {
+  unlockFeature: feature =>
+    set(state => {
       if (!state.player.unlockedFeatures[feature]) {
         const updatedPlayer = {
           ...state.player,
@@ -144,9 +140,9 @@ export const createGameProgressionSlice: StateCreator<
         };
 
         get().addNotification({
-          type: "info",
-          title: "Feature Unlocked!",
-          message: `${feature.replace(/([A-Z])/g, " $1").toLowerCase()} is now available!`,
+          type: 'info',
+          title: 'Feature Unlocked!',
+          message: `${feature.replace(/([A-Z])/g, ' $1').toLowerCase()} is now available!`,
         });
 
         return { player: updatedPlayer };
@@ -155,7 +151,7 @@ export const createGameProgressionSlice: StateCreator<
     }),
 
   updateGameTime: () =>
-    set((state) => {
+    set(state => {
       const now = Date.now();
       const timeDiff = now - state.gameTime;
 
@@ -187,26 +183,26 @@ export const createGameProgressionSlice: StateCreator<
   saveGame: () => {
     set(() => ({ lastSaveTime: Date.now() }));
     get().addNotification({
-      type: "success",
-      title: "Game Saved",
-      message: "Your progress has been saved!",
+      type: 'success',
+      title: 'Game Saved',
+      message: 'Your progress has been saved!',
     });
   },
 
   loadGame: () => {
     get().addNotification({
-      type: "info",
-      title: "Game Loaded",
-      message: "Your progress has been loaded!",
+      type: 'info',
+      title: 'Game Loaded',
+      message: 'Your progress has been loaded!',
     });
   },
 
   resetGame: () => {
     // This will be handled by the main store
     get().addNotification({
-      type: "info",
-      title: "Game Reset",
-      message: "Started a new game!",
+      type: 'info',
+      title: 'Game Reset',
+      message: 'Started a new game!',
     });
   },
 

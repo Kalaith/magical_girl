@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import type { CombatBattle, CombatLogEntry } from "../../types/combat";
+import React, { useEffect, useRef } from 'react';
+import type { CombatBattle, CombatLogEntry } from '../../types/combat';
 
 interface CombatLogProps {
   battle: CombatBattle;
@@ -7,11 +7,7 @@ interface CombatLogProps {
   maxEntries?: number;
 }
 
-const CombatLog: React.FC<CombatLogProps> = ({
-  battle,
-  className = "",
-  maxEntries = 20,
-}) => {
+const CombatLog: React.FC<CombatLogProps> = ({ battle, className = '', maxEntries = 20 }) => {
   const logRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when new entries are added
@@ -23,43 +19,43 @@ const CombatLog: React.FC<CombatLogProps> = ({
 
   const recentEntries = battle.combatLog.slice(-maxEntries);
 
-  const getEntryIcon = (type: CombatLogEntry["type"]) => {
+  const getEntryIcon = (type: CombatLogEntry['type']) => {
     switch (type) {
-      case "Action":
-        return "⚔️";
-      case "Damage":
-        return "💥";
-      case "Healing":
-        return "💚";
-      case "Status":
-        return "✨";
-      case "Movement":
-        return "🏃";
-      case "Environment":
-        return "🌍";
-      case "System":
-        return "ℹ️";
-      case "Victory":
-        return "🏆";
-      case "Defeat":
-        return "💀";
+      case 'Action':
+        return '⚔️';
+      case 'Damage':
+        return '💥';
+      case 'Healing':
+        return '💚';
+      case 'Status':
+        return '✨';
+      case 'Movement':
+        return '🏃';
+      case 'Environment':
+        return '🌍';
+      case 'System':
+        return 'ℹ️';
+      case 'Victory':
+        return '🏆';
+      case 'Defeat':
+        return '💀';
       default:
-        return "📝";
+        return '📝';
     }
   };
 
-  const getEntryColor = (type: CombatLogEntry["type"]) => {
+  const getEntryColor = (type: CombatLogEntry['type']) => {
     switch (type) {
-      case "Damage":
-        return "text-red-600";
-      case "Healing":
-        return "text-green-600";
-      case "Victory":
-        return "text-yellow-600";
-      case "Defeat":
-        return "text-red-800";
+      case 'Damage':
+        return 'text-red-600';
+      case 'Healing':
+        return 'text-green-600';
+      case 'Victory':
+        return 'text-yellow-600';
+      case 'Defeat':
+        return 'text-red-800';
       default:
-        return "text-gray-700";
+        return 'text-gray-700';
     }
   };
 
@@ -67,26 +63,21 @@ const CombatLog: React.FC<CombatLogProps> = ({
     <div className={`bg-white border rounded-lg p-4 ${className}`}>
       <h3 className="text-lg font-semibold mb-4 text-gray-800">Combat Log</h3>
 
-      <div
-        ref={logRef}
-        className="h-64 overflow-y-auto space-y-2 p-2 bg-gray-50 rounded"
-      >
+      <div ref={logRef} className="h-64 overflow-y-auto space-y-2 p-2 bg-gray-50 rounded">
         {recentEntries.length === 0 ? (
-          <div className="text-center text-gray-500 text-sm py-8">
-            No combat events yet
-          </div>
+          <div className="text-center text-gray-500 text-sm py-8">No combat events yet</div>
         ) : (
-          recentEntries.map((entry) => (
+          recentEntries.map(entry => (
             <div
               key={entry.id}
               className={`flex items-start space-x-2 p-2 rounded text-sm ${
-                entry.type === "Action"
-                  ? "bg-blue-50"
-                  : entry.type === "Damage"
-                    ? "bg-red-50"
-                    : entry.type === "Healing"
-                      ? "bg-green-50"
-                      : "bg-gray-50"
+                entry.type === 'Action'
+                  ? 'bg-blue-50'
+                  : entry.type === 'Damage'
+                    ? 'bg-red-50'
+                    : entry.type === 'Healing'
+                      ? 'bg-green-50'
+                      : 'bg-gray-50'
               }`}
             >
               <span className="text-lg">{getEntryIcon(entry.type)}</span>

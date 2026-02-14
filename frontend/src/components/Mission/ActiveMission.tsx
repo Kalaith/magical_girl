@@ -1,11 +1,11 @@
 // Active mission display component - Single Responsibility Principle
 
-import React from "react";
-import { motion } from "framer-motion";
-import { MapPin, Target, Users, CheckCircle, AlertCircle } from "lucide-react";
-import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
-import type { Mission } from "../../types/missions";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { MapPin, Target, Users, CheckCircle, AlertCircle } from 'lucide-react';
+import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
+import type { Mission } from '../../types/missions';
 
 interface ActiveMissionProps {
   mission: Mission | null;
@@ -25,15 +25,13 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
   }
 
   const formatTime = (seconds?: number): string => {
-    if (!seconds) return "--:--";
+    if (!seconds) return '--:--';
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const completedObjectives = mission.objectives.filter(
-    (obj) => obj.isCompleted,
-  ).length;
+  const completedObjectives = mission.objectives.filter(obj => obj.isCompleted).length;
   const totalObjectives = mission.objectives.length;
   const progressPercentage =
     totalObjectives > 0 ? (completedObjectives / totalObjectives) * 100 : 0;
@@ -47,9 +45,7 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
       <Card className="p-6 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-1">
-              {mission.name}
-            </h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-1">{mission.name}</h3>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <MapPin className="w-4 h-4" />
               <span>{mission.location.name}</span>
@@ -57,12 +53,8 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
           </div>
 
           <div className="text-right">
-            <div className="text-lg font-bold text-blue-900">
-              {formatTime(timeRemaining)}
-            </div>
-            <div className="text-sm text-blue-600">
-              {timeRemaining ? "remaining" : "unlimited"}
-            </div>
+            <div className="text-lg font-bold text-blue-900">{formatTime(timeRemaining)}</div>
+            <div className="text-sm text-blue-600">{timeRemaining ? 'remaining' : 'unlimited'}</div>
           </div>
         </div>
 
@@ -95,13 +87,13 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
 
           {/* Objectives List */}
           <div className="space-y-2">
-            {mission.objectives.map((objective) => (
+            {mission.objectives.map(objective => (
               <div
                 key={objective.id}
                 className={`flex items-center gap-2 text-sm p-2 rounded ${
                   objective.isCompleted
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-700"
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-gray-100 text-gray-700'
                 }`}
               >
                 {objective.isCompleted ? (
@@ -109,7 +101,7 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
                 ) : (
                   <AlertCircle className="w-4 h-4 text-gray-500" />
                 )}
-                <span className={objective.isCompleted ? "line-through" : ""}>
+                <span className={objective.isCompleted ? 'line-through' : ''}>
                   {objective.name}
                 </span>
                 {!objective.isCompleted && objective.progress !== undefined && (
@@ -123,7 +115,7 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
         </div>
 
         {/* Team Assignment (if applicable) */}
-        {mission.requirements.some((req) => req.type === "team_size") && (
+        {mission.requirements.some(req => req.type === 'team_size') && (
           <div className="mb-4">
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Users className="w-4 h-4" />
@@ -143,10 +135,10 @@ export const ActiveMission: React.FC<ActiveMissionProps> = ({
           {onCancel && (
             <Button
               variant="secondary"
-              className={progressPercentage === 100 ? "flex-1" : "w-full"}
+              className={progressPercentage === 100 ? 'flex-1' : 'w-full'}
               onClick={onCancel}
             >
-              {progressPercentage === 100 ? "Return Later" : "Cancel Mission"}
+              {progressPercentage === 100 ? 'Return Later' : 'Cancel Mission'}
             </Button>
           )}
         </div>

@@ -1,31 +1,31 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { useGameStore } from "../../stores/gameStore";
-import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
-import { Users, Map, Dumbbell } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useGameStore } from '../../stores/gameStore';
+import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
+import { Users, Map, Dumbbell } from 'lucide-react';
 
 export const DashboardView: React.FC = () => {
   const { magicalGirls, player, activeSessions } = useGameStore();
 
   const quickStats = [
     {
-      label: "Magical Girls",
+      label: 'Magical Girls',
       value: magicalGirls.length,
       icon: <Users className="w-6 h-6" />,
-      color: "purple" as const,
+      color: 'purple' as const,
     },
     {
-      label: "Missions Completed",
+      label: 'Missions Completed',
       value: player.statistics.missionsCompleted,
       icon: <Map className="w-6 h-6" />,
-      color: "blue" as const,
+      color: 'blue' as const,
     },
     {
-      label: "Training Sessions",
+      label: 'Training Sessions',
       value: player.statistics.trainingSessionsCompleted,
       icon: <Dumbbell className="w-6 h-6" />,
-      color: "green" as const,
+      color: 'green' as const,
     },
     // {
     //   label: "Achievements",
@@ -63,21 +63,17 @@ export const DashboardView: React.FC = () => {
               <div
                 className={`
                 inline-flex items-center justify-center w-8 h-8 lg:w-12 lg:h-12 rounded-full mb-2 lg:mb-3
-                ${stat.color === "purple" ? "bg-purple-100 text-purple-600" : ""}
-                ${stat.color === "blue" ? "bg-blue-100 text-blue-600" : ""}
-                ${stat.color === "green" ? "bg-green-100 text-green-600" : ""}
+                ${stat.color === 'purple' ? 'bg-purple-100 text-purple-600' : ''}
+                ${stat.color === 'blue' ? 'bg-blue-100 text-blue-600' : ''}
+                ${stat.color === 'green' ? 'bg-green-100 text-green-600' : ''}
               `}
               >
                 {React.cloneElement(stat.icon, {
-                  className: "w-4 h-4 lg:w-6 lg:h-6",
+                  className: 'w-4 h-4 lg:w-6 lg:h-6',
                 })}
               </div>
-              <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-1">
-                {stat.value}
-              </div>
-              <div className="text-xs lg:text-sm text-gray-600">
-                {stat.label}
-              </div>
+              <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
+              <div className="text-xs lg:text-sm text-gray-600">{stat.label}</div>
             </Card>
           </motion.div>
         ))}
@@ -99,14 +95,10 @@ export const DashboardView: React.FC = () => {
                     key={index}
                     className="flex items-center justify-between p-2 lg:p-3 bg-purple-50 rounded-lg"
                   >
-                    <span className="font-medium text-sm lg:text-base">
-                      Mission {index + 1}
-                    </span>
-                    <span className="text-xs lg:text-sm text-green-600">
-                      Completed
-                    </span>
+                    <span className="font-medium text-sm lg:text-base">Mission {index + 1}</span>
+                    <span className="text-xs lg:text-sm text-green-600">Completed</span>
                   </div>
-                ),
+                )
               )
             ) : (
               <p className="text-gray-500 text-center py-3 lg:py-4 text-sm lg:text-base">
@@ -117,15 +109,11 @@ export const DashboardView: React.FC = () => {
         </Card>
 
         <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4 text-gradient">
-            Active Training
-          </h3>{" "}
+          <h3 className="text-lg font-semibold mb-4 text-gradient">Active Training</h3>{' '}
           <div className="space-y-3">
             {magicalGirls
-              .filter((mg) =>
-                activeSessions.some((session) => session.girlId === mg.id),
-              )
-              .map((girl) => (
+              .filter(mg => activeSessions.some(session => session.girlId === mg.id))
+              .map(girl => (
                 <div
                   key={girl.id}
                   className="flex items-center justify-between p-3 bg-orange-50 rounded-lg"
@@ -134,12 +122,9 @@ export const DashboardView: React.FC = () => {
                   <span className="text-sm text-orange-600">Training...</span>
                 </div>
               ))}
-            {magicalGirls.filter((mg) =>
-              activeSessions.some((session) => session.girlId === mg.id),
-            ).length === 0 && (
-              <p className="text-gray-500 text-center py-4">
-                No active training sessions.
-              </p>
+            {magicalGirls.filter(mg => activeSessions.some(session => session.girlId === mg.id))
+              .length === 0 && (
+              <p className="text-gray-500 text-center py-4">No active training sessions.</p>
             )}
           </div>
         </Card>
@@ -147,9 +132,7 @@ export const DashboardView: React.FC = () => {
 
       {/* Quick Actions */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4 text-gradient">
-          Quick Actions
-        </h3>
+        <h3 className="text-lg font-semibold mb-4 text-gradient">Quick Actions</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <Button
             variant="primary"

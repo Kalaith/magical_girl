@@ -1,24 +1,24 @@
-import { useGameStore } from "../stores/gameStore";
-import { useCallback } from "react";
+import { useGameStore } from '../stores/gameStore';
+import { useCallback } from 'react';
 
 export const useSettings = () => {
-  const settings = useGameStore((state) => state.settings);
-  const updateSettings = useGameStore((state) => state.updateSettings);
-  const setMasterVolume = useGameStore((state) => state.setMasterVolume);
-  const resetSettings = useGameStore((state) => state.resetSettings);
+  const settings = useGameStore(state => state.settings);
+  const updateSettings = useGameStore(state => state.updateSettings);
+  const setMasterVolume = useGameStore(state => state.setMasterVolume);
+  const resetSettings = useGameStore(state => state.resetSettings);
 
   const handleVolumeChange = useCallback(
     (volume: number) => {
       setMasterVolume(volume);
     },
-    [setMasterVolume],
+    [setMasterVolume]
   );
 
   const handleSettingsChange = useCallback(
     (newSettings: Partial<typeof settings>) => {
       updateSettings(newSettings);
     },
-    [updateSettings],
+    [updateSettings]
   );
 
   const handleReset = useCallback(() => {

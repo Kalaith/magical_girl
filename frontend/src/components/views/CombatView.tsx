@@ -1,9 +1,9 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { useGameStore } from "../../stores/gameStore";
-import BattleArena from "../Combat/BattleArena";
-import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useGameStore } from '../../stores/gameStore';
+import BattleArena from '../Combat/BattleArena';
+import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
 
 export const CombatView: React.FC = () => {
   const { combatSystem, startMission } = useGameStore();
@@ -62,29 +62,25 @@ export const CombatView: React.FC = () => {
         <h3 className="text-xl font-bold mb-4 text-center">Quick Battle</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Button
-            onClick={() => startMission("combat-1", [])}
+            onClick={() => startMission('combat-1', [])}
             className="p-4 h-auto flex flex-col items-center"
             variant="primary"
           >
             <span className="text-lg font-bold">Training Battle</span>
-            <span className="text-sm text-gray-600 mt-1">
-              Practice your skills
-            </span>
+            <span className="text-sm text-gray-600 mt-1">Practice your skills</span>
           </Button>
 
           <Button
-            onClick={() => startMission("combat-1", [])}
+            onClick={() => startMission('combat-1', [])}
             className="p-4 h-auto flex flex-col items-center"
             variant="secondary"
           >
             <span className="text-lg font-bold">Story Mission</span>
-            <span className="text-sm text-gray-600 mt-1">
-              Follow the main quest
-            </span>
+            <span className="text-sm text-gray-600 mt-1">Follow the main quest</span>
           </Button>
 
           <Button
-            onClick={() => startMission("combat-1", [])}
+            onClick={() => startMission('combat-1', [])}
             className="p-4 h-auto flex flex-col items-center"
             variant="secondary"
           >
@@ -99,7 +95,7 @@ export const CombatView: React.FC = () => {
         <Card className="p-6">
           <h3 className="text-xl font-bold mb-4">Recent Battles</h3>
           <div className="space-y-3">
-            {battles.slice(0, 5).map((battle) => (
+            {battles.slice(0, 5).map(battle => (
               <div
                 key={battle.id}
                 className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
@@ -113,16 +109,14 @@ export const CombatView: React.FC = () => {
                 <div className="text-right">
                   <div
                     className={`text-sm font-medium ${
-                      battle.winner === "player"
-                        ? "text-green-600"
-                        : battle.winner === "enemy"
-                          ? "text-red-600"
-                          : "text-gray-600"
+                      battle.winner === 'player'
+                        ? 'text-green-600'
+                        : battle.winner === 'enemy'
+                          ? 'text-red-600'
+                          : 'text-gray-600'
                     }`}
                   >
-                    {battle.winner
-                      ? battle.winner.toUpperCase()
-                      : "IN PROGRESS"}
+                    {battle.winner ? battle.winner.toUpperCase() : 'IN PROGRESS'}
                   </div>
                   <div className="text-xs text-gray-500">
                     {new Date(battle.startTime).toLocaleDateString()}
@@ -138,15 +132,13 @@ export const CombatView: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="p-4 text-center">
           <div className="text-2xl font-bold text-magical-primary">
-            {battles.filter((b) => b.winner === "player").length}
+            {battles.filter(b => b.winner === 'player').length}
           </div>
           <div className="text-sm text-gray-600">Victories</div>
         </Card>
 
         <Card className="p-4 text-center">
-          <div className="text-2xl font-bold text-magical-secondary">
-            {battles.length}
-          </div>
+          <div className="text-2xl font-bold text-magical-secondary">{battles.length}</div>
           <div className="text-sm text-gray-600">Total Battles</div>
         </Card>
 
@@ -154,9 +146,7 @@ export const CombatView: React.FC = () => {
           <div className="text-2xl font-bold text-magical-accent">
             {battles.length > 0
               ? Math.round(
-                  (battles.filter((b) => b.winner === "player").length /
-                    battles.length) *
-                    100,
+                  (battles.filter(b => b.winner === 'player').length / battles.length) * 100
                 )
               : 0}
             %

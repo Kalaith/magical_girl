@@ -38,25 +38,19 @@ export interface SimpleAchievement {
 }
 
 export type AchievementCategory =
-  | "training"
-  | "missions"
-  | "collection"
-  | "progression"
-  | "social"
-  | "exploration"
-  | "combat"
-  | "special";
+  | 'training'
+  | 'missions'
+  | 'collection'
+  | 'progression'
+  | 'social'
+  | 'exploration'
+  | 'combat'
+  | 'special';
 
-export type AchievementRarity =
-  | "common"
-  | "uncommon"
-  | "rare"
-  | "epic"
-  | "legendary"
-  | "mythical";
+export type AchievementRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythical';
 
 export interface AchievementRequirement {
-  type: "count" | "threshold" | "condition" | "special" | "streak" | "time";
+  type: 'count' | 'threshold' | 'condition' | 'special' | 'streak' | 'time';
   target: number;
   condition?: string;
   timeframe?: number; // for time-based achievements
@@ -64,7 +58,7 @@ export interface AchievementRequirement {
 }
 
 export interface AchievementReward {
-  type: "resources" | "feature" | "cosmetic" | "title" | "special";
+  type: 'resources' | 'feature' | 'cosmetic' | 'title' | 'special';
   resources?: {
     sparkles?: number;
     stardust?: number;
@@ -74,7 +68,7 @@ export interface AchievementReward {
   };
   feature?: string;
   cosmetic?: {
-    type: "avatar" | "theme" | "effect";
+    type: 'avatar' | 'theme' | 'effect';
     id: string;
   };
   title?: string;
@@ -106,9 +100,9 @@ export interface AchievementStats {
 }
 
 export interface AchievementFilters {
-  category: AchievementCategory | "all";
-  rarity: AchievementRarity | "all";
-  status: "all" | "unlocked" | "locked" | "in-progress";
+  category: AchievementCategory | 'all';
+  rarity: AchievementRarity | 'all';
+  status: 'all' | 'unlocked' | 'locked' | 'in-progress';
   search: string;
   showHidden: boolean;
 }

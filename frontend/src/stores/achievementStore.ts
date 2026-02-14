@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import type { Achievement } from "../types/achievements";
-import { initialAchievements, achievementRarities } from "../data/achievements";
+import { create } from 'zustand';
+import type { Achievement } from '../types/achievements';
+import { initialAchievements, achievementRarities } from '../data/achievements';
 
 interface AchievementStore {
   achievements: Achievement[];
@@ -22,8 +22,8 @@ export const useAchievementStore = create<AchievementStore>((set, get) => ({
   totalPoints: 0,
 
   unlockAchievement: (id: string) => {
-    set((state) => ({
-      achievements: state.achievements.map((achievement) =>
+    set(state => ({
+      achievements: state.achievements.map(achievement =>
         achievement.id === id
           ? {
               ...achievement,
@@ -31,18 +31,17 @@ export const useAchievementStore = create<AchievementStore>((set, get) => ({
               progress: achievement.maxProgress,
               unlockedAt: Date.now(),
             }
-          : achievement,
+          : achievement
       ),
     }));
 
     // Update counts
     const state = get();
-    const unlockedCount = state.achievements.filter((a) => a.unlocked).length;
+    const unlockedCount = state.achievements.filter(a => a.unlocked).length;
     const totalPoints = state.achievements
-      .filter((a) => a.unlocked)
+      .filter(a => a.unlocked)
       .reduce((sum, a) => {
-        const rarityConfig =
-          achievementRarities[a.rarity as keyof typeof achievementRarities];
+        const rarityConfig = achievementRarities[a.rarity as keyof typeof achievementRarities];
         return sum + (rarityConfig?.points || 10);
       }, 0);
 
@@ -50,14 +49,14 @@ export const useAchievementStore = create<AchievementStore>((set, get) => ({
   },
 
   updateProgress: (id: string, progress: number) => {
-    set((state) => ({
-      achievements: state.achievements.map((achievement) =>
+    set(state => ({
+      achievements: state.achievements.map(achievement =>
         achievement.id === id
           ? {
               ...achievement,
               progress: Math.min(progress, achievement.maxProgress),
             }
-          : achievement,
+          : achievement
       ),
     }));
   },
@@ -66,12 +65,11 @@ export const useAchievementStore = create<AchievementStore>((set, get) => ({
     // This will be called to check against game state
     // For now, just update counts
     const state = get();
-    const unlockedCount = state.achievements.filter((a) => a.unlocked).length;
+    const unlockedCount = state.achievements.filter(a => a.unlocked).length;
     const totalPoints = state.achievements
-      .filter((a) => a.unlocked)
+      .filter(a => a.unlocked)
       .reduce((sum, a) => {
-        const rarityConfig =
-          achievementRarities[a.rarity as keyof typeof achievementRarities];
+        const rarityConfig = achievementRarities[a.rarity as keyof typeof achievementRarities];
         return sum + (rarityConfig?.points || 10);
       }, 0);
 
@@ -79,14 +77,14 @@ export const useAchievementStore = create<AchievementStore>((set, get) => ({
   },
 
   getAchievementById: (id: string) => {
-    return get().achievements.find((a) => a.id === id);
+    return get().achievements.find(a => a.id === id);
   },
 
   getUnlockedAchievements: () => {
-    return get().achievements.filter((a) => a.unlocked);
+    return get().achievements.filter(a => a.unlocked);
   },
 
   getProgressAchievements: () => {
-    return get().achievements.filter((a) => !a.unlocked && a.progress > 0);
+    return get().achievements.filter(a => !a.unlocked && a.progress > 0);
   },
 }));

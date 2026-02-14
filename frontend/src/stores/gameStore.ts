@@ -1,18 +1,14 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 import type {
   Player,
   Notification,
   Resources,
   SaveData,
   ActiveTrainingSession,
-} from "../types/game";
-import type { MagicalGirl } from "../types/magicalGirl";
-import type { Mission } from "../types/missions";
-import type {
-  RecruitmentSystem,
-  SummonResult,
-  SummonRecord,
-} from "../types/recruitment";
+} from '../types/game';
+import type { MagicalGirl } from '../types/magicalGirl';
+import type { Mission } from '../types/missions';
+import type { RecruitmentSystem, SummonResult, SummonRecord } from '../types/recruitment';
 import type {
   CombatSystem,
   CombatBattle,
@@ -20,15 +16,15 @@ import type {
   CombatAction,
   CombatLogEntry,
   BattleEndReason,
-} from "../types/combat";
-import type { TrainingSession } from "../types/training";
+} from '../types/combat';
+import type { TrainingSession } from '../types/training';
 
-import { gameConfig } from "../config/gameConfig";
-import { initialMagicalGirls } from "../data/magicalGirls";
-import { initialMissions } from "../data/missions";
-import { useAchievementStore } from "./achievementStore";
+import { gameConfig } from '../config/gameConfig';
+import { initialMagicalGirls } from '../data/magicalGirls';
+import { initialMissions } from '../data/missions';
+import { useAchievementStore } from './achievementStore';
 
-const persistenceVersion = "1.0.0";
+const persistenceVersion = '1.0.0';
 
 const createInitialResources = (): Resources => ({
   magicalEnergy: 100,
@@ -55,7 +51,7 @@ const syncPlayerResources = (player: Player, resources: Resources): Player => ({
   resources: { ...resources },
 });
 
-const isBrowser = typeof window !== "undefined";
+const isBrowser = typeof window !== 'undefined';
 
 let autoSaveTimer: number | null = null;
 let gameTickTimer: number | null = null;
@@ -106,64 +102,64 @@ const initialState = {
     activeBattle: null,
     formations: [
       {
-        id: "default",
-        name: "Standard Formation",
-        description: "Basic 3x3 formation with balanced positioning",
+        id: 'default',
+        name: 'Standard Formation',
+        description: 'Basic 3x3 formation with balanced positioning',
         positions: [
-          { row: 1, column: 1, role: "Tank", modifiers: [], restrictions: [] },
+          { row: 1, column: 1, role: 'Tank', modifiers: [], restrictions: [] },
           {
             row: 1,
             column: 2,
-            role: "Damage",
+            role: 'Damage',
             modifiers: [],
             restrictions: [],
           },
           {
             row: 1,
             column: 3,
-            role: "Support",
+            role: 'Support',
             modifiers: [],
             restrictions: [],
           },
           {
             row: 2,
             column: 1,
-            role: "Damage",
+            role: 'Damage',
             modifiers: [],
             restrictions: [],
           },
           {
             row: 2,
             column: 2,
-            role: "Flexible",
+            role: 'Flexible',
             modifiers: [],
             restrictions: [],
           },
           {
             row: 2,
             column: 3,
-            role: "Healer",
+            role: 'Healer',
             modifiers: [],
             restrictions: [],
           },
           {
             row: 3,
             column: 1,
-            role: "Support",
+            role: 'Support',
             modifiers: [],
             restrictions: [],
           },
           {
             row: 3,
             column: 2,
-            role: "Buffer",
+            role: 'Buffer',
             modifiers: [],
             restrictions: [],
           },
           {
             row: 3,
             column: 3,
-            role: "Debuffer",
+            role: 'Debuffer',
             modifiers: [],
             restrictions: [],
           },
@@ -172,10 +168,10 @@ const initialState = {
         requirements: [],
         isDefault: true,
         isUnlocked: true,
-        category: "Balanced",
+        category: 'Balanced',
       },
     ],
-    activeFormation: "default",
+    activeFormation: 'default',
     combatHistory: [],
     combatSettings: {
       autoMode: false,
@@ -186,15 +182,15 @@ const initialState = {
       showStatusEffects: true,
       combatLog: true,
       tutorialMode: false,
-      difficulty: "Normal",
+      difficulty: 'Normal',
       aiDelay: 1000,
       confirmActions: true,
       quickCombat: false,
     },
   } as CombatSystem,
   player: {
-    id: "player-1",
-    name: "Player",
+    id: 'player-1',
+    name: 'Player',
     resources: createInitialResources(),
     unlockedFeatures: {
       training: true,
@@ -223,8 +219,8 @@ const initialState = {
       soundEnabled: true,
       animationsEnabled: true,
       notificationsEnabled: true,
-      theme: "light" as const,
-      language: "en",
+      theme: 'light' as const,
+      language: 'en',
     },
   } as Player,
   missions: initialMissions as Mission[],
@@ -234,57 +230,43 @@ const initialState = {
 
 export const useGameStore = create<
   typeof initialState & {
-    addNotification: (
-      notification: Omit<Notification, "id" | "timestamp" | "read">,
-    ) => void;
+    addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => void;
     markNotificationRead: (id: string) => void;
     clearNotifications: () => void;
     addResources: (resources: Partial<Resources>) => void;
     spendResources: (resources: Partial<Resources>) => boolean;
     levelUpMagicalGirl: (id: string) => boolean;
-    updateSettings: (
-      newSettings: Partial<typeof initialState.settings>,
-    ) => void;
+    updateSettings: (newSettings: Partial<typeof initialState.settings>) => void;
     setMasterVolume: (volume: number) => void;
     resetSettings: () => void;
     startTraining: (girlId: string, type: string) => boolean;
     completeActiveSession: (sessionId: string) => void;
     updateActiveSessions: () => void;
     recruitMagicalGirl: () => Promise<boolean>;
-    performGachaSummon: (
-      bannerId: string,
-      pullCount: number,
-    ) => Promise<SummonResult[]>;
+    performGachaSummon: (bannerId: string, pullCount: number) => Promise<SummonResult[]>;
     startMission: (missionId: string, teamIds: string[]) => boolean;
-    completeMission: (
-      missionId: string,
-      success: boolean,
-      score?: number,
-    ) => void;
+    completeMission: (missionId: string, success: boolean, score?: number) => void;
     resetGame: () => void;
     updateGameTime?: () => void;
     saveGame: () => void;
     loadGame: () => boolean;
     updateMissions: () => void;
     serializeGameState: () => SaveData;
-    importGameState: (
-      gameState: SaveData["gameState"],
-      timestamp?: number,
-    ) => void;
+    importGameState: (gameState: SaveData['gameState'], timestamp?: number) => void;
     initializePersistence: () => () => void;
     // Combat methods
     startCombatBattle: (
-      battle: Omit<CombatBattle, "id" | "status" | "startTime" | "combatLog">,
+      battle: Omit<CombatBattle, 'id' | 'status' | 'startTime' | 'combatLog'>
     ) => void;
     executeCombatAction: (
       participantId: string,
       action: CombatAction,
-      targets?: CombatParticipant[],
+      targets?: CombatParticipant[]
     ) => void;
     endCombatBattle: (
       battleId: string,
-      winner: "player" | "enemy" | "draw",
-      reason: BattleEndReason,
+      winner: 'player' | 'enemy' | 'draw',
+      reason: BattleEndReason
     ) => void;
 
     // Helper methods
@@ -293,41 +275,37 @@ export const useGameStore = create<
     processCombatActionEffects: (
       participantId: string,
       action: CombatAction,
-      targets?: CombatParticipant[],
+      targets?: CombatParticipant[]
     ) => void;
     updateCombatParticipant: (
       battleId: string,
       participantId: string,
-      updates: Partial<CombatParticipant>,
+      updates: Partial<CombatParticipant>
     ) => void;
     addCombatLogEntry: (
       battleId: string,
-      entryData: Omit<CombatLogEntry, "id" | "timestamp">,
+      entryData: Omit<CombatLogEntry, 'id' | 'timestamp'>
     ) => void;
     createCombatRecord: (battle: CombatBattle) => void;
   }
 >((set, get) => ({
   ...initialState,
 
-  addNotification: (
-    notification: Omit<Notification, "id" | "timestamp" | "read">,
-  ) => {
+  addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => {
     const newNotification: Notification = {
       ...notification,
       id: Math.random().toString(36),
       timestamp: Date.now(),
       read: false,
     };
-    set((state) => ({
+    set(state => ({
       notifications: [newNotification, ...state.notifications].slice(0, 50),
     }));
   },
 
   markNotificationRead: (id: string) => {
-    set((state) => ({
-      notifications: state.notifications.map((n) =>
-        n.id === id ? { ...n, read: true } : n,
-      ),
+    set(state => ({
+      notifications: state.notifications.map(n => (n.id === id ? { ...n, read: true } : n)),
     }));
   },
 
@@ -336,11 +314,11 @@ export const useGameStore = create<
   },
 
   addResources: (resources: Partial<Resources>) => {
-    set((state) => {
+    set(state => {
       const updatedResources: Resources = { ...state.resources };
 
       Object.entries(resources).forEach(([key, value]) => {
-        if (typeof value === "number" && Number.isFinite(value)) {
+        if (typeof value === 'number' && Number.isFinite(value)) {
           const resourceKey = key as keyof Resources;
           const currentValue = updatedResources[resourceKey] ?? 0;
           updatedResources[resourceKey] = currentValue + value;
@@ -357,7 +335,7 @@ export const useGameStore = create<
   spendResources: (resources: Partial<Resources>) => {
     const state = get();
     const canAfford = Object.entries(resources).every(([key, cost]) => {
-      if (typeof cost !== "number" || !Number.isFinite(cost)) {
+      if (typeof cost !== 'number' || !Number.isFinite(cost)) {
         return true;
       }
       const resourceKey = key as keyof Resources;
@@ -369,11 +347,11 @@ export const useGameStore = create<
       return false;
     }
 
-    set((currentState) => {
+    set(currentState => {
       const updatedResources: Resources = { ...currentState.resources };
 
       Object.entries(resources).forEach(([key, cost]) => {
-        if (typeof cost === "number" && Number.isFinite(cost)) {
+        if (typeof cost === 'number' && Number.isFinite(cost)) {
           const resourceKey = key as keyof Resources;
           const currentValue = updatedResources[resourceKey] ?? 0;
           updatedResources[resourceKey] = Math.max(0, currentValue - cost);
@@ -390,25 +368,25 @@ export const useGameStore = create<
   },
 
   levelUpMagicalGirl: (id: string) => {
-    const girl = get().magicalGirls.find((g) => g.id === id);
+    const girl = get().magicalGirls.find(g => g.id === id);
     if (!girl) return false;
 
-    set((state) => ({
-      magicalGirls: state.magicalGirls.map((girl) =>
-        girl.id === id ? { ...girl, level: girl.level + 1 } : girl,
+    set(state => ({
+      magicalGirls: state.magicalGirls.map(girl =>
+        girl.id === id ? { ...girl, level: girl.level + 1 } : girl
       ),
     }));
     return true;
   },
 
   updateSettings: (newSettings: Partial<typeof initialState.settings>) => {
-    set((state) => ({
+    set(state => ({
       settings: { ...state.settings, ...newSettings },
     }));
   },
 
   setMasterVolume: (volume: number) => {
-    set((state) => ({
+    set(state => ({
       settings: { ...state.settings, masterVolume: volume },
     }));
   },
@@ -427,11 +405,11 @@ export const useGameStore = create<
     const duration = 3600000;
     const newSession: ActiveTrainingSession = {
       id: Math.random().toString(36),
-      name: type + " Training",
+      name: type + ' Training',
       description: `Training session for ${type}`,
-      type: type as TrainingSession["type"],
-      category: "Stat_Boost",
-      difficulty: "Beginner",
+      type: type as TrainingSession['type'],
+      category: 'Stat_Boost',
+      difficulty: 'Beginner',
       duration: 3600,
       cost: { magicalEnergy: 10, time: 60 },
       requirements: [],
@@ -445,10 +423,10 @@ export const useGameStore = create<
       girlId,
       startTime,
       endTime: startTime + duration,
-      trainingName: type + " Training",
+      trainingName: type + ' Training',
       girlName: girl.name,
     };
-    set((state) => ({
+    set(state => ({
       activeSessions: [...state.activeSessions, newSession],
     }));
 
@@ -459,10 +437,8 @@ export const useGameStore = create<
   },
 
   completeActiveSession: (sessionId: string) => {
-    set((state) => ({
-      activeSessions: state.activeSessions.filter(
-        (session) => session.id !== sessionId,
-      ),
+    set(state => ({
+      activeSessions: state.activeSessions.filter(session => session.id !== sessionId),
     }));
 
     // Save game after training completion
@@ -483,8 +459,7 @@ export const useGameStore = create<
 
     // Get available girls (not already recruited)
     const availableGirls = initialMagicalGirls.filter(
-      (girl: MagicalGirl) =>
-        !state.magicalGirls.some((owned) => owned.id === girl.id),
+      (girl: MagicalGirl) => !state.magicalGirls.some(owned => owned.id === girl.id)
     );
 
     if (availableGirls.length === 0) {
@@ -492,15 +467,14 @@ export const useGameStore = create<
     }
 
     // Randomly select a girl
-    const randomGirl =
-      availableGirls[Math.floor(Math.random() * availableGirls.length)];
+    const randomGirl = availableGirls[Math.floor(Math.random() * availableGirls.length)];
 
     // Spend resources and add girl
     state.spendResources({
       friendshipPoints: gameConfig.RECRUITMENT.BASIC_COST,
     });
 
-    set((currentState) => ({
+    set(currentState => ({
       magicalGirls: [
         ...currentState.magicalGirls,
         { ...randomGirl, isUnlocked: true, unlockedAt: Date.now() },
@@ -509,8 +483,8 @@ export const useGameStore = create<
 
     // Trigger achievement checks
     const achievementStore = useAchievementStore.getState();
-    achievementStore.updateProgress("summon_first_girl", 1);
-    achievementStore.updateProgress("first_girl", 1);
+    achievementStore.updateProgress('summon_first_girl', 1);
+    achievementStore.updateProgress('first_girl', 1);
     achievementStore.checkAllAchievements();
 
     // Save game after recruitment
@@ -519,63 +493,49 @@ export const useGameStore = create<
     return true;
   },
 
-  performGachaSummon: async (
-    bannerId: string,
-    pullCount: number,
-  ): Promise<SummonResult[]> => {
+  performGachaSummon: async (bannerId: string, pullCount: number): Promise<SummonResult[]> => {
     const state = get();
-    const banner = state.recruitmentSystem.banners.find(
-      (b) => b.id === bannerId,
-    );
+    const banner = state.recruitmentSystem.banners.find(b => b.id === bannerId);
 
     if (!banner || !banner.isActive) {
-      throw new Error("Banner not found or not active");
+      throw new Error('Banner not found or not active');
     }
 
     // Check costs
     const cost = pullCount === 1 ? banner.costs.single : banner.costs.ten;
     const totalCost = {
       [cost.primary.currency]:
-        cost.primary.amount *
-        (pullCount === 10 ? gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT : 1),
+        cost.primary.amount * (pullCount === 10 ? gameConfig.RECRUITMENT.MULTI_PULL_DISCOUNT : 1),
     };
 
     if (!state.spendResources(totalCost)) {
-      throw new Error("Insufficient currency");
+      throw new Error('Insufficient currency');
     }
 
     const results: SummonResult[] = [];
-    const ownedGirlIds = state.magicalGirls.map((g) => g.id);
+    const ownedGirlIds = state.magicalGirls.map(g => g.id);
 
     for (let i = 0; i < pullCount; i++) {
       // Apply pity system
-      const pityCounter =
-        state.recruitmentSystem.pityCounters[bannerId]?.current || 0;
+      const pityCounter = state.recruitmentSystem.pityCounters[bannerId]?.current || 0;
       const pityConfig = banner.pitySystem;
       const rates = { ...banner.rates };
 
-      if (
-        pityConfig.enabled &&
-        pityConfig.softPity &&
-        pityCounter >= pityConfig.softPity.startAt
-      ) {
+      if (pityConfig.enabled && pityConfig.softPity && pityCounter >= pityConfig.softPity.startAt) {
         // Apply soft pity multiplier
         const pityMultiplier = pityConfig.softPity.rateIncrease || 1;
         rates[pityConfig.targetRarity] = Math.min(
           rates[pityConfig.targetRarity] * pityMultiplier,
-          pityConfig.softPity.maxIncrease || rates[pityConfig.targetRarity] * 2,
+          pityConfig.softPity.maxIncrease || rates[pityConfig.targetRarity] * 2
         );
       }
 
       // Perform weighted random selection
       const random = Math.random() * 100;
       let cumulative = 0;
-      let selectedRarity: MagicalGirl["rarity"] = "Common";
+      let selectedRarity: MagicalGirl['rarity'] = 'Common';
 
-      for (const [rarity, rate] of Object.entries(rates) as [
-        MagicalGirl["rarity"],
-        number,
-      ][]) {
+      for (const [rarity, rate] of Object.entries(rates) as [MagicalGirl['rarity'], number][]) {
         cumulative += rate;
         if (random <= cumulative) {
           selectedRarity = rarity;
@@ -585,21 +545,16 @@ export const useGameStore = create<
 
       // Get available girls of selected rarity
       const availableGirls = initialMagicalGirls.filter(
-        (girl) =>
-          girl.rarity === selectedRarity && !ownedGirlIds.includes(girl.id),
+        girl => girl.rarity === selectedRarity && !ownedGirlIds.includes(girl.id)
       );
 
       let selectedGirl: MagicalGirl;
       if (availableGirls.length > 0) {
-        selectedGirl =
-          availableGirls[Math.floor(Math.random() * availableGirls.length)];
+        selectedGirl = availableGirls[Math.floor(Math.random() * availableGirls.length)];
       } else {
         // Fallback to any girl of that rarity (including duplicates)
-        const rarityGirls = initialMagicalGirls.filter(
-          (girl) => girl.rarity === selectedRarity,
-        );
-        selectedGirl =
-          rarityGirls[Math.floor(Math.random() * rarityGirls.length)];
+        const rarityGirls = initialMagicalGirls.filter(girl => girl.rarity === selectedRarity);
+        selectedGirl = rarityGirls[Math.floor(Math.random() * rarityGirls.length)];
       }
 
       const isNew = !ownedGirlIds.includes(selectedGirl.id);
@@ -613,13 +568,12 @@ export const useGameStore = create<
         isDuplicate,
         wasFeatured: banner.featuredGirls.includes(selectedGirl.id),
         wasGuaranteed: pityCounter >= (pityConfig.maxCounter || 100),
-        rarityAnimation:
-          selectedRarity === "Legendary" || selectedRarity === "Epic",
+        rarityAnimation: selectedRarity === 'Legendary' || selectedRarity === 'Epic',
         position: i + 1,
       });
 
       // Update pity counter
-      set((currentState) => ({
+      set(currentState => ({
         recruitmentSystem: {
           ...currentState.recruitmentSystem,
           pityCounters: {
@@ -635,7 +589,7 @@ export const useGameStore = create<
 
       // Reset pity if target rarity was pulled
       if (selectedRarity === pityConfig.targetRarity) {
-        set((currentState) => ({
+        set(currentState => ({
           recruitmentSystem: {
             ...currentState.recruitmentSystem,
             pityCounters: {
@@ -653,15 +607,15 @@ export const useGameStore = create<
 
     // Add new girls to collection
     const newGirls = results
-      .filter((r) => r.isNew)
-      .map((r) => ({
+      .filter(r => r.isNew)
+      .map(r => ({
         ...r.character,
         isUnlocked: true,
         unlockedAt: Date.now(),
       }));
 
     if (newGirls.length > 0) {
-      set((currentState) => ({
+      set(currentState => ({
         magicalGirls: [...currentState.magicalGirls, ...newGirls],
       }));
     }
@@ -674,30 +628,24 @@ export const useGameStore = create<
       results,
       cost,
       pityCounter: state.recruitmentSystem.pityCounters[bannerId]?.current || 0,
-      wasGuaranteed: results.some((r) => r.wasGuaranteed),
-      eventContext: banner.type === "Event" ? banner.name : undefined,
+      wasGuaranteed: results.some(r => r.wasGuaranteed),
+      eventContext: banner.type === 'Event' ? banner.name : undefined,
     };
 
-    set((currentState) => ({
+    set(currentState => ({
       recruitmentSystem: {
         ...currentState.recruitmentSystem,
-        summonHistory: [
-          summonRecord,
-          ...currentState.recruitmentSystem.summonHistory,
-        ].slice(0, 100),
+        summonHistory: [summonRecord, ...currentState.recruitmentSystem.summonHistory].slice(
+          0,
+          100
+        ),
       },
     }));
 
     // Trigger achievements
     const achievementStore = useAchievementStore.getState();
-    achievementStore.updateProgress(
-      "summon_first_girl",
-      results.filter((r) => r.isNew).length,
-    );
-    achievementStore.updateProgress(
-      "first_girl",
-      results.filter((r) => r.isNew).length,
-    );
+    achievementStore.updateProgress('summon_first_girl', results.filter(r => r.isNew).length);
+    achievementStore.updateProgress('first_girl', results.filter(r => r.isNew).length);
     achievementStore.checkAllAchievements();
 
     // Save game
@@ -708,64 +656,58 @@ export const useGameStore = create<
 
   startMission: (missionId: string, teamIds: string[]) => {
     const state = get();
-    const mission = state.missions.find((m) => m.id === missionId);
+    const mission = state.missions.find(m => m.id === missionId);
 
-    if (
-      !mission ||
-      !mission.isUnlocked ||
-      !mission.isAvailable ||
-      state.activeMission
-    ) {
+    if (!mission || !mission.isUnlocked || !mission.isAvailable || state.activeMission) {
       return false;
     }
 
     // Check if player has enough magical energy (skip for tutorials)
     if (
-      mission.type !== "Tutorial" &&
+      mission.type !== 'Tutorial' &&
       state.resources.magicalEnergy < gameConfig.MISSION_ENERGY_COST
     ) {
       return false;
     }
 
     // Spend magical energy (skip for tutorials)
-    if (mission.type !== "Tutorial") {
+    if (mission.type !== 'Tutorial') {
       state.spendResources({ magicalEnergy: gameConfig.MISSION_ENERGY_COST });
     }
 
     // Auto-complete tutorial missions
-    if (mission.type === "Tutorial") {
+    if (mission.type === 'Tutorial') {
       // Award rewards immediately for tutorial missions
       const rewards = { experience: 0, sparkles: 0, stardust: 0 };
-      mission.rewards.forEach((reward) => {
-        if (reward.type === "experience") rewards.experience += reward.quantity;
-        if (reward.type === "sparkles") rewards.sparkles += reward.quantity;
-        if (reward.type === "stardust") rewards.stardust += reward.quantity;
+      mission.rewards.forEach(reward => {
+        if (reward.type === 'experience') rewards.experience += reward.quantity;
+        if (reward.type === 'sparkles') rewards.sparkles += reward.quantity;
+        if (reward.type === 'stardust') rewards.stardust += reward.quantity;
       });
 
       state.addResources(rewards);
 
       // Mark mission as completed
-      set((currentState) => ({
-        missions: currentState.missions.map((m) =>
+      set(currentState => ({
+        missions: currentState.missions.map(m =>
           m.id === missionId
             ? {
                 ...m,
                 isCompleted: true,
                 completedAt: Date.now(),
-                objectives: m.objectives.map((obj) => ({
+                objectives: m.objectives.map(obj => ({
                   ...obj,
                   isCompleted: true,
                   progress: obj.maxProgress,
                 })),
               }
-            : m,
+            : m
         ),
         player: {
           ...currentState.player,
           statistics: {
             ...currentState.player.statistics,
-            missionsCompleted:
-              currentState.player.statistics.missionsCompleted + 1,
+            missionsCompleted: currentState.player.statistics.missionsCompleted + 1,
           },
         },
       }));
@@ -777,10 +719,7 @@ export const useGameStore = create<
     }
 
     // Use first available girl if no team specified
-    const selectedTeam =
-      teamIds.length > 0
-        ? teamIds
-        : [state.magicalGirls[0]?.id].filter(Boolean);
+    const selectedTeam = teamIds.length > 0 ? teamIds : [state.magicalGirls[0]?.id].filter(Boolean);
 
     // Set mission as active for non-tutorial missions
     set({
@@ -791,20 +730,20 @@ export const useGameStore = create<
     });
 
     // Start combat battle for combat missions
-    if (mission.category === "Combat") {
+    if (mission.category === 'Combat') {
       const playerTeam = selectedTeam
         .map((girlId): CombatParticipant | null => {
-          const girl = state.magicalGirls.find((g) => g.id === girlId);
+          const girl = state.magicalGirls.find(g => g.id === girlId);
           if (!girl) return null;
 
           return {
             id: girl.id,
-            source: "player" as const,
+            source: 'player' as const,
             character: girl,
             position: {
               row: 1,
               column: 1,
-              team: "player" as const,
+              team: 'player' as const,
               modifiers: [],
             },
             currentStats: {
@@ -863,30 +802,30 @@ export const useGameStore = create<
             equipment: { accessories: [], temporaryItems: [] },
             availableActions: [
               {
-                id: "attack",
-                name: "Attack",
-                type: "Attack",
-                category: "Physical",
-                description: "Basic physical attack",
-                icon: "⚔️",
-                costs: [{ resource: "mana", amount: 0 }],
+                id: 'attack',
+                name: 'Attack',
+                type: 'Attack',
+                category: 'Physical',
+                description: 'Basic physical attack',
+                icon: '⚔️',
+                costs: [{ resource: 'mana', amount: 0 }],
                 requirements: [],
                 effects: [
                   {
-                    type: "Damage",
-                    target: "Target",
-                    timing: "Instant",
+                    type: 'Damage',
+                    target: 'Target',
+                    timing: 'Instant',
                     calculation: {
                       baseValue: 20,
-                      scalingStat: "attack",
+                      scalingStat: 'attack',
                       scalingPercentage: 1,
                     },
                     modifiers: [],
                     conditions: [],
                   },
                 ],
-                targeting: { type: "Single", restrictions: [] },
-                animation: { type: "Melee", duration: 500, effects: [] },
+                targeting: { type: 'Single', restrictions: [] },
+                animation: { type: 'Melee', duration: 500, effects: [] },
                 cooldown: 0,
                 currentCooldown: 0,
                 uses: -1,
@@ -907,20 +846,17 @@ export const useGameStore = create<
             barriers: [],
           };
         })
-        .filter(
-          (participant): participant is CombatParticipant =>
-            participant !== null,
-        );
+        .filter((participant): participant is CombatParticipant => participant !== null);
 
       const enemyTeam = [
         {
-          id: "enemy-1",
-          source: "ai" as const,
+          id: 'enemy-1',
+          source: 'ai' as const,
           character: {
-            id: "enemy-1",
-            name: "Mysterious Monster",
-            element: "Darkness" as const,
-            rarity: "Common" as const,
+            id: 'enemy-1',
+            name: 'Mysterious Monster',
+            element: 'Darkness' as const,
+            rarity: 'Common' as const,
             level: 1,
             experience: 0,
             experienceToNext: 100,
@@ -944,8 +880,8 @@ export const useGameStore = create<
               temporaryItems: [],
             },
             transformation: {
-              id: "none",
-              name: "None",
+              id: 'none',
+              name: 'None',
               level: 1,
               maxLevel: 1,
               isUnlocked: false,
@@ -958,13 +894,13 @@ export const useGameStore = create<
             },
             personality: {
               traits: [],
-              mood: "Calm" as const,
+              mood: 'Calm' as const,
               relationships: [],
               preferences: {
-                favoriteActivity: "Missions",
-                favoriteMission: "Combat",
-                favoriteTime: "Night",
-                favoriteLocation: "City",
+                favoriteActivity: 'Missions',
+                favoriteMission: 'Combat',
+                favoriteTime: 'Night',
+                favoriteLocation: 'City',
                 specialInterests: [],
               },
               dialogues: {
@@ -979,39 +915,39 @@ export const useGameStore = create<
                 special: [],
               },
             },
-            backstory: "A mysterious monster attacking the city",
+            backstory: 'A mysterious monster attacking the city',
             avatar: {
               base: {
                 hair: {
-                  style: "none",
-                  color: "black",
-                  length: "none",
-                  texture: "none",
+                  style: 'none',
+                  color: 'black',
+                  length: 'none',
+                  texture: 'none',
                 },
                 eyes: {
-                  shape: "glowing",
-                  color: "red",
-                  expression: "menacing",
+                  shape: 'glowing',
+                  color: 'red',
+                  expression: 'menacing',
                 },
                 outfit: {
-                  base: "monster",
-                  colors: ["black", "red"],
-                  pattern: "scales",
+                  base: 'monster',
+                  colors: ['black', 'red'],
+                  pattern: 'scales',
                   accessories: [],
                 },
                 accessories: [],
-                pose: "aggressive",
-                background: "dark",
+                pose: 'aggressive',
+                background: 'dark',
                 effects: [],
               },
               expressions: {},
               outfits: {},
               accessories: {},
               current: {
-                expression: "menacing",
-                outfit: "default",
+                expression: 'menacing',
+                outfit: 'default',
                 accessories: [],
-                pose: "aggressive",
+                pose: 'aggressive',
                 effects: [],
               },
             },
@@ -1019,14 +955,14 @@ export const useGameStore = create<
             unlockedAt: Date.now(),
             favoriteLevel: 0,
             totalMissionsCompleted: 0,
-            specialization: "Combat" as const,
+            specialization: 'Combat' as const,
             bondLevel: 1,
             bondExperience: 0,
           } as MagicalGirl,
           position: {
             row: 3,
             column: 2,
-            team: "enemy" as const,
+            team: 'enemy' as const,
             modifiers: [],
           },
           currentStats: {
@@ -1090,30 +1026,30 @@ export const useGameStore = create<
           },
           availableActions: [
             {
-              id: "enemy-attack",
-              name: "Monster Attack",
-              type: "Attack" as const,
-              category: "Physical" as const,
-              description: "Basic monster attack",
-              icon: "🦹",
-              costs: [{ resource: "mana" as const, amount: 0 }],
+              id: 'enemy-attack',
+              name: 'Monster Attack',
+              type: 'Attack' as const,
+              category: 'Physical' as const,
+              description: 'Basic monster attack',
+              icon: '🦹',
+              costs: [{ resource: 'mana' as const, amount: 0 }],
               requirements: [],
               effects: [
                 {
-                  type: "Damage" as const,
-                  target: "Target" as const,
-                  timing: "Instant" as const,
+                  type: 'Damage' as const,
+                  target: 'Target' as const,
+                  timing: 'Instant' as const,
                   calculation: {
                     baseValue: 15,
-                    scalingStat: "attack" as const,
+                    scalingStat: 'attack' as const,
                     scalingPercentage: 1,
                   },
                   modifiers: [],
                   conditions: [],
                 },
               ],
-              targeting: { type: "Single", restrictions: [] },
-              animation: { type: "Melee", duration: 500, effects: [] },
+              targeting: { type: 'Single', restrictions: [] },
+              animation: { type: 'Melee', duration: 500, effects: [] },
               cooldown: 0,
               currentCooldown: 0,
               uses: -1,
@@ -1127,8 +1063,8 @@ export const useGameStore = create<
           ],
           actionQueue: [],
           ai: {
-            type: "Aggressive",
-            difficulty: "Easy",
+            type: 'Aggressive',
+            difficulty: 'Easy',
             personality: {
               aggression: 80,
               caution: 20,
@@ -1136,22 +1072,20 @@ export const useGameStore = create<
               adaptability: 30,
               focus: 70,
             },
-            priorities: [
-              { condition: "always", weight: 100, actions: ["enemy-attack"] },
-            ],
+            priorities: [{ condition: 'always', weight: 100, actions: ['enemy-attack'] }],
             behaviors: [
               {
-                trigger: "health_low",
+                trigger: 'health_low',
                 probability: 50,
-                actions: ["enemy-attack"],
+                actions: ['enemy-attack'],
                 cooldown: 2,
               },
             ],
             reactions: [
               {
-                event: "damaged",
-                condition: "health < 50%",
-                response: ["enemy-attack"],
+                event: 'damaged',
+                condition: 'health < 50%',
+                response: ['enemy-attack'],
                 probability: 80,
               },
             ],
@@ -1172,41 +1106,41 @@ export const useGameStore = create<
 
       const battleData = {
         name: mission.name,
-        type: "Mission" as const,
+        type: 'Mission' as const,
         playerTeam,
         enemyTeam,
         environment: {
-          id: "city",
-          name: "City Streets",
-          description: "Urban battlefield with buildings and civilians",
-          type: "City" as const,
-          weather: { type: "Clear" as const, intensity: 0, effects: [] },
-          terrain: "Flat" as const,
-          lighting: "Normal" as const,
-          magicalField: "Neutral" as const,
+          id: 'city',
+          name: 'City Streets',
+          description: 'Urban battlefield with buildings and civilians',
+          type: 'City' as const,
+          weather: { type: 'Clear' as const, intensity: 0, effects: [] },
+          terrain: 'Flat' as const,
+          lighting: 'Normal' as const,
+          magicalField: 'Neutral' as const,
           effects: [],
           hazards: [],
           bonuses: [],
-          background: "city-bg.jpg",
+          background: 'city-bg.jpg',
         },
         turnOrder: {
           participants: [],
           currentIndex: 0,
-          phase: "Start" as const,
-          speedTiebreaker: "random" as const,
+          phase: 'Start' as const,
+          speedTiebreaker: 'random' as const,
         },
         currentTurn: 1,
         maxTurns: 50,
         turnTimer: 30000,
         maxTurnTimer: 30000,
         conditions: [],
-        rewards: mission.rewards.map((reward) => ({
+        rewards: mission.rewards.map(reward => ({
           type:
-            reward.type === "experience"
-              ? ("Experience" as const)
-              : reward.type === "sparkles"
-                ? ("Currency" as const)
-                : ("Item" as const),
+            reward.type === 'experience'
+              ? ('Experience' as const)
+              : reward.type === 'sparkles'
+                ? ('Currency' as const)
+                : ('Item' as const),
           amount: reward.quantity,
           item: reward.item,
           rarity: undefined,
@@ -1228,43 +1162,35 @@ export const useGameStore = create<
 
   completeMission: (missionId: string, success: boolean, score?: number) => {
     const state = get();
-    const mission = state.missions.find((m) => m.id === missionId);
+    const mission = state.missions.find(m => m.id === missionId);
 
-    if (
-      !mission ||
-      !state.activeMission ||
-      state.activeMission.mission.id !== missionId
-    ) {
+    if (!mission || !state.activeMission || state.activeMission.mission.id !== missionId) {
       return;
     }
 
     if (success) {
       // Award rewards
       const rewards = { experience: 0, sparkles: 0, stardust: 0 };
-      mission.rewards.forEach((reward) => {
-        if (reward.type === "experience") rewards.experience += reward.quantity;
-        if (reward.type === "sparkles") rewards.sparkles += reward.quantity;
-        if (reward.type === "stardust") rewards.stardust += reward.quantity;
+      mission.rewards.forEach(reward => {
+        if (reward.type === 'experience') rewards.experience += reward.quantity;
+        if (reward.type === 'sparkles') rewards.sparkles += reward.quantity;
+        if (reward.type === 'stardust') rewards.stardust += reward.quantity;
       });
 
       state.addResources(rewards);
 
       // Mark mission as completed
-      set((currentState) => ({
-        missions: currentState.missions.map((m) =>
-          m.id === missionId
-            ? { ...m, isCompleted: true, completedAt: Date.now() }
-            : m,
+      set(currentState => ({
+        missions: currentState.missions.map(m =>
+          m.id === missionId ? { ...m, isCompleted: true, completedAt: Date.now() } : m
         ),
         activeMission: null,
         player: {
           ...currentState.player,
           statistics: {
             ...currentState.player.statistics,
-            missionsCompleted:
-              currentState.player.statistics.missionsCompleted + 1,
-            totalScore:
-              currentState.player.statistics.totalScore + (score || 0),
+            missionsCompleted: currentState.player.statistics.missionsCompleted + 1,
+            totalScore: currentState.player.statistics.totalScore + (score || 0),
           },
         },
       }));
@@ -1281,9 +1207,9 @@ export const useGameStore = create<
     set({ ...initialState, resetGame: get().resetGame });
     setTimeout(() => {
       get().addNotification({
-        type: "info",
-        title: "Game Reset",
-        message: "Started a new game!",
+        type: 'info',
+        title: 'Game Reset',
+        message: 'Started a new game!',
       });
     }, 100);
   },
@@ -1296,14 +1222,10 @@ export const useGameStore = create<
     const now = Date.now();
     const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-    set((currentState) => ({
-      missions: currentState.missions.map((mission) => {
+    set(currentState => ({
+      missions: currentState.missions.map(mission => {
         // Reset daily missions after 24 hours
-        if (
-          mission.type === "Daily" &&
-          mission.isCompleted &&
-          mission.completedAt
-        ) {
+        if (mission.type === 'Daily' && mission.isCompleted && mission.completedAt) {
           const timeSinceCompletion = now - mission.completedAt;
           if (timeSinceCompletion >= oneDay) {
             return {
@@ -1311,7 +1233,7 @@ export const useGameStore = create<
               isCompleted: false,
               completedAt: undefined,
               attempts: 0,
-              objectives: mission.objectives.map((obj) => ({
+              objectives: mission.objectives.map(obj => ({
                 ...obj,
                 isCompleted: false,
                 progress: 0,
@@ -1326,34 +1248,26 @@ export const useGameStore = create<
 
         // Check unlock conditions based on requirements
         if (mission.requirements && mission.requirements.length > 0) {
-          isUnlocked = mission.requirements.every((requirement) => {
+          isUnlocked = mission.requirements.every(requirement => {
             switch (requirement.type) {
-              case "level": {
-                return (
-                  currentState.gameProgress.level >=
-                  (requirement.value as number)
-                );
+              case 'level': {
+                return currentState.gameProgress.level >= (requirement.value as number);
               }
-              case "mission_completed": {
+              case 'mission_completed': {
                 // Check if required mission is completed
-                const requiredMission = currentState.missions.find(
-                  (m) => m.id === requirement.value,
-                );
+                const requiredMission = currentState.missions.find(m => m.id === requirement.value);
                 return requiredMission?.isCompleted || false;
               }
-              case "achievement": {
+              case 'achievement': {
                 // Check if achievement is unlocked
                 const achievementStore = useAchievementStore.getState();
                 const achievement = achievementStore.achievements.find(
-                  (a) => a.id === requirement.value,
+                  a => a.id === requirement.value
                 );
                 return achievement?.unlocked || false;
               }
-              case "magical_girl": {
-                return (
-                  currentState.magicalGirls.length >=
-                  (requirement.value as number)
-                );
+              case 'magical_girl': {
+                return currentState.magicalGirls.length >= (requirement.value as number);
               }
               default:
                 return true;
@@ -1405,9 +1319,7 @@ export const useGameStore = create<
     const normalizedResources = persistedState.resources
       ? { ...persistedState.resources }
       : createInitialResources();
-    const activeMission = persistedState.activeMission
-      ? persistedState.activeMission
-      : null;
+    const activeMission = persistedState.activeMission ? persistedState.activeMission : null;
 
     set(() => ({
       notifications: persistedState.notifications ?? [],
@@ -1416,63 +1328,56 @@ export const useGameStore = create<
       gameProgress: persistedState.gameProgress ?? initialState.gameProgress,
       trainingData: persistedState.trainingData ?? initialState.trainingData,
       settings: persistedState.settings ?? initialState.settings,
-      transformationData:
-        persistedState.transformationData ?? initialState.transformationData,
+      transformationData: persistedState.transformationData ?? initialState.transformationData,
       formationData: persistedState.formationData ?? initialState.formationData,
       prestigeData: persistedState.prestigeData ?? initialState.prestigeData,
       saveSystemData: {
-        lastSave:
-          timestamp ?? persistedState.saveSystemData?.lastSave ?? Date.now(),
+        lastSave: timestamp ?? persistedState.saveSystemData?.lastSave ?? Date.now(),
       },
       tutorialData: persistedState.tutorialData ?? initialState.tutorialData,
       player: syncPlayerResources(
         persistedState.player ?? initialState.player,
-        normalizedResources,
+        normalizedResources
       ),
       missions: initialMissions,
       activeMission,
       activeSessions: persistedState.activeSessions ?? [],
-      recruitmentSystem:
-        persistedState.recruitmentSystem ?? initialState.recruitmentSystem,
+      recruitmentSystem: persistedState.recruitmentSystem ?? initialState.recruitmentSystem,
     }));
 
     const state = get();
 
-    if (
-      state.activeMission &&
-      state.activeMission.mission.type === "Tutorial"
-    ) {
+    if (state.activeMission && state.activeMission.mission.type === 'Tutorial') {
       const rewards = { experience: 0, sparkles: 0, stardust: 0 };
-      state.activeMission.mission.rewards.forEach((reward) => {
-        if (reward.type === "experience") rewards.experience += reward.quantity;
-        if (reward.type === "sparkles") rewards.sparkles += reward.quantity;
-        if (reward.type === "stardust") rewards.stardust += reward.quantity;
+      state.activeMission.mission.rewards.forEach(reward => {
+        if (reward.type === 'experience') rewards.experience += reward.quantity;
+        if (reward.type === 'sparkles') rewards.sparkles += reward.quantity;
+        if (reward.type === 'stardust') rewards.stardust += reward.quantity;
       });
 
       state.addResources(rewards);
 
-      set((currentState) => ({
+      set(currentState => ({
         activeMission: null,
-        missions: currentState.missions.map((mission) =>
+        missions: currentState.missions.map(mission =>
           mission.id === state.activeMission!.mission.id
             ? {
                 ...mission,
                 isCompleted: true,
                 completedAt: Date.now(),
-                objectives: mission.objectives.map((objective) => ({
+                objectives: mission.objectives.map(objective => ({
                   ...objective,
                   isCompleted: true,
                   progress: objective.maxProgress,
                 })),
               }
-            : mission,
+            : mission
         ),
         player: {
           ...currentState.player,
           statistics: {
             ...currentState.player.statistics,
-            missionsCompleted:
-              currentState.player.statistics.missionsCompleted + 1,
+            missionsCompleted: currentState.player.statistics.missionsCompleted + 1,
           },
         },
       }));
@@ -1488,8 +1393,8 @@ export const useGameStore = create<
 
     try {
       const saveData = get().serializeGameState();
-      localStorage.setItem("magicalGirlSave", JSON.stringify(saveData));
-      set((state) => ({
+      localStorage.setItem('magicalGirlSave', JSON.stringify(saveData));
+      set(state => ({
         saveSystemData: { lastSave: saveData.timestamp },
         player: syncPlayerResources(state.player, state.resources),
       }));
@@ -1504,7 +1409,7 @@ export const useGameStore = create<
     }
 
     try {
-      const rawSave = localStorage.getItem("magicalGirlSave");
+      const rawSave = localStorage.getItem('magicalGirlSave');
       if (!rawSave) {
         return false;
       }
@@ -1556,16 +1461,16 @@ export const useGameStore = create<
   },
 
   // Combat methods
-  startCombatBattle: (battleData) => {
+  startCombatBattle: battleData => {
     const battle: CombatBattle = {
       ...battleData,
       id: `battle-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      status: "Active",
+      status: 'Active',
       startTime: Date.now(),
       combatLog: [],
     };
 
-    set((state) => ({
+    set(state => ({
       combatSystem: {
         ...state.combatSystem,
         battles: [...state.combatSystem.battles, battle],
@@ -1585,7 +1490,7 @@ export const useGameStore = create<
     get().addCombatLogEntry(activeBattle.id, {
       turn: activeBattle.currentTurn,
       phase: activeBattle.turnOrder.phase,
-      type: "Action",
+      type: 'Action',
       actor: participantId,
       action: action.name,
       description: `${participantId} used ${action.name}`,
@@ -1599,29 +1504,27 @@ export const useGameStore = create<
   },
 
   endCombatBattle: (battleId, winner, reason) => {
-    set((state) => ({
+    set(state => ({
       combatSystem: {
         ...state.combatSystem,
-        battles: state.combatSystem.battles.map((battle) =>
+        battles: state.combatSystem.battles.map(battle =>
           battle.id === battleId
             ? {
                 ...battle,
-                status: "Completed" as const,
+                status: 'Completed' as const,
                 endTime: Date.now(),
                 winner,
                 reason,
               }
-            : battle,
+            : battle
         ),
         activeBattle:
-          state.combatSystem.activeBattle?.id === battleId
-            ? null
-            : state.combatSystem.activeBattle,
+          state.combatSystem.activeBattle?.id === battleId ? null : state.combatSystem.activeBattle,
       },
     }));
 
     // Create combat record
-    const battle = get().combatSystem.battles.find((b) => b.id === battleId);
+    const battle = get().combatSystem.battles.find(b => b.id === battleId);
     if (battle) {
       get().createCombatRecord(battle);
     }
@@ -1629,13 +1532,13 @@ export const useGameStore = create<
 
   // Helper methods
   initializeCombatTurnOrder: (battleId: string) => {
-    const battle = get().combatSystem.battles.find((b) => b.id === battleId);
+    const battle = get().combatSystem.battles.find(b => b.id === battleId);
     if (!battle) return;
 
     const allParticipants = [...battle.playerTeam, ...battle.enemyTeam];
     const turnOrder = {
       participants: allParticipants
-        .map((p) => ({
+        .map(p => ({
           participantId: p.id,
           speed: p.currentStats.speed,
           initiative: Math.random(),
@@ -1645,29 +1548,26 @@ export const useGameStore = create<
         }))
         .sort((a, b) => b.speed - a.speed || b.initiative - a.initiative),
       currentIndex: 0,
-      phase: "Action" as const,
-      speedTiebreaker: "random" as const,
+      phase: 'Action' as const,
+      speedTiebreaker: 'random' as const,
     };
 
-    set((state) => ({
+    set(state => ({
       combatSystem: {
         ...state.combatSystem,
-        battles: state.combatSystem.battles.map((b) =>
-          b.id === battleId ? { ...b, turnOrder } : b,
-        ),
+        battles: state.combatSystem.battles.map(b => (b.id === battleId ? { ...b, turnOrder } : b)),
       },
     }));
   },
 
   nextCombatTurn: () => {
     const { activeBattle } = get().combatSystem;
-    if (!activeBattle || activeBattle.status !== "Active") return;
+    if (!activeBattle || activeBattle.status !== 'Active') return;
 
     const turnOrder = activeBattle.turnOrder;
-    const nextIndex =
-      (turnOrder.currentIndex + 1) % turnOrder.participants.length;
+    const nextIndex = (turnOrder.currentIndex + 1) % turnOrder.participants.length;
 
-    set((state) => ({
+    set(state => ({
       combatSystem: {
         ...state.combatSystem,
         activeBattle: state.combatSystem.activeBattle
@@ -1676,7 +1576,7 @@ export const useGameStore = create<
               turnOrder: {
                 ...state.combatSystem.activeBattle.turnOrder,
                 currentIndex: nextIndex,
-                phase: "Action" as const,
+                phase: 'Action' as const,
               },
               currentTurn: state.combatSystem.activeBattle.currentTurn + 1,
             }
@@ -1688,16 +1588,16 @@ export const useGameStore = create<
   processCombatActionEffects: (
     participantId: string,
     action: CombatAction,
-    targets?: CombatParticipant[],
+    targets?: CombatParticipant[]
   ) => {
     // Basic action processing - in a real implementation this would be much more complex
     if (!targets || targets.length === 0) return;
 
-    targets.forEach((target) => {
-      action.effects.forEach((effect) => {
-        if (effect.type === "Damage") {
+    targets.forEach(target => {
+      action.effects.forEach(effect => {
+        if (effect.type === 'Damage') {
           const damage = Math.floor(Math.random() * 50) + 10; // Placeholder damage calculation
-          get().updateCombatParticipant("", target.id, {
+          get().updateCombatParticipant('', target.id, {
             currentStats: {
               ...target.currentStats,
               health: Math.max(0, target.currentStats.health - damage),
@@ -1708,7 +1608,7 @@ export const useGameStore = create<
           get().addCombatLogEntry(get().combatSystem.activeBattle!.id, {
             turn: get().combatSystem.activeBattle!.currentTurn,
             phase: get().combatSystem.activeBattle!.turnOrder.phase,
-            type: "Damage",
+            type: 'Damage',
             actor: participantId,
             target: [target.id],
             value: damage,
@@ -1722,41 +1622,34 @@ export const useGameStore = create<
   updateCombatParticipant: (
     _battleId: string,
     participantId: string,
-    updates: Partial<CombatParticipant>,
+    updates: Partial<CombatParticipant>
   ) => {
-    set((state) => ({
+    set(state => ({
       combatSystem: {
         ...state.combatSystem,
-        battles: state.combatSystem.battles.map((battle) => ({
+        battles: state.combatSystem.battles.map(battle => ({
           ...battle,
-          playerTeam: battle.playerTeam.map((p) =>
-            p.id === participantId ? { ...p, ...updates } : p,
+          playerTeam: battle.playerTeam.map(p =>
+            p.id === participantId ? { ...p, ...updates } : p
           ),
-          enemyTeam: battle.enemyTeam.map((p) =>
-            p.id === participantId ? { ...p, ...updates } : p,
-          ),
+          enemyTeam: battle.enemyTeam.map(p => (p.id === participantId ? { ...p, ...updates } : p)),
         })),
       },
     }));
   },
 
-  addCombatLogEntry: (
-    battleId: string,
-    entryData: Omit<CombatLogEntry, "id" | "timestamp">,
-  ) => {
+  addCombatLogEntry: (battleId: string, entryData: Omit<CombatLogEntry, 'id' | 'timestamp'>) => {
     const entry = {
       ...entryData,
       id: `log-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       timestamp: Date.now(),
     };
 
-    set((state) => ({
+    set(state => ({
       combatSystem: {
         ...state.combatSystem,
-        battles: state.combatSystem.battles.map((battle) =>
-          battle.id === battleId
-            ? { ...battle, combatLog: [...battle.combatLog, entry] }
-            : battle,
+        battles: state.combatSystem.battles.map(battle =>
+          battle.id === battleId ? { ...battle, combatLog: [...battle.combatLog, entry] } : battle
         ),
       },
     }));
@@ -1769,14 +1662,14 @@ export const useGameStore = create<
       timestamp: battle.endTime || Date.now(),
       duration: (battle.endTime || Date.now()) - battle.startTime,
       type: battle.type,
-      playerTeam: battle.playerTeam.map((p) => p.id),
-      enemyTeam: battle.enemyTeam.map((p) => p.id),
+      playerTeam: battle.playerTeam.map(p => p.id),
+      enemyTeam: battle.enemyTeam.map(p => p.id),
       result:
-        battle.winner === "player"
-          ? ("Victory" as const)
-          : battle.winner === "enemy"
-            ? ("Defeat" as const)
-            : ("Draw" as const),
+        battle.winner === 'player'
+          ? ('Victory' as const)
+          : battle.winner === 'enemy'
+            ? ('Defeat' as const)
+            : ('Draw' as const),
       turns: battle.currentTurn,
       damageDealt: 0, // Would calculate from log
       damageReceived: 0, // Would calculate from log
@@ -1785,19 +1678,16 @@ export const useGameStore = create<
       abilitiesUsed: 0, // Would calculate from log
       itemsUsed: 0, // Would calculate from log
       transformations: 0, // Would calculate from log
-      mvp: battle.playerTeam[0]?.id || "", // Would determine from performance
+      mvp: battle.playerTeam[0]?.id || '', // Would determine from performance
       rewards: battle.rewards,
       experience: 100, // Base experience
       rating: 1200, // Would calculate based on difficulty and performance
     };
 
-    set((state) => ({
+    set(state => ({
       combatSystem: {
         ...state.combatSystem,
-        combatHistory: [record, ...state.combatSystem.combatHistory].slice(
-          0,
-          100,
-        ),
+        combatHistory: [record, ...state.combatSystem.combatHistory].slice(0, 100),
       },
     }));
   },

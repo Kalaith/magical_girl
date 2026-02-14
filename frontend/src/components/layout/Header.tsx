@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 import {
   Star,
   Users,
@@ -14,26 +14,26 @@ import {
   Save,
   BookOpen,
   Sliders,
-} from "lucide-react";
-import { useUIStore } from "../../stores/uiStore";
-import { VIEWS, type ViewType } from "../../config/gameConfig";
+} from 'lucide-react';
+import { useUIStore } from '../../stores/uiStore';
+import { VIEWS, type ViewType } from '../../config/gameConfig';
 
 const navigationItems = [
-  { id: VIEWS.DASHBOARD, label: "Dashboard", icon: Star },
-  { id: VIEWS.MAGICAL_GIRLS, label: "Magical Girls", icon: Users },
-  { id: VIEWS.RECRUITMENT, label: "Recruitment", icon: Sparkles },
-  { id: VIEWS.TRAINING, label: "Training", icon: Dumbbell },
-  { id: VIEWS.MISSIONS, label: "Missions", icon: Map },
-  { id: VIEWS.ACHIEVEMENTS, label: "Achievements", icon: Trophy },
+  { id: VIEWS.DASHBOARD, label: 'Dashboard', icon: Star },
+  { id: VIEWS.MAGICAL_GIRLS, label: 'Magical Girls', icon: Users },
+  { id: VIEWS.RECRUITMENT, label: 'Recruitment', icon: Sparkles },
+  { id: VIEWS.TRAINING, label: 'Training', icon: Dumbbell },
+  { id: VIEWS.MISSIONS, label: 'Missions', icon: Map },
+  { id: VIEWS.ACHIEVEMENTS, label: 'Achievements', icon: Trophy },
 ];
 
 const advancedNavigationItems = [
-  { id: VIEWS.SKILL_TREE, label: "Skill Tree", icon: TreePine },
-  { id: VIEWS.CUSTOMIZATION, label: "Customize", icon: Palette },
-  { id: VIEWS.PRESTIGE, label: "Prestige", icon: Crown },
-  { id: VIEWS.SAVE_SYSTEM, label: "Save", icon: Save },
-  { id: VIEWS.ENHANCED_SETTINGS, label: "Advanced", icon: Sliders },
-  { id: VIEWS.SETTINGS, label: "Settings", icon: Settings },
+  { id: VIEWS.SKILL_TREE, label: 'Skill Tree', icon: TreePine },
+  { id: VIEWS.CUSTOMIZATION, label: 'Customize', icon: Palette },
+  { id: VIEWS.PRESTIGE, label: 'Prestige', icon: Crown },
+  { id: VIEWS.SAVE_SYSTEM, label: 'Save', icon: Save },
+  { id: VIEWS.ENHANCED_SETTINGS, label: 'Advanced', icon: Sliders },
+  { id: VIEWS.SETTINGS, label: 'Settings', icon: Settings },
 ];
 
 export const Header: React.FC = () => {
@@ -65,7 +65,7 @@ export const Header: React.FC = () => {
           </div>
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
-            {navigationItems.map((item) => {
+            {navigationItems.map(item => {
               const Icon = item.icon;
               const isActive = currentView === item.id;
 
@@ -78,8 +78,8 @@ export const Header: React.FC = () => {
                     flex items-center space-x-2 touch-target
                     ${
                       isActive
-                        ? "bg-purple-100 text-purple-700 shadow-sm"
-                        : "text-gray-600 hover:bg-purple-50 hover:text-purple-600"
+                        ? 'bg-purple-100 text-purple-700 shadow-sm'
+                        : 'text-gray-600 hover:bg-purple-50 hover:text-purple-600'
                     }
                   `}
                   whileHover={{ scale: 1.02 }}
@@ -118,7 +118,7 @@ export const Header: React.FC = () => {
                   exit={{ opacity: 0, y: 10 }}
                   className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
                 >
-                  {advancedNavigationItems.map((item) => {
+                  {advancedNavigationItems.map(item => {
                     const Icon = item.icon;
                     const isActive = currentView === item.id;
 
@@ -129,7 +129,7 @@ export const Header: React.FC = () => {
                         className={`
                           w-full px-4 py-2 text-left hover:bg-purple-50 transition-colors
                           flex items-center space-x-3
-                          ${isActive ? "bg-purple-100 text-purple-700" : "text-gray-700"}
+                          ${isActive ? 'bg-purple-100 text-purple-700' : 'text-gray-700'}
                         `}
                       >
                         <Icon className="w-4 h-4" />
@@ -140,7 +140,7 @@ export const Header: React.FC = () => {
                 </motion.div>
               )}
             </div>
-          </nav>{" "}
+          </nav>{' '}
           {/* Mobile menu button */}
           <div className="md:hidden">
             <motion.button
@@ -159,7 +159,7 @@ export const Header: React.FC = () => {
         {/* Mobile Navigation - Always visible on mobile */}
         <div className="md:hidden border-t border-purple-200 bg-white/90">
           <div className="flex overflow-x-auto space-x-1 p-2">
-            {navigationItems.map((item) => {
+            {navigationItems.map(item => {
               const Icon = item.icon;
               const isActive = currentView === item.id;
 
@@ -172,8 +172,8 @@ export const Header: React.FC = () => {
                     flex flex-col items-center space-y-1 min-w-[70px] touch-target
                     ${
                       isActive
-                        ? "bg-purple-100 text-purple-700 shadow-sm"
-                        : "text-gray-600 hover:bg-purple-50 hover:text-purple-600"
+                        ? 'bg-purple-100 text-purple-700 shadow-sm'
+                        : 'text-gray-600 hover:bg-purple-50 hover:text-purple-600'
                     }
                   `}
                   whileHover={{ scale: 1.02 }}
@@ -193,8 +193,8 @@ export const Header: React.FC = () => {
                 flex flex-col items-center space-y-1 min-w-[70px] touch-target
                 ${
                   showAdvancedMenu
-                    ? "bg-purple-100 text-purple-700 shadow-sm"
-                    : "text-gray-600 hover:bg-purple-50 hover:text-purple-600"
+                    ? 'bg-purple-100 text-purple-700 shadow-sm'
+                    : 'text-gray-600 hover:bg-purple-50 hover:text-purple-600'
                 }
               `}
               whileHover={{ scale: 1.02 }}
@@ -209,12 +209,12 @@ export const Header: React.FC = () => {
           {showAdvancedMenu && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
+              animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               className="border-t border-purple-200 bg-purple-50"
             >
               <div className="grid grid-cols-3 gap-2 p-3">
-                {advancedNavigationItems.map((item) => {
+                {advancedNavigationItems.map(item => {
                   const Icon = item.icon;
                   const isActive = currentView === item.id;
 
@@ -227,17 +227,15 @@ export const Header: React.FC = () => {
                         flex flex-col items-center space-y-1 touch-target
                         ${
                           isActive
-                            ? "bg-purple-200 text-purple-800 shadow-sm"
-                            : "text-gray-700 hover:bg-purple-100 hover:text-purple-700"
+                            ? 'bg-purple-200 text-purple-800 shadow-sm'
+                            : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700'
                         }
                       `}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       <Icon className="w-4 h-4" />
-                      <span className="text-xs leading-none text-center">
-                        {item.label}
-                      </span>
+                      <span className="text-xs leading-none text-center">{item.label}</span>
                     </motion.button>
                   );
                 })}

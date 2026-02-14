@@ -1,5 +1,5 @@
 // Simplified Save System - Frontend Only (using localStorage)
-import type { StateCreator } from "zustand";
+import type { StateCreator } from 'zustand';
 
 export interface SaveSlot {
   id: string;
@@ -17,13 +17,8 @@ export interface SaveSystemSlice {
   autoSaveEnabled: boolean;
 
   // Actions
-  saveToSlot: (
-    slotId: string,
-    gameState: Record<string, string | number | boolean>,
-  ) => void;
-  loadFromSlot: (
-    slotId: string,
-  ) => Record<string, string | number | boolean> | null;
+  saveToSlot: (slotId: string, gameState: Record<string, string | number | boolean>) => void;
+  loadFromSlot: (slotId: string) => Record<string, string | number | boolean> | null;
   deleteSlot: (slotId: string) => void;
   createSlot: (name: string) => string;
   renameSlot: (slotId: string, newName: string) => void;
@@ -32,20 +27,14 @@ export interface SaveSystemSlice {
   importSave: (saveData: string) => boolean;
 }
 
-export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (
-  set,
-  get,
-) => ({
+export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (set, get) => ({
   saveSlots: [],
   currentSlot: null,
   autoSaveEnabled: true,
 
-  saveToSlot: (
-    slotId: string,
-    gameState: Record<string, string | number | boolean>,
-  ) => {
+  saveToSlot: (slotId: string, gameState: Record<string, string | number | boolean>) => {
     const { saveSlots } = get();
-    const slot = saveSlots.find((s) => s.id === slotId);
+    const slot = saveSlots.find(s => s.id === slotId);
 
     if (!slot) return;
 
@@ -57,10 +46,8 @@ export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (
       playtime: (gameState.player as { playtime?: number })?.playtime || 0,
     };
 
-    set((state) => ({
-      saveSlots: state.saveSlots.map((s) =>
-        s.id === slotId ? updatedSlot : s,
-      ),
+    set(state => ({
+      saveSlots: state.saveSlots.map(s => (s.id === slotId ? updatedSlot : s)),
       currentSlot: slotId,
     }));
 
@@ -70,7 +57,7 @@ export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (
 
   loadFromSlot: (slotId: string) => {
     const { saveSlots } = get();
-    const slot = saveSlots.find((s) => s.id === slotId);
+    const slot = saveSlots.find(s => s.id === slotId);
 
     if (!slot || !slot.data) return null;
 
@@ -83,8 +70,8 @@ export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (
   },
 
   deleteSlot: (slotId: string) => {
-    set((state) => ({
-      saveSlots: state.saveSlots.filter((s) => s.id !== slotId),
+    set(state => ({
+      saveSlots: state.saveSlots.filter(s => s.id !== slotId),
       currentSlot: state.currentSlot === slotId ? null : state.currentSlot,
     }));
 
@@ -99,10 +86,10 @@ export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (
       timestamp: Date.now(),
       playerLevel: 1,
       playtime: 0,
-      data: "",
+      data: '',
     };
 
-    set((state) => ({
+    set(state => ({
       saveSlots: [...state.saveSlots, newSlot],
     }));
 
@@ -110,21 +97,19 @@ export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (
   },
 
   renameSlot: (slotId: string, newName: string) => {
-    set((state) => ({
-      saveSlots: state.saveSlots.map((s) =>
-        s.id === slotId ? { ...s, name: newName } : s,
-      ),
+    set(state => ({
+      saveSlots: state.saveSlots.map(s => (s.id === slotId ? { ...s, name: newName } : s)),
     }));
   },
 
   toggleAutoSave: () => {
-    set((state) => ({ autoSaveEnabled: !state.autoSaveEnabled }));
+    set(state => ({ autoSaveEnabled: !state.autoSaveEnabled }));
   },
 
   exportSave: (slotId: string) => {
     const { saveSlots } = get();
-    const slot = saveSlots.find((s) => s.id === slotId);
-    return slot ? JSON.stringify(slot) : "";
+    const slot = saveSlots.find(s => s.id === slotId);
+    return slot ? JSON.stringify(slot) : '';
   },
 
   importSave: (saveData: string) => {
@@ -132,7 +117,7 @@ export const createSaveSystemSlice: StateCreator<SaveSystemSlice> = (
       const slot: SaveSlot = JSON.parse(saveData);
       slot.id = Date.now().toString(); // New ID to avoid conflicts
 
-      set((state) => ({
+      set(state => ({
         saveSlots: [...state.saveSlots, slot],
       }));
 

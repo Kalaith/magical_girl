@@ -1,7 +1,7 @@
 // Resource management slice - Single Responsibility Principle
-import type { StateCreator } from "zustand";
-import type { Resources } from "../../types/game";
-import { gameConfig } from "../../data/gameConfig";
+import type { StateCreator } from 'zustand';
+import type { Resources } from '../../types/game';
+import { gameConfig } from '../../data/gameConfig';
 
 export interface ResourceSlice {
   // State
@@ -39,8 +39,8 @@ export const createResourceSlice: StateCreator<
     dreamshards: 200,
   },
 
-  addResources: (resourceUpdates) =>
-    set((state) => {
+  addResources: resourceUpdates =>
+    set(state => {
       const newResources = { ...state.resources };
 
       Object.entries(resourceUpdates).forEach(([key, value]) => {
@@ -49,7 +49,7 @@ export const createResourceSlice: StateCreator<
           const current = newResources[resourceKey] as number;
           const valueToAdd = value as number;
 
-          if (resourceKey === "experience") {
+          if (resourceKey === 'experience') {
             newResources.experience = current + valueToAdd;
             // Check for level up
             const requiredExp = 100 * Math.pow(1.5, newResources.level - 1);
@@ -62,10 +62,7 @@ export const createResourceSlice: StateCreator<
             const max = gameConfig.resourceLimits[maxKey];
 
             if (max !== undefined) {
-              newResources[resourceKey] = Math.min(
-                current + valueToAdd,
-                max,
-              ) as number;
+              newResources[resourceKey] = Math.min(current + valueToAdd, max) as number;
             } else {
               newResources[resourceKey] = (current + valueToAdd) as number;
             }
@@ -76,13 +73,13 @@ export const createResourceSlice: StateCreator<
       return { resources: newResources };
     }),
 
-  spendResources: (resourceCosts) => {
+  spendResources: resourceCosts => {
     const state = get();
     if (!state.canAfford(resourceCosts)) {
       return false;
     }
 
-    set((currentState) => {
+    set(currentState => {
       const newResources = { ...currentState.resources };
 
       Object.entries(resourceCosts).forEach(([key, value]) => {
@@ -100,7 +97,7 @@ export const createResourceSlice: StateCreator<
     return true;
   },
 
-  canAfford: (resourceCosts) => {
+  canAfford: resourceCosts => {
     const state = get();
     return Object.entries(resourceCosts).every(([key, value]) => {
       if (!value || !(key in state.resources)) return true;

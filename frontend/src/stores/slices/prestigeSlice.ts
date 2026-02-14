@@ -1,5 +1,5 @@
 // Simplified Prestige System - Frontend Only
-import type { StateCreator } from "zustand";
+import type { StateCreator } from 'zustand';
 
 export interface PrestigeData {
   level: number;
@@ -38,17 +38,17 @@ const defaultPrestige: PrestigeData = {
 
 const defaultPerks: PrestigePerk[] = [
   {
-    id: "exp_boost",
-    name: "Experience Boost",
-    description: "Increases experience gain by 10% per level",
+    id: 'exp_boost',
+    name: 'Experience Boost',
+    description: 'Increases experience gain by 10% per level',
     cost: 10,
     maxLevel: 10,
     currentLevel: 0,
   },
   {
-    id: "resource_boost",
-    name: "Resource Boost",
-    description: "Increases resource generation by 5% per level",
+    id: 'resource_boost',
+    name: 'Resource Boost',
+    description: 'Increases resource generation by 5% per level',
     cost: 15,
     maxLevel: 20,
     currentLevel: 0,
@@ -68,7 +68,7 @@ export const createPrestigeSlice: StateCreator<PrestigeSlice> = (set, get) => ({
     const { prestige } = get();
     const pointsGained = Math.floor(prestige.level * 0.1); // Simple formula
 
-    set((state) => ({
+    set(state => ({
       prestige: {
         ...state.prestige,
         level: state.prestige.level + 1,
@@ -80,23 +80,19 @@ export const createPrestigeSlice: StateCreator<PrestigeSlice> = (set, get) => ({
 
   upgradePrestigePerk: (perkId: string) => {
     const { prestige, perks } = get();
-    const perk = perks.find((p) => p.id === perkId);
+    const perk = perks.find(p => p.id === perkId);
 
-    if (
-      !perk ||
-      perk.currentLevel >= perk.maxLevel ||
-      prestige.points < perk.cost
-    ) {
+    if (!perk || perk.currentLevel >= perk.maxLevel || prestige.points < perk.cost) {
       return false;
     }
 
-    set((state) => ({
+    set(state => ({
       prestige: {
         ...state.prestige,
         points: state.prestige.points - perk.cost,
       },
-      perks: state.perks.map((p) =>
-        p.id === perkId ? { ...p, currentLevel: p.currentLevel + 1 } : p,
+      perks: state.perks.map(p =>
+        p.id === perkId ? { ...p, currentLevel: p.currentLevel + 1 } : p
       ),
     }));
 
@@ -106,7 +102,7 @@ export const createPrestigeSlice: StateCreator<PrestigeSlice> = (set, get) => ({
   resetPrestige: () => {
     set({
       prestige: { ...defaultPrestige },
-      perks: defaultPerks.map((p) => ({ ...p, currentLevel: 0 })),
+      perks: defaultPerks.map(p => ({ ...p, currentLevel: 0 })),
     });
   },
 });

@@ -37,35 +37,29 @@ export interface MagicalGirlStats {
 }
 
 export type MagicalElement =
-  | "Light"
-  | "Darkness"
-  | "Fire"
-  | "Water"
-  | "Earth"
-  | "Air"
-  | "Ice"
-  | "Lightning"
-  | "Nature"
-  | "Celestial"
-  | "Void"
-  | "Crystal";
+  | 'Light'
+  | 'Darkness'
+  | 'Fire'
+  | 'Water'
+  | 'Earth'
+  | 'Air'
+  | 'Ice'
+  | 'Lightning'
+  | 'Nature'
+  | 'Celestial'
+  | 'Void'
+  | 'Crystal';
 
-export type Rarity =
-  | "Common"
-  | "Uncommon"
-  | "Rare"
-  | "Epic"
-  | "Legendary"
-  | "Mythical";
+export type Rarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Mythical';
 
 export type Specialization =
-  | "Combat"
-  | "Healing"
-  | "Support"
-  | "Magic"
-  | "Defense"
-  | "Speed"
-  | "Balanced";
+  | 'Combat'
+  | 'Healing'
+  | 'Support'
+  | 'Magic'
+  | 'Defense'
+  | 'Speed'
+  | 'Balanced';
 
 export interface Ability {
   id: string;
@@ -89,14 +83,14 @@ export interface Ability {
 }
 
 export type AbilityType =
-  | "Attack"
-  | "Defense"
-  | "Heal"
-  | "Buff"
-  | "Debuff"
-  | "Utility"
-  | "Ultimate"
-  | "Passive";
+  | 'Attack'
+  | 'Defense'
+  | 'Heal'
+  | 'Buff'
+  | 'Debuff'
+  | 'Utility'
+  | 'Ultimate'
+  | 'Passive';
 
 export interface AbilityCost {
   magicalEnergy: number;
@@ -106,7 +100,7 @@ export interface AbilityCost {
 }
 
 export interface SpecialCost {
-  type: "health" | "time" | "condition";
+  type: 'health' | 'time' | 'condition';
   amount: number;
   condition?: string;
 }
@@ -121,21 +115,15 @@ export interface AbilityEffect {
 }
 
 export type EffectType =
-  | "damage"
-  | "heal"
-  | "stat_boost"
-  | "stat_reduction"
-  | "status_effect"
-  | "resource_gain"
-  | "special";
+  | 'damage'
+  | 'heal'
+  | 'stat_boost'
+  | 'stat_reduction'
+  | 'status_effect'
+  | 'resource_gain'
+  | 'special';
 
-export type EffectTarget =
-  | "self"
-  | "ally"
-  | "enemy"
-  | "all_allies"
-  | "all_enemies"
-  | "all";
+export type EffectTarget = 'self' | 'ally' | 'enemy' | 'all_allies' | 'all_enemies' | 'all';
 
 export interface EffectScaling {
   stat: keyof MagicalGirlStats;
@@ -143,21 +131,21 @@ export interface EffectScaling {
 }
 
 export interface AbilityRequirement {
-  type: "level" | "stat" | "element" | "ability" | "item";
+  type: 'level' | 'stat' | 'element' | 'ability' | 'item';
   value: string | number;
   condition?: string;
 }
 
 export type AbilityTag =
-  | "offensive"
-  | "defensive"
-  | "support"
-  | "elemental"
-  | "rare"
-  | "channeled"
-  | "instant"
-  | "aoe"
-  | "single_target";
+  | 'offensive'
+  | 'defensive'
+  | 'support'
+  | 'elemental'
+  | 'rare'
+  | 'channeled'
+  | 'instant'
+  | 'aoe'
+  | 'single_target';
 
 export interface Equipment {
   weapon?: EquipmentItem;
@@ -184,10 +172,10 @@ export interface EquipmentItem {
   special?: EquipmentSpecial;
 }
 
-export type EquipmentType = "Weapon" | "Accessory" | "Outfit" | "Charm";
+export type EquipmentType = 'Weapon' | 'Accessory' | 'Outfit' | 'Charm';
 
 export interface EquipmentRequirement {
-  type: "level" | "stat" | "element" | "specialization";
+  type: 'level' | 'stat' | 'element' | 'specialization';
   value: string | number;
 }
 
@@ -200,7 +188,7 @@ export interface SetBonus {
 }
 
 export interface EquipmentSpecial {
-  type: "proc" | "passive" | "active";
+  type: 'proc' | 'passive' | 'active';
   effect: AbilityEffect;
   trigger?: string;
   cooldown?: number;
@@ -221,7 +209,7 @@ export interface Transformation {
 }
 
 export interface TransformationRequirement {
-  type: "level" | "bond" | "mission" | "special";
+  type: 'level' | 'bond' | 'mission' | 'special';
   value: string | number;
   description: string;
 }
@@ -246,7 +234,7 @@ export interface TransformationMastery {
 }
 
 export interface MasteryBonus {
-  type: "stat" | "ability" | "cost_reduction" | "duration" | "special";
+  type: 'stat' | 'ability' | 'cost_reduction' | 'duration' | 'special';
   value: string | number;
   description: string;
 }
@@ -267,22 +255,22 @@ export interface PersonalityTrait {
 }
 
 export interface TraitEffect {
-  type: "stat" | "ability" | "mission" | "social";
+  type: 'stat' | 'ability' | 'mission' | 'social';
   modifier: number;
   condition?: string;
 }
 
 export type Mood =
-  | "Happy"
-  | "Excited"
-  | "Calm"
-  | "Focused"
-  | "Tired"
-  | "Sad"
-  | "Angry"
-  | "Nervous"
-  | "Confident"
-  | "Determined";
+  | 'Happy'
+  | 'Excited'
+  | 'Calm'
+  | 'Focused'
+  | 'Tired'
+  | 'Sad'
+  | 'Angry'
+  | 'Nervous'
+  | 'Confident'
+  | 'Determined';
 
 export interface Relationship {
   targetId: string; // ID of another magical girl
@@ -294,16 +282,16 @@ export interface Relationship {
 }
 
 export type RelationshipType =
-  | "Friend"
-  | "Rival"
-  | "Mentor"
-  | "Student"
-  | "Partner"
-  | "Sister"
-  | "Neutral";
+  | 'Friend'
+  | 'Rival'
+  | 'Mentor'
+  | 'Student'
+  | 'Partner'
+  | 'Sister'
+  | 'Neutral';
 
 export interface RelationshipBonus {
-  type: "stat" | "ability" | "mission" | "special";
+  type: 'stat' | 'ability' | 'mission' | 'special';
   value: string | number;
   condition?: string;
 }
@@ -317,34 +305,28 @@ export interface MagicalGirlPreferences {
 }
 
 export type Activity =
-  | "Training"
-  | "Missions"
-  | "Socializing"
-  | "Studying"
-  | "Resting"
-  | "Exploring";
+  | 'Training'
+  | 'Missions'
+  | 'Socializing'
+  | 'Studying'
+  | 'Resting'
+  | 'Exploring';
 export type MissionType =
-  | "Combat"
-  | "Rescue"
-  | "Investigation"
-  | "Protection"
-  | "Collection"
-  | "Social";
-export type TimeOfDay =
-  | "Dawn"
-  | "Morning"
-  | "Afternoon"
-  | "Evening"
-  | "Night"
-  | "Midnight";
+  | 'Combat'
+  | 'Rescue'
+  | 'Investigation'
+  | 'Protection'
+  | 'Collection'
+  | 'Social';
+export type TimeOfDay = 'Dawn' | 'Morning' | 'Afternoon' | 'Evening' | 'Night' | 'Midnight';
 export type Location =
-  | "City"
-  | "Forest"
-  | "Beach"
-  | "Mountains"
-  | "School"
-  | "Home"
-  | "Magical Realm";
+  | 'City'
+  | 'Forest'
+  | 'Beach'
+  | 'Mountains'
+  | 'School'
+  | 'Home'
+  | 'Magical Realm';
 
 export interface DialogueSet {
   greetings: string[];
@@ -466,7 +448,7 @@ export interface MagicalGirlTemplate {
 }
 
 export interface UnlockCondition {
-  type: "level" | "mission" | "achievement" | "time" | "special";
+  type: 'level' | 'mission' | 'achievement' | 'time' | 'special';
   value: string | number;
   description: string;
 }
@@ -496,23 +478,17 @@ export interface TeamPosition {
   role: TeamRole;
 }
 
-export type TeamRole =
-  | "Leader"
-  | "Attacker"
-  | "Defender"
-  | "Support"
-  | "Healer"
-  | "Specialist";
+export type TeamRole = 'Leader' | 'Attacker' | 'Defender' | 'Support' | 'Healer' | 'Specialist';
 
 export interface FormationBonus {
-  type: "stat" | "ability" | "special";
+  type: 'stat' | 'ability' | 'special';
   value: string | number;
   condition?: string;
 }
 
 export interface TeamBonus {
-  source: "synergy" | "leadership" | "equipment" | "special";
-  type: "stat" | "ability" | "experience" | "resources";
+  source: 'synergy' | 'leadership' | 'equipment' | 'special';
+  type: 'stat' | 'ability' | 'experience' | 'resources';
   value: string | number;
   description: string;
 }

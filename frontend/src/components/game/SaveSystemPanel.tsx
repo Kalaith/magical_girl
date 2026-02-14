@@ -1,34 +1,34 @@
-import React, { useMemo } from "react";
-import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
-import { useGameStore } from "../../stores/gameStore";
+import React, { useMemo } from 'react';
+import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
+import { useGameStore } from '../../stores/gameStore';
 
 export const SaveSystemPanel: React.FC = () => {
-  const saveGame = useGameStore((state) => state.saveGame);
-  const loadGame = useGameStore((state) => state.loadGame);
-  const serializeGameState = useGameStore((state) => state.serializeGameState);
-  const importGameState = useGameStore((state) => state.importGameState);
-  const saveSystemData = useGameStore((state) => state.saveSystemData);
+  const saveGame = useGameStore(state => state.saveGame);
+  const loadGame = useGameStore(state => state.loadGame);
+  const serializeGameState = useGameStore(state => state.serializeGameState);
+  const importGameState = useGameStore(state => state.importGameState);
+  const saveSystemData = useGameStore(state => state.saveSystemData);
 
   const saveSlots = useMemo(() => {
     const autoDate = saveSystemData?.lastSave
       ? new Date(saveSystemData.lastSave).toLocaleString()
-      : "Never";
+      : 'Never';
     return [
-      { id: 1, name: "Auto Save", date: autoDate, auto: true },
-      { id: 2, name: "Manual Save 1", date: "2024-01-15 10:30", auto: false },
-      { id: 3, name: "Manual Save 2", date: "2024-01-14 16:45", auto: false },
+      { id: 1, name: 'Auto Save', date: autoDate, auto: true },
+      { id: 2, name: 'Manual Save 1', date: '2024-01-15 10:30', auto: false },
+      { id: 3, name: 'Manual Save 2', date: '2024-01-14 16:45', auto: false },
     ];
   }, [saveSystemData?.lastSave]);
 
   const handleSave = () => {
     saveGame();
     // In a real implementation, this would show a success notification
-    console.log("Game saved!");
+    console.log('Game saved!');
   };
 
   const handleLoad = (slotId: number) => {
-    const slot = saveSlots.find((entry) => entry.id === slotId);
+    const slot = saveSlots.find(entry => entry.id === slotId);
     if (!slot) {
       return;
     }
@@ -36,10 +36,10 @@ export const SaveSystemPanel: React.FC = () => {
     if (slot.auto) {
       const success = loadGame();
       if (success) {
-        console.log("Game loaded successfully!");
+        console.log('Game loaded successfully!');
         // In a real implementation, this would show a success notification
       } else {
-        console.log("Failed to load game or no save data found");
+        console.log('Failed to load game or no save data found');
       }
     } else {
       // For manual save slots, this would load from specific slots
@@ -50,11 +50,11 @@ export const SaveSystemPanel: React.FC = () => {
   const handleExport = () => {
     const saveData = serializeGameState();
     const dataStr = JSON.stringify(saveData, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json" });
+    const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
-    a.download = `magical-girl-save-${new Date().toISOString().split("T")[0]}.json`;
+    a.download = `magical-girl-save-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -62,12 +62,8 @@ export const SaveSystemPanel: React.FC = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-magical-primary mb-2">
-          Save System
-        </h1>
-        <p className="text-gray-600">
-          Manage your game saves and backup your progress
-        </p>
+        <h1 className="text-3xl font-bold text-magical-primary mb-2">Save System</h1>
+        <p className="text-gray-600">Manage your game saves and backup your progress</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -77,18 +73,14 @@ export const SaveSystemPanel: React.FC = () => {
             <Button variant="primary" className="w-full" onClick={handleSave}>
               Save Game
             </Button>
-            <Button
-              variant="secondary"
-              className="w-full"
-              onClick={handleExport}
-            >
+            <Button variant="secondary" className="w-full" onClick={handleExport}>
               Export Save Data
             </Button>
             <label className="block">
               <Button
                 variant="secondary"
                 className="w-full"
-                onClick={() => document.getElementById("importFile")?.click()}
+                onClick={() => document.getElementById('importFile')?.click()}
               >
                 Import Save Data
               </Button>
@@ -97,30 +89,28 @@ export const SaveSystemPanel: React.FC = () => {
                 type="file"
                 accept=".json"
                 className="hidden"
-                onChange={(e) => {
+                onChange={e => {
                   const file = e.target.files?.[0];
                   if (file) {
                     const reader = new FileReader();
-                    reader.onload = (event) => {
+                    reader.onload = event => {
                       try {
-                        const parsed = JSON.parse(
-                          event.target?.result as string,
-                        );
-                        if (parsed.version === "1.0.0" && parsed.gameState) {
+                        const parsed = JSON.parse(event.target?.result as string);
+                        if (parsed.version === '1.0.0' && parsed.gameState) {
                           importGameState(parsed.gameState, parsed.timestamp);
-                          console.log("Save data imported successfully!");
+                          console.log('Save data imported successfully!');
                           // In a real implementation, this would show a success notification
                         } else {
-                          console.error("Invalid save file format");
+                          console.error('Invalid save file format');
                         }
                       } catch (error) {
-                        console.error("Invalid save file:", error);
+                        console.error('Invalid save file:', error);
                       }
                     };
                     reader.readAsText(file);
                   }
                   // Reset the input
-                  e.target.value = "";
+                  e.target.value = '';
                 }}
               />
             </label>
@@ -130,7 +120,7 @@ export const SaveSystemPanel: React.FC = () => {
         <Card className="p-6">
           <h3 className="text-xl font-semibold mb-4">Save Slots</h3>
           <div className="space-y-3">
-            {saveSlots.map((slot) => (
+            {saveSlots.map(slot => (
               <div
                 key={slot.id}
                 className="border rounded-lg p-3 flex items-center justify-between"
@@ -147,11 +137,7 @@ export const SaveSystemPanel: React.FC = () => {
                   <div className="text-sm text-gray-500">{slot.date}</div>
                 </div>
                 <div className="flex gap-2">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => handleLoad(slot.id)}
-                  >
+                  <Button variant="secondary" size="sm" onClick={() => handleLoad(slot.id)}>
                     Load
                   </Button>
                   {!slot.auto && (

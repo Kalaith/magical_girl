@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   Star,
   Zap,
@@ -12,11 +12,11 @@ import {
   Plus,
   TrendingUp,
   Award,
-} from "lucide-react";
-import { useGameStore } from "../../stores/gameStore";
-import { Button } from "../ui/Button";
-import { Card } from "../ui/Card";
-import type { MagicalGirl } from "../../types/magicalGirl";
+} from 'lucide-react';
+import { useGameStore } from '../../stores/gameStore';
+import { Button } from '../ui/Button';
+import { Card } from '../ui/Card';
+import type { MagicalGirl } from '../../types/magicalGirl';
 
 interface MagicalGirlDetailsProps {
   girl: MagicalGirl;
@@ -36,48 +36,42 @@ const statIcons = {
 };
 
 const statColors = {
-  power: "text-red-500",
-  defense: "text-blue-500",
-  speed: "text-green-500",
-  magic: "text-purple-500",
-  wisdom: "text-indigo-500",
-  charm: "text-pink-500",
-  courage: "text-orange-500",
-  luck: "text-yellow-500",
-  endurance: "text-teal-500",
-  focus: "text-gray-500",
+  power: 'text-red-500',
+  defense: 'text-blue-500',
+  speed: 'text-green-500',
+  magic: 'text-purple-500',
+  wisdom: 'text-indigo-500',
+  charm: 'text-pink-500',
+  courage: 'text-orange-500',
+  luck: 'text-yellow-500',
+  endurance: 'text-teal-500',
+  focus: 'text-gray-500',
 };
 
-export const MagicalGirlDetails: React.FC<MagicalGirlDetailsProps> = ({
-  girl,
-}) => {
-  const [activeTab, setActiveTab] = useState<
-    "stats" | "abilities" | "equipment"
-  >("stats");
+export const MagicalGirlDetails: React.FC<MagicalGirlDetailsProps> = ({ girl }) => {
+  const [activeTab, setActiveTab] = useState<'stats' | 'abilities' | 'equipment'>('stats');
   const { levelUpMagicalGirl, addNotification } = useGameStore();
 
   const handleLevelUp = () => {
     const result = levelUpMagicalGirl(girl.id);
     if (result) {
       addNotification({
-        type: "success",
-        title: "Level Up!",
+        type: 'success',
+        title: 'Level Up!',
         message: `${girl.name} reached level ${girl.level + 1}!`,
       });
     } else {
       addNotification({
-        type: "error",
-        title: "Cannot Level Up",
-        message: "Not enough experience points!",
+        type: 'error',
+        title: 'Cannot Level Up',
+        message: 'Not enough experience points!',
       });
     }
   };
 
   const canLevelUp = girl.experience >= girl.experienceToNext;
   const rarityStars =
-    ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythical"].indexOf(
-      girl.rarity,
-    ) + 1;
+    ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'].indexOf(girl.rarity) + 1;
 
   return (
     <div className="p-6 max-h-[80vh] overflow-y-auto">
@@ -85,9 +79,7 @@ export const MagicalGirlDetails: React.FC<MagicalGirlDetailsProps> = ({
       <div className="text-center mb-6">
         {/* Avatar */}
         <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center">
-          <span className="text-white text-3xl font-bold">
-            {girl.name.charAt(0)}
-          </span>
+          <span className="text-white text-3xl font-bold">{girl.name.charAt(0)}</span>
         </div>
 
         <h2 className="text-2xl font-bold mb-2">{girl.name}</h2>
@@ -108,9 +100,7 @@ export const MagicalGirlDetails: React.FC<MagicalGirlDetailsProps> = ({
             <Star
               key={i}
               className={`w-5 h-5 ${
-                i < rarityStars
-                  ? "text-yellow-400 fill-current"
-                  : "text-gray-300"
+                i < rarityStars ? 'text-yellow-400 fill-current' : 'text-gray-300'
               }`}
             />
           ))}
@@ -148,14 +138,14 @@ export const MagicalGirlDetails: React.FC<MagicalGirlDetailsProps> = ({
 
       {/* Tabs */}
       <div className="flex mb-6 border-b">
-        {(["stats", "abilities", "equipment"] as const).map((tab) => (
+        {(['stats', 'abilities', 'equipment'] as const).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-4 py-2 font-medium capitalize transition-colors ${
               activeTab === tab
-                ? "text-purple-600 border-b-2 border-purple-600"
-                : "text-gray-500 hover:text-gray-700"
+                ? 'text-purple-600 border-b-2 border-purple-600'
+                : 'text-gray-500 hover:text-gray-700'
             }`}
           >
             {tab}
@@ -170,15 +160,13 @@ export const MagicalGirlDetails: React.FC<MagicalGirlDetailsProps> = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
       >
-        {activeTab === "stats" && (
+        {activeTab === 'stats' && (
           <div className="space-y-4">
             <h3 className="font-semibold text-lg mb-3">Base Stats</h3>
             <div className="grid grid-cols-2 gap-3">
               {Object.entries(girl.stats).map(([statName, value]) => {
-                const IconComponent =
-                  statIcons[statName as keyof typeof statIcons];
-                const colorClass =
-                  statColors[statName as keyof typeof statColors];
+                const IconComponent = statIcons[statName as keyof typeof statIcons];
+                const colorClass = statColors[statName as keyof typeof statColors];
 
                 return (
                   <Card key={statName} className="p-3">
@@ -202,24 +190,20 @@ export const MagicalGirlDetails: React.FC<MagicalGirlDetailsProps> = ({
           </div>
         )}
 
-        {activeTab === "abilities" && (
+        {activeTab === 'abilities' && (
           <div className="space-y-4">
             <h3 className="font-semibold text-lg mb-3">
               Abilities ({girl.abilities?.length || 0})
             </h3>
             {girl.abilities && girl.abilities.length > 0 ? (
               <div className="space-y-3">
-                {girl.abilities.map((ability) => (
+                {girl.abilities.map(ability => (
                   <Card key={ability.id} className="p-4">
                     <div className="flex justify-between items-start mb-2">
                       <h4 className="font-semibold">{ability.name}</h4>
-                      <span className="text-sm text-gray-500">
-                        Lv.{ability.level}
-                      </span>
+                      <span className="text-sm text-gray-500">Lv.{ability.level}</span>
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">
-                      {ability.description}
-                    </p>
+                    <p className="text-sm text-gray-600 mb-2">{ability.description}</p>
                     <div className="flex gap-2 text-xs">
                       <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded">
                         {ability.type}
@@ -247,7 +231,7 @@ export const MagicalGirlDetails: React.FC<MagicalGirlDetailsProps> = ({
           </div>
         )}
 
-        {activeTab === "equipment" && (
+        {activeTab === 'equipment' && (
           <div className="space-y-4">
             <h3 className="font-semibold text-lg mb-3">Equipment</h3>
             {girl.equipment && Object.keys(girl.equipment).length > 0 ? (

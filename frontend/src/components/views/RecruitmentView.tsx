@@ -1,32 +1,31 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { useGameStore } from "../../stores/gameStore";
-import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
-import { initialMagicalGirls } from "../../data/magicalGirls";
-import { gameConfig } from "../../config/gameConfig";
-import type { MagicalGirl } from "../../types/magicalGirl";
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useGameStore } from '../../stores/gameStore';
+import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
+import { initialMagicalGirls } from '../../data/magicalGirls';
+import { gameConfig } from '../../config/gameConfig';
+import type { MagicalGirl } from '../../types/magicalGirl';
 
-const rarityStyles: Record<MagicalGirl["rarity"], string> = {
-  Legendary: "bg-yellow-100 text-yellow-800",
-  Epic: "bg-purple-100 text-purple-800",
-  Rare: "bg-blue-100 text-blue-800",
-  Uncommon: "bg-green-100 text-green-800",
-  Common: "bg-gray-100 text-gray-800",
-  Mythical: "bg-pink-100 text-pink-800",
+const rarityStyles: Record<MagicalGirl['rarity'], string> = {
+  Legendary: 'bg-yellow-100 text-yellow-800',
+  Epic: 'bg-purple-100 text-purple-800',
+  Rare: 'bg-blue-100 text-blue-800',
+  Uncommon: 'bg-green-100 text-green-800',
+  Common: 'bg-gray-100 text-gray-800',
+  Mythical: 'bg-pink-100 text-pink-800',
 };
 
 export const RecruitmentView: React.FC = () => {
-  const { resources, addNotification, recruitMagicalGirl, magicalGirls } =
-    useGameStore();
+  const { resources, addNotification, recruitMagicalGirl, magicalGirls } = useGameStore();
   const [isRecruiting, setIsRecruiting] = useState(false);
   const recruitmentTimeoutRef = useRef<number | null>(null);
 
   // Memoize calculations to prevent infinite re-renders
   const recruitmentStats = useMemo(() => {
-    const ownedGirlIds = magicalGirls.map((g) => g.id);
+    const ownedGirlIds = magicalGirls.map(g => g.id);
     const availableCount = initialMagicalGirls.filter(
-      (girl) => !ownedGirlIds.includes(girl.id),
+      girl => !ownedGirlIds.includes(girl.id)
     ).length;
     const recentRecruits = magicalGirls.slice(-3);
     const recruitedCount = magicalGirls.length;
@@ -52,16 +51,15 @@ export const RecruitmentView: React.FC = () => {
 
       if (success) {
         addNotification({
-          type: "success",
-          title: "Recruitment Successful!",
-          message: "A new magical girl has joined your team!",
+          type: 'success',
+          title: 'Recruitment Successful!',
+          message: 'A new magical girl has joined your team!',
         });
       } else {
         addNotification({
-          type: "error",
-          title: "Recruitment Failed",
-          message:
-            "Either you don't have enough Friendship Points or no new girls are available.",
+          type: 'error',
+          title: 'Recruitment Failed',
+          message: "Either you don't have enough Friendship Points or no new girls are available.",
         });
       }
 
@@ -76,7 +74,7 @@ export const RecruitmentView: React.FC = () => {
         clearTimeout(recruitmentTimeoutRef.current);
       }
     },
-    [],
+    []
   );
 
   return (
@@ -102,9 +100,7 @@ export const RecruitmentView: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recruitment Panel */}
         <Card className="p-6">
-          <h3 className="text-xl font-bold mb-4 text-center">
-            Basic Recruitment
-          </h3>
+          <h3 className="text-xl font-bold mb-4 text-center">Basic Recruitment</h3>
 
           <div className="space-y-4">
             <div className="text-center">
@@ -118,9 +114,7 @@ export const RecruitmentView: React.FC = () => {
               <h4 className="font-semibold mb-2">Recruitment Cost</h4>
               <div className="flex justify-between items-center">
                 <span>Friendship Points</span>
-                <span className="font-bold">
-                  {gameConfig.RECRUITMENT.BASIC_COST}
-                </span>
+                <span className="font-bold">{gameConfig.RECRUITMENT.BASIC_COST}</span>
               </div>
             </div>
 
@@ -128,17 +122,15 @@ export const RecruitmentView: React.FC = () => {
               onClick={handleRecruit}
               disabled={
                 isRecruiting ||
-                resources.friendshipPoints <
-                  gameConfig.RECRUITMENT.BASIC_COST ||
+                resources.friendshipPoints < gameConfig.RECRUITMENT.BASIC_COST ||
                 recruitmentStats.availableCount === 0
               }
               className="w-full"
               variant={
-                resources.friendshipPoints >=
-                  gameConfig.RECRUITMENT.BASIC_COST &&
+                resources.friendshipPoints >= gameConfig.RECRUITMENT.BASIC_COST &&
                 recruitmentStats.availableCount > 0
-                  ? "primary"
-                  : "secondary"
+                  ? 'primary'
+                  : 'secondary'
               }
             >
               {isRecruiting ? (
@@ -147,7 +139,7 @@ export const RecruitmentView: React.FC = () => {
                   Recruiting...
                 </div>
               ) : recruitmentStats.availableCount === 0 ? (
-                "All Girls Recruited"
+                'All Girls Recruited'
               ) : (
                 `Recruit Magical Girl (${gameConfig.RECRUITMENT.BASIC_COST} FP)`
               )}
@@ -156,8 +148,7 @@ export const RecruitmentView: React.FC = () => {
             {recruitmentStats.availableCount > 0 && (
               <p className="text-sm text-gray-600 text-center">
                 {recruitmentStats.availableCount} magical girl
-                {recruitmentStats.availableCount !== 1 ? "s" : ""} available to
-                recruit
+                {recruitmentStats.availableCount !== 1 ? 's' : ''} available to recruit
               </p>
             )}
           </div>
@@ -165,9 +156,7 @@ export const RecruitmentView: React.FC = () => {
 
         {/* Stats Panel */}
         <Card className="p-6">
-          <h3 className="text-xl font-bold mb-4 text-center">
-            Recruitment Stats
-          </h3>
+          <h3 className="text-xl font-bold mb-4 text-center">Recruitment Stats</h3>
 
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -189,10 +178,7 @@ export const RecruitmentView: React.FC = () => {
               <h4 className="font-semibold mb-2">Recent Recruits</h4>
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {recruitmentStats.recentRecruits.map((girl: MagicalGirl) => (
-                  <div
-                    key={girl.id}
-                    className="flex justify-between items-center text-sm"
-                  >
+                  <div key={girl.id} className="flex justify-between items-center text-sm">
                     <span>{girl.name}</span>
                     <span
                       className={`px-2 py-1 rounded text-xs ${

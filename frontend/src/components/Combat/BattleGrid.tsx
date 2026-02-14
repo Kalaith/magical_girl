@@ -1,12 +1,12 @@
-import React from "react";
-import type { CombatBattle, CombatParticipant } from "../../types/combat";
+import React from 'react';
+import type { CombatBattle, CombatParticipant } from '../../types/combat';
 
 interface BattleGridProps {
   battle: CombatBattle;
   className?: string;
 }
 
-const BattleGrid: React.FC<BattleGridProps> = ({ battle, className = "" }) => {
+const BattleGrid: React.FC<BattleGridProps> = ({ battle, className = '' }) => {
   // Create a 3x3 grid representation
   const grid: (CombatParticipant | null)[][] = [
     [null, null, null],
@@ -15,7 +15,7 @@ const BattleGrid: React.FC<BattleGridProps> = ({ battle, className = "" }) => {
   ];
 
   // Place participants on the grid
-  [...battle.playerTeam, ...battle.enemyTeam].forEach((participant) => {
+  [...battle.playerTeam, ...battle.enemyTeam].forEach(participant => {
     const { row, column } = participant.position;
     if (row >= 1 && row <= 3 && column >= 1 && column <= 3) {
       grid[row - 1][column - 1] = participant;
@@ -24,9 +24,7 @@ const BattleGrid: React.FC<BattleGridProps> = ({ battle, className = "" }) => {
 
   return (
     <div className={`bg-gray-100 p-4 rounded-lg ${className}`}>
-      <h3 className="text-center text-lg font-semibold mb-4 text-gray-700">
-        Battle Field
-      </h3>
+      <h3 className="text-center text-lg font-semibold mb-4 text-gray-700">Battle Field</h3>
 
       <div className="grid grid-cols-3 gap-2 max-w-md mx-auto">
         {grid.map((row, rowIndex) =>
@@ -36,7 +34,7 @@ const BattleGrid: React.FC<BattleGridProps> = ({ battle, className = "" }) => {
               participant={participant}
               position={{ row: rowIndex + 1, column: colIndex + 1 }}
             />
-          )),
+          ))
         )}
       </div>
 
@@ -65,8 +63,8 @@ interface GridCellProps {
 }
 
 const GridCell: React.FC<GridCellProps> = ({ participant, position }) => {
-  const isPlayerTeam = participant?.position.team === "player";
-  const isCurrentTurn = participant?.id === "current"; // This would need to be passed down
+  const isPlayerTeam = participant?.position.team === 'player';
+  const isCurrentTurn = participant?.id === 'current'; // This would need to be passed down
   const isAlive = participant && participant.currentStats.health > 0;
 
   return (
@@ -76,11 +74,11 @@ const GridCell: React.FC<GridCellProps> = ({ participant, position }) => {
       ${
         participant
           ? isPlayerTeam
-            ? "border-green-400 bg-green-100"
-            : "border-red-400 bg-red-100"
-          : "border-gray-300 bg-gray-50"
+            ? 'border-green-400 bg-green-100'
+            : 'border-red-400 bg-red-100'
+          : 'border-gray-300 bg-gray-50'
       }
-      ${isCurrentTurn ? "ring-2 ring-blue-400" : ""}
+      ${isCurrentTurn ? 'ring-2 ring-blue-400' : ''}
       transition-all hover:scale-105
     `}
     >
@@ -88,15 +86,13 @@ const GridCell: React.FC<GridCellProps> = ({ participant, position }) => {
         <div className="text-center">
           <div
             className={`text-xs font-medium ${
-              isAlive ? "text-gray-800" : "text-gray-400 line-through"
+              isAlive ? 'text-gray-800' : 'text-gray-400 line-through'
             }`}
           >
-            {participant.character.name.split(" ")[0]}
+            {participant.character.name.split(' ')[0]}
           </div>
           <div className="text-xs text-gray-600">
-            {participant.currentStats.health > 0
-              ? `${participant.currentStats.health}`
-              : "💀"}
+            {participant.currentStats.health > 0 ? `${participant.currentStats.health}` : '💀'}
           </div>
         </div>
       ) : (

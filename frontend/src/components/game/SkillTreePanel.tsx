@@ -1,11 +1,7 @@
-import React, { useState, useCallback, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useSkillTreeStore } from "../../stores/skillTreeStore";
-import type {
-  SkillNode,
-  SpecializationPath,
-  SkillTree,
-} from "../../types/skillTree";
+import React, { useState, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSkillTreeStore } from '../../stores/skillTreeStore';
+import type { SkillNode, SpecializationPath, SkillTree } from '../../types/skillTree';
 
 interface SkillNodeComponentProps {
   node: SkillNode;
@@ -27,26 +23,26 @@ const SkillNodeComponent: React.FC<SkillNodeComponentProps> = ({
   const canLearn = isAvailable && node.currentRank < node.maxRank;
 
   const tierColors = {
-    basic: "bg-gray-600 border-gray-500",
-    intermediate: "bg-green-600 border-green-500",
-    advanced: "bg-blue-600 border-blue-500",
-    expert: "bg-purple-600 border-purple-500",
-    master: "bg-yellow-600 border-yellow-500",
-    legendary: "bg-red-600 border-red-500",
+    basic: 'bg-gray-600 border-gray-500',
+    intermediate: 'bg-green-600 border-green-500',
+    advanced: 'bg-blue-600 border-blue-500',
+    expert: 'bg-purple-600 border-purple-500',
+    master: 'bg-yellow-600 border-yellow-500',
+    legendary: 'bg-red-600 border-red-500',
   };
 
   const nodeColor =
     node.currentRank > 0
-      ? tierColors[node.tier].replace("600", "400").replace("500", "300")
+      ? tierColors[node.tier].replace('600', '400').replace('500', '300')
       : isAvailable
         ? tierColors[node.tier]
-        : "bg-gray-800 border-gray-700";
+        : 'bg-gray-800 border-gray-700';
 
   return (
     <motion.div
       className={`absolute w-16 h-16 rounded-full border-2 cursor-pointer transition-all duration-200 ${nodeColor} ${
-        isSelected ? "ring-2 ring-white ring-opacity-50" : ""
-      } ${canLearn ? "hover:scale-110" : ""}`}
+        isSelected ? 'ring-2 ring-white ring-opacity-50' : ''
+      } ${canLearn ? 'hover:scale-110' : ''}`}
       style={{ left: position.x, top: position.y }}
       whileHover={canLearn ? { scale: 1.1 } : {}}
       whileTap={canLearn ? { scale: 0.95 } : {}}
@@ -86,7 +82,7 @@ const SkillTreeView: React.FC<SkillTreeViewProps> = ({
 }) => {
   // For now, assume all nodes are available if tree is unlocked
   const getNodeAvailability = (nodeId: string) => {
-    const node = tree.nodes.find((n) => n.id === nodeId);
+    const node = tree.nodes.find(n => n.id === nodeId);
     return tree.isUnlocked && node ? node.isLearnable : false;
   };
 
@@ -96,9 +92,9 @@ const SkillTreeView: React.FC<SkillTreeViewProps> = ({
       to: { x: number; y: number };
     }> = [];
 
-    tree.nodes.forEach((node) => {
-      node.prerequisites.forEach((prereq) => {
-        const prereqNode = tree.nodes.find((n) => n.id === prereq.nodeId);
+    tree.nodes.forEach(node => {
+      node.prerequisites.forEach(prereq => {
+        const prereqNode = tree.nodes.find(n => n.id === prereq.nodeId);
         if (prereqNode && node.position && prereqNode.position) {
           lines.push({
             from: {
@@ -131,7 +127,7 @@ const SkillTreeView: React.FC<SkillTreeViewProps> = ({
         ))}
       </svg>
 
-      {tree.nodes.map((node) => {
+      {tree.nodes.map(node => {
         if (!node.position) return null;
 
         const isAvailable = getNodeAvailability(node.id);
@@ -158,18 +154,13 @@ interface SkillNodeDetailsProps {
   onLearn: (nodeId: string) => void;
 }
 
-const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
-  node,
-  onLearn,
-}) => {
+const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({ node, onLearn }) => {
   const { getTotalSkillPoints } = useSkillTreeStore();
 
   if (!node) {
     return (
       <div className="bg-gray-800 p-4 rounded-lg">
-        <p className="text-gray-400 text-center">
-          Select a skill node to view details
-        </p>
+        <p className="text-gray-400 text-center">Select a skill node to view details</p>
       </div>
     );
   }
@@ -190,15 +181,15 @@ const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
         <h3 className="text-lg font-bold text-white">{node.name}</h3>
         <span
           className={`px-2 py-1 rounded text-xs font-semibold ${
-            node.tier === "basic"
-              ? "bg-gray-600 text-white"
-              : node.tier === "advanced"
-                ? "bg-blue-600 text-white"
-                : node.tier === "expert"
-                  ? "bg-purple-600 text-white"
-                  : node.tier === "master"
-                    ? "bg-yellow-600 text-black"
-                    : "bg-red-600 text-white"
+            node.tier === 'basic'
+              ? 'bg-gray-600 text-white'
+              : node.tier === 'advanced'
+                ? 'bg-blue-600 text-white'
+                : node.tier === 'expert'
+                  ? 'bg-purple-600 text-white'
+                  : node.tier === 'master'
+                    ? 'bg-yellow-600 text-black'
+                    : 'bg-red-600 text-white'
           }`}
         >
           {node.tier.toUpperCase()}
@@ -222,9 +213,7 @@ const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
 
         {node.effects && node.effects.length > 0 && (
           <div>
-            <h4 className="text-sm font-semibold text-gray-400 mb-2">
-              Effects:
-            </h4>
+            <h4 className="text-sm font-semibold text-gray-400 mb-2">Effects:</h4>
             <ul className="space-y-1">
               {node.effects.map((effect, index) => (
                 <li key={index} className="text-sm text-gray-300">
@@ -237,15 +226,11 @@ const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
 
         {node.prerequisites && node.prerequisites.length > 0 && (
           <div>
-            <h4 className="text-sm font-semibold text-gray-400 mb-2">
-              Prerequisites:
-            </h4>
+            <h4 className="text-sm font-semibold text-gray-400 mb-2">Prerequisites:</h4>
             <ul className="space-y-1">
               {node.prerequisites.map((prereq, index) => (
                 <li key={index} className="text-sm text-gray-300">
-                  •{" "}
-                  {prereq.requirement ||
-                    `Node ${prereq.nodeId} (Rank ${prereq.minimumRank})`}
+                  • {prereq.requirement || `Node ${prereq.nodeId} (Rank ${prereq.minimumRank})`}
                 </li>
               ))}
             </ul>
@@ -259,8 +244,8 @@ const SkillNodeDetails: React.FC<SkillNodeDetailsProps> = ({
           disabled={skillPoints < cost}
           className={`w-full py-2 px-4 rounded font-semibold transition-colors ${
             skillPoints >= cost
-              ? "bg-blue-600 hover:bg-blue-700 text-white"
-              : "bg-gray-600 text-gray-400 cursor-not-allowed"
+              ? 'bg-blue-600 hover:bg-blue-700 text-white'
+              : 'bg-gray-600 text-gray-400 cursor-not-allowed'
           }`}
         >
           Learn Skill ({cost} SP)
@@ -286,7 +271,7 @@ export const SkillTreePanel: React.FC = () => {
     lastAnalysis,
   } = useSkillTreeStore();
 
-  const [selectedTreeId, setSelectedTreeId] = useState<string>("");
+  const [selectedTreeId, setSelectedTreeId] = useState<string>('');
   const [selectedNode, setSelectedNode] = useState<SkillNode | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
 
@@ -304,14 +289,14 @@ export const SkillTreePanel: React.FC = () => {
         learnSkillNode(selectedTreeId, nodeId);
         // Update selected node with new rank
         if (selectedNode?.id === nodeId && selectedTree) {
-          const updatedNode = selectedTree.nodes.find((n) => n.id === nodeId);
+          const updatedNode = selectedTree.nodes.find(n => n.id === nodeId);
           if (updatedNode) {
             setSelectedNode(updatedNode);
           }
         }
       }
     },
-    [learnSkillNode, selectedNode, selectedTree, selectedTreeId],
+    [learnSkillNode, selectedNode, selectedTree, selectedTreeId]
   );
 
   const handleAnalyze = useCallback(() => {
@@ -331,14 +316,14 @@ export const SkillTreePanel: React.FC = () => {
             <div className="flex items-center space-x-4">
               <select
                 value={selectedTreeId}
-                onChange={(e) => {
+                onChange={e => {
                   setSelectedTreeId(e.target.value);
                   setSelectedNode(null);
                 }}
                 className="bg-gray-800 text-white px-4 py-2 rounded border border-gray-600"
               >
                 <option value="">Select a skill tree...</option>
-                {availableSkillTrees.map((tree) => (
+                {availableSkillTrees.map(tree => (
                   <option key={tree.id} value={tree.id}>
                     {tree.name} ({tree.element})
                   </option>
@@ -357,9 +342,7 @@ export const SkillTreePanel: React.FC = () => {
 
             <div className="text-right">
               <div className="text-sm text-gray-400">Skill Points</div>
-              <div className="text-xl font-bold text-blue-400">
-                {skillPoints}
-              </div>
+              <div className="text-xl font-bold text-blue-400">{skillPoints}</div>
             </div>
           </div>
         </div>
@@ -374,16 +357,14 @@ export const SkillTreePanel: React.FC = () => {
                 <p className="text-gray-300 mb-4">{selectedTree.description}</p>
 
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {selectedTree.specializations.map(
-                    (path: SpecializationPath) => (
-                      <span
-                        key={path.id}
-                        className="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm"
-                      >
-                        {path.name}
-                      </span>
-                    ),
-                  )}
+                  {selectedTree.specializations.map((path: SpecializationPath) => (
+                    <span
+                      key={path.id}
+                      className="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm"
+                    >
+                      {path.name}
+                    </span>
+                  ))}
                 </div>
               </div>
 
@@ -401,9 +382,7 @@ export const SkillTreePanel: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">
-              Select a skill tree to begin your journey
-            </p>
+            <p className="text-gray-400 text-lg">Select a skill tree to begin your journey</p>
           </div>
         )}
 
@@ -421,17 +400,13 @@ export const SkillTreePanel: React.FC = () => {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
+                onClick={e => e.stopPropagation()}
               >
-                <h3 className="text-xl font-bold text-white mb-4">
-                  Tree Analysis
-                </h3>
+                <h3 className="text-xl font-bold text-white mb-4">Tree Analysis</h3>
 
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-semibold text-gray-400">
-                      Efficiency Score
-                    </h4>
+                    <h4 className="font-semibold text-gray-400">Efficiency Score</h4>
                     <div className="text-2xl font-bold text-green-400">
                       {(lastAnalysis.pointEfficiency * 100).toFixed(1)}%
                     </div>
@@ -439,15 +414,10 @@ export const SkillTreePanel: React.FC = () => {
 
                   {lastAnalysis.recommendedNodes.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-gray-400 mb-2">
-                        Recommendations
-                      </h4>
+                      <h4 className="font-semibold text-gray-400 mb-2">Recommendations</h4>
                       <ul className="space-y-2">
                         {lastAnalysis.recommendedNodes.map((rec, index) => (
-                          <li
-                            key={index}
-                            className="text-sm text-gray-300 flex items-start"
-                          >
+                          <li key={index} className="text-sm text-gray-300 flex items-start">
                             <span className="text-yellow-400 mr-2">•</span>
                             <span>{rec.reason}</span>
                           </li>

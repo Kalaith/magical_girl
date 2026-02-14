@@ -1,14 +1,12 @@
 // Notification management slice - Single Responsibility Principle
-import type { StateCreator } from "zustand";
-import type { Notification } from "../../types/game";
+import type { StateCreator } from 'zustand';
+import type { Notification } from '../../types/game';
 
 export interface NotificationSlice {
   notifications: Notification[];
 
   // Actions
-  addNotification: (
-    notification: Omit<Notification, "id" | "timestamp" | "read">,
-  ) => void;
+  addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => void;
   removeNotification: (id: string) => void;
   markNotificationAsRead: (id: string) => void;
   clearNotifications: () => void;
@@ -19,11 +17,11 @@ export const createNotificationSlice: StateCreator<
   [],
   [],
   NotificationSlice
-> = (set) => ({
+> = set => ({
   notifications: [],
 
-  addNotification: (notification) =>
-    set((state) => {
+  addNotification: notification =>
+    set(state => {
       const newNotification: Notification = {
         id: `notification_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         timestamp: Date.now(),
@@ -39,16 +37,14 @@ export const createNotificationSlice: StateCreator<
       };
     }),
 
-  removeNotification: (id) =>
-    set((state) => ({
-      notifications: state.notifications.filter((n) => n.id !== id),
+  removeNotification: id =>
+    set(state => ({
+      notifications: state.notifications.filter(n => n.id !== id),
     })),
 
-  markNotificationAsRead: (id) =>
-    set((state) => ({
-      notifications: state.notifications.map((n) =>
-        n.id === id ? { ...n, read: true } : n,
-      ),
+  markNotificationAsRead: id =>
+    set(state => ({
+      notifications: state.notifications.map(n => (n.id === id ? { ...n, read: true } : n)),
     })),
 
   clearNotifications: () =>

@@ -1,10 +1,10 @@
 // Achievement card component - Single Responsibility Principle
-import React from "react";
-import { motion } from "framer-motion";
-import { Lock, Star, Trophy, Clock } from "lucide-react";
-import { Card } from "../ui/Card";
-import type { Achievement } from "../../types/achievements";
-import { achievementRarities } from "../../data/achievements";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Lock, Star, Trophy, Clock } from 'lucide-react';
+import { Card } from '../ui/Card';
+import type { Achievement } from '../../types/achievements';
+import { achievementRarities } from '../../data/achievements';
 
 interface AchievementCardProps {
   achievement: Achievement;
@@ -17,12 +17,8 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
   onClick,
   showDetails = true,
 }) => {
-  const rarityConfig =
-    achievementRarities[achievement.rarity as keyof typeof achievementRarities];
-  const progressPercentage = Math.min(
-    (achievement.progress / achievement.maxProgress) * 100,
-    100,
-  );
+  const rarityConfig = achievementRarities[achievement.rarity as keyof typeof achievementRarities];
+  const progressPercentage = Math.min((achievement.progress / achievement.maxProgress) * 100, 100);
   const isUnlocked = achievement.unlocked;
   const isHidden = achievement.hidden && !isUnlocked;
 
@@ -39,18 +35,18 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
       animate="visible"
       whileHover="hover"
       onClick={onClick}
-      className={`cursor-pointer ${onClick ? "cursor-pointer" : "cursor-default"}`}
+      className={`cursor-pointer ${onClick ? 'cursor-pointer' : 'cursor-default'}`}
     >
       <Card
         className={`
           relative overflow-hidden transition-all duration-300
-          ${isUnlocked ? "border-2" : "border"}
-          ${isUnlocked ? rarityConfig.glow : "opacity-75"}
-          ${isHidden ? "opacity-50" : ""}
+          ${isUnlocked ? 'border-2' : 'border'}
+          ${isUnlocked ? rarityConfig.glow : 'opacity-75'}
+          ${isHidden ? 'opacity-50' : ''}
           hover:shadow-lg
         `}
         style={{
-          borderColor: isUnlocked ? rarityConfig.color : "#e5e7eb",
+          borderColor: isUnlocked ? rarityConfig.color : '#e5e7eb',
         }}
       >
         {/* Rarity indicator */}
@@ -68,25 +64,21 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
             <div
               className={`
               flex items-center justify-center w-12 h-12 rounded-full text-2xl
-              ${isUnlocked ? "bg-gradient-to-br from-yellow-100 to-orange-100" : "bg-gray-100"}
+              ${isUnlocked ? 'bg-gradient-to-br from-yellow-100 to-orange-100' : 'bg-gray-100'}
             `}
             >
-              {isHidden ? (
-                <Lock className="w-6 h-6 text-gray-400" />
-              ) : (
-                achievement.icon
-              )}
+              {isHidden ? <Lock className="w-6 h-6 text-gray-400" /> : achievement.icon}
             </div>
 
             <div className="flex-1 min-w-0">
               <h3
                 className={`
                 font-semibold text-lg leading-tight
-                ${isUnlocked ? "text-gray-900" : "text-gray-600"}
-                ${isHidden ? "text-gray-400" : ""}
+                ${isUnlocked ? 'text-gray-900' : 'text-gray-600'}
+                ${isHidden ? 'text-gray-400' : ''}
               `}
               >
-                {isHidden ? "???" : achievement.name}
+                {isHidden ? '???' : achievement.name}
               </h3>
 
               <div className="flex items-center gap-2 mt-1">
@@ -103,9 +95,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
                 {isUnlocked && (
                   <div className="flex items-center gap-1 text-yellow-600">
                     <Trophy className="w-3 h-3" />
-                    <span className="text-xs font-medium">
-                      {rarityConfig.points} pts
-                    </span>
+                    <span className="text-xs font-medium">{rarityConfig.points} pts</span>
                   </div>
                 )}
               </div>
@@ -116,13 +106,11 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
           <p
             className={`
             text-sm mb-3 leading-relaxed
-            ${isUnlocked ? "text-gray-700" : "text-gray-500"}
-            ${isHidden ? "text-gray-400" : ""}
+            ${isUnlocked ? 'text-gray-700' : 'text-gray-500'}
+            ${isHidden ? 'text-gray-400' : ''}
           `}
           >
-            {isHidden
-              ? "This achievement is hidden until unlocked."
-              : achievement.description}
+            {isHidden ? 'This achievement is hidden until unlocked.' : achievement.description}
           </p>
 
           {showDetails && !isHidden && (
@@ -132,12 +120,12 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
                 <div className="flex items-center justify-between text-xs mb-1">
                   <span className="text-gray-600">Progress</span>
                   <span
-                    className={`font-medium ${isUnlocked ? "text-green-600" : "text-gray-600"}`}
+                    className={`font-medium ${isUnlocked ? 'text-green-600' : 'text-gray-600'}`}
                   >
                     {achievement.maxProgress <= 1
                       ? isUnlocked
-                        ? "Complete"
-                        : "Incomplete"
+                        ? 'Complete'
+                        : 'Incomplete'
                       : `${achievement.progress}/${achievement.maxProgress}`}
                   </span>
                 </div>
@@ -146,8 +134,8 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
                   <motion.div
                     className={`h-full rounded-full ${
                       isUnlocked
-                        ? "bg-gradient-to-r from-green-500 to-emerald-500"
-                        : "bg-gradient-to-r from-blue-500 to-purple-500"
+                        ? 'bg-gradient-to-r from-green-500 to-emerald-500'
+                        : 'bg-gradient-to-r from-blue-500 to-purple-500'
                     }`}
                     initial={{ width: 0 }}
                     animate={{ width: `${progressPercentage}%` }}
@@ -179,10 +167,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
               {isUnlocked && achievement.unlockedAt && (
                 <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
                   <Clock className="w-3 h-3" />
-                  <span>
-                    Unlocked{" "}
-                    {new Date(achievement.unlockedAt).toLocaleDateString()}
-                  </span>
+                  <span>Unlocked {new Date(achievement.unlockedAt).toLocaleDateString()}</span>
                 </div>
               )}
             </>

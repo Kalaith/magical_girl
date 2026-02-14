@@ -1,7 +1,7 @@
 // UI store for managing interface state
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
-import type { ViewType, ModalType, ModalData } from "../types/ui";
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+import type { ViewType, ModalType, ModalData } from '../types/ui';
 
 interface UIState {
   // Current view and navigation
@@ -57,13 +57,13 @@ interface UIState {
   };
 
   // Theme and display
-  theme: "light" | "dark" | "auto";
+  theme: 'light' | 'dark' | 'auto';
   animationsEnabled: boolean;
   soundEnabled: boolean;
 
   // Responsive design
   isMobile: boolean;
-  screenSize: "sm" | "md" | "lg" | "xl";
+  screenSize: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 interface UIActions {
@@ -73,10 +73,7 @@ interface UIActions {
   setLoading: (loading: boolean) => void;
 
   // Modal management
-  openModal: <T extends Exclude<ModalType, null>>(
-    modal: T,
-    data?: ModalData[T],
-  ) => void;
+  openModal: <T extends Exclude<ModalType, null>>(modal: T, data?: ModalData[T]) => void;
   closeModal: () => void;
 
   // Panel management
@@ -91,11 +88,11 @@ interface UIActions {
   selectTraining: (id: string | null) => void;
 
   // Filter management
-  setCollectionFilter: (filter: Partial<UIState["collectionFilter"]>) => void;
+  setCollectionFilter: (filter: Partial<UIState['collectionFilter']>) => void;
   resetCollectionFilter: () => void;
-  setMissionFilter: (filter: Partial<UIState["missionFilter"]>) => void;
+  setMissionFilter: (filter: Partial<UIState['missionFilter']>) => void;
   resetMissionFilter: () => void;
-  setTrainingFilter: (filter: Partial<UIState["trainingFilter"]>) => void;
+  setTrainingFilter: (filter: Partial<UIState['trainingFilter']>) => void;
   resetTrainingFilter: () => void;
 
   // Animation management
@@ -109,19 +106,19 @@ interface UIActions {
   completeTutorial: () => void;
 
   // Settings
-  setTheme: (theme: "light" | "dark" | "auto") => void;
+  setTheme: (theme: 'light' | 'dark' | 'auto') => void;
   setAnimations: (enabled: boolean) => void;
   setSoundEnabled: (enabled: boolean) => void;
 
   // Responsive
-  setScreenSize: (size: "sm" | "md" | "lg" | "xl") => void;
+  setScreenSize: (size: 'sm' | 'md' | 'lg' | 'xl') => void;
   setIsMobile: (mobile: boolean) => void;
 }
 
 type UIStore = UIState & UIActions;
 
 const initialState: UIState = {
-  currentView: "dashboard",
+  currentView: 'dashboard',
   previousView: null,
   isLoading: false,
 
@@ -140,20 +137,20 @@ const initialState: UIState = {
     element: null,
     rarity: null,
     unlocked: null,
-    search: "",
+    search: '',
   },
 
   missionFilter: {
     type: null,
     difficulty: null,
     completed: null,
-    search: "",
+    search: '',
   },
 
   trainingFilter: {
     type: null,
     difficulty: null,
-    search: "",
+    search: '',
   },
   animationStates: {},
 
@@ -164,12 +161,12 @@ const initialState: UIState = {
     skipped: false,
   },
 
-  theme: "light",
+  theme: 'light',
   animationsEnabled: true,
   soundEnabled: true,
 
   isMobile: false,
-  screenSize: "lg",
+  screenSize: 'lg',
 };
 
 export const useUIStore = create<UIStore>()(
@@ -177,24 +174,24 @@ export const useUIStore = create<UIStore>()(
     ...initialState,
 
     // Navigation
-    setCurrentView: (view) =>
-      set((state) => {
+    setCurrentView: view =>
+      set(state => {
         state.previousView = state.currentView;
         state.currentView = view;
         // Clear selections when changing views
-        if (view !== "collection") {
+        if (view !== 'collection') {
           state.selectedMagicalGirl = null;
         }
-        if (view !== "missions") {
+        if (view !== 'missions') {
           state.selectedMission = null;
         }
-        if (view !== "training") {
+        if (view !== 'training') {
           state.selectedTraining = null;
         }
       }),
 
     goBack: () =>
-      set((state) => {
+      set(state => {
         if (state.previousView) {
           const temp = state.currentView;
           state.currentView = state.previousView;
@@ -202,114 +199,114 @@ export const useUIStore = create<UIStore>()(
         }
       }),
 
-    setLoading: (loading) =>
-      set((state) => {
+    setLoading: loading =>
+      set(state => {
         state.isLoading = loading;
       }),
 
     // Modal management
     openModal: (modal, data) =>
-      set((state) => {
+      set(state => {
         state.activeModal = modal;
         state.modalData = data || null;
       }),
 
     closeModal: () =>
-      set((state) => {
+      set(state => {
         state.activeModal = null;
         state.modalData = null;
       }),
 
     // Panel management
     toggleSidebar: () =>
-      set((state) => {
+      set(state => {
         state.sidebarCollapsed = !state.sidebarCollapsed;
       }),
 
-    setSidebarCollapsed: (collapsed) =>
-      set((state) => {
+    setSidebarCollapsed: collapsed =>
+      set(state => {
         state.sidebarCollapsed = collapsed;
       }),
 
     toggleResourcePanel: () =>
-      set((state) => {
+      set(state => {
         state.resourcePanelVisible = !state.resourcePanelVisible;
       }),
 
     toggleNotificationPanel: () =>
-      set((state) => {
+      set(state => {
         state.notificationPanelVisible = !state.notificationPanelVisible;
       }),
 
     // Selection management
-    selectMagicalGirl: (id) =>
-      set((state) => {
+    selectMagicalGirl: id =>
+      set(state => {
         state.selectedMagicalGirl = id;
       }),
 
-    selectMission: (id) =>
-      set((state) => {
+    selectMission: id =>
+      set(state => {
         state.selectedMission = id;
       }),
 
-    selectTraining: (id) =>
-      set((state) => {
+    selectTraining: id =>
+      set(state => {
         state.selectedTraining = id;
       }),
 
     // Filter management
-    setCollectionFilter: (filter) =>
-      set((state) => {
+    setCollectionFilter: filter =>
+      set(state => {
         Object.assign(state.collectionFilter, filter);
       }),
 
     resetCollectionFilter: () =>
-      set((state) => {
+      set(state => {
         state.collectionFilter = {
           element: null,
           rarity: null,
           unlocked: null,
-          search: "",
+          search: '',
         };
       }),
 
-    setMissionFilter: (filter) =>
-      set((state) => {
+    setMissionFilter: filter =>
+      set(state => {
         Object.assign(state.missionFilter, filter);
       }),
 
     resetMissionFilter: () =>
-      set((state) => {
+      set(state => {
         state.missionFilter = {
           type: null,
           difficulty: null,
           completed: null,
-          search: "",
+          search: '',
         };
       }),
 
-    setTrainingFilter: (filter) =>
-      set((state) => {
+    setTrainingFilter: filter =>
+      set(state => {
         Object.assign(state.trainingFilter, filter);
       }),
 
     resetTrainingFilter: () =>
-      set((state) => {
+      set(state => {
         state.trainingFilter = {
           type: null,
           difficulty: null,
-          search: "",
+          search: '',
         };
       }),
     // Animation management
     setAnimation: (key, value) =>
-      set((state) => {
+      set(state => {
         state.animationStates[key] = value;
       }),
 
     // Tutorial management
     startTutorial: () =>
-      set((state) => {
+      set(state => {
         state.tutorial.active = true;
         state.tutorial.currentStep = 0;
         state.tutorial.completed = false;
@@ -317,7 +314,7 @@ export const useUIStore = create<UIStore>()(
       }),
 
     nextTutorialStep: () =>
-      set((state) => {
+      set(state => {
         if (state.tutorial.active) {
           state.tutorial.currentStep += 1;
           // Check if tutorial is complete (assuming 5 steps)
@@ -328,70 +325,70 @@ export const useUIStore = create<UIStore>()(
       }),
 
     previousTutorialStep: () =>
-      set((state) => {
+      set(state => {
         if (state.tutorial.active && state.tutorial.currentStep > 0) {
           state.tutorial.currentStep -= 1;
         }
       }),
 
     skipTutorial: () =>
-      set((state) => {
+      set(state => {
         state.tutorial.active = false;
         state.tutorial.skipped = true;
       }),
 
     completeTutorial: () =>
-      set((state) => {
+      set(state => {
         state.tutorial.active = false;
         state.tutorial.completed = true;
       }),
 
     // Settings
-    setTheme: (theme) =>
-      set((state) => {
+    setTheme: theme =>
+      set(state => {
         state.theme = theme;
       }),
-    setAnimations: (enabled) =>
-      set((state) => {
+    setAnimations: enabled =>
+      set(state => {
         state.animationsEnabled = enabled;
       }),
 
-    setSoundEnabled: (enabled) =>
-      set((state) => {
+    setSoundEnabled: enabled =>
+      set(state => {
         state.soundEnabled = enabled;
       }),
 
     // Responsive
-    setScreenSize: (size) =>
-      set((state) => {
+    setScreenSize: size =>
+      set(state => {
         state.screenSize = size;
       }),
 
-    setIsMobile: (mobile) =>
-      set((state) => {
+    setIsMobile: mobile =>
+      set(state => {
         state.isMobile = mobile;
         // Auto-collapse sidebar on mobile
         if (mobile) {
           state.sidebarCollapsed = true;
         }
       }),
-  })),
+  }))
 );
 
 // Auto-detect screen size changes
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   const updateScreenSize = () => {
     const width = window.innerWidth;
-    let size: "sm" | "md" | "lg" | "xl";
+    let size: 'sm' | 'md' | 'lg' | 'xl';
 
     if (width < 640) {
-      size = "sm";
+      size = 'sm';
     } else if (width < 768) {
-      size = "md";
+      size = 'md';
     } else if (width < 1024) {
-      size = "lg";
+      size = 'lg';
     } else {
-      size = "xl";
+      size = 'xl';
     }
 
     useUIStore.getState().setScreenSize(size);
@@ -402,5 +399,5 @@ if (typeof window !== "undefined") {
   updateScreenSize();
 
   // Listen for resize events
-  window.addEventListener("resize", updateScreenSize);
+  window.addEventListener('resize', updateScreenSize);
 }

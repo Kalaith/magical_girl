@@ -575,255 +575,176 @@ export interface HelpAction {
 
 // Enums and Type Unions
 export type TutorialCategory =
-  | "getting_started"
-  | "basic_gameplay"
-  | "advanced_features"
-  | "combat_system"
-  | "character_management"
-  | "customization"
-  | "social_features"
-  | "achievements"
-  | "troubleshooting"
-  | "tips_and_tricks";
+  | 'getting_started'
+  | 'basic_gameplay'
+  | 'advanced_features'
+  | 'combat_system'
+  | 'character_management'
+  | 'customization'
+  | 'social_features'
+  | 'achievements'
+  | 'troubleshooting'
+  | 'tips_and_tricks';
 
-export type TutorialDifficulty =
-  | "beginner"
-  | "intermediate"
-  | "advanced"
-  | "expert";
+export type TutorialDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert';
 
 export type StepType =
-  | "introduction"
-  | "demonstration"
-  | "practice"
-  | "confirmation"
-  | "summary"
-  | "branching"
-  | "checkpoint"
-  | "assessment";
+  | 'introduction'
+  | 'demonstration'
+  | 'practice'
+  | 'confirmation'
+  | 'summary'
+  | 'branching'
+  | 'checkpoint'
+  | 'assessment';
 
 export type StepAction =
-  | "click"
-  | "type"
-  | "drag"
-  | "scroll"
-  | "hover"
-  | "focus"
-  | "navigate"
-  | "wait"
-  | "observe"
-  | "read"
-  | "listen"
-  | "choose"
-  | "custom";
+  | 'click'
+  | 'type'
+  | 'drag'
+  | 'scroll'
+  | 'hover'
+  | 'focus'
+  | 'navigate'
+  | 'wait'
+  | 'observe'
+  | 'read'
+  | 'listen'
+  | 'choose'
+  | 'custom';
 
 export type HighlightType =
-  | "border"
-  | "spotlight"
-  | "glow"
-  | "outline"
-  | "shadow"
-  | "pulse"
-  | "animate";
+  | 'border'
+  | 'spotlight'
+  | 'glow'
+  | 'outline'
+  | 'shadow'
+  | 'pulse'
+  | 'animate';
 
 export type OverlayType =
-  | "modal"
-  | "popup"
-  | "sidebar"
-  | "banner"
-  | "tooltip"
-  | "notification"
-  | "fullscreen"
-  | "floating"
-  | "inline";
+  | 'modal'
+  | 'popup'
+  | 'sidebar'
+  | 'banner'
+  | 'tooltip'
+  | 'notification'
+  | 'fullscreen'
+  | 'floating'
+  | 'inline';
 
 export type TooltipPosition =
-  | "top"
-  | "bottom"
-  | "left"
-  | "right"
-  | "top-left"
-  | "top-right"
-  | "bottom-left"
-  | "bottom-right"
-  | "center"
-  | "auto";
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'center'
+  | 'auto';
 
-export type TooltipTrigger = "hover" | "click" | "focus" | "manual" | "auto";
+export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'manual' | 'auto';
 
 export type ValidationType =
-  | "element_click"
-  | "text_input"
-  | "navigation"
-  | "state_change"
-  | "time_based"
-  | "custom_function"
-  | "multiple_criteria";
+  | 'element_click'
+  | 'text_input'
+  | 'navigation'
+  | 'state_change'
+  | 'time_based'
+  | 'custom_function'
+  | 'multiple_criteria';
 
-export type LearningStyle =
-  | "visual"
-  | "auditory"
-  | "kinesthetic"
-  | "reading"
-  | "mixed";
+export type LearningStyle = 'visual' | 'auditory' | 'kinesthetic' | 'reading' | 'mixed';
 
-export type AutoAdvanceSpeed =
-  | "slow"
-  | "normal"
-  | "fast"
-  | "instant"
-  | "manual";
+export type AutoAdvanceSpeed = 'slow' | 'normal' | 'fast' | 'instant' | 'manual';
 
-export type DifficultyPreference =
-  | "easy"
-  | "normal"
-  | "challenging"
-  | "adaptive";
+export type DifficultyPreference = 'easy' | 'normal' | 'challenging' | 'adaptive';
 
-export type PacePreference = "slow" | "normal" | "fast" | "self_paced";
+export type PacePreference = 'slow' | 'normal' | 'fast' | 'self_paced';
 
-export type SkillLevel =
-  | "novice"
-  | "beginner"
-  | "intermediate"
-  | "advanced"
-  | "expert";
+export type SkillLevel = 'novice' | 'beginner' | 'intermediate' | 'advanced' | 'expert';
 
-export type ExperienceLevel =
-  | "new_user"
-  | "casual"
-  | "regular"
-  | "experienced"
-  | "expert";
+export type ExperienceLevel = 'new_user' | 'casual' | 'regular' | 'experienced' | 'expert';
 
-export type HelpSeekingPattern =
-  | "never"
-  | "reluctant"
-  | "normal"
-  | "frequent"
-  | "always";
+export type HelpSeekingPattern = 'never' | 'reluctant' | 'normal' | 'frequent' | 'always';
 
-export type DifficultyLevel =
-  | "very_easy"
-  | "easy"
-  | "normal"
-  | "hard"
-  | "very_hard";
+export type DifficultyLevel = 'very_easy' | 'easy' | 'normal' | 'hard' | 'very_hard';
 
-export type ComplexityLevel = "simple" | "moderate" | "complex" | "advanced";
+export type ComplexityLevel = 'simple' | 'moderate' | 'complex' | 'advanced';
 
-export type HintFrequency = "never" | "rare" | "normal" | "frequent" | "always";
+export type HintFrequency = 'never' | 'rare' | 'normal' | 'frequent' | 'always';
 
-export type ValidationStrictness = "lenient" | "normal" | "strict" | "precise";
+export type ValidationStrictness = 'lenient' | 'normal' | 'strict' | 'precise';
 
-export type HintType =
-  | "text"
-  | "visual"
-  | "audio"
-  | "animation"
-  | "interactive"
-  | "contextual";
+export type HintType = 'text' | 'visual' | 'audio' | 'animation' | 'interactive' | 'contextual';
 
-export type HelpType =
-  | "tooltip"
-  | "modal"
-  | "inline"
-  | "sidebar"
-  | "overlay"
-  | "notification";
+export type HelpType = 'tooltip' | 'modal' | 'inline' | 'sidebar' | 'overlay' | 'notification';
 
 export type MistakeType =
-  | "wrong_element"
-  | "wrong_action"
-  | "timing_error"
-  | "input_error"
-  | "navigation_error"
-  | "sequence_error"
-  | "understanding_error";
+  | 'wrong_element'
+  | 'wrong_action'
+  | 'timing_error'
+  | 'input_error'
+  | 'navigation_error'
+  | 'sequence_error'
+  | 'understanding_error';
 
-export type ResolutionMethod =
-  | "hint"
-  | "retry"
-  | "skip"
-  | "help"
-  | "auto_correction";
+export type ResolutionMethod = 'hint' | 'retry' | 'skip' | 'help' | 'auto_correction';
 
 export type InteractionType =
-  | "click"
-  | "type"
-  | "scroll"
-  | "hover"
-  | "drag"
-  | "key_press"
-  | "navigation";
+  | 'click'
+  | 'type'
+  | 'scroll'
+  | 'hover'
+  | 'drag'
+  | 'key_press'
+  | 'navigation';
 
-export type MistakeImpact = "low" | "medium" | "high" | "critical";
+export type MistakeImpact = 'low' | 'medium' | 'high' | 'critical';
 
 export type AdaptationReason =
-  | "poor_performance"
-  | "excellent_performance"
-  | "user_request"
-  | "time_based"
-  | "pattern_recognition";
+  | 'poor_performance'
+  | 'excellent_performance'
+  | 'user_request'
+  | 'time_based'
+  | 'pattern_recognition';
 
-export type MediaType =
-  | "image"
-  | "video"
-  | "audio"
-  | "animation"
-  | "interactive";
+export type MediaType = 'image' | 'video' | 'audio' | 'animation' | 'interactive';
 
 export type ConditionType =
-  | "game_state"
-  | "user_level"
-  | "completion_status"
-  | "time_condition"
-  | "custom_function"
-  | "element_visible"
-  | "variable_value";
+  | 'game_state'
+  | 'user_level'
+  | 'completion_status'
+  | 'time_condition'
+  | 'custom_function'
+  | 'element_visible'
+  | 'variable_value';
 
 export type CompletionType =
-  | "element_interaction"
-  | "state_change"
-  | "navigation"
-  | "input_completion"
-  | "time_elapsed"
-  | "custom_validation";
+  | 'element_interaction'
+  | 'state_change'
+  | 'navigation'
+  | 'input_completion'
+  | 'time_elapsed'
+  | 'custom_validation';
 
 export type ComparisonOperator =
-  | "equals"
-  | "not_equals"
-  | "greater_than"
-  | "less_than"
-  | "greater_equal"
-  | "less_equal"
-  | "contains"
-  | "matches";
+  | 'equals'
+  | 'not_equals'
+  | 'greater_than'
+  | 'less_than'
+  | 'greater_equal'
+  | 'less_equal'
+  | 'contains'
+  | 'matches';
 
-export type ButtonAction =
-  | "next"
-  | "previous"
-  | "skip"
-  | "close"
-  | "help"
-  | "retry"
-  | "custom";
+export type ButtonAction = 'next' | 'previous' | 'skip' | 'close' | 'help' | 'retry' | 'custom';
 
-export type ButtonStyle =
-  | "primary"
-  | "secondary"
-  | "success"
-  | "warning"
-  | "danger"
-  | "info";
+export type ButtonStyle = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
 
-export type AnimationType =
-  | "fade"
-  | "slide"
-  | "scale"
-  | "bounce"
-  | "zoom"
-  | "none";
+export type AnimationType = 'fade' | 'slide' | 'scale' | 'bounce' | 'zoom' | 'none';
 
 // Style and theming types
 export type HighlightStyle = {
@@ -837,7 +758,7 @@ export type HighlightStyle = {
 export type OverlayPosition = {
   x: number | string;
   y: number | string;
-  anchor: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center";
+  anchor: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
 };
 
 export type OverlaySize = {
@@ -847,7 +768,7 @@ export type OverlaySize = {
   maxHeight?: number | string;
 };
 
-export type OverlayTheme = "light" | "dark" | "magical" | "system" | "custom";
+export type OverlayTheme = 'light' | 'dark' | 'magical' | 'system' | 'custom';
 
 export type OverlayStyles = {
   backgroundColor?: string;
@@ -895,11 +816,7 @@ export type HelpStyle = TooltipStyle;
 
 export type OverlayMedia = StepMedia;
 
-export type HintProgression =
-  | "linear"
-  | "adaptive"
-  | "difficulty_based"
-  | "performance_based";
+export type HintProgression = 'linear' | 'adaptive' | 'difficulty_based' | 'performance_based';
 
 export type HintPersonalization = {
   adaptToLearningStyle: boolean;

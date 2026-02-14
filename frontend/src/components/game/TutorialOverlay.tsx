@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "../ui/Button";
-import { useUIStore } from "../../stores/uiStore";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '../ui/Button';
+import { useUIStore } from '../../stores/uiStore';
 
 interface TutorialStep {
   id: string;
@@ -13,34 +13,32 @@ interface TutorialStep {
 
 const tutorialSteps: TutorialStep[] = [
   {
-    id: "welcome",
-    title: "Welcome to Magical Girl Adventure!",
+    id: 'welcome',
+    title: 'Welcome to Magical Girl Adventure!',
     content:
       "Let's get you started on your magical journey. This tutorial will guide you through the basics of the game.",
   },
   {
-    id: "dashboard",
-    title: "Dashboard Overview",
+    id: 'dashboard',
+    title: 'Dashboard Overview',
     content:
-      "This is your main dashboard where you can see your progress, active magical girls, and quick stats.",
+      'This is your main dashboard where you can see your progress, active magical girls, and quick stats.',
   },
   {
-    id: "recruitment",
-    title: "Recruitment System",
+    id: 'recruitment',
+    title: 'Recruitment System',
     content:
-      "Here you can summon new magical girls to join your team. Use different currencies to perform summons.",
+      'Here you can summon new magical girls to join your team. Use different currencies to perform summons.',
   },
   {
-    id: "training",
-    title: "Training & Growth",
-    content:
-      "Train your magical girls to improve their stats and unlock new abilities.",
+    id: 'training',
+    title: 'Training & Growth',
+    content: 'Train your magical girls to improve their stats and unlock new abilities.',
   },
   {
-    id: "missions",
-    title: "Missions & Battles",
-    content:
-      "Send your magical girls on missions to earn rewards and experience.",
+    id: 'missions',
+    title: 'Missions & Battles',
+    content: 'Send your magical girls on missions to earn rewards and experience.',
   },
 ];
 
@@ -51,10 +49,8 @@ export const TutorialOverlay: React.FC = () => {
 
   useEffect(() => {
     // Show tutorial on first visit or when explicitly requested
-    const hasSeenTutorial = localStorage.getItem(
-      "magical-girl-tutorial-completed",
-    );
-    if (!hasSeenTutorial && currentView === "dashboard") {
+    const hasSeenTutorial = localStorage.getItem('magical-girl-tutorial-completed');
+    if (!hasSeenTutorial && currentView === 'dashboard') {
       setIsVisible(true);
     }
   }, [currentView]);
@@ -75,7 +71,7 @@ export const TutorialOverlay: React.FC = () => {
 
   const handleComplete = () => {
     setIsVisible(false);
-    localStorage.setItem("magical-girl-tutorial-completed", "true");
+    localStorage.setItem('magical-girl-tutorial-completed', 'true');
   };
 
   const handleSkip = () => {
@@ -102,9 +98,7 @@ export const TutorialOverlay: React.FC = () => {
         >
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-xl font-bold text-magical-primary">
-                {step.title}
-              </h2>
+              <h2 className="text-xl font-bold text-magical-primary">{step.title}</h2>
               <span className="text-sm text-gray-500">
                 {currentStep + 1} / {tutorialSteps.length}
               </span>
@@ -124,11 +118,7 @@ export const TutorialOverlay: React.FC = () => {
           </div>
 
           <div className="flex justify-between items-center">
-            <Button
-              variant="secondary"
-              onClick={handleSkip}
-              className="text-gray-600"
-            >
+            <Button variant="secondary" onClick={handleSkip} className="text-gray-600">
               Skip Tutorial
             </Button>
 
@@ -139,7 +129,7 @@ export const TutorialOverlay: React.FC = () => {
                 </Button>
               )}
               <Button variant="primary" onClick={handleNext}>
-                {currentStep === tutorialSteps.length - 1 ? "Complete" : "Next"}
+                {currentStep === tutorialSteps.length - 1 ? 'Complete' : 'Next'}
               </Button>
             </div>
           </div>

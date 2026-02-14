@@ -14,7 +14,7 @@ export const recruitmentConfig = {
 
 export const recruitmentHelpers = {
   calculatePityBonus: () => 0,
-  getRarityColor: () => "#000",
+  getRarityColor: () => '#000',
   getRarityWeight: () => 1,
   calculateAverageCost: () => 0,
   simulatePulls: () => 1,

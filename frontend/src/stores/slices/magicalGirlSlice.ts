@@ -1,7 +1,7 @@
 // Magical Girl management slice - Single Responsibility Principle
-import type { StateCreator } from "zustand";
-import type { MagicalGirl } from "../../types/magicalGirl";
-import { initialMagicalGirls } from "../../data/magicalGirls";
+import type { StateCreator } from 'zustand';
+import type { MagicalGirl } from '../../types/magicalGirl';
+import { initialMagicalGirls } from '../../data/magicalGirls';
 
 export interface MagicalGirlSlice {
   // State
@@ -16,11 +16,7 @@ export interface MagicalGirlSlice {
 
 export const createMagicalGirlSlice: StateCreator<
   MagicalGirlSlice & {
-    addNotification: (notification: {
-      type: string;
-      title: string;
-      message: string;
-    }) => void;
+    addNotification: (notification: { type: string; title: string; message: string }) => void;
     checkAchievements?: (event: {
       type: string;
       data: Record<string, string | number | boolean>;
@@ -32,9 +28,9 @@ export const createMagicalGirlSlice: StateCreator<
 > = (set, get) => ({
   magicalGirls: initialMagicalGirls,
 
-  unlockMagicalGirl: (girlId) =>
-    set((state) => {
-      const updatedGirls = state.magicalGirls.map((girl) => {
+  unlockMagicalGirl: girlId =>
+    set(state => {
+      const updatedGirls = state.magicalGirls.map(girl => {
         if (girl.id === girlId && !girl.isUnlocked) {
           const unlockedGirl = {
             ...girl,
@@ -43,8 +39,8 @@ export const createMagicalGirlSlice: StateCreator<
           };
           // Add notification
           get().addNotification({
-            type: "success",
-            title: "New Magical Girl!",
+            type: 'success',
+            title: 'New Magical Girl!',
             message: `${girl.name} has joined your team!`,
           });
 
@@ -70,16 +66,16 @@ export const createMagicalGirlSlice: StateCreator<
       return { magicalGirls: updatedGirls };
     }),
 
-  levelUpMagicalGirl: (girlId) => {
+  levelUpMagicalGirl: girlId => {
     const state = get();
-    const girl = state.magicalGirls.find((g) => g.id === girlId);
+    const girl = state.magicalGirls.find(g => g.id === girlId);
 
     if (!girl || girl.experience < girl.experienceToNext) {
       return false;
     }
 
-    set((currentState) => {
-      const updatedGirls = currentState.magicalGirls.map((g) => {
+    set(currentState => {
+      const updatedGirls = currentState.magicalGirls.map(g => {
         if (g.id === girlId) {
           const newLevel = g.level + 1;
           const remainingExp = g.experience - g.experienceToNext;
@@ -87,15 +83,15 @@ export const createMagicalGirlSlice: StateCreator<
 
           // Calculate stat increases based on rarity
           const statIncrease =
-            g.rarity === "Common"
+            g.rarity === 'Common'
               ? 1
-              : g.rarity === "Uncommon"
+              : g.rarity === 'Uncommon'
                 ? 2
-                : g.rarity === "Rare"
+                : g.rarity === 'Rare'
                   ? 3
-                  : g.rarity === "Epic"
+                  : g.rarity === 'Epic'
                     ? 4
-                    : g.rarity === "Legendary"
+                    : g.rarity === 'Legendary'
                       ? 5
                       : 6;
 
@@ -105,8 +101,7 @@ export const createMagicalGirlSlice: StateCreator<
           const newStats = { ...g.stats };
 
           for (let i = 0; i < statsToIncrease; i++) {
-            const randomStat =
-              statKeys[Math.floor(Math.random() * statKeys.length)];
+            const randomStat = statKeys[Math.floor(Math.random() * statKeys.length)];
             newStats[randomStat] += statIncrease;
           }
 
@@ -124,8 +119,8 @@ export const createMagicalGirlSlice: StateCreator<
       return { magicalGirls: updatedGirls };
     });
     get().addNotification({
-      type: "success",
-      title: "Level Up!",
+      type: 'success',
+      title: 'Level Up!',
       message: `${girl.name} reached level ${girl.level + 1}!`,
     });
 
@@ -148,8 +143,8 @@ export const createMagicalGirlSlice: StateCreator<
   },
 
   addExperienceToGirl: (girlId, experience) =>
-    set((state) => {
-      const updatedGirls = state.magicalGirls.map((girl) => {
+    set(state => {
+      const updatedGirls = state.magicalGirls.map(girl => {
         if (girl.id === girlId) {
           const newExperience = girl.experience + experience;
           const updatedGirl = { ...girl, experience: newExperience };
@@ -171,8 +166,8 @@ export const createMagicalGirlSlice: StateCreator<
     }),
 
   increaseBond: (girlId, amount) =>
-    set((state) => {
-      const updatedGirls = state.magicalGirls.map((girl) => {
+    set(state => {
+      const updatedGirls = state.magicalGirls.map(girl => {
         if (girl.id === girlId) {
           const newBondExp = girl.bondExperience + amount;
           const requiredExp = girl.bondLevel * 50;
@@ -181,8 +176,8 @@ export const createMagicalGirlSlice: StateCreator<
             const newBondLevel = girl.bondLevel + 1;
             const remainingBondExp = newBondExp - requiredExp;
             get().addNotification({
-              type: "info",
-              title: "Bond Level Up!",
+              type: 'info',
+              title: 'Bond Level Up!',
               message: `Your bond with ${girl.name} has grown stronger!`,
             });
 

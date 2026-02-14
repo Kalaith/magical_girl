@@ -1,5 +1,5 @@
-import React from "react";
-import { Card } from "../ui/Card";
+import React from 'react';
+import { Card } from '../ui/Card';
 
 export const CurrencyDisplay: React.FC = () => {
   return (

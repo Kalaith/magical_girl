@@ -1,6 +1,6 @@
 // Settings management slice - Single Responsibility Principle
-import type { StateCreator } from "zustand";
-import type { Notification } from "../../types/game";
+import type { StateCreator } from 'zustand';
+import type { Notification } from '../../types/game';
 
 export interface SettingsSlice {
   // State
@@ -11,11 +11,11 @@ export interface SettingsSlice {
     animationsEnabled: boolean;
     autoSave: boolean;
     notifications: boolean;
-    theme: "light" | "dark" | "auto";
+    theme: 'light' | 'dark' | 'auto';
   };
 
   // Actions
-  updateSettings: (settings: Partial<SettingsSlice["settings"]>) => void;
+  updateSettings: (settings: Partial<SettingsSlice['settings']>) => void;
   resetSettings: () => void;
   setMasterVolume: (volume: number) => void;
 }
@@ -27,14 +27,12 @@ const defaultSettings = {
   animationsEnabled: true,
   autoSave: true,
   notifications: true,
-  theme: "light" as const,
+  theme: 'light' as const,
 };
 
 export const createSettingsSlice: StateCreator<
   SettingsSlice & {
-    addNotification: (
-      notification: Omit<Notification, "id" | "timestamp" | "read">,
-    ) => void;
+    addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => void;
   },
   [],
   [],
@@ -42,16 +40,16 @@ export const createSettingsSlice: StateCreator<
 > = (set, get) => ({
   settings: defaultSettings,
 
-  updateSettings: (newSettings) => {
-    set((state) => ({
+  updateSettings: newSettings => {
+    set(state => ({
       settings: { ...state.settings, ...newSettings },
     }));
 
     // Show notification for settings update
     get().addNotification({
-      type: "success",
-      title: "Settings Updated",
-      message: "Your settings have been saved successfully!",
+      type: 'success',
+      title: 'Settings Updated',
+      message: 'Your settings have been saved successfully!',
       duration: 2000,
     });
   },
@@ -60,25 +58,25 @@ export const createSettingsSlice: StateCreator<
     set({ settings: defaultSettings });
 
     get().addNotification({
-      type: "info",
-      title: "Settings Reset",
-      message: "All settings have been reset to default values.",
+      type: 'info',
+      title: 'Settings Reset',
+      message: 'All settings have been reset to default values.',
       duration: 3000,
     });
   },
 
-  setMasterVolume: (volume) => {
+  setMasterVolume: volume => {
     const clampedVolume = Math.max(0, Math.min(1, volume));
 
-    set((state) => ({
+    set(state => ({
       settings: { ...state.settings, masterVolume: clampedVolume },
     }));
 
     // Only show notification if volume is not muted/unmuted
     if (clampedVolume > 0) {
       get().addNotification({
-        type: "info",
-        title: "Volume Changed",
+        type: 'info',
+        title: 'Volume Changed',
         message: `Master volume set to ${Math.round(clampedVolume * 100)}%`,
         duration: 1500,
       });

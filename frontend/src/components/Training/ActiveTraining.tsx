@@ -1,10 +1,10 @@
 // Active training sessions component - Single Responsibility Principle
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Clock, User, CheckCircle } from "lucide-react";
-import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Clock, User, CheckCircle } from 'lucide-react';
+import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
 
 interface ActiveTrainingSession {
   id: string;
@@ -21,14 +21,11 @@ interface ActiveTrainingProps {
   onComplete?: (sessionId: string) => void;
 }
 
-export const ActiveTraining: React.FC<ActiveTrainingProps> = ({
-  activeSessions,
-  onComplete,
-}) => {
+export const ActiveTraining: React.FC<ActiveTrainingProps> = ({ activeSessions, onComplete }) => {
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
   const getProgress = (session: ActiveTrainingSession): number => {
@@ -48,7 +45,7 @@ export const ActiveTraining: React.FC<ActiveTrainingProps> = ({
       </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {activeSessions.map((session) => (
+        {activeSessions.map(session => (
           <motion.div
             key={session.id}
             initial={{ opacity: 0, scale: 0.95 }}
@@ -58,9 +55,7 @@ export const ActiveTraining: React.FC<ActiveTrainingProps> = ({
             <Card className="p-4 border-blue-200 bg-blue-50">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h4 className="font-medium text-blue-900">
-                    {session.trainingName}
-                  </h4>
+                  <h4 className="font-medium text-blue-900">{session.trainingName}</h4>
                   <div className="flex items-center gap-1 text-sm text-blue-700">
                     <User className="w-3 h-3" />
                     <span>{session.girlName}</span>

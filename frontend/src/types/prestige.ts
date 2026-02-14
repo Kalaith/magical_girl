@@ -403,262 +403,256 @@ export interface PrestigeStatistics {
 
 // Enums and Type Unions
 export type PrestigeCategory =
-  | "resource"
-  | "combat"
-  | "progression"
-  | "unlocks"
-  | "quality_of_life"
-  | "cosmetic"
-  | "special"
-  | "transcendent";
+  | 'resource'
+  | 'combat'
+  | 'progression'
+  | 'unlocks'
+  | 'quality_of_life'
+  | 'cosmetic'
+  | 'special'
+  | 'transcendent';
 
 export type PrestigeTier =
-  | "basic"
-  | "advanced"
-  | "expert"
-  | "master"
-  | "grandmaster"
-  | "transcendent"
-  | "eternal"
-  | "infinite";
+  | 'basic'
+  | 'advanced'
+  | 'expert'
+  | 'master'
+  | 'grandmaster'
+  | 'transcendent'
+  | 'eternal'
+  | 'infinite';
 
 export type PrestigeRarity =
-  | "common"
-  | "uncommon"
-  | "rare"
-  | "epic"
-  | "legendary"
-  | "mythic"
-  | "transcendent"
-  | "unique";
+  | 'common'
+  | 'uncommon'
+  | 'rare'
+  | 'epic'
+  | 'legendary'
+  | 'mythic'
+  | 'transcendent'
+  | 'unique';
 
 export type PrestigeTag =
-  | "automation"
-  | "multiplier"
-  | "unlock"
-  | "quality_of_life"
-  | "power"
-  | "efficiency"
-  | "bonus"
-  | "special"
-  | "limited";
+  | 'automation'
+  | 'multiplier'
+  | 'unlock'
+  | 'quality_of_life'
+  | 'power'
+  | 'efficiency'
+  | 'bonus'
+  | 'special'
+  | 'limited';
 
 export type MilestoneCategory =
-  | "progression"
-  | "achievement"
-  | "collection"
-  | "mastery"
-  | "speed"
-  | "efficiency"
-  | "special"
-  | "seasonal";
+  | 'progression'
+  | 'achievement'
+  | 'collection'
+  | 'mastery'
+  | 'speed'
+  | 'efficiency'
+  | 'special'
+  | 'seasonal';
 
 export type MilestoneDifficulty =
-  | "trivial"
-  | "easy"
-  | "moderate"
-  | "hard"
-  | "extreme"
-  | "nightmare"
-  | "impossible"
-  | "transcendent";
+  | 'trivial'
+  | 'easy'
+  | 'moderate'
+  | 'hard'
+  | 'extreme'
+  | 'nightmare'
+  | 'impossible'
+  | 'transcendent';
 
 export type BonusSource =
-  | "prestige_level"
-  | "milestone"
-  | "achievement"
-  | "purchase"
-  | "event"
-  | "legacy"
-  | "mastery"
-  | "special";
+  | 'prestige_level'
+  | 'milestone'
+  | 'achievement'
+  | 'purchase'
+  | 'event'
+  | 'legacy'
+  | 'mastery'
+  | 'special';
 
 export type BonusType =
-  | "stat_increase"
-  | "multiplier"
-  | "unlock"
-  | "quality_improvement"
-  | "automation"
-  | "efficiency"
-  | "special_ability"
-  | "cosmetic";
+  | 'stat_increase'
+  | 'multiplier'
+  | 'unlock'
+  | 'quality_improvement'
+  | 'automation'
+  | 'efficiency'
+  | 'special_ability'
+  | 'cosmetic';
 
 export type BonusTarget =
-  | "all_stats"
-  | "specific_stat"
-  | "resource_generation"
-  | "experience_gain"
-  | "combat_power"
-  | "progression_speed"
-  | "special_systems"
-  | "global";
+  | 'all_stats'
+  | 'specific_stat'
+  | 'resource_generation'
+  | 'experience_gain'
+  | 'combat_power'
+  | 'progression_speed'
+  | 'special_systems'
+  | 'global';
 
 export type MultiplierTarget =
-  | "experience"
-  | "resources"
-  | "damage"
-  | "defense"
-  | "speed"
-  | "luck"
-  | "all_stats"
-  | "special_actions";
+  | 'experience'
+  | 'resources'
+  | 'damage'
+  | 'defense'
+  | 'speed'
+  | 'luck'
+  | 'all_stats'
+  | 'special_actions';
 
 export type PrestigeEventType =
-  | "level_up"
-  | "milestone_achieved"
-  | "perk_purchased"
-  | "mastery_gained"
-  | "rebirth"
-  | "transcendence"
-  | "special_unlock"
-  | "legacy_inherited";
+  | 'level_up'
+  | 'milestone_achieved'
+  | 'perk_purchased'
+  | 'mastery_gained'
+  | 'rebirth'
+  | 'transcendence'
+  | 'special_unlock'
+  | 'legacy_inherited';
 
 export type RequirementType =
-  | "level"
-  | "total_experience"
-  | "resource_amount"
-  | "achievement"
-  | "time_played"
-  | "prestige_count"
-  | "mastery_level"
-  | "special_condition";
+  | 'level'
+  | 'total_experience'
+  | 'resource_amount'
+  | 'achievement'
+  | 'time_played'
+  | 'prestige_count'
+  | 'mastery_level'
+  | 'special_condition';
 
 export type EffectType =
-  | "stat_bonus"
-  | "multiplier"
-  | "unlock"
-  | "automation"
-  | "quality_improvement"
-  | "special_ability"
-  | "currency_generation";
+  | 'stat_bonus'
+  | 'multiplier'
+  | 'unlock'
+  | 'automation'
+  | 'quality_improvement'
+  | 'special_ability'
+  | 'currency_generation';
 
 export type EffectTarget =
-  | "self"
-  | "all_characters"
-  | "specific_character"
-  | "party"
-  | "global"
-  | "system"
-  | "environment";
+  | 'self'
+  | 'all_characters'
+  | 'specific_character'
+  | 'party'
+  | 'global'
+  | 'system'
+  | 'environment';
 
 export type EffectScaling =
-  | "linear"
-  | "exponential"
-  | "logarithmic"
-  | "polynomial"
-  | "custom"
-  | "stepped"
-  | "diminishing";
+  | 'linear'
+  | 'exponential'
+  | 'logarithmic'
+  | 'polynomial'
+  | 'custom'
+  | 'stepped'
+  | 'diminishing';
 
 export type ApplicationMode =
-  | "immediate"
-  | "gradual"
-  | "triggered"
-  | "conditional"
-  | "periodic"
-  | "permanent"
-  | "temporary";
+  | 'immediate'
+  | 'gradual'
+  | 'triggered'
+  | 'conditional'
+  | 'periodic'
+  | 'permanent'
+  | 'temporary';
 
 export type TriggerEvent =
-  | "prestige"
-  | "level_up"
-  | "combat_start"
-  | "combat_end"
-  | "achievement"
-  | "milestone"
-  | "time_interval"
-  | "special_action";
+  | 'prestige'
+  | 'level_up'
+  | 'combat_start'
+  | 'combat_end'
+  | 'achievement'
+  | 'milestone'
+  | 'time_interval'
+  | 'special_action';
 
 export type PassiveEffectType =
-  | "stat_modifier"
-  | "resource_generation"
-  | "automation"
-  | "quality_enhancement"
-  | "unlock_condition"
-  | "special_ability"
-  | "global_modifier";
+  | 'stat_modifier'
+  | 'resource_generation'
+  | 'automation'
+  | 'quality_enhancement'
+  | 'unlock_condition'
+  | 'special_ability'
+  | 'global_modifier';
 
 export type ActiveCondition =
-  | "prestige_level"
-  | "character_level"
-  | "resource_amount"
-  | "time_condition"
-  | "achievement_status"
-  | "mastery_level"
-  | "special_state";
+  | 'prestige_level'
+  | 'character_level'
+  | 'resource_amount'
+  | 'time_condition'
+  | 'achievement_status'
+  | 'mastery_level'
+  | 'special_state';
 
 export type PassiveTrigger =
-  | "always_active"
-  | "combat_only"
-  | "non_combat"
-  | "specific_conditions"
-  | "time_based"
-  | "event_based"
-  | "state_dependent";
+  | 'always_active'
+  | 'combat_only'
+  | 'non_combat'
+  | 'specific_conditions'
+  | 'time_based'
+  | 'event_based'
+  | 'state_dependent';
 
 export type RewardType =
-  | "prestige_points"
-  | "eternity_points"
-  | "legacy_points"
-  | "currency"
-  | "unlock"
-  | "perk"
-  | "bonus"
-  | "cosmetic"
-  | "special_item";
+  | 'prestige_points'
+  | 'eternity_points'
+  | 'legacy_points'
+  | 'currency'
+  | 'unlock'
+  | 'perk'
+  | 'bonus'
+  | 'cosmetic'
+  | 'special_item';
 
 export type SourceType =
-  | "prestige_action"
-  | "milestone_completion"
-  | "time_played"
-  | "achievements"
-  | "special_actions"
-  | "mastery_progress"
-  | "efficiency_bonus";
+  | 'prestige_action'
+  | 'milestone_completion'
+  | 'time_played'
+  | 'achievements'
+  | 'special_actions'
+  | 'mastery_progress'
+  | 'efficiency_bonus';
 
 export type ConditionType =
-  | "prestige_level"
-  | "character_state"
-  | "resource_threshold"
-  | "time_condition"
-  | "achievement_requirement"
-  | "mastery_requirement"
-  | "special_condition";
+  | 'prestige_level'
+  | 'character_state'
+  | 'resource_threshold'
+  | 'time_condition'
+  | 'achievement_requirement'
+  | 'mastery_requirement'
+  | 'special_condition';
 
 export type MasteryRequirementType =
-  | "specialization_completion"
-  | "perfect_runs"
-  | "time_limit"
-  | "efficiency_rating"
-  | "special_achievement"
-  | "mastery_points"
-  | "transcendent_action";
+  | 'specialization_completion'
+  | 'perfect_runs'
+  | 'time_limit'
+  | 'efficiency_rating'
+  | 'special_achievement'
+  | 'mastery_points'
+  | 'transcendent_action';
 
 export type LegacyEffectType =
-  | "permanent_bonus"
-  | "inheritance_multiplier"
-  | "special_unlock"
-  | "aura_effect"
-  | "transcendent_ability"
-  | "reality_alteration"
-  | "meta_progression";
+  | 'permanent_bonus'
+  | 'inheritance_multiplier'
+  | 'special_unlock'
+  | 'aura_effect'
+  | 'transcendent_ability'
+  | 'reality_alteration'
+  | 'meta_progression';
 
-export type EffectScope =
-  | "character"
-  | "party"
-  | "global"
-  | "meta"
-  | "transcendent"
-  | "infinite";
+export type EffectScope = 'character' | 'party' | 'global' | 'meta' | 'transcendent' | 'infinite';
 
 export type InheritanceType =
-  | "automatic"
-  | "conditional"
-  | "achievement_based"
-  | "choice_based"
-  | "time_based"
-  | "performance_based"
-  | "special_unlock";
+  | 'automatic'
+  | 'conditional'
+  | 'achievement_based'
+  | 'choice_based'
+  | 'time_based'
+  | 'performance_based'
+  | 'special_unlock';
 
 export type SourceCondition = {
   type: string;
@@ -722,48 +716,25 @@ export interface PrestigeActions {
   // Currency and resource management
   earnPrestigePoints: (amount: number, source: string) => void;
   spendPrestigePoints: (amount: number, purpose: string) => boolean;
-  exchangePrestigeCurrency: (
-    fromCurrency: string,
-    toCurrency: string,
-    amount: number,
-  ) => boolean;
+  exchangePrestigeCurrency: (fromCurrency: string, toCurrency: string, amount: number) => boolean;
 
   // Legacy and inheritance
   createLegacyBonus: (bonusData: Partial<LegacyBonus>) => string;
-  inheritLegacyBonuses: (
-    characterId: string,
-    sourceCharacterId: string,
-  ) => void;
-  manageLegacyInheritance: (
-    characterId: string,
-    rules: InheritanceCondition[],
-  ) => void;
+  inheritLegacyBonuses: (characterId: string, sourceCharacterId: string) => void;
+  manageLegacyInheritance: (characterId: string, rules: InheritanceCondition[]) => void;
 
   // Mastery and specialization
-  improveMastery: (
-    characterId: string,
-    specializationId: string,
-    points: number,
-  ) => void;
-  achievePerfectMastery: (
-    characterId: string,
-    specializationId: string,
-  ) => void;
-  unlockTranscendentAbility: (
-    characterId: string,
-    abilityId: string,
-  ) => boolean;
+  improveMastery: (characterId: string, specializationId: string, points: number) => void;
+  achievePerfectMastery: (characterId: string, specializationId: string) => void;
+  unlockTranscendentAbility: (characterId: string, abilityId: string) => boolean;
 
   // Analysis and optimization
   analyzePrestigeEfficiency: (characterId: string) => PrestigeAnalysis;
   recommendPrestigeStrategy: (
     characterId: string,
-    goals: PrestigeGoal[],
+    goals: PrestigeGoal[]
   ) => PrestigeRecommendation[];
-  simulatePrestigeOutcome: (
-    characterId: string,
-    strategy: PrestigeStrategy,
-  ) => PrestigeSimulation;
+  simulatePrestigeOutcome: (characterId: string, strategy: PrestigeStrategy) => PrestigeSimulation;
 
   // Statistics and tracking
   updatePrestigeStatistics: () => void;

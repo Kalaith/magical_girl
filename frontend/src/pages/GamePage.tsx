@@ -1,36 +1,34 @@
-import { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useGameStore } from "../stores/gameStore";
-import { useUIStore } from "../stores/uiStore";
-import { VIEWS } from "../config/gameConfig";
+import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useGameStore } from '../stores/gameStore';
+import { useUIStore } from '../stores/uiStore';
+import { VIEWS } from '../config/gameConfig';
 
 // Layout Components
-import { Header } from "../components/layout/Header";
-import { ResourceDisplay } from "../components/layout/ResourceDisplay";
+import { Header } from '../components/layout/Header';
+import { ResourceDisplay } from '../components/layout/ResourceDisplay';
 
 // View Components
-import { DashboardView } from "../components/views/DashboardView";
-import { MagicalGirlsView } from "../components/views/MagicalGirlsView";
-import { RecruitmentView } from "../components/views/RecruitmentView";
-import { TrainingView } from "../components/views/TrainingView";
-import { MissionsView } from "../components/views/MissionsView";
-import { CombatView } from "../components/views/CombatView";
-import { AchievementsView } from "../components/views/AchievementsView";
-import { SettingsView } from "../components/views/SettingsView";
+import { DashboardView } from '../components/views/DashboardView';
+import { MagicalGirlsView } from '../components/views/MagicalGirlsView';
+import { RecruitmentView } from '../components/views/RecruitmentView';
+import { TrainingView } from '../components/views/TrainingView';
+import { MissionsView } from '../components/views/MissionsView';
+import { CombatView } from '../components/views/CombatView';
+import { AchievementsView } from '../components/views/AchievementsView';
+import { SettingsView } from '../components/views/SettingsView';
 
 // New Advanced Game Components
-import { SkillTreePanel } from "../components/game/SkillTreePanel";
+import { SkillTreePanel } from '../components/game/SkillTreePanel';
 // import { SimpleCustomizationPanel as CustomizationPanel } from "../components/game/SimpleCustomizationPanel";
-import { PrestigePanel } from "../components/game/PrestigePanel";
-import { SaveSystemPanel } from "../components/game/SaveSystemPanel";
-import { SimpleEnhancedSettingsPanel as EnhancedSettingsPanel } from "../components/game/SimpleEnhancedSettingsPanel";
-import { TutorialOverlay } from "../components/game/TutorialOverlay";
+import { PrestigePanel } from '../components/game/PrestigePanel';
+import { SaveSystemPanel } from '../components/game/SaveSystemPanel';
+import { SimpleEnhancedSettingsPanel as EnhancedSettingsPanel } from '../components/game/SimpleEnhancedSettingsPanel';
+import { TutorialOverlay } from '../components/game/TutorialOverlay';
 
 export function GamePage() {
-  const addNotification = useGameStore((state) => state.addNotification);
-  const initializePersistence = useGameStore(
-    (state) => state.initializePersistence,
-  );
+  const addNotification = useGameStore(state => state.addNotification);
+  const initializePersistence = useGameStore(state => state.initializePersistence);
   const { currentView } = useUIStore();
 
   useEffect(() => {
@@ -39,9 +37,9 @@ export function GamePage() {
 
   useEffect(() => {
     addNotification({
-      type: "info",
-      title: "Welcome!",
-      message: "Welcome to Magical Girl Simulator!",
+      type: 'info',
+      title: 'Welcome!',
+      message: 'Welcome to Magical Girl Simulator!',
     });
   }, [addNotification]);
 

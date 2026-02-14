@@ -1,10 +1,10 @@
 // Achievements main view - Clean Architecture with component composition
-import React from "react";
-import { motion } from "framer-motion";
-import { Trophy, Star, Award, Target } from "lucide-react";
-import { Card } from "../ui/Card";
-import { AchievementCard } from "../Achievement/AchievementCard";
-import { useAchievements } from "../../hooks/useAchievements";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Trophy, Star, Award, Target } from 'lucide-react';
+import { Card } from '../ui/Card';
+import { AchievementCard } from '../Achievement/AchievementCard';
+import { useAchievements } from '../../hooks/useAchievements';
 
 export const AchievementsView: React.FC = () => {
   const {
@@ -21,7 +21,7 @@ export const AchievementsView: React.FC = () => {
 
   const handleAchievementClick = (achievementId: string) => {
     // TODO: Implement achievement modal or details view
-    console.log("Achievement clicked:", achievementId);
+    console.log('Achievement clicked:', achievementId);
   };
 
   return (
@@ -35,12 +35,10 @@ export const AchievementsView: React.FC = () => {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600" />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gradient mb-2">
-          Achievement Gallery
-        </h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gradient mb-2">Achievement Gallery</h1>
         <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
-          Track your progress, unlock rewards, and showcase your accomplishments
-          in your magical journey.
+          Track your progress, unlock rewards, and showcase your accomplishments in your magical
+          journey.
         </p>
 
         {/* Quick Stats */}
@@ -75,16 +73,9 @@ export const AchievementsView: React.FC = () => {
                 <div className="text-left">
                   <div className="font-medium">{nextAchievement.name}</div>
                   <div className="text-sm text-gray-600">
-                    {formatProgress(
-                      nextAchievement.progress,
-                      nextAchievement.maxProgress,
-                    )}
-                    (
+                    {formatProgress(nextAchievement.progress, nextAchievement.maxProgress)}(
                     {Math.round(
-                      getProgressPercentage(
-                        nextAchievement.progress,
-                        nextAchievement.maxProgress,
-                      ),
+                      getProgressPercentage(nextAchievement.progress, nextAchievement.maxProgress)
                     )}
                     %)
                   </div>
@@ -92,21 +83,17 @@ export const AchievementsView: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="text-center text-gray-500">
-              No achievements in progress
-            </div>
+            <div className="text-center text-gray-500">No achievements in progress</div>
           )}
         </Card>
       </div>
 
       {/* Achievement Grid */}
       <div className="px-2 sm:px-0">
-        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
-          All Achievements
-        </h2>
+        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">All Achievements</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
-          {achievements.map((achievement) => (
+          {achievements.map(achievement => (
             <AchievementCard
               key={achievement.id}
               achievement={achievement}
@@ -119,9 +106,7 @@ export const AchievementsView: React.FC = () => {
       {/* Achievement Summary */}
       <Card className="p-4 sm:p-6 mx-2 sm:mx-0">
         <div className="text-center">
-          <h3 className="text-base sm:text-lg font-semibold mb-3">
-            Achievement Summary
-          </h3>
+          <h3 className="text-base sm:text-lg font-semibold mb-3">Achievement Summary</h3>
           <div className="grid grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm">
             <div className="p-2 sm:p-3 bg-green-50 rounded-lg">
               <div className="text-lg sm:text-2xl font-bold text-green-600">

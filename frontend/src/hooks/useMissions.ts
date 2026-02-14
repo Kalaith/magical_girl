@@ -1,45 +1,35 @@
 // Custom hook for mission logic - Separation of Concerns
 
-import { useState, useMemo } from "react";
-import { useGameStore } from "../stores/gameStore";
-import { gameConfig } from "../config/gameConfig";
-import type {
-  MissionType,
-  MissionCategory,
-  Difficulty,
-} from "../types/missions";
+import { useState, useMemo } from 'react';
+import { useGameStore } from '../stores/gameStore';
+import { gameConfig } from '../config/gameConfig';
+import type { MissionType, MissionCategory, Difficulty } from '../types/missions';
 
 interface UseMissionFilters {
   searchTerm: string;
-  selectedType: MissionType | "all";
-  selectedDifficulty: Difficulty | "all";
-  selectedCategory: MissionCategory | "all";
+  selectedType: MissionType | 'all';
+  selectedDifficulty: Difficulty | 'all';
+  selectedCategory: MissionCategory | 'all';
   showOnlyAvailable: boolean;
   showCompleted: boolean;
 }
 
 export const useMissions = () => {
-  const {
-    missions,
-    activeMission,
-    startMission,
-    completeMission,
-    magicalGirls,
-    resources,
-  } = useGameStore();
+  const { missions, activeMission, startMission, completeMission, magicalGirls, resources } =
+    useGameStore();
 
   const [filters, setFilters] = useState<UseMissionFilters>({
-    searchTerm: "",
-    selectedType: "all",
-    selectedDifficulty: "all",
-    selectedCategory: "all",
+    searchTerm: '',
+    selectedType: 'all',
+    selectedDifficulty: 'all',
+    selectedCategory: 'all',
     showOnlyAvailable: false,
     showCompleted: true,
   });
 
   // Filter missions based on current filters
   const filteredMissions = useMemo(() => {
-    return missions.filter((mission) => {
+    return missions.filter(mission => {
       // Search term filter
       if (filters.searchTerm) {
         const searchLower = filters.searchTerm.toLowerCase();
@@ -47,40 +37,31 @@ export const useMissions = () => {
           mission.name.toLowerCase().includes(searchLower) ||
           mission.description.toLowerCase().includes(searchLower) ||
           mission.location.name.toLowerCase().includes(searchLower) ||
-          mission.tags.some((tag) => tag.toLowerCase().includes(searchLower));
+          mission.tags.some(tag => tag.toLowerCase().includes(searchLower));
 
         if (!matchesSearch) return false;
       }
 
       // Type filter
-      if (
-        filters.selectedType !== "all" &&
-        mission.type !== filters.selectedType
-      ) {
+      if (filters.selectedType !== 'all' && mission.type !== filters.selectedType) {
         return false;
       }
 
       // Difficulty filter
       if (
-        filters.selectedDifficulty !== "all" &&
+        filters.selectedDifficulty !== 'all' &&
         mission.difficulty !== filters.selectedDifficulty
       ) {
         return false;
       }
 
       // Category filter
-      if (
-        filters.selectedCategory !== "all" &&
-        mission.category !== filters.selectedCategory
-      ) {
+      if (filters.selectedCategory !== 'all' && mission.category !== filters.selectedCategory) {
         return false;
       }
 
       // Show only available filter
-      if (
-        filters.showOnlyAvailable &&
-        (!mission.isUnlocked || !mission.isAvailable)
-      ) {
+      if (filters.showOnlyAvailable && (!mission.isUnlocked || !mission.isAvailable)) {
         return false;
       }
 
@@ -96,14 +77,13 @@ export const useMissions = () => {
   // Mission statistics
   const missionStats = useMemo(() => {
     const totalMissions = missions.length;
-    const completedMissions = missions.filter((m) => m.isCompleted).length;
+    const completedMissions = missions.filter(m => m.isCompleted).length;
     const activeMissions = activeMission ? 1 : 0;
-    const unlockedMissions = missions.filter((m) => m.isUnlocked).length;
+    const unlockedMissions = missions.filter(m => m.isUnlocked).length;
 
     // Calculate average success rate (simplified)
     const totalAttempts = missions.reduce((sum, m) => sum + m.attempts, 0);
-    const averageSuccessRate =
-      totalAttempts > 0 ? (completedMissions / totalAttempts) * 100 : 0;
+    const averageSuccessRate = totalAttempts > 0 ? (completedMissions / totalAttempts) * 100 : 0;
 
     // Calculate streak (simplified - consecutive completed missions)
     let streakCount = 0;
@@ -128,9 +108,8 @@ export const useMissions = () => {
         }
         const rewardSumValue = mission.rewards.reduce(
           (rewardSum, reward) =>
-            rewardSum +
-            (typeof reward.quantity === "number" ? reward.quantity : 0),
-          0,
+            rewardSum + (typeof reward.quantity === 'number' ? reward.quantity : 0),
+          0
         );
         const missionRewardTotal =
           rewardSumValue || gameConfig.MISSION_STATS.COMPLETED_REWARD_ESTIMATE;
@@ -141,12 +120,12 @@ export const useMissions = () => {
 
   // Available magical girls for missions
   const availableMagicalGirls = useMemo(() => {
-    return magicalGirls.filter((girl) => girl.isUnlocked);
+    return magicalGirls.filter(girl => girl.isUnlocked);
   }, [magicalGirls]);
 
   // Can start mission check
   const canStartMission = (missionId: string): boolean => {
-    const mission = missions.find((m) => m.id === missionId);
+    const mission = missions.find(m => m.id === missionId);
     if (!mission || !mission.isUnlocked || !mission.isAvailable) return false;
 
     // Check if there's already an active mission
@@ -157,17 +136,12 @@ export const useMissions = () => {
   };
 
   // Start mission with validation
-  const handleStartMission = (
-    missionId: string,
-    teamIds: string[] = [],
-  ): boolean => {
+  const handleStartMission = (missionId: string, teamIds: string[] = []): boolean => {
     if (!canStartMission(missionId)) return false;
 
     // Use first available girl if no team specified
     const selectedTeam =
-      teamIds.length > 0
-        ? teamIds
-        : [availableMagicalGirls[0]?.id].filter(Boolean);
+      teamIds.length > 0 ? teamIds : [availableMagicalGirls[0]?.id].filter(Boolean);
 
     if (selectedTeam.length === 0) return false;
 
@@ -175,10 +149,7 @@ export const useMissions = () => {
   };
 
   // Complete active mission
-  const handleCompleteMission = (
-    success: boolean = true,
-    score?: number,
-  ): void => {
+  const handleCompleteMission = (success: boolean = true, score?: number): void => {
     if (!activeMission) return;
 
     completeMission(activeMission.mission.id, success, score);
@@ -186,14 +157,14 @@ export const useMissions = () => {
 
   // Update filters
   const updateFilters = (newFilters: Partial<UseMissionFilters>) => {
-    setFilters((prev) => ({ ...prev, ...newFilters }));
+    setFilters(prev => ({ ...prev, ...newFilters }));
   };
 
   // Group missions by type for better organization
   const missionsByType = useMemo(() => {
     const groups: Partial<Record<MissionType, typeof filteredMissions>> = {};
 
-    filteredMissions.forEach((mission) => {
+    filteredMissions.forEach(mission => {
       if (!groups[mission.type]) {
         groups[mission.type] = [];
       }
@@ -220,15 +191,12 @@ export const useMissions = () => {
 
     // Utilities
     setSearchTerm: (searchTerm: string) => updateFilters({ searchTerm }),
-    setSelectedType: (selectedType: MissionType | "all") =>
-      updateFilters({ selectedType }),
-    setSelectedDifficulty: (selectedDifficulty: Difficulty | "all") =>
+    setSelectedType: (selectedType: MissionType | 'all') => updateFilters({ selectedType }),
+    setSelectedDifficulty: (selectedDifficulty: Difficulty | 'all') =>
       updateFilters({ selectedDifficulty }),
-    setSelectedCategory: (selectedCategory: MissionCategory | "all") =>
+    setSelectedCategory: (selectedCategory: MissionCategory | 'all') =>
       updateFilters({ selectedCategory }),
-    setShowOnlyAvailable: (showOnlyAvailable: boolean) =>
-      updateFilters({ showOnlyAvailable }),
-    setShowCompleted: (showCompleted: boolean) =>
-      updateFilters({ showCompleted }),
+    setShowOnlyAvailable: (showOnlyAvailable: boolean) => updateFilters({ showOnlyAvailable }),
+    setShowCompleted: (showCompleted: boolean) => updateFilters({ showCompleted }),
   };
 };

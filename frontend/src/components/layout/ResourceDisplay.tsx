@@ -1,7 +1,7 @@
-import React from "react";
-import { Zap, Star, Clock, TrendingUp } from "lucide-react";
-import { useGameStore } from "../../stores/gameStore";
-import { StatDisplay } from "../ui/StatDisplay";
+import React from 'react';
+import { Zap, Star, Clock, TrendingUp } from 'lucide-react';
+import { useGameStore } from '../../stores/gameStore';
+import { StatDisplay } from '../ui/StatDisplay';
 
 export const ResourceDisplay: React.FC = () => {
   const { player } = useGameStore();

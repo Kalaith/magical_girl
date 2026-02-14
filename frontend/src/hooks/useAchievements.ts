@@ -1,7 +1,7 @@
 // Achievement business logic hook - Separation of Concerns principle
-import { useMemo } from "react";
-import { useAchievementStore } from "../stores/achievementStore";
-import type { Achievement } from "../types/achievements";
+import { useMemo } from 'react';
+import { useAchievementStore } from '../stores/achievementStore';
+import type { Achievement } from '../types/achievements';
 
 export const useAchievements = () => {
   const {
@@ -18,12 +18,8 @@ export const useAchievements = () => {
   // Get achievements by status
   const achievementsByStatus = useMemo(() => {
     const unlocked = achievements.filter((a: Achievement) => a.unlocked);
-    const inProgress = achievements.filter(
-      (a: Achievement) => !a.unlocked && a.progress > 0,
-    );
-    const locked = achievements.filter(
-      (a: Achievement) => !a.unlocked && a.progress === 0,
-    );
+    const inProgress = achievements.filter((a: Achievement) => !a.unlocked && a.progress > 0);
+    const locked = achievements.filter((a: Achievement) => !a.unlocked && a.progress === 0);
 
     return { unlocked, inProgress, locked };
   }, [achievements]);
@@ -38,8 +34,7 @@ export const useAchievements = () => {
     const inProgress = achievements
       .filter((a: Achievement) => !a.unlocked && a.progress > 0)
       .sort(
-        (a: Achievement, b: Achievement) =>
-          b.progress / b.maxProgress - a.progress / a.maxProgress,
+        (a: Achievement, b: Achievement) => b.progress / b.maxProgress - a.progress / a.maxProgress
       );
 
     return inProgress[0] || null;
@@ -53,7 +48,7 @@ export const useAchievements = () => {
   // Achievement progress formatting
   const formatProgress = (progress: number, maxProgress: number) => {
     if (maxProgress <= 1) {
-      return progress >= maxProgress ? "Complete" : "Incomplete";
+      return progress >= maxProgress ? 'Complete' : 'Incomplete';
     }
     return `${progress}/${maxProgress}`;
   };

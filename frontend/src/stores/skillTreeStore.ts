@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 import type {
   SkillTreeState,
   SkillTree,
@@ -8,8 +8,8 @@ import type {
   TreeAnalysis,
   TreeFilterSettings,
   TreeViewMode,
-} from "../types/skillTree";
-import { skillTrees } from "../data/skillTreeConfig";
+} from '../types/skillTree';
+import { skillTrees } from '../data/skillTreeConfig';
 
 interface SkillTreeStore extends SkillTreeState {
   // Actions
@@ -36,7 +36,7 @@ const initialState: SkillTreeState = {
       acc[tree.id] = tree;
       return acc;
     },
-    {} as Record<string, SkillTree>,
+    {} as Record<string, SkillTree>
   ),
   activeTreeId: null,
   globalSkillPoints: 10,
@@ -48,7 +48,7 @@ const initialState: SkillTreeState = {
   recommendedNodes: [],
   selectedNodeId: null,
   hoveredNodeId: null,
-  treeViewMode: "full",
+  treeViewMode: 'full',
   filterSettings: {
     showLockedNodes: true,
     showUnaffordableNodes: true,
@@ -56,7 +56,7 @@ const initialState: SkillTreeState = {
     filterByCategory: [],
     filterByTier: [],
     filterByPath: [],
-    searchQuery: "",
+    searchQuery: '',
   },
 };
 
@@ -66,21 +66,17 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
 
     // Actions
     learnSkillNode: (treeId: string, nodeId: string, ranks: number = 1) => {
-      set((state) => {
+      set(state => {
         const tree = state.trees[treeId];
         if (!tree) return;
 
-        const nodeIndex = tree.nodes.findIndex((node) => node.id === nodeId);
+        const nodeIndex = tree.nodes.findIndex(node => node.id === nodeId);
         if (nodeIndex === -1) return;
 
         const node = tree.nodes[nodeIndex];
 
         // Simple validation
-        if (
-          !tree.isUnlocked ||
-          node.currentRank >= node.maxRank ||
-          tree.availablePoints < 1
-        ) {
+        if (!tree.isUnlocked || node.currentRank >= node.maxRank || tree.availablePoints < 1) {
           return;
         }
 
@@ -99,22 +95,16 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
         // Update tree
         tree.availablePoints -= cost;
         tree.totalPointsSpent += cost;
-        tree.totalNodesUnlocked = tree.nodes.filter(
-          (n) => n.currentRank > 0,
-        ).length;
+        tree.totalNodesUnlocked = tree.nodes.filter(n => n.currentRank > 0).length;
 
         // Update learnable status
-        tree.nodes.forEach((n) => {
+        tree.nodes.forEach(n => {
           n.isLearnable =
             n.prerequisites.length === 0 ||
-            n.prerequisites.every((prereq) => {
-              if (prereq.type === "node_rank" && prereq.nodeId) {
-                const prereqNode = tree.nodes.find(
-                  (pn) => pn.id === prereq.nodeId,
-                );
-                return prereqNode
-                  ? prereqNode.currentRank >= (prereq.minimumRank || 1)
-                  : false;
+            n.prerequisites.every(prereq => {
+              if (prereq.type === 'node_rank' && prereq.nodeId) {
+                const prereqNode = tree.nodes.find(pn => pn.id === prereq.nodeId);
+                return prereqNode ? prereqNode.currentRank >= (prereq.minimumRank || 1) : false;
               }
               return true;
             });
@@ -123,11 +113,11 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
     },
 
     unlearnSkillNode: (treeId: string, nodeId: string, ranks: number = 1) => {
-      set((state) => {
+      set(state => {
         const tree = state.trees[treeId];
         if (!tree) return;
 
-        const nodeIndex = tree.nodes.findIndex((node) => node.id === nodeId);
+        const nodeIndex = tree.nodes.findIndex(node => node.id === nodeId);
         if (nodeIndex === -1) return;
 
         const node = tree.nodes[nodeIndex];
@@ -144,14 +134,12 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
 
         tree.availablePoints += refund;
         tree.totalPointsSpent -= refund;
-        tree.totalNodesUnlocked = tree.nodes.filter(
-          (n) => n.currentRank > 0,
-        ).length;
+        tree.totalNodesUnlocked = tree.nodes.filter(n => n.currentRank > 0).length;
       });
     },
 
     resetSkillTree: (treeId: string) => {
-      set((state) => {
+      set(state => {
         const tree = state.trees[treeId];
         if (!tree) return;
 
@@ -159,7 +147,7 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
 
         state.trees[treeId] = {
           ...tree,
-          nodes: tree.nodes.map((node) => ({
+          nodes: tree.nodes.map(node => ({
             ...node,
             currentRank: 0,
             isMaxRank: false,
@@ -174,7 +162,7 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
     },
 
     unlockSkillTree: (treeId: string) => {
-      set((state) => {
+      set(state => {
         const tree = state.trees[treeId];
         if (!tree || tree.isUnlocked) return;
 
@@ -211,24 +199,24 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
         missedSynergies: [],
         suggestedRespec: false,
         alternativeBuilds: [],
-        optimizationTips: ["Focus on core skills first"],
+        optimizationTips: ['Focus on core skills first'],
       };
     },
 
     selectNode: (nodeId: string) => {
-      set((state) => {
+      set(state => {
         state.selectedNodeId = nodeId;
       });
     },
 
     setTreeViewMode: (mode: TreeViewMode) => {
-      set((state) => {
+      set(state => {
         state.treeViewMode = mode;
       });
     },
 
     updateFilterSettings: (settings: Partial<TreeFilterSettings>) => {
-      set((state) => {
+      set(state => {
         state.filterSettings = { ...state.filterSettings, ...settings };
       });
     },
@@ -240,29 +228,26 @@ export const useSkillTreeStore = create<SkillTreeStore>()(
 
     getSkillNode: (treeId: string, nodeId: string) => {
       const tree = get().getSkillTree(treeId);
-      return tree?.nodes.find((node) => node.id === nodeId) || null;
+      return tree?.nodes.find(node => node.id === nodeId) || null;
     },
 
     getActiveBuild: () => {
       const state = get();
-      return (
-        state.savedBuilds.find((build) => build.id === state.activeBuildId) ||
-        null
-      );
+      return state.savedBuilds.find(build => build.id === state.activeBuildId) || null;
     },
 
     getTotalSkillPoints: () => {
       const state = get();
       const treePoints = Object.values(state.trees).reduce(
         (total, tree) => total + tree.availablePoints,
-        0,
+        0
       );
       return state.globalSkillPoints + treePoints;
     },
 
     getUnlockedTrees: () => {
       const state = get();
-      return Object.values(state.trees).filter((tree) => tree.isUnlocked);
+      return Object.values(state.trees).filter(tree => tree.isUnlocked);
     },
-  })),
+  }))
 );

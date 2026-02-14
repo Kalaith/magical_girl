@@ -1,28 +1,24 @@
-import React from "react";
-import type { CombatParticipant } from "../../types/combat";
-import { useGameStore } from "../../stores/gameStore";
-import BattleGrid from "./BattleGrid";
-import ActionPanel from "./ActionPanel";
-import CombatLog from "./CombatLog";
-import TurnOrder from "./TurnOrder";
+import React from 'react';
+import type { CombatParticipant } from '../../types/combat';
+import { useGameStore } from '../../stores/gameStore';
+import BattleGrid from './BattleGrid';
+import ActionPanel from './ActionPanel';
+import CombatLog from './CombatLog';
+import TurnOrder from './TurnOrder';
 
 interface BattleArenaProps {
   className?: string;
 }
 
-const BattleArena: React.FC<BattleArenaProps> = ({ className = "" }) => {
+const BattleArena: React.FC<BattleArenaProps> = ({ className = '' }) => {
   const { combatSystem } = useGameStore();
   const { activeBattle } = combatSystem;
 
   if (!activeBattle) {
     return (
-      <div
-        className={`flex items-center justify-center h-96 bg-gray-100 rounded-lg ${className}`}
-      >
+      <div className={`flex items-center justify-center h-96 bg-gray-100 rounded-lg ${className}`}>
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-700 mb-2">
-            No Active Battle
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-700 mb-2">No Active Battle</h2>
           <p className="text-gray-500">Start a mission to begin combat!</p>
         </div>
       </div>
@@ -32,7 +28,7 @@ const BattleArena: React.FC<BattleArenaProps> = ({ className = "" }) => {
   const currentParticipant =
     activeBattle.turnOrder.participants[activeBattle.turnOrder.currentIndex];
   const isPlayerTurn = activeBattle.playerTeam.some(
-    (p) => p.id === currentParticipant?.participantId,
+    p => p.id === currentParticipant?.participantId
   );
 
   return (
@@ -40,12 +36,9 @@ const BattleArena: React.FC<BattleArenaProps> = ({ className = "" }) => {
       {/* Battle Header */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">
-            {activeBattle.type} Battle
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-800">{activeBattle.type} Battle</h2>
           <div className="text-sm text-gray-600">
-            Turn {activeBattle.currentTurn} • {activeBattle.turnOrder.phase}{" "}
-            Phase
+            Turn {activeBattle.currentTurn} • {activeBattle.turnOrder.phase} Phase
           </div>
         </div>
 
@@ -56,20 +49,18 @@ const BattleArena: React.FC<BattleArenaProps> = ({ className = "" }) => {
               <span className="font-medium">Status:</span> {activeBattle.status}
             </div>
             <div className="text-sm">
-              <span className="font-medium">Current Turn:</span>{" "}
-              {currentParticipant?.participantId || "Unknown"}
+              <span className="font-medium">Current Turn:</span>{' '}
+              {currentParticipant?.participantId || 'Unknown'}
             </div>
           </div>
           <div className="text-sm">
             <span className="font-medium">Player Turn:</span>
             <span
               className={`ml-2 px-2 py-1 rounded text-xs font-medium ${
-                isPlayerTurn
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
+                isPlayerTurn ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
               }`}
             >
-              {isPlayerTurn ? "Yes" : "No"}
+              {isPlayerTurn ? 'Yes' : 'No'}
             </span>
           </div>
         </div>
@@ -81,7 +72,7 @@ const BattleArena: React.FC<BattleArenaProps> = ({ className = "" }) => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-gray-700">Your Team</h3>
           <div className="space-y-2">
-            {activeBattle.playerTeam.map((participant) => (
+            {activeBattle.playerTeam.map(participant => (
               <ParticipantCard
                 key={participant.id}
                 participant={participant}
@@ -101,7 +92,7 @@ const BattleArena: React.FC<BattleArenaProps> = ({ className = "" }) => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-gray-700">Enemies</h3>
           <div className="space-y-2">
-            {activeBattle.enemyTeam.map((participant) => (
+            {activeBattle.enemyTeam.map(participant => (
               <ParticipantCard
                 key={participant.id}
                 participant={participant}
@@ -140,28 +131,27 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({
   isCurrent,
   isPlayerTeam,
 }) => {
-  const healthPercent =
-    (participant.currentStats.health / participant.maxStats.health) * 100;
+  const healthPercent = (participant.currentStats.health / participant.maxStats.health) * 100;
   const isAlive = participant.currentStats.health > 0;
 
   return (
     <div
       className={`p-3 rounded-lg border-2 transition-all ${
         isCurrent
-          ? "border-blue-500 bg-blue-50 shadow-md"
+          ? 'border-blue-500 bg-blue-50 shadow-md'
           : isPlayerTeam
-            ? "border-green-200 bg-green-50"
-            : "border-red-200 bg-red-50"
+            ? 'border-green-200 bg-green-50'
+            : 'border-red-200 bg-red-50'
       }`}
     >
       <div className="flex justify-between items-center mb-2">
         <h4 className="font-medium text-sm">{participant.character.name}</h4>
         <span
           className={`text-xs px-2 py-1 rounded ${
-            isAlive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+            isAlive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
           }`}
         >
-          {isAlive ? "Alive" : "Defeated"}
+          {isAlive ? 'Alive' : 'Defeated'}
         </span>
       </div>
 
@@ -177,10 +167,10 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({
           <div
             className={`h-2 rounded-full transition-all ${
               healthPercent > 60
-                ? "bg-green-500"
+                ? 'bg-green-500'
                 : healthPercent > 30
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
+                  ? 'bg-yellow-500'
+                  : 'bg-red-500'
             }`}
             style={{ width: `${healthPercent}%` }}
           />
@@ -199,15 +189,15 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({
       {participant.statusEffects.length > 0 && (
         <div className="mt-2">
           <div className="flex flex-wrap gap-1">
-            {participant.statusEffects.slice(0, 3).map((effect) => (
+            {participant.statusEffects.slice(0, 3).map(effect => (
               <span
                 key={effect.id}
                 className={`text-xs px-1 py-0.5 rounded ${
-                  effect.type === "Buff"
-                    ? "bg-blue-100 text-blue-800"
-                    : effect.type === "Debuff"
-                      ? "bg-red-100 text-red-800"
-                      : "bg-gray-100 text-gray-800"
+                  effect.type === 'Buff'
+                    ? 'bg-blue-100 text-blue-800'
+                    : effect.type === 'Debuff'
+                      ? 'bg-red-100 text-red-800'
+                      : 'bg-gray-100 text-gray-800'
                 }`}
                 title={effect.description}
               >

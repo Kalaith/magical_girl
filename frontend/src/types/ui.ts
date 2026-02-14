@@ -1,33 +1,33 @@
 export type ViewType =
-  | "dashboard"
-  | "collection"
-  | "recruitment"
-  | "combat"
-  | "training"
-  | "missions"
-  | "achievements"
-  | "skill-tree"
-  | "customization"
-  | "prestige"
-  | "save-system"
-  | "enhanced-settings"
-  | "settings";
+  | 'dashboard'
+  | 'collection'
+  | 'recruitment'
+  | 'combat'
+  | 'training'
+  | 'missions'
+  | 'achievements'
+  | 'skill-tree'
+  | 'customization'
+  | 'prestige'
+  | 'save-system'
+  | 'enhanced-settings'
+  | 'settings';
 
 export type ModalType =
-  | "magical-girl-details"
-  | "training-session"
-  | "mission-details"
-  | "settings"
-  | "achievement-details"
-  | "confirmation"
+  | 'magical-girl-details'
+  | 'training-session'
+  | 'mission-details'
+  | 'settings'
+  | 'achievement-details'
+  | 'confirmation'
   | null;
 
 export type ModalData = {
-  "magical-girl-details": { girlId: string };
-  "training-session": { trainingId: string; girlId?: string };
-  "mission-details": { missionId: string };
+  'magical-girl-details': { girlId: string };
+  'training-session': { trainingId: string; girlId?: string };
+  'mission-details': { missionId: string };
   settings: Record<string, never>;
-  "achievement-details": { achievementId: string };
+  'achievement-details': { achievementId: string };
   confirmation: {
     title: string;
     message: string;
@@ -53,9 +53,9 @@ export interface UIState {
   quickActionsPanelVisible: boolean;
 
   // Theme and appearance
-  theme: "light" | "dark" | "auto";
+  theme: 'light' | 'dark' | 'auto';
   colorScheme: string;
-  fontSize: "small" | "medium" | "large";
+  fontSize: 'small' | 'medium' | 'large';
   compactMode: boolean;
 
   // Interaction states
@@ -72,7 +72,7 @@ export interface UIState {
   // Mobile and responsive states
   mobileMenuOpen: boolean;
   orientationPortrait: boolean;
-  screenSize: "mobile" | "tablet" | "desktop";
+  screenSize: 'mobile' | 'tablet' | 'desktop';
 
   // Focus and accessibility
   focusVisible: boolean;
@@ -82,7 +82,7 @@ export interface UIState {
   // Performance and rendering
   lowPerformanceMode: boolean;
   gpuAcceleration: boolean;
-  renderQuality: "low" | "medium" | "high";
+  renderQuality: 'low' | 'medium' | 'high';
 
   // Gaming specific UI states
   pauseMenuOpen: boolean;
@@ -94,21 +94,21 @@ export interface UIState {
   // Notification and message states
   toastMessages: Array<{
     id: string;
-    type: "success" | "error" | "warning" | "info";
+    type: 'success' | 'error' | 'warning' | 'info';
     message: string;
     duration?: number;
     persistent?: boolean;
   }>;
   bannerMessage: {
-    type: "info" | "warning" | "error" | "success";
+    type: 'info' | 'warning' | 'error' | 'success';
     message: string;
     visible: boolean;
   } | null;
 
   // Layout and positioning
-  layoutMode: "classic" | "modern" | "compact";
-  panelLayout: "left" | "right" | "bottom" | "floating";
-  toolbarPosition: "top" | "bottom" | "hidden";
+  layoutMode: 'classic' | 'modern' | 'compact';
+  panelLayout: 'left' | 'right' | 'bottom' | 'floating';
+  toolbarPosition: 'top' | 'bottom' | 'hidden';
 }
 
 export interface UIActions {
@@ -120,7 +120,7 @@ export interface UIActions {
   // Modal actions
   openModal: <T extends ModalType>(
     type: T,
-    data?: T extends keyof ModalData ? ModalData[T] : never,
+    data?: T extends keyof ModalData ? ModalData[T] : never
   ) => void;
   closeModal: () => void;
   setModalData: (data: ModalData[keyof ModalData] | null) => void;
@@ -133,18 +133,14 @@ export interface UIActions {
   toggleQuickActionsPanel: () => void;
 
   // Theme actions
-  setTheme: (theme: UIState["theme"]) => void;
+  setTheme: (theme: UIState['theme']) => void;
   setColorScheme: (scheme: string) => void;
-  setFontSize: (size: UIState["fontSize"]) => void;
+  setFontSize: (size: UIState['fontSize']) => void;
   toggleCompactMode: () => void;
 
   // Interaction actions
   setDragDropActive: (active: boolean) => void;
-  showContextMenu: (
-    x: number,
-    y: number,
-    data?: Record<string, unknown>,
-  ) => void;
+  showContextMenu: (x: number, y: number, data?: Record<string, unknown>) => void;
   hideContextMenu: () => void;
 
   // Animation actions
@@ -155,7 +151,7 @@ export interface UIActions {
   // Mobile actions
   setMobileMenuOpen: (open: boolean) => void;
   setOrientation: (portrait: boolean) => void;
-  setScreenSize: (size: UIState["screenSize"]) => void;
+  setScreenSize: (size: UIState['screenSize']) => void;
 
   // Accessibility actions
   setFocusVisible: (visible: boolean) => void;
@@ -165,7 +161,7 @@ export interface UIActions {
   // Performance actions
   setLowPerformanceMode: (enabled: boolean) => void;
   setGpuAcceleration: (enabled: boolean) => void;
-  setRenderQuality: (quality: UIState["renderQuality"]) => void;
+  setRenderQuality: (quality: UIState['renderQuality']) => void;
 
   // Gaming UI actions
   togglePauseMenu: () => void;
@@ -175,15 +171,15 @@ export interface UIActions {
   toggleQuestLog: () => void;
 
   // Message actions
-  addToastMessage: (message: Omit<UIState["toastMessages"][0], "id">) => void;
+  addToastMessage: (message: Omit<UIState['toastMessages'][0], 'id'>) => void;
   removeToastMessage: (id: string) => void;
-  setBannerMessage: (message: UIState["bannerMessage"]) => void;
+  setBannerMessage: (message: UIState['bannerMessage']) => void;
   clearBannerMessage: () => void;
 
   // Layout actions
-  setLayoutMode: (mode: UIState["layoutMode"]) => void;
-  setPanelLayout: (layout: UIState["panelLayout"]) => void;
-  setToolbarPosition: (position: UIState["toolbarPosition"]) => void;
+  setLayoutMode: (mode: UIState['layoutMode']) => void;
+  setPanelLayout: (layout: UIState['panelLayout']) => void;
+  setToolbarPosition: (position: UIState['toolbarPosition']) => void;
 
   // Reset actions
   resetUI: () => void;

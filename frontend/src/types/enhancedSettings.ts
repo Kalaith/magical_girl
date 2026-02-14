@@ -9,7 +9,7 @@ export interface AccessibilitySettings {
 }
 
 export interface PanelArrangement {
-  layout: "grid" | "list" | "compact";
+  layout: 'grid' | 'list' | 'compact';
   columns: number;
   spacing: number;
 }
@@ -541,108 +541,56 @@ export interface SettingsHelp {
 
 // Enums and Type Unions
 export type SettingType =
-  | "boolean"
-  | "number"
-  | "string"
-  | "select"
-  | "multiselect"
-  | "range"
-  | "color"
-  | "file"
-  | "directory"
-  | "keybind"
-  | "resolution"
-  | "custom"
-  | "json"
-  | "array"
-  | "object";
+  | 'boolean'
+  | 'number'
+  | 'string'
+  | 'select'
+  | 'multiselect'
+  | 'range'
+  | 'color'
+  | 'file'
+  | 'directory'
+  | 'keybind'
+  | 'resolution'
+  | 'custom'
+  | 'json'
+  | 'array'
+  | 'object';
 
-export type AccessLevel =
-  | "basic"
-  | "intermediate"
-  | "advanced"
-  | "expert"
-  | "developer";
+export type AccessLevel = 'basic' | 'intermediate' | 'advanced' | 'expert' | 'developer';
 
-export type SettingVisibility =
-  | "always"
-  | "conditional"
-  | "advanced"
-  | "hidden"
-  | "debug";
+export type SettingVisibility = 'always' | 'conditional' | 'advanced' | 'hidden' | 'debug';
 
-export type ProfileType = "user" | "preset" | "shared" | "automatic" | "backup";
+export type ProfileType = 'user' | 'preset' | 'shared' | 'automatic' | 'backup';
 
-export type ChangeSource =
-  | "user"
-  | "auto"
-  | "import"
-  | "reset"
-  | "optimization"
-  | "system";
+export type ChangeSource = 'user' | 'auto' | 'import' | 'reset' | 'optimization' | 'system';
 
-export type ValidationLevel =
-  | "none"
-  | "basic"
-  | "standard"
-  | "strict"
-  | "paranoid";
+export type ValidationLevel = 'none' | 'basic' | 'standard' | 'strict' | 'paranoid';
 
 export type ConflictType =
-  | "dependency"
-  | "mutual_exclusion"
-  | "resource"
-  | "performance"
-  | "compatibility";
+  | 'dependency'
+  | 'mutual_exclusion'
+  | 'resource'
+  | 'performance'
+  | 'compatibility';
 
-export type LayoutStyle =
-  | "list"
-  | "grid"
-  | "tabs"
-  | "accordion"
-  | "wizard"
-  | "custom";
+export type LayoutStyle = 'list' | 'grid' | 'tabs' | 'accordion' | 'wizard' | 'custom';
 
-export type GroupingMethod =
-  | "category"
-  | "type"
-  | "alphabetical"
-  | "usage"
-  | "custom";
+export type GroupingMethod = 'category' | 'type' | 'alphabetical' | 'usage' | 'custom';
 
-export type SortingMethod =
-  | "alphabetical"
-  | "priority"
-  | "recent"
-  | "frequency"
-  | "manual";
+export type SortingMethod = 'alphabetical' | 'priority' | 'recent' | 'frequency' | 'manual';
 
-export type SettingsTheme =
-  | "light"
-  | "dark"
-  | "auto"
-  | "high_contrast"
-  | "custom";
+export type SettingsTheme = 'light' | 'dark' | 'auto' | 'high_contrast' | 'custom';
 
-export type SuggestionType =
-  | "performance"
-  | "accessibility"
-  | "usability"
-  | "security"
-  | "quality";
+export type SuggestionType = 'performance' | 'accessibility' | 'usability' | 'security' | 'quality';
 
-export type ImpactLevel = "low" | "medium" | "high" | "critical";
+export type ImpactLevel = 'low' | 'medium' | 'high' | 'critical';
 
-export type DifficultyLevel = "easy" | "medium" | "hard" | "expert";
+export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert';
 
-export type WCAGLevel = "A" | "AA" | "AAA" | "none";
+export type WCAGLevel = 'A' | 'AA' | 'AAA' | 'none';
 
-export type HelpPosition =
-  | "sidebar"
-  | "modal"
-  | "tooltip"
-  | "inline"
-  | "overlay";
+export type HelpPosition = 'sidebar' | 'modal' | 'tooltip' | 'inline' | 'overlay';
 
 // Complex type definitions
 export type Resolution = {
@@ -651,15 +599,11 @@ export type Resolution = {
   label?: string;
 };
 
-export type AspectRatio = "16:9" | "16:10" | "4:3" | "21:9" | "auto" | "custom";
+export type AspectRatio = '16:9' | '16:10' | '4:3' | '21:9' | 'auto' | 'custom';
 
-export type DisplayMode =
-  | "windowed"
-  | "fullscreen"
-  | "borderless"
-  | "maximized";
+export type DisplayMode = 'windowed' | 'fullscreen' | 'borderless' | 'maximized';
 
-export type ColorProfile = "sRGB" | "DCI-P3" | "Rec2020" | "Adobe_RGB" | "auto";
+export type ColorProfile = 'sRGB' | 'DCI-P3' | 'Rec2020' | 'Adobe_RGB' | 'auto';
 
 export type ThemeSettings = {
   name: string;
@@ -669,56 +613,37 @@ export type ThemeSettings = {
   customCSS?: string;
 };
 
-export type AnimationQuality = "none" | "reduced" | "normal" | "high" | "ultra";
+export type AnimationQuality = 'none' | 'reduced' | 'normal' | 'high' | 'ultra';
 
-export type RenderQuality = "low" | "medium" | "high" | "ultra" | "custom";
+export type RenderQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
-export type TextureQuality = "low" | "medium" | "high" | "ultra";
+export type TextureQuality = 'low' | 'medium' | 'high' | 'ultra';
 
-export type ShadowQuality = "none" | "low" | "medium" | "high" | "ultra";
+export type ShadowQuality = 'none' | 'low' | 'medium' | 'high' | 'ultra';
 
-export type LightingQuality = "basic" | "standard" | "enhanced" | "realistic";
+export type LightingQuality = 'basic' | 'standard' | 'enhanced' | 'realistic';
 
-export type AntiAliasingType = "none" | "FXAA" | "MSAA" | "TAA" | "DLAA";
+export type AntiAliasingType = 'none' | 'FXAA' | 'MSAA' | 'TAA' | 'DLAA';
 
-export type ShaderComplexity = "basic" | "standard" | "complex" | "ultra";
+export type ShaderComplexity = 'basic' | 'standard' | 'complex' | 'ultra';
 
-export type RenderPipeline = "forward" | "deferred" | "hybrid" | "raytracing";
+export type RenderPipeline = 'forward' | 'deferred' | 'hybrid' | 'raytracing';
 
-export type AudioQuality = "low" | "medium" | "high" | "lossless";
+export type AudioQuality = 'low' | 'medium' | 'high' | 'lossless';
 
-export type AudioCompression = "none" | "light" | "standard" | "aggressive";
+export type AudioCompression = 'none' | 'light' | 'standard' | 'aggressive';
 
-export type AudioEngine = "standard" | "enhanced" | "spatial" | "custom";
+export type AudioEngine = 'standard' | 'enhanced' | 'spatial' | 'custom';
 
-export type CurrencyFormat = "short" | "long" | "scientific" | "custom";
+export type CurrencyFormat = 'short' | 'long' | 'scientific' | 'custom';
 
-export type NumberFormat =
-  | "standard"
-  | "grouped"
-  | "scientific"
-  | "engineering";
+export type NumberFormat = 'standard' | 'grouped' | 'scientific' | 'engineering';
 
-export type NavigationStyle =
-  | "tabs"
-  | "sidebar"
-  | "breadcrumb"
-  | "tree"
-  | "custom";
+export type NavigationStyle = 'tabs' | 'sidebar' | 'breadcrumb' | 'tree' | 'custom';
 
-export type ColorScheme =
-  | "system"
-  | "light"
-  | "dark"
-  | "high_contrast"
-  | "custom";
+export type ColorScheme = 'system' | 'light' | 'dark' | 'high_contrast' | 'custom';
 
-export type IconTheme =
-  | "default"
-  | "minimal"
-  | "detailed"
-  | "colorful"
-  | "custom";
+export type IconTheme = 'default' | 'minimal' | 'detailed' | 'colorful' | 'custom';
 
 // Complex interface definitions
 export interface SettingConstraints {
@@ -949,52 +874,21 @@ export interface EnhancedSettingsActions {
 }
 
 // Additional type definitions for comprehensive settings system
-export type DependencyType =
-  | "enables"
-  | "disables"
-  | "requires"
-  | "conflicts"
-  | "modifies";
-export type DependencyCondition =
-  | "equals"
-  | "not_equals"
-  | "greater"
-  | "less"
-  | "contains";
-export type DependencyAction =
-  | "show"
-  | "hide"
-  | "enable"
-  | "disable"
-  | "modify"
-  | "validate";
-export type ConflictSeverity = "info" | "warning" | "error" | "critical";
-export type ConflictResolutionMethod = "auto" | "prompt" | "manual" | "ignore";
-export type ValidationType =
-  | "range"
-  | "pattern"
-  | "custom"
-  | "dependency"
-  | "format";
-export type ValidationSeverity = "info" | "warning" | "error" | "critical";
-export type ErrorSeverity = "low" | "medium" | "high" | "critical";
-export type FilterType =
-  | "category"
-  | "type"
-  | "access_level"
-  | "status"
-  | "custom";
+export type DependencyType = 'enables' | 'disables' | 'requires' | 'conflicts' | 'modifies';
+export type DependencyCondition = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains';
+export type DependencyAction = 'show' | 'hide' | 'enable' | 'disable' | 'modify' | 'validate';
+export type ConflictSeverity = 'info' | 'warning' | 'error' | 'critical';
+export type ConflictResolutionMethod = 'auto' | 'prompt' | 'manual' | 'ignore';
+export type ValidationType = 'range' | 'pattern' | 'custom' | 'dependency' | 'format';
+export type ValidationSeverity = 'info' | 'warning' | 'error' | 'critical';
+export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
+export type FilterType = 'category' | 'type' | 'access_level' | 'status' | 'custom';
 export type ActionFunction = string; // Function name or code
-export type FontWeight = "normal" | "bold" | "light" | "medium" | "black";
-export type FontStyle = "normal" | "italic" | "oblique";
-export type ToolbarPosition = "top" | "bottom" | "left" | "right" | "floating";
-export type TooltipPosition = "top" | "bottom" | "left" | "right" | "auto";
-export type TooltipStyle =
-  | "simple"
-  | "detailed"
-  | "minimal"
-  | "rich"
-  | "custom";
+export type FontWeight = 'normal' | 'bold' | 'light' | 'medium' | 'black';
+export type FontStyle = 'normal' | 'italic' | 'oblique';
+export type ToolbarPosition = 'top' | 'bottom' | 'left' | 'right' | 'floating';
+export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right' | 'auto';
+export type TooltipStyle = 'simple' | 'detailed' | 'minimal' | 'rich' | 'custom';
 
 // Placeholder types for complex nested structures
 export interface CustomConstraint {
@@ -1005,14 +899,14 @@ export interface CustomConstraint {
 }
 
 export interface ValidationMessage {
-  type: "error" | "warning" | "info";
+  type: 'error' | 'warning' | 'info';
   message: string;
   field?: string;
 }
 
 export interface ValidationCondition {
   field: string;
-  operator: "equals" | "notEquals" | "greaterThan" | "lessThan" | "contains";
+  operator: 'equals' | 'notEquals' | 'greaterThan' | 'lessThan' | 'contains';
   value: string | number | boolean;
 }
 
@@ -1065,7 +959,7 @@ export interface SmartAssistPrivacy {
 
 export interface ToolbarItem {
   id: string;
-  type: "button" | "separator" | "dropdown";
+  type: 'button' | 'separator' | 'dropdown';
   label?: string;
   icon?: string;
   action?: string;
@@ -1089,7 +983,7 @@ export interface QuickShortcut {
 export interface ValidationInfo {
   field: string;
   message: string;
-  severity: "info" | "warning" | "error";
+  severity: 'info' | 'warning' | 'error';
 }
 
 export interface ValidationWarning {
@@ -1112,7 +1006,7 @@ export interface ExternalLink {
 }
 
 export interface SectionLayout {
-  type: "grid" | "list" | "tabs";
+  type: 'grid' | 'list' | 'tabs';
   columns?: number;
   spacing?: number;
 }
@@ -1177,7 +1071,7 @@ export interface AutomationSettings {
 export interface ConfigFile {
   name: string;
   path: string;
-  format: "json" | "yaml" | "toml";
+  format: 'json' | 'yaml' | 'toml';
   content: Record<string, string | number | boolean>;
 }
 
@@ -1189,7 +1083,7 @@ export interface CommandLineSettings {
 
 export interface ScriptingSettings {
   enabled: boolean;
-  language: "javascript" | "python" | "lua";
+  language: 'javascript' | 'python' | 'lua';
   customScripts: string[];
 }
 
@@ -1213,13 +1107,13 @@ export interface APISettings {
 
 export interface DebuggingSettings {
   enabled: boolean;
-  logLevel: "debug" | "info" | "warn" | "error";
+  logLevel: 'debug' | 'info' | 'warn' | 'error';
   showStackTrace: boolean;
 }
 
 export interface LoggingSettings {
   enabled: boolean;
-  level: "debug" | "info" | "warn" | "error";
+  level: 'debug' | 'info' | 'warn' | 'error';
   outputFile: string;
   maxFileSize: number;
 }
@@ -1234,7 +1128,7 @@ export interface OptimizationAction {
   id: string;
   name: string;
   description: string;
-  impact: "low" | "medium" | "high";
+  impact: 'low' | 'medium' | 'high';
   action: () => void;
 }
 
@@ -1247,7 +1141,7 @@ export interface AccessibilityCategory {
 
 export interface AccessibilityIssue {
   id: string;
-  severity: "low" | "medium" | "high";
+  severity: 'low' | 'medium' | 'high';
   description: string;
   recommendation: string;
 }
@@ -1260,14 +1154,14 @@ export interface AccessibilityRecommendation {
 }
 
 export interface SettingsExport {
-  format: "json" | "yaml";
+  format: 'json' | 'yaml';
   includeDefaults: boolean;
   categories: string[];
 }
 
 export interface SettingsImport {
-  source: "file" | "url" | "clipboard";
-  mergeStrategy: "replace" | "merge" | "append";
+  source: 'file' | 'url' | 'clipboard';
+  mergeStrategy: 'replace' | 'merge' | 'append';
   validation: boolean;
 }
 export interface PerformanceSettings {
@@ -1285,7 +1179,7 @@ export interface VoiceSettings {
 }
 
 export interface DifficultySettings {
-  level: "easy" | "normal" | "hard" | "expert";
+  level: 'easy' | 'normal' | 'hard' | 'expert';
   customModifiers: Record<string, number>;
 }
 
@@ -1324,7 +1218,7 @@ export interface PrivacySettings {
 
 export interface ModerationSettings {
   autoModeration: boolean;
-  filterLevel: "none" | "basic" | "strict";
+  filterLevel: 'none' | 'basic' | 'strict';
   allowedWords: string[];
   blockedWords: string[];
 }
@@ -1372,15 +1266,15 @@ export interface StatusDisplaySettings {
 }
 
 export interface ProgressBarSettings {
-  style: "linear" | "circular";
+  style: 'linear' | 'circular';
   showPercentage: boolean;
   animationSpeed: number;
 }
 
 export interface NotificationDisplaySettings {
-  position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   maxVisible: number;
-  stackDirection: "up" | "down";
+  stackDirection: 'up' | 'down';
 }
 
 export interface ContextMenuSettings {
@@ -1389,7 +1283,7 @@ export interface ContextMenuSettings {
 }
 
 export interface SidebarSettings {
-  position: "left" | "right";
+  position: 'left' | 'right';
   width: number;
   collapsible: boolean;
 }
@@ -1403,7 +1297,7 @@ export interface SettingChange {
 }
 
 export interface UnlockRequirement {
-  type: "level" | "achievement" | "item" | "custom";
+  type: 'level' | 'achievement' | 'item' | 'custom';
   value: string | number;
   description: string;
 }
@@ -1423,21 +1317,21 @@ export interface FilterValue {
 
 export interface ActionParameter {
   name: string;
-  type: "string" | "number" | "boolean" | "object";
+  type: 'string' | 'number' | 'boolean' | 'object';
   required: boolean;
   defaultValue?: string | number | boolean;
 }
 
 export interface ExportOptions {
-  format: "json" | "csv" | "xml";
+  format: 'json' | 'csv' | 'xml';
   includeMetadata: boolean;
   compression: boolean;
 }
 
 export interface ImportOptions {
-  format: "json" | "csv" | "xml";
+  format: 'json' | 'csv' | 'xml';
   validateSchema: boolean;
-  mergeStrategy: "replace" | "merge";
+  mergeStrategy: 'replace' | 'merge';
 }
 
 export interface OptimizationCriteria {

@@ -1,7 +1,7 @@
 /* Tailwind CSS v4 Setup - REQUIRED for this project */
 /* This is the correct import for Tailwind CSS v4 */
 /* Do NOT change to v3 syntax (@import "tailwindcss/base" etc.) */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Mobile optimizations for Magical Girl Simulator */
 @layer utilities {
@@ -82,10 +82,10 @@
   }
 
   /* Prevent zoom on input focus for iOS */
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  input[type="password"],
+  input[type='text'],
+  input[type='number'],
+  input[type='email'],
+  input[type='password'],
   textarea,
   select {
     font-size: 16px;
