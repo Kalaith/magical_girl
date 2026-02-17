@@ -12,7 +12,6 @@
     "format:check": "prettier --check .",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "type-check:watch": "tsc --noEmit --watch",
     "test": "vitest --configLoader runner",
     "test:run": "vitest run --configLoader runner",
     "test:coverage": "vitest run --coverage",
