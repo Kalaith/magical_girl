@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { webhatcheryGameApi, type WebHatcheryGameState } from '../api/webhatcheryGameApi';
 import type {
   Player,
   Notification,
@@ -23,6 +24,7 @@ import { gameConfig } from '../config/gameConfig';
 import { initialMagicalGirls } from '../data/magicalGirls';
 import { initialMissions } from '../data/missions';
 import { useAchievementStore } from './achievementStore';
+import { useWebHatcherySessionStore } from './webhatcherySessionStore';
 
 const persistenceVersion = '1.0.0';
 
@@ -53,6 +55,9 @@ const syncPlayerResources = (player: Player, resources: Resources): Player => ({
 
 const isBrowser = typeof window !== 'undefined';
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
 let autoSaveTimer: number | null = null;
 let gameTickTimer: number | null = null;
 let persistenceInitialized = false;
@@ -67,6 +72,41 @@ const clearPersistenceTimers = () => {
     clearInterval(gameTickTimer);
     gameTickTimer = null;
   }
+};
+
+const loadOrCreateBackendGame = async (): Promise<WebHatcheryGameState> => {
+  const sessionStore = useWebHatcherySessionStore.getState();
+  try {
+    return await sessionStore.loadGame();
+  } catch {
+    return sessionStore.continueAsGuest();
+  }
+};
+
+const syncSessionState = (gameState: WebHatcheryGameState): void => {
+  useWebHatcherySessionStore.setState({
+    gameState,
+    user: gameState.user,
+    isLoading: false,
+    error: null,
+  });
+};
+
+let backendSyncTimer: ReturnType<typeof setTimeout> | null = null;
+
+const syncBackendSnapshot = (intent: string, snapshot: Record<string, unknown>): void => {
+  if (backendSyncTimer) {
+    clearTimeout(backendSyncTimer);
+  }
+
+  backendSyncTimer = setTimeout(() => {
+    void webhatcheryGameApi
+      .applyIntent(intent, { state: snapshot })
+      .then(syncSessionState)
+      .catch(error => {
+        console.error('Failed to sync Magical Girl backend state:', error);
+      });
+  }, 500);
 };
 
 const initialState = {
@@ -248,6 +288,7 @@ export const useGameStore = create<
     completeMission: (missionId: string, success: boolean, score?: number) => void;
     resetGame: () => void;
     updateGameTime?: () => void;
+    loadBackendState: () => Promise<void>;
     saveGame: () => void;
     loadGame: () => boolean;
     updateMissions: () => void;
@@ -1386,6 +1427,17 @@ export const useGameStore = create<
     get().updateMissions();
   },
 
+  loadBackendState: async () => {
+    const gameState = await loadOrCreateBackendGame();
+    syncSessionState(gameState);
+    const backendState = gameState.save.state;
+    if (!isRecord(backendState) || !isRecord(backendState.gameState)) {
+      return;
+    }
+
+    get().importGameState(backendState.gameState as unknown as SaveData['gameState'], Date.now());
+  },
+
   saveGame: () => {
     if (!isBrowser) {
       return;
@@ -1393,7 +1445,10 @@ export const useGameStore = create<
 
     try {
       const saveData = get().serializeGameState();
-      localStorage.setItem('magicalGirlSave', JSON.stringify(saveData));
+      syncBackendSnapshot(
+        'save_game',
+        saveData.gameState as unknown as Record<string, unknown>
+      );
       set(state => ({
         saveSystemData: { lastSave: saveData.timestamp },
         player: syncPlayerResources(state.player, state.resources),
@@ -1408,23 +1463,8 @@ export const useGameStore = create<
       return false;
     }
 
-    try {
-      const rawSave = localStorage.getItem('magicalGirlSave');
-      if (!rawSave) {
-        return false;
-      }
-
-      const parsed: SaveData = JSON.parse(rawSave);
-      if (parsed.version !== persistenceVersion) {
-        return false;
-      }
-
-      get().importGameState(parsed.gameState, parsed.timestamp);
-      return true;
-    } catch {
-      // Handle load error silently
-      return false;
-    }
+    void get().loadBackendState().catch(() => undefined);
+    return true;
   },
 
   initializePersistence: () => {
@@ -1692,3 +1732,33 @@ export const useGameStore = create<
     }));
   },
 }));
+
+const backendTrackedKeys = [
+  'notifications',
+  'resources',
+  'magicalGirls',
+  'gameProgress',
+  'trainingData',
+  'settings',
+  'transformationData',
+  'formationData',
+  'prestigeData',
+  'saveSystemData',
+  'tutorialData',
+  'player',
+  'missions',
+  'activeMission',
+  'activeSessions',
+  'recruitmentSystem',
+] as const;
+
+useGameStore.subscribe((state, previousState) => {
+  if (backendTrackedKeys.every(key => Object.is(state[key], previousState[key]))) {
+    return;
+  }
+
+  syncBackendSnapshot(
+    'state_updated',
+    state.serializeGameState().gameState as unknown as Record<string, unknown>
+  );
+});
